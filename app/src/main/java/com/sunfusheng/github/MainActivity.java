@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
+import com.sunfusheng.github.database.UserDatabase;
 import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.util.PreferenceUtil;
@@ -22,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText vName;
     private EditText vPassword;
     private TextView vLogin;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,31 +46,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String password = vPassword.getText().toString().trim();
-        if (TextUtils.isEmpty(userName)) {
+        if (TextUtils.isEmpty(password)) {
             ToastUtil.toast("请输入密码");
             return;
         }
 
         String credentials = userName + ":" + password;
         String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+        PreferenceUtil.getInstance().put(Constants.PreferenceKey.USER_NAME, userName);
+        PreferenceUtil.getInstance().put(Constants.PreferenceKey.PASSWORD, password);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.AUTH, auth);
 
-        AuthParams authParams = new AuthParams();
-        authParams.note = Constants.NOTE;
-        authParams.note_url = Constants.NOTE_URL;
-        authParams.client_id = Constants.CLIENT_ID;
-        authParams.client_secret = Constants.CLIENT_SECRET;
-        authParams.scopes = Constants.SCOPES;
-
-        Observable.zip(Api.getService().fetchUser(auth), Api.getService().createAuth(authParams),
+        Observable.zip(Api.getService().fetchUser(auth), Api.getService().createAuth(AuthParams.getParams()),
                 (user, authResponse) -> {
                     if (user == null || authResponse == null) {
                         return false;
                     }
-                    Logger.d(user);
-                    Logger.d(authResponse);
+                    Log.d("--->", user.toString());
+                    Log.d("--->", authResponse.toString());
+
+                    UserDatabase.getDefault(MainActivity.this).getUserDao().insert(user);
                     PreferenceUtil.getInstance().put(Constants.PreferenceKey.TOKEN, authResponse.getToken());
                     return true;
+                })
+                .onErrorResumeNext(throwable -> {
+                    return Observable.just(false);
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

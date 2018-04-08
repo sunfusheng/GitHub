@@ -14,10 +14,12 @@ public class Constants {
     public static final String CLIENT_SECRET = "2d7abc27a2812e3927257a7ae3274475a0505907";
 
     public static class PreferenceName {
-        public static final String DEFAULT = "preference_name_default";
+        public static final String SETTINGS = "preference_name_settings";
     }
 
     public static class PreferenceKey {
+        public static final String USER_NAME = "preference_key_user_name";
+        public static final String PASSWORD = "preference_key_password";
         public static final String AUTH = "preference_key_auth";
         public static final String TOKEN = "preference_key_token";
     }

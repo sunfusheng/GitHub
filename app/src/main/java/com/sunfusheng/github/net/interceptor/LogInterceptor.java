@@ -13,7 +13,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * @author by sunfusheng on 2017/1/22.
+ * @author by sunfusheng on 2018/4/8.
  */
 public class LogInterceptor implements Interceptor {
 

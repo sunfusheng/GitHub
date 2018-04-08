@@ -1,53 +1,20 @@
 package com.sunfusheng.github.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author sunfusheng on 2018/4/8.
  */
-public class User {
+@Entity(indices = {@Index(value = "login", unique = true)})
+public class User implements Parcelable {
 
-
-    /**
-     * login : sfsheng0322
-     * id : 8130553
-     * avatar_url : https://avatars1.githubusercontent.com/u/8130553?v=4
-     * gravatar_id :
-     * url : https://api.github.com/users/sfsheng0322
-     * html_url : https://github.com/sfsheng0322
-     * followers_url : https://api.github.com/users/sfsheng0322/followers
-     * following_url : https://api.github.com/users/sfsheng0322/following{/other_user}
-     * gists_url : https://api.github.com/users/sfsheng0322/gists{/gist_id}
-     * starred_url : https://api.github.com/users/sfsheng0322/starred{/owner}{/repo}
-     * subscriptions_url : https://api.github.com/users/sfsheng0322/subscriptions
-     * organizations_url : https://api.github.com/users/sfsheng0322/orgs
-     * repos_url : https://api.github.com/users/sfsheng0322/repos
-     * events_url : https://api.github.com/users/sfsheng0322/events{/privacy}
-     * received_events_url : https://api.github.com/users/sfsheng0322/received_events
-     * type : User
-     * site_admin : false
-     * name : 孙福生
-     * company : 360
-     * blog : http://sunfusheng.com/
-     * location : 北京
-     * email : sfsheng0322@gmail.com
-     * hireable : null
-     * bio : Android Developer
-     * public_repos : 53
-     * public_gists : 0
-     * followers : 906
-     * following : 194
-     * created_at : 2014-07-11T01:38:27Z
-     * updated_at : 2018-03-08T02:03:10Z
-     * private_gists : 0
-     * total_private_repos : 0
-     * owned_private_repos : 0
-     * disk_usage : 1805195
-     * collaborators : 0
-     * two_factor_authentication : false
-     * plan : {"name":"free","space":976562499,"collaborators":0,"private_repos":0}
-     */
-
-    private String login;
+    @PrimaryKey
     private int id;
+    private String login;
     private String avatar_url;
     private String gravatar_id;
     private String url;
@@ -68,7 +35,6 @@ public class User {
     private String blog;
     private String location;
     private String email;
-    private Object hireable;
     private String bio;
     private int public_repos;
     private int public_gists;
@@ -82,7 +48,6 @@ public class User {
     private int disk_usage;
     private int collaborators;
     private boolean two_factor_authentication;
-    private PlanEntity plan;
 
     public String getLogin() {
         return login;
@@ -260,14 +225,6 @@ public class User {
         this.email = email;
     }
 
-    public Object getHireable() {
-        return hireable;
-    }
-
-    public void setHireable(Object hireable) {
-        this.hireable = hireable;
-    }
-
     public String getBio() {
         return bio;
     }
@@ -372,60 +329,6 @@ public class User {
         this.two_factor_authentication = two_factor_authentication;
     }
 
-    public PlanEntity getPlan() {
-        return plan;
-    }
-
-    public void setPlan(PlanEntity plan) {
-        this.plan = plan;
-    }
-
-    public static class PlanEntity {
-        /**
-         * name : free
-         * space : 976562499
-         * collaborators : 0
-         * private_repos : 0
-         */
-
-        private String name;
-        private int space;
-        private int collaborators;
-        private int private_repos;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getSpace() {
-            return space;
-        }
-
-        public void setSpace(int space) {
-            this.space = space;
-        }
-
-        public int getCollaborators() {
-            return collaborators;
-        }
-
-        public void setCollaborators(int collaborators) {
-            this.collaborators = collaborators;
-        }
-
-        public int getPrivate_repos() {
-            return private_repos;
-        }
-
-        public void setPrivate_repos(int private_repos) {
-            this.private_repos = private_repos;
-        }
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -451,7 +354,6 @@ public class User {
                 ", blog='" + blog + '\'' +
                 ", location='" + location + '\'' +
                 ", email='" + email + '\'' +
-                ", hireable=" + hireable +
                 ", bio='" + bio + '\'' +
                 ", public_repos=" + public_repos +
                 ", public_gists=" + public_gists +
@@ -465,7 +367,103 @@ public class User {
                 ", disk_usage=" + disk_usage +
                 ", collaborators=" + collaborators +
                 ", two_factor_authentication=" + two_factor_authentication +
-                ", plan=" + plan +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.login);
+        dest.writeInt(this.id);
+        dest.writeString(this.avatar_url);
+        dest.writeString(this.gravatar_id);
+        dest.writeString(this.url);
+        dest.writeString(this.html_url);
+        dest.writeString(this.followers_url);
+        dest.writeString(this.following_url);
+        dest.writeString(this.gists_url);
+        dest.writeString(this.starred_url);
+        dest.writeString(this.subscriptions_url);
+        dest.writeString(this.organizations_url);
+        dest.writeString(this.repos_url);
+        dest.writeString(this.events_url);
+        dest.writeString(this.received_events_url);
+        dest.writeString(this.type);
+        dest.writeByte(this.site_admin ? (byte) 1 : (byte) 0);
+        dest.writeString(this.name);
+        dest.writeString(this.company);
+        dest.writeString(this.blog);
+        dest.writeString(this.location);
+        dest.writeString(this.email);
+        dest.writeString(this.bio);
+        dest.writeInt(this.public_repos);
+        dest.writeInt(this.public_gists);
+        dest.writeInt(this.followers);
+        dest.writeInt(this.following);
+        dest.writeString(this.created_at);
+        dest.writeString(this.updated_at);
+        dest.writeInt(this.private_gists);
+        dest.writeInt(this.total_private_repos);
+        dest.writeInt(this.owned_private_repos);
+        dest.writeInt(this.disk_usage);
+        dest.writeInt(this.collaborators);
+        dest.writeByte(this.two_factor_authentication ? (byte) 1 : (byte) 0);
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.login = in.readString();
+        this.id = in.readInt();
+        this.avatar_url = in.readString();
+        this.gravatar_id = in.readString();
+        this.url = in.readString();
+        this.html_url = in.readString();
+        this.followers_url = in.readString();
+        this.following_url = in.readString();
+        this.gists_url = in.readString();
+        this.starred_url = in.readString();
+        this.subscriptions_url = in.readString();
+        this.organizations_url = in.readString();
+        this.repos_url = in.readString();
+        this.events_url = in.readString();
+        this.received_events_url = in.readString();
+        this.type = in.readString();
+        this.site_admin = in.readByte() != 0;
+        this.name = in.readString();
+        this.company = in.readString();
+        this.blog = in.readString();
+        this.location = in.readString();
+        this.email = in.readString();
+        this.bio = in.readString();
+        this.public_repos = in.readInt();
+        this.public_gists = in.readInt();
+        this.followers = in.readInt();
+        this.following = in.readInt();
+        this.created_at = in.readString();
+        this.updated_at = in.readString();
+        this.private_gists = in.readInt();
+        this.total_private_repos = in.readInt();
+        this.owned_private_repos = in.readInt();
+        this.disk_usage = in.readInt();
+        this.collaborators = in.readInt();
+        this.two_factor_authentication = in.readByte() != 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

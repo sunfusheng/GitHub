@@ -9,12 +9,10 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 
 /**
- * @author by sunfusheng on 2017/1/17.
- *
- * https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization
+ * @author by sunfusheng on 2018/4/8.
  */
 public interface ApiService {
 
@@ -24,7 +22,7 @@ public interface ApiService {
     @POST("authorizations")
     Observable<AuthResponse> createAuth(@Body AuthParams authParams);
 
-    @GET("user")
-    Observable<User> getUserInfo(@Query("access_token") String accessToken);
+    @GET("users/{userName}")
+    Observable<User> getUserInfo(@Path("userName") String userName);
 
 }
