@@ -1,0 +1,9 @@
+<resources>
+
+    <dimen name="item_margin_large">16dp</dimen>
+    <dimen name="item_margin">14dp</dimen>
+    <dimen name="item_margin_small">12dp</dimen>
+    <dimen name="item_margin_smaller">10dp</dimen>
+    <dimen name="item_margin_smallest">8dp</dimen>
+
+</resources>
