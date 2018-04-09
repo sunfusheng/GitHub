@@ -3,15 +3,14 @@ package com.sunfusheng.github.net;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.net.interceptor.CacheInterceptor;
 import com.sunfusheng.github.net.interceptor.HeaderInterceptor;
-import com.sunfusheng.github.net.interceptor.LogInterceptor;
 import com.sunfusheng.github.util.AppUtil;
-import com.sunfusheng.github.util.PreferenceUtil;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -28,13 +27,16 @@ public class Api {
     }
 
     private static Retrofit getRetrofit() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         File cacheDir = new File(AppUtil.getApp().getCacheDir(), "HttpCache");
         Cache cache = new Cache(cacheDir, 1024 * 1024 * 20);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
-                .addInterceptor(new LogInterceptor())
-                .addInterceptor(new HeaderInterceptor(PreferenceUtil.getInstance().getString(Constants.PreferenceKey.AUTH)))
+                .addInterceptor(loggingInterceptor)
+                .addInterceptor(new HeaderInterceptor())
                 .addInterceptor(new CacheInterceptor())
                 .addNetworkInterceptor(new CacheInterceptor())
                 .cache(cache);

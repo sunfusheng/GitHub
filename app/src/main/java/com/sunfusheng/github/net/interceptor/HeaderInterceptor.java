@@ -1,5 +1,10 @@
 package com.sunfusheng.github.net.interceptor;
 
+import android.text.TextUtils;
+
+import com.sunfusheng.github.Constants;
+import com.sunfusheng.github.util.PreferenceUtil;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -11,21 +16,28 @@ import okhttp3.Response;
  */
 public class HeaderInterceptor implements Interceptor {
 
-    private String authorization;
+    private String auth;
+    private String token;
 
-    public HeaderInterceptor(String authorization) {
-        this.authorization = authorization;
+    public HeaderInterceptor() {
+        this.auth = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.AUTH);
+        this.token = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN);
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request oldRequest = chain.request();
-        Request newRequest = oldRequest.newBuilder()
-                .header("Authorization", authorization)
-                .header("Accept", "application/vnd.github.v3.json")
+        Request.Builder builder = oldRequest.newBuilder()
                 .method(oldRequest.method(), oldRequest.body())
-                .build();
+                .header("Accept", "application/vnd.github.v3.json");
 
-        return chain.proceed(newRequest);
+        if (!TextUtils.isEmpty(auth)) {
+            builder.header("Authorization", auth);
+        }
+
+        if (!TextUtils.isEmpty(token)) {
+
+        }
+        return chain.proceed(builder.build());
     }
 }

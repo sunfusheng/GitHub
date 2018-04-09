@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -62,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
                     if (user == null || authResponse == null) {
                         return false;
                     }
-                    Log.d("--->", user.toString());
-                    Log.d("--->", authResponse.toString());
-
                     UserDatabase.getDefault(MainActivity.this).getUserDao().insert(user);
                     PreferenceUtil.getInstance().put(Constants.PreferenceKey.TOKEN, authResponse.getToken());
                     return true;

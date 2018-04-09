@@ -31,22 +31,23 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
     implementation 'com.android.support:design:' + gradle.supportLibraryVersion
+    implementation 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
     implementation 'com.android.support:recyclerview-v7:' + gradle.supportLibraryVersion
     implementation 'com.android.support:support-v4:' + gradle.supportLibraryVersion
     implementation 'com.android.support:support-v13:' + gradle.supportLibraryVersion
 
-    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
 
-    implementation 'com.orhanobut:logger:2.1.1'
+    implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.sunfusheng:glideimageview:1.2.0'
     implementation 'com.sunfusheng:FirUpdater:1.0.7'
 
