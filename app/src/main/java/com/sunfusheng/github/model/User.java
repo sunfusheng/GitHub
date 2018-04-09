@@ -49,6 +49,9 @@ public class User implements Parcelable {
     private int collaborators;
     private boolean two_factor_authentication;
 
+    public User() {
+    }
+
     public String getLogin() {
         return login;
     }
@@ -330,47 +333,6 @@ public class User implements Parcelable {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "login='" + login + '\'' +
-                ", id=" + id +
-                ", avatar_url='" + avatar_url + '\'' +
-                ", gravatar_id='" + gravatar_id + '\'' +
-                ", url='" + url + '\'' +
-                ", html_url='" + html_url + '\'' +
-                ", followers_url='" + followers_url + '\'' +
-                ", following_url='" + following_url + '\'' +
-                ", gists_url='" + gists_url + '\'' +
-                ", starred_url='" + starred_url + '\'' +
-                ", subscriptions_url='" + subscriptions_url + '\'' +
-                ", organizations_url='" + organizations_url + '\'' +
-                ", repos_url='" + repos_url + '\'' +
-                ", events_url='" + events_url + '\'' +
-                ", received_events_url='" + received_events_url + '\'' +
-                ", type='" + type + '\'' +
-                ", site_admin=" + site_admin +
-                ", name='" + name + '\'' +
-                ", company='" + company + '\'' +
-                ", blog='" + blog + '\'' +
-                ", location='" + location + '\'' +
-                ", email='" + email + '\'' +
-                ", bio='" + bio + '\'' +
-                ", public_repos=" + public_repos +
-                ", public_gists=" + public_gists +
-                ", followers=" + followers +
-                ", following=" + following +
-                ", created_at='" + created_at + '\'' +
-                ", updated_at='" + updated_at + '\'' +
-                ", private_gists=" + private_gists +
-                ", total_private_repos=" + total_private_repos +
-                ", owned_private_repos=" + owned_private_repos +
-                ", disk_usage=" + disk_usage +
-                ", collaborators=" + collaborators +
-                ", two_factor_authentication=" + two_factor_authentication +
-                '}';
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -412,9 +374,6 @@ public class User implements Parcelable {
         dest.writeInt(this.disk_usage);
         dest.writeInt(this.collaborators);
         dest.writeByte(this.two_factor_authentication ? (byte) 1 : (byte) 0);
-    }
-
-    public User() {
     }
 
     protected User(Parcel in) {
@@ -466,4 +425,45 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", id=" + id +
+                ", avatar_url='" + avatar_url + '\'' +
+                ", gravatar_id='" + gravatar_id + '\'' +
+                ", url='" + url + '\'' +
+                ", html_url='" + html_url + '\'' +
+                ", followers_url='" + followers_url + '\'' +
+                ", following_url='" + following_url + '\'' +
+                ", gists_url='" + gists_url + '\'' +
+                ", starred_url='" + starred_url + '\'' +
+                ", subscriptions_url='" + subscriptions_url + '\'' +
+                ", organizations_url='" + organizations_url + '\'' +
+                ", repos_url='" + repos_url + '\'' +
+                ", events_url='" + events_url + '\'' +
+                ", received_events_url='" + received_events_url + '\'' +
+                ", type='" + type + '\'' +
+                ", site_admin=" + site_admin +
+                ", name='" + name + '\'' +
+                ", company='" + company + '\'' +
+                ", blog='" + blog + '\'' +
+                ", location='" + location + '\'' +
+                ", email='" + email + '\'' +
+                ", bio='" + bio + '\'' +
+                ", public_repos=" + public_repos +
+                ", public_gists=" + public_gists +
+                ", followers=" + followers +
+                ", following=" + following +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                ", private_gists=" + private_gists +
+                ", total_private_repos=" + total_private_repos +
+                ", owned_private_repos=" + owned_private_repos +
+                ", disk_usage=" + disk_usage +
+                ", collaborators=" + collaborators +
+                ", two_factor_authentication=" + two_factor_authentication +
+                '}';
+    }
 }

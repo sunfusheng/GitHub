@@ -1,7 +1,7 @@
 package com.sunfusheng.github.net;
 
 import com.sunfusheng.github.model.AuthParams;
-import com.sunfusheng.github.model.AuthResponse;
+import com.sunfusheng.github.model.Auth;
 import com.sunfusheng.github.model.User;
 
 import io.reactivex.Observable;
@@ -17,12 +17,12 @@ import retrofit2.http.Path;
 public interface ApiService {
 
     @GET("user")
-    Observable<User> fetchUser(@Header("Authorization") String authorization);
+    Observable<User> login(@Header("Authorization") String auth);
 
     @POST("authorizations")
-    Observable<AuthResponse> createAuth(@Body AuthParams authParams);
+    Observable<Auth> createAuth(@Body AuthParams authParams);
 
     @GET("users/{userName}")
-    Observable<User> getUserInfo(@Path("userName") String userName);
+    Observable<User> fetchUser(@Path("userName") String userName);
 
 }

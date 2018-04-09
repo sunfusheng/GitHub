@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.PASSWORD, password);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.AUTH, auth);
 
-        Observable.zip(Api.getService().fetchUser(auth), Api.getService().createAuth(AuthParams.getParams()),
+        Observable.zip(Api.getService().login(auth), Api.getService().createAuth(AuthParams.getParams()),
                 (user, authResponse) -> {
                     if (user == null || authResponse == null) {
                         return false;

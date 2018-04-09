@@ -5,23 +5,7 @@ import java.util.List;
 /**
  * @author sunfusheng on 2018/4/8.
  */
-public class AuthResponse {
-
-
-    /**
-     * id : 178283287
-     * url : https://api.github.com/authorizations/178283287
-     * app : {"name":"DroidGitHub","url":"https://github.com/sfsheng0322/DroidGitHub","client_id":"0af4dd82697eaea821d5"}
-     * token :
-     * hashed_token : cbb53ae63acef5435e13f9494b53c3058bda297c33c949a33e0069b0de22f7aa
-     * token_last_eight : e31c9dae
-     * note : null
-     * note_url : null
-     * created_at : 2018-04-05T11:24:07Z
-     * updated_at : 2018-04-05T11:26:25Z
-     * scopes : []
-     * fingerprint : null
-     */
+public class Auth {
 
     private int id;
     private String url;
@@ -29,12 +13,12 @@ public class AuthResponse {
     private String token;
     private String hashed_token;
     private String token_last_eight;
-    private Object note;
-    private Object note_url;
+    private String note;
+    private String note_url;
     private String created_at;
     private String updated_at;
-    private Object fingerprint;
-    private List<?> scopes;
+    private String fingerprint;
+    private List<String> scopes;
 
     public int getId() {
         return id;
@@ -84,19 +68,19 @@ public class AuthResponse {
         this.token_last_eight = token_last_eight;
     }
 
-    public Object getNote() {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(Object note) {
+    public void setNote(String note) {
         this.note = note;
     }
 
-    public Object getNote_url() {
+    public String getNote_url() {
         return note_url;
     }
 
-    public void setNote_url(Object note_url) {
+    public void setNote_url(String note_url) {
         this.note_url = note_url;
     }
 
@@ -116,28 +100,23 @@ public class AuthResponse {
         this.updated_at = updated_at;
     }
 
-    public Object getFingerprint() {
+    public String getFingerprint() {
         return fingerprint;
     }
 
-    public void setFingerprint(Object fingerprint) {
+    public void setFingerprint(String fingerprint) {
         this.fingerprint = fingerprint;
     }
 
-    public List<?> getScopes() {
+    public List<String> getScopes() {
         return scopes;
     }
 
-    public void setScopes(List<?> scopes) {
+    public void setScopes(List<String> scopes) {
         this.scopes = scopes;
     }
 
     public static class AppEntity {
-        /**
-         * name : DroidGitHub
-         * url : https://github.com/sfsheng0322/DroidGitHub
-         * client_id : 0af4dd82697eaea821d5
-         */
 
         private String name;
         private String url;

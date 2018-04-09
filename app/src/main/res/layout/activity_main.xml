@@ -37,7 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入密码"
-        android:text=""
+        android:inputType="textPassword"
+        android:text="sunfusheng0322"
         android:textColorHint="@color/font2"
         android:textSize="14sp"/>
 
