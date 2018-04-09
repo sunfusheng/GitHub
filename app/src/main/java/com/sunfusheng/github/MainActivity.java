@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String credentials = userName + ":" + password;
-        String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+        String auth = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.USER_NAME, userName);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.PASSWORD, password);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.AUTH, auth);
