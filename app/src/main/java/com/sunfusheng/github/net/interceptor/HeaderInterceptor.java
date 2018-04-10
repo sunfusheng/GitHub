@@ -32,7 +32,7 @@ public class HeaderInterceptor implements Interceptor {
                 .header("Accept", "application/vnd.github.v3.json");
 
         if (!TextUtils.isEmpty(token)) {
-            builder.addHeader("Authorization", "token " + token);
+            builder.header("Authorization", "token " + token);
         } else if (!TextUtils.isEmpty(auth)) {
             builder.header("Authorization", "Basic " + auth);
         }

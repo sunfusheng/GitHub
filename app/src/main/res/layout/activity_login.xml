@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/item_margin_large">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/username_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-22dp"
+                android:layout_marginLeft="@dimen/item_margin_smallest"
+                android:text="@string/username"
+                android:textColor="@color/font1"
+                android:textSize="17sp"/>
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/username_tip"
+                android:background="@null"
+                android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
+                android:drawablePadding="@dimen/item_margin_large"
+                android:hint="@string/username_input"
+                android:paddingLeft="80dp"
+                android:text="sfsheng0322"
+                android:textColor="@color/font1"
+                android:textColorHint="@color/font2"
+                android:textSize="17sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/password_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-22dp"
+                android:layout_marginLeft="@dimen/item_margin_smallest"
+                android:text="@string/password"
+                android:textColor="@color/font1"
+                android:textSize="17sp"/>
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/password_tip"
+                android:background="@null"
+                android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
+                android:drawablePadding="@dimen/item_margin_large"
+                android:hint="@string/password_input"
+                android:inputType="textPassword"
+                android:paddingLeft="80dp"
+                android:text=""
+                android:textColor="@color/font1"
+                android:textColorHint="@color/font2"
+                android:textSize="17sp"/>
+        </RelativeLayout>
+
+        <com.sunfusheng.github.widget.RadiusWidget.RadiusTextView
+            android:id="@+id/login"
+            style="@style/RadiusButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="60dp"
+            android:text="@string/login"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

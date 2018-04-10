@@ -21,7 +21,7 @@ public class Constants {
 
 
     public static class PreferenceKey {
-        public static final String USER_NAME = "preference_key_user_name";
+        public static final String USERNAME = "preference_key_username";
         public static final String PASSWORD = "preference_key_password";
         public static final String AUTH = "preference_key_auth";
         public static final String TOKEN = "preference_key_token";
