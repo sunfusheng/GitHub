@@ -76,6 +76,9 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(it -> {
+                    if (!it) {
+                        PreferenceUtil.getInstance().remove(Constants.PreferenceKey.TOKEN);
+                    }
                     ToastUtil.toast(it ? "登录成功" : "登录失败");
                 }, Throwable::printStackTrace);
     }

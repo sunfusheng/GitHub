@@ -5,8 +5,8 @@
     <string name="login">登录</string>
     <string name="logout">退出登录</string>
 
-    <string name="username">用户名：</string>
+    <string name="username">帐号：</string>
     <string name="password">密码：</string>
-    <string name="username_input">请填写用户名</string>
+    <string name="username_input">请填写帐号</string>
     <string name="password_input">请填写密码</string>
 </resources>
