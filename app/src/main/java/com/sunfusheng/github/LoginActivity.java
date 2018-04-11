@@ -13,6 +13,8 @@ import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
+import com.sunfusheng.github.widget.SvgEnum;
+import com.sunfusheng.github.widget.SvgView;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -26,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText vUsername;
     private EditText vPassword;
     private TextView vLogin;
+    private SvgView svgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +36,29 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         StatusBarUtil.fullScreen(getWindow());
         initView();
+        initSvgView();
     }
 
     private void initView() {
         vUsername = findViewById(R.id.username);
         vPassword = findViewById(R.id.password);
         vLogin = findViewById(R.id.login);
+        svgView = findViewById(R.id.svg_view);
+
         vLogin.setOnClickListener(v -> login());
+    }
+
+    private void initSvgView() {
+        svgView.postDelayed(() -> {
+            SvgEnum svg = SvgEnum.GITHUB;
+            svgView.setGlyphStrings(svg.glyphs);
+            svgView.setFillColors(svg.colors);
+            svgView.setViewportSize(svg.width, svg.height);
+            svgView.setTraceResidueColor(getResources().getColor(R.color.config_color_green_50));
+            svgView.setTraceColors(svg.colors);
+            svgView.rebuildGlyphData();
+            svgView.start();
+        }, 200);
     }
 
     private void login() {

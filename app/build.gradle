@@ -70,6 +70,10 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:' + gradle.supportLibraryVersion
     implementation 'com.android.support:support-v4:' + gradle.supportLibraryVersion
     implementation 'com.android.support:support-v13:' + gradle.supportLibraryVersion
+    implementation 'com.android.support:animated-vector-drawable:' + gradle.supportLibraryVersion
+
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
@@ -84,7 +88,4 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.sunfusheng:glideimageview:1.2.0'
     implementation 'com.sunfusheng:FirUpdater:1.0.7'
-
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 }

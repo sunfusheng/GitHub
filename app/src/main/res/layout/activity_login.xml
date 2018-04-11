@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="@dimen/item_margin_large">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"/>
+    <com.sunfusheng.github.widget.SvgView
+        android:id="@+id/svg_view"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        app:svgFillColors="@array/google_four_colors"
+        app:svgFillStart="1500"
+        app:svgFillTime="1500"
+        app:svgGlyphStrings="@array/google_svg_strings"
+        app:svgImageSizeX="400"
+        app:svgImageSizeY="400"
+        app:svgTraceTime="3000"
+        app:svgTraceTimePerGlyph="1500"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,12 +47,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/username_tip"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
                 android:background="@null"
                 android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
                 android:drawablePadding="@dimen/item_margin_large"
                 android:hint="@string/username_input"
                 android:paddingLeft="80dp"
-                android:text="sfsheng0322"
+                android:text=""
                 android:textColor="@color/font1"
                 android:textColorHint="@color/font3"
                 android:textSize="17sp"/>
@@ -69,7 +80,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/password_tip"
+                android:imeOptions="actionDone"
                 android:background="@null"
+                android:maxLines="1"
                 android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
                 android:drawablePadding="@dimen/item_margin_large"
                 android:hint="@string/password_input"
@@ -90,5 +103,4 @@
             android:text="@string/login"
             android:textSize="18sp"/>
     </LinearLayout>
-
 </RelativeLayout>

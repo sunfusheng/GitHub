@@ -89,12 +89,16 @@
     <color name="config_color_gray_8">#C4C8D0</color>
     <color name="config_color_gray_9">#D8DCE4</color>
 
-    <!-- background -->
-    <color name="bg">#FFF5F5F5</color>
-    <color name="bg_pressed">#FFF2F2F2</color>
+    <color name="google_red">#EA4335</color>
+    <color name="google_yellow">#FBBC05</color>
+    <color name="google_blue">#4285F4</color>
+    <color name="google_green">#34A853</color>
 
-    <!-- divider -->
-    <color name="divider_1">#e2e2e2</color>
-    <color name="divider_2">#e6e6e6</color>
+    <integer-array name="google_four_colors">
+        <item>@color/google_red</item>
+        <item>@color/google_yellow</item>
+        <item>@color/google_blue</item>
+        <item>@color/google_green</item>
+    </integer-array>
 
 </resources>

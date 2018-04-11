@@ -41,4 +41,18 @@
         <attr name="radiusBottomRight"/>
     </declare-styleable>
 
+
+    <declare-styleable name="SvgView">
+        <attr name="svgImageSizeX" format="integer"/>
+        <attr name="svgImageSizeY" format="integer"/>
+        <attr name="svgTraceTime" format="string"/>
+        <attr name="svgTraceTimePerGlyph" format="string"/>
+        <attr name="svgFillStart" format="string"/>
+        <attr name="svgFillTime" format="string"/>
+        <attr name="svgGlyphStrings" format="reference"/>
+        <attr name="svgTraceColors" format="reference"/>
+        <attr name="svgTraceResidueColors" format="reference"/>
+        <attr name="svgFillColors" format="reference"/>
+    </declare-styleable>
+
 </resources>
