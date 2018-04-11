@@ -1,7 +1,6 @@
 package com.sunfusheng.github.net;
 
 import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.net.interceptor.CacheInterceptor;
 import com.sunfusheng.github.net.interceptor.HeaderInterceptor;
 import com.sunfusheng.github.util.AppUtil;
 
@@ -20,13 +19,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class Api {
 
+    private static ApiService apiLoginService;
     private static ApiService apiService;
 
     private Api() {
-        apiService = getRetrofit().create(ApiService.class);
+        apiLoginService = getService(ApiService.class, true);
+        apiService = getService(ApiService.class, false);
     }
 
-    private static Retrofit getRetrofit() {
+    private static Retrofit getRetrofit(boolean isLogin) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -36,9 +37,9 @@ public class Api {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
-                .addInterceptor(new HeaderInterceptor())
-                .addInterceptor(new CacheInterceptor())
-                .addNetworkInterceptor(new CacheInterceptor())
+                .addInterceptor(new HeaderInterceptor(isLogin))
+//                .addInterceptor(new CacheInterceptor())
+//                .addNetworkInterceptor(new CacheInterceptor())
                 .cache(cache);
 
         return new Retrofit.Builder()
@@ -49,15 +50,21 @@ public class Api {
                 .build();
     }
 
-    private static <T> T getService(final Class<T> service) {
-        return getRetrofit().create(service);
+    private static <T> T getService(final Class<T> service, boolean isLogin) {
+        return getRetrofit(isLogin).create(service);
+    }
+
+    public static ApiService getLoginService() {
+        if (apiLoginService == null) {
+            apiLoginService = getService(ApiService.class, true);
+        }
+        return apiLoginService;
     }
 
     public static ApiService getService() {
         if (apiService == null) {
-            apiService = getService(ApiService.class);
+            apiService = getService(ApiService.class, false);
         }
         return apiService;
     }
-
 }

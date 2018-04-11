@@ -1,7 +1,5 @@
 package com.sunfusheng.github.net.interceptor;
 
-import android.text.TextUtils;
-
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.util.PreferenceUtil;
 
@@ -16,10 +14,12 @@ import okhttp3.Response;
  */
 public class HeaderInterceptor implements Interceptor {
 
+    private boolean isLogin;
     private String auth;
     private String token;
 
-    public HeaderInterceptor() {
+    public HeaderInterceptor(boolean isLogin) {
+        this.isLogin = isLogin;
         this.auth = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.AUTH);
         this.token = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN);
     }
@@ -31,11 +31,12 @@ public class HeaderInterceptor implements Interceptor {
                 .method(oldRequest.method(), oldRequest.body())
                 .header("Accept", "application/vnd.github.v3.json");
 
-        if (!TextUtils.isEmpty(token)) {
-            builder.header("Authorization", "token " + token);
-        } else if (!TextUtils.isEmpty(auth)) {
-            builder.header("Authorization", "Basic " + auth);
-        }
+//        if (isLogin) {
+//            builder.header("Authorization", "Basic " + auth);
+//        } else {
+//            builder.header("Authorization", "token " + token);
+//        }
+
         return chain.proceed(builder.build());
     }
 }

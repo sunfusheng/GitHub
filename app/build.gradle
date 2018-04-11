@@ -4,13 +4,13 @@ Properties signingProperties = new Properties()
 signingProperties.load(new FileInputStream(file("../signings/signing.properties")))
 
 android {
-    compileSdkVersion gradle.compileSdkVersion
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         applicationId "com.sunfusheng.github"
-        minSdkVersion gradle.minSdkVersion
-        targetSdkVersion gradle.targetSdkVersion
-        versionCode gradle.versionCode
-        versionName gradle.versionName
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
     }
 
     compileOptions {
@@ -58,22 +58,28 @@ def generateApk(variant) {
     if (variant.buildType.name == "release") {
         variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/app/outputs")
         variant.getPackageApplication().outputScope.apkDatas.forEach { apkData ->
-            apkData.outputFileName = "GitHub.apk"
+            apkData.outputFileName = "GitHub-${variant.mergedFlavor.versionName}.apk"
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:design:' + gradle.supportLibraryVersion
-    implementation 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
-    implementation 'com.android.support:recyclerview-v7:' + gradle.supportLibraryVersion
-    implementation 'com.android.support:support-v4:' + gradle.supportLibraryVersion
-    implementation 'com.android.support:support-v13:' + gradle.supportLibraryVersion
-    implementation 'com.android.support:animated-vector-drawable:' + gradle.supportLibraryVersion
+    implementation 'com.android.support:design:' + rootProject.supportLibraryVersion
+    implementation 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
+    implementation 'com.android.support:recyclerview-v7:' + rootProject.supportLibraryVersion
+    implementation 'com.android.support:support-v4:' + rootProject.supportLibraryVersion
+    implementation 'com.android.support:support-v13:' + rootProject.supportLibraryVersion
+    implementation 'com.android.support:animated-vector-drawable:' + rootProject.supportLibraryVersion
 
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
+    implementation 'android.arch.lifecycle:viewmodel:' + rootProject.lifecycle
+    implementation 'android.arch.lifecycle:livedata:' + rootProject.lifecycle
+    implementation 'android.arch.lifecycle:extensions:' + rootProject.lifecycle
+    implementation 'android.arch.lifecycle:reactivestreams:' + rootProject.lifecycle
+    annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.lifecycle
+    implementation 'android.arch.persistence.room:runtime:' + rootProject.room
+    implementation 'android.arch.persistence.room:rxjava2:' + rootProject.room
+    annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.room
 
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
@@ -87,5 +93,5 @@ dependencies {
 
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.sunfusheng:glideimageview:1.2.0'
-    implementation 'com.sunfusheng:FirUpdater:1.0.7'
+    implementation 'com.sunfusheng:FirUpdater:1.0.8'
 }

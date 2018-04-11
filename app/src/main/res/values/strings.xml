@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name">GitHub</string>
+    <string name="app_author">作者：孙福生</string>
 
     <string name="login">登录</string>
     <string name="logout">退出登录</string>

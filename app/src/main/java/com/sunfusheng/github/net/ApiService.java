@@ -1,7 +1,7 @@
 package com.sunfusheng.github.net;
 
-import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.model.Auth;
+import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.model.User;
 
 import io.reactivex.Observable;
@@ -20,7 +20,7 @@ public interface ApiService {
     Observable<User> login(@Header("Authorization") String auth);
 
     @POST("authorizations")
-    Observable<Auth> createAuth(@Body AuthParams authParams);
+    Observable<Auth> createAuth(@Header("Authorization") String auth, @Body AuthParams authParams);
 
     @GET("users/{userName}")
     Observable<User> fetchUser(@Path("userName") String userName);

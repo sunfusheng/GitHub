@@ -9,10 +9,10 @@
 
     <com.sunfusheng.github.widget.SvgView
         android:id="@+id/svg_view"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         app:svgFillColors="@array/google_glyphs_colors"
         app:svgFillStart="1500"
         app:svgFillTime="1500"
@@ -52,6 +52,7 @@
                 android:drawablePadding="@dimen/item_margin_large"
                 android:hint="@string/username_input"
                 android:imeOptions="actionDone"
+                android:inputType="textCapCharacters"
                 android:maxLines="1"
                 android:paddingLeft="80dp"
                 android:text=""
@@ -110,7 +111,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/item_margin_smallest"
-        android:text="作者：孙福生"
+        android:text="@string/app_author"
         android:textColor="@color/font3"
-        android:textSize="11sp"/>
+        android:textSize="12sp"/>
 </RelativeLayout>
