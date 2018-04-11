@@ -13,10 +13,10 @@
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        app:svgFillColors="@array/google_four_colors"
+        app:svgFillColors="@array/google_glyphs_colors"
         app:svgFillStart="1500"
         app:svgFillTime="1500"
-        app:svgGlyphStrings="@array/google_svg_strings"
+        app:svgGlyphStrings="@array/google_glyphs_strings"
         app:svgImageSizeX="400"
         app:svgImageSizeY="400"
         app:svgTraceTime="3000"
@@ -36,7 +36,7 @@
                 android:id="@+id/username_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-22dp"
+                android:layout_marginBottom="-24dp"
                 android:layout_marginLeft="@dimen/item_margin_smallest"
                 android:text="@string/username"
                 android:textColor="@color/font1"
@@ -47,12 +47,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/username_tip"
-                android:imeOptions="actionDone"
-                android:maxLines="1"
                 android:background="@null"
                 android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
                 android:drawablePadding="@dimen/item_margin_large"
                 android:hint="@string/username_input"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
                 android:paddingLeft="80dp"
                 android:text=""
                 android:textColor="@color/font1"
@@ -63,13 +63,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="@dimen/item_margin_large">
 
             <TextView
                 android:id="@+id/password_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-22dp"
+                android:layout_marginBottom="-24dp"
                 android:layout_marginLeft="@dimen/item_margin_smallest"
                 android:text="@string/password"
                 android:textColor="@color/font1"
@@ -80,13 +80,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/password_tip"
-                android:imeOptions="actionDone"
                 android:background="@null"
-                android:maxLines="1"
                 android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
                 android:drawablePadding="@dimen/item_margin_large"
                 android:hint="@string/password_input"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
+                android:maxLines="1"
                 android:paddingLeft="80dp"
                 android:text=""
                 android:textColor="@color/font1"
@@ -103,4 +103,14 @@
             android:text="@string/login"
             android:textSize="18sp"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/item_margin_smallest"
+        android:text="作者：孙福生"
+        android:textColor="@color/font3"
+        android:textSize="11sp"/>
 </RelativeLayout>
