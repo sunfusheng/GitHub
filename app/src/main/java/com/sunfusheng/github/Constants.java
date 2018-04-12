@@ -7,6 +7,7 @@ public class Constants {
 
     public static final String BASE_URL = "https://api.github.com/";
 
+    public static final String ACCEPT = "application/vnd.github.v3.json";
     public static final String[] SCOPES = {"user", "repo", "notifications", "gist", "admin:org"};
     public static final String NOTE = "DroidGitHub";
     public static final String NOTE_URL = "https://github.com/sfsheng0322/DroidGitHub";

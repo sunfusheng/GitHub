@@ -95,7 +95,7 @@
                 android:textSize="17sp"/>
         </RelativeLayout>
 
-        <com.sunfusheng.github.widget.RadiusWidget.RadiusTextView
+        <com.sunfusheng.github.widget.radiuswidget.RadiusTextView
             android:id="@+id/login"
             style="@style/RadiusButton"
             android:layout_width="match_parent"

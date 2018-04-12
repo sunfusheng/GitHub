@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.database.UserDatabase;
+import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
@@ -15,6 +17,7 @@ import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.widget.SvgEnum;
 import com.sunfusheng.github.widget.SvgView;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -78,52 +81,39 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
+        showProgressDialog(R.string.com_waiting_login);
+
         String credentials = username + ":" + password;
-        String basicAuth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+        String basicAuth = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.USERNAME, username);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.PASSWORD, password);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.AUTH, basicAuth);
 
-//        Api.getLoginService().login(basicAuth)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(it -> {
-//                    ToastUtil.toast(it != null ? it.getLogin() : "登录失败");
-//                }, Throwable::printStackTrace);
-
-        Api.getLoginService().fetchUser(username)
+        Observable.zip(Api.getLoginService().login(), Api.getLoginService().createAuth(AuthParams.getParams()),
+                (user, auth) -> {
+                    if (user == null || TextUtils.isEmpty(user.getLogin()) || auth == null || TextUtils.isEmpty(auth.getToken())) {
+                        return false;
+                    }
+                    UserDatabase.getDefault(this).getUserDao().insert(user);
+                    PreferenceUtil.getInstance().put(Constants.PreferenceKey.TOKEN, auth.getToken());
+                    return true;
+                })
+                .onErrorResumeNext(throwable -> {
+                    return Observable.just(false);
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(it -> {
-                    ToastUtil.toast(it != null ? it.getLogin() : "登录失败");
-                }, Throwable::printStackTrace);
-
-//        Api.getService().createAuth(basicAuth, AuthParams.getParams())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(it -> {
-//                    ToastUtil.toast(it != null ? it.getToken() : "登录失败");
-//                }, Throwable::printStackTrace);
-
-//        Observable.zip(Api.getService().fetchUser(username), Api.getLoginService().createAuth(AuthParams.getParams()),
-//                (user, auth) -> {
-//                    if (user == null || auth == null) {
-//                        return false;
-//                    }
-//                    UserDatabase.getDefault(this).getUserDao().insert(user);
-//                    PreferenceUtil.getInstance().put(Constants.PreferenceKey.TOKEN, auth.getToken());
-//                    return true;
-//                })
-//                .onErrorResumeNext(throwable -> {
-//                    return Observable.just(false);
-//                })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(it -> {
-//                    if (!it) {
-//                        PreferenceUtil.getInstance().remove(Constants.PreferenceKey.TOKEN);
-//                    }
-//                    ToastUtil.toast(it ? "登录成功" : "登录失败");
-//                }, Throwable::printStackTrace);
+                    dismissProgressDialog();
+                    if (!it) {
+                        PreferenceUtil.getInstance().remove(Constants.PreferenceKey.TOKEN);
+                    } else {
+                        ToastUtil.toast("登录成功");
+                    }
+                }, throwable -> {
+                    dismissProgressDialog();
+                    throwable.printStackTrace();
+                    ToastUtil.toast(throwable.getMessage());
+                });
     }
 }

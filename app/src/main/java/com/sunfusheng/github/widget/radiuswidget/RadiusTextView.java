@@ -1,27 +1,25 @@
-package com.sunfusheng.github.widget.RadiusWidget;
+package com.sunfusheng.github.widget.radiuswidget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.ViewUtil;
 
-
 /**
  * @author sunfusheng on 2018/1/20.
  */
-public class RadiusRelativeLayout extends RelativeLayout {
+public class RadiusTextView extends android.support.v7.widget.AppCompatTextView {
 
-    public RadiusRelativeLayout(Context context) {
+    public RadiusTextView(Context context) {
         this(context, null);
     }
 
-    public RadiusRelativeLayout(Context context, AttributeSet attrs) {
+    public RadiusTextView(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.DefaultAttr);
     }
 
-    public RadiusRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RadiusTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         RadiusGradientDrawable drawable = RadiusGradientDrawable.fromAttributeSet(context, attrs, defStyleAttr);
         ViewUtil.setBackgroundKeepingPadding(this, drawable);

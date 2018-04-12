@@ -1,9 +1,9 @@
 package com.sunfusheng.github.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.sunfusheng.github.Constants;
+import com.sunfusheng.github.NavigationManager;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.PreferenceUtil;
 
@@ -22,7 +22,7 @@ public class MainActivity extends BaseActivity {
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.PASSWORD) ||
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.AUTH) ||
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.TOKEN)) {
-            startActivity(new Intent(this, LoginActivity.class));
+            NavigationManager.toLoginActivity();
             finish();
         }
     }

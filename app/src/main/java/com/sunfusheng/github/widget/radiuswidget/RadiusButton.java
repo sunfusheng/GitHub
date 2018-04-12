@@ -1,4 +1,4 @@
-package com.sunfusheng.github.widget.RadiusWidget;
+package com.sunfusheng.github.widget.radiuswidget;
 
 import android.content.Context;
 import android.util.AttributeSet;
