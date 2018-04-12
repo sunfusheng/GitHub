@@ -81,9 +81,6 @@ public class ExceptionUtil {
                     ex = new ResponseException("网络异常", throwable, NETWORK_ERROR);
                     break;
             }
-        } else if (throwable instanceof ServerException) {
-            ServerException serverException = (ServerException) throwable;
-            ex = new ResponseException(serverException.msg, serverException, serverException.code);
         } else if (throwable instanceof JsonParseException || throwable instanceof JSONException || throwable instanceof ParseException) {
             ex = new ResponseException("数据解析异常", throwable, PARSE_ERROR);
         } else if (throwable instanceof ConnectException) {
