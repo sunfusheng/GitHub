@@ -5,6 +5,7 @@ import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.model.User;
 
 import io.reactivex.Observable;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -22,6 +23,6 @@ public interface ApiService {
     Observable<Auth> createAuth(@Body AuthParams authParams);
 
     @GET("users/{userName}")
-    Observable<User> fetchUser(@Path("userName") String userName);
+    Observable<Response<User>> fetchUser(@Path("userName") String userName);
 
 }

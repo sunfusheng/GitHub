@@ -11,6 +11,7 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.database.UserDatabase;
 import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.net.exception.ExceptionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
@@ -98,9 +99,6 @@ public class LoginActivity extends BaseActivity {
                     PreferenceUtil.getInstance().put(Constants.PreferenceKey.TOKEN, auth.getToken());
                     return true;
                 })
-                .onErrorResumeNext(throwable -> {
-                    return Observable.just(false);
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(it -> {
@@ -113,7 +111,7 @@ public class LoginActivity extends BaseActivity {
                 }, throwable -> {
                     dismissProgressDialog();
                     throwable.printStackTrace();
-                    ToastUtil.toast(throwable.getMessage());
+                    ToastUtil.toast(ExceptionUtil.handleException(throwable));
                 });
     }
 }
