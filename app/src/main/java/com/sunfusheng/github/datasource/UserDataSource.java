@@ -1,13 +1,12 @@
 package com.sunfusheng.github.datasource;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.os.SystemClock;
 
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.exception.ExceptionUtil;
-import com.sunfusheng.github.net.exception.ResponseException;
+import com.sunfusheng.github.net.ObservableResponseLiveData;
+import com.sunfusheng.github.net.ResponseResult;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -26,19 +25,14 @@ public class UserDataSource {
         return dataSource;
     }
 
-    public LiveData<User> getUser(String username) {
-        MutableLiveData<User> mutableLiveData = new MutableLiveData<>();
-        Api.getAuthService().fetchUser(username)
+    public LiveData<ResponseResult<User>> getUser(String username) {
+        return ObservableResponseLiveData.from(Api.getAuthService().fetchUser(username)
                 .subscribeOn(Schedulers.io())
                 .map(it -> {
-                    SystemClock.sleep(5000);
+                    SystemClock.sleep(3000);
                     return it;
                 })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mutableLiveData::setValue, throwable -> {
-                    throwable.printStackTrace();
-                    ResponseException responseException = ExceptionUtil.checkException(throwable);
-                });
-        return mutableLiveData;
+                .filter(it -> it != null)
+                .observeOn(AndroidSchedulers.mainThread()));
     }
 }

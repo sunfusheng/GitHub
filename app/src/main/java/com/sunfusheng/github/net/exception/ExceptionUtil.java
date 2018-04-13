@@ -11,6 +11,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import retrofit2.HttpException;
+import retrofit2.Response;
 
 /**
  * @author sunfusheng on 2018/4/12.
@@ -37,63 +38,66 @@ public class ExceptionUtil {
     public static final int SOCKET_TIMEOUT = 1006; // 连接超时
     public static final int UNKNOWN_HOST = 1007; // 未知主机
 
-    public static String handleException(Throwable throwable) {
-        return checkException(throwable).toString();
+    public static ResponseException handleException(Response errorResponse) {
+        if (errorResponse == null) {
+            return unknownException();
+        }
+        return getResponseExceptionByErrorCode(errorResponse.code());
     }
 
-    public static ResponseException checkException(Throwable throwable) {
+    public static ResponseException handleException(Throwable throwable) {
         if (throwable == null) {
-            return new ResponseException("未知错误", new RuntimeException("Unknown Error!"), UNKNOWN);
+            return unknownException();
         }
+
+        throwable.printStackTrace();
 
         ResponseException ex;
         if (throwable instanceof HttpException) {
             HttpException httpException = (HttpException) throwable;
-            switch (httpException.code()) {
-                case UNAUTHORIZED:
-                    ex = new ResponseException("授权异常，未授权", throwable, UNAUTHORIZED);
-                    break;
-                case FORBIDDEN:
-                    ex = new ResponseException("请求异常，拒绝执行", throwable, FORBIDDEN);
-                    break;
-                case NOT_FOUND:
-                    ex = new ResponseException("请求失败，资源未找到", throwable, NOT_FOUND);
-                    break;
-                case REQUEST_TIMEOUT:
-                    ex = new ResponseException("请求超时", throwable, REQUEST_TIMEOUT);
-                    break;
-                case UNPROCESSABLE_ENTITY:
-                    ex = new ResponseException("请求参数错误，无法响应", throwable, REQUEST_TIMEOUT);
-                    break;
-                case INTERNAL_SERVER_ERROR:
-                    ex = new ResponseException("服务器异常", throwable, INTERNAL_SERVER_ERROR);
-                    break;
-                case BAD_GATEWAY:
-                    ex = new ResponseException("网关异常", throwable, BAD_GATEWAY);
-                    break;
-                case SERVICE_UNAVAILABLE:
-                    ex = new ResponseException("服务不可用", throwable, SERVICE_UNAVAILABLE);
-                    break;
-                case GATEWAY_TIMEOUT:
-                    ex = new ResponseException("网关超时", throwable, GATEWAY_TIMEOUT);
-                    break;
-                default:
-                    ex = new ResponseException("网络异常", throwable, NETWORK_ERROR);
-                    break;
-            }
+            ex = getResponseExceptionByErrorCode(httpException.code());
         } else if (throwable instanceof JsonParseException || throwable instanceof JSONException || throwable instanceof ParseException) {
-            ex = new ResponseException("数据解析异常", throwable, PARSE_ERROR);
+            ex = new ResponseException(PARSE_ERROR, "数据解析异常", throwable);
         } else if (throwable instanceof ConnectException) {
-            ex = new ResponseException("连接失败", throwable, CONNECT_ERROR);
+            ex = new ResponseException(CONNECT_ERROR, "连接失败", throwable);
         } else if (throwable instanceof javax.net.ssl.SSLHandshakeException) {
-            ex = new ResponseException("证书验证失败", throwable, SSL_ERROR);
+            ex = new ResponseException(SSL_ERROR, "证书验证失败", throwable);
         } else if (throwable instanceof SocketTimeoutException) {
-            ex = new ResponseException("连接超时", throwable, SOCKET_TIMEOUT);
+            ex = new ResponseException(SOCKET_TIMEOUT, "连接超时", throwable);
         } else if (throwable instanceof UnknownHostException) {
-            ex = new ResponseException("未知主机异常", throwable, UNKNOWN_HOST);
+            ex = new ResponseException(UNKNOWN_HOST, "未知主机异常", throwable);
         } else {
-            ex = new ResponseException("未知错误", throwable, UNKNOWN);
+            ex = unknownException();
         }
         return ex;
+    }
+
+    public static ResponseException getResponseExceptionByErrorCode(int errorCode) {
+        switch (errorCode) {
+            case UNAUTHORIZED:
+                return new ResponseException(UNAUTHORIZED, "授权异常，未授权");
+            case FORBIDDEN:
+                return new ResponseException(FORBIDDEN, "请求异常，拒绝执行");
+            case NOT_FOUND:
+                return new ResponseException(NOT_FOUND, "请求失败，资源未找到");
+            case REQUEST_TIMEOUT:
+                return new ResponseException(REQUEST_TIMEOUT, "请求超时");
+            case UNPROCESSABLE_ENTITY:
+                return new ResponseException(REQUEST_TIMEOUT, "请求参数错误，无法响应");
+            case INTERNAL_SERVER_ERROR:
+                return new ResponseException(INTERNAL_SERVER_ERROR, "服务器异常");
+            case BAD_GATEWAY:
+                return new ResponseException(BAD_GATEWAY, "网关异常");
+            case SERVICE_UNAVAILABLE:
+                return new ResponseException(SERVICE_UNAVAILABLE, "服务不可用");
+            case GATEWAY_TIMEOUT:
+                return new ResponseException(GATEWAY_TIMEOUT, "网关超时");
+            default:
+                return new ResponseException(NETWORK_ERROR, "网络异常");
+        }
+    }
+
+    private static ResponseException unknownException() {
+        return new ResponseException(UNKNOWN, "未知错误");
     }
 }

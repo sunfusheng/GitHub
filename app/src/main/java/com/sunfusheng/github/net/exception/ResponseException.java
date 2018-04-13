@@ -8,14 +8,20 @@ public class ResponseException extends Exception {
     public int code;
     public String msg;
 
-    public ResponseException(String message, Throwable cause, int code) {
-        super(message, cause);
-        this.msg = message;
+    public ResponseException(int code, String msg) {
+        super(msg);
         this.code = code;
+        this.msg = msg;
+    }
+
+    public ResponseException(int code, String msg, Throwable throwable) {
+        super(msg, throwable);
+        this.code = code;
+        this.msg = msg;
     }
 
     @Override
     public String toString() {
-        return msg + "【code=" + code + "】";
+        return "【code=" + code + "】" + msg;
     }
 }

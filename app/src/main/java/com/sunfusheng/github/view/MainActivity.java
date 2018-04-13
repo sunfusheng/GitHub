@@ -7,8 +7,8 @@ import android.widget.TextView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.NavigationManager;
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.net.LoadingState;
 import com.sunfusheng.github.util.PreferenceUtil;
-import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.glideimageview.GlideImageView;
 
@@ -29,10 +29,26 @@ public class MainActivity extends BaseActivity {
 
         ViewModelProviders.of(this).get(UserViewModel.class)
                 .getUserLiveData(username)
-                .observe(this, user -> {
-                    vUserAvatar.loadImage(user.getAvatar_url(), R.mipmap.ic_launcher);
-                    vUserName.setText("用户名：" + user.getName());
-                    ToastUtil.toast("request over");
+                .observe(this, it -> {
+                    if (it == null) return;
+                    switch (it.loadingState) {
+                        case LoadingState.LOADING:
+                            showProgressDialog();
+                            break;
+                        case LoadingState.SUCCESS:
+                            dismissProgressDialog();
+                            vUserAvatar.loadImage(it.data.getAvatar_url(), R.mipmap.ic_launcher);
+                            vUserName.setText(it.data.getName());
+                            break;
+                        case LoadingState.ERROR:
+                            dismissProgressDialog();
+                            vUserName.setText(it.errorString());
+                            break;
+                        case LoadingState.EMPTY:
+                            dismissProgressDialog();
+                            vUserName.setText(it.msg);
+                            break;
+                    }
                 });
     }
 

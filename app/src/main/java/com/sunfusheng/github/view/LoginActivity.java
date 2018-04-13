@@ -110,8 +110,7 @@ public class LoginActivity extends BaseActivity {
                     }
                 }, throwable -> {
                     dismissProgressDialog();
-                    throwable.printStackTrace();
-                    ToastUtil.toast(ExceptionUtil.handleException(throwable));
+                    ToastUtil.toast(ExceptionUtil.handleException(throwable).toString());
                 });
     }
 }
