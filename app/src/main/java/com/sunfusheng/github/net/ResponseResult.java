@@ -1,6 +1,7 @@
 package com.sunfusheng.github.net;
 
-import com.sunfusheng.github.net.exception.ResponseException;
+import com.sunfusheng.github.annotation.LoadingState;
+import com.sunfusheng.github.util.ExceptionUtil;
 
 import retrofit2.Response;
 
@@ -12,14 +13,23 @@ public class ResponseResult<T> {
     public int code;
     public String msg;
     public T data;
+
     @LoadingState
     public int loadingState;
 
-    public ResponseResult(int code, String msg, T data, @LoadingState int loadingState) {
+    public ResponseResult(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
+    }
+
+    public ResponseResult(int code, String msg, T data, @LoadingState int loadingState) {
+        this(code, msg, data);
         this.loadingState = loadingState;
+    }
+
+    public ResponseResult(Response<T> response, @LoadingState int loadingState) {
+        this(response.code(), response.message(), response.body(), loadingState);
     }
 
     public String errorString() {
@@ -36,10 +46,6 @@ public class ResponseResult<T> {
                 '}';
     }
 
-    public ResponseResult(Response<T> response, @LoadingState int loadingState) {
-        this(response.code(), response.message(), response.body(), loadingState);
-    }
-
     public static <T> ResponseResult<T> loading() {
         return new ResponseResult<>(LoadingState.LOADING, "正在加载", null, LoadingState.LOADING);
     }
@@ -48,7 +54,7 @@ public class ResponseResult<T> {
         return new ResponseResult<>(response, LoadingState.SUCCESS);
     }
 
-    public static <T> ResponseResult<T> error(ResponseException e) {
+    public static <T> ResponseResult<T> error(ExceptionUtil.ResponseException e) {
         return new ResponseResult<>(e.code, e.msg, null, LoadingState.ERROR);
     }
 

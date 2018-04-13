@@ -12,8 +12,6 @@ import android.os.Parcelable;
 @Entity(indices = {@Index(value = "login", unique = true)})
 public class User implements Parcelable {
 
-    public static final User NULL = new User();
-
     @PrimaryKey
     private int id;
     private String login;

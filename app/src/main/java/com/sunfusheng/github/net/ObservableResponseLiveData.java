@@ -2,7 +2,7 @@ package com.sunfusheng.github.net;
 
 import android.arch.lifecycle.LiveData;
 
-import com.sunfusheng.github.net.exception.ExceptionUtil;
+import com.sunfusheng.github.util.ExceptionUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -19,9 +19,8 @@ public class ObservableResponseLiveData<T> extends LiveData<ResponseResult<T>> {
 
     private final Observable<Response<T>> observable;
     private WeakReference<Disposable> disposableWeakReference;
-    private final Object lock = new Object();
 
-    public static <T> ObservableResponseLiveData from(@NonNull Observable<Response<T>> observable) {
+    public static <T> LiveData<ResponseResult<T>> fromObservable(@NonNull Observable<Response<T>> observable) {
         return new ObservableResponseLiveData<>(observable);
     }
 
@@ -35,9 +34,7 @@ public class ObservableResponseLiveData<T> extends LiveData<ResponseResult<T>> {
         observable.subscribe(new Observer<Response<T>>() {
             @Override
             public void onSubscribe(Disposable disposable) {
-                synchronized (lock) {
-                    disposableWeakReference = new WeakReference<>(disposable);
-                }
+                disposableWeakReference = new WeakReference<>(disposable);
                 postValue(ResponseResult.loading());
             }
 
@@ -74,14 +71,12 @@ public class ObservableResponseLiveData<T> extends LiveData<ResponseResult<T>> {
     }
 
     public void release() {
-        synchronized (lock) {
-            if (disposableWeakReference != null) {
-                Disposable disposable = disposableWeakReference.get();
-                if (disposable != null && !disposable.isDisposed()) {
-                    disposable.dispose();
-                }
-                disposableWeakReference = null;
+        if (disposableWeakReference != null) {
+            Disposable disposable = disposableWeakReference.get();
+            if (disposable != null && !disposable.isDisposed()) {
+                disposable.dispose();
             }
+            disposableWeakReference = null;
         }
     }
 }

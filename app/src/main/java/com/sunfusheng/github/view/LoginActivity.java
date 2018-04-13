@@ -9,9 +9,9 @@ import android.widget.TextView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.database.UserDatabase;
-import com.sunfusheng.github.model.AuthParams;
+import com.sunfusheng.github.model.params.AuthParams;
 import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.exception.ExceptionUtil;
+import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity {
                     if (user == null || TextUtils.isEmpty(user.getLogin()) || auth == null || TextUtils.isEmpty(auth.getToken())) {
                         return false;
                     }
-                    UserDatabase.getDefault(this).getUserDao().insert(user);
+                    UserDatabase.instance().getUserDao().insert(user);
                     PreferenceUtil.getInstance().put(Constants.PreferenceKey.TOKEN, auth.getToken());
                     return true;
                 })

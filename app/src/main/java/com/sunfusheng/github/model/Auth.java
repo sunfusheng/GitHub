@@ -7,8 +7,6 @@ import java.util.List;
  */
 public class Auth {
 
-    public static final Auth NULL = new Auth();
-
     private int id;
     private String url;
     private AppEntity app;

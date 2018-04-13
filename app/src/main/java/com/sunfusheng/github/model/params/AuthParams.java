@@ -1,4 +1,4 @@
-package com.sunfusheng.github.model;
+package com.sunfusheng.github.model.params;
 
 import com.sunfusheng.github.Constants;
 

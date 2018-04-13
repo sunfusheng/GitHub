@@ -7,7 +7,8 @@ import android.widget.TextView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.NavigationManager;
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.net.LoadingState;
+import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.annotation.LoadingState;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.glideimageview.GlideImageView;
@@ -28,7 +29,7 @@ public class MainActivity extends BaseActivity {
         String username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
 
         ViewModelProviders.of(this).get(UserViewModel.class)
-                .getUserLiveData(username)
+                .getUser(username, FetchMode.REMOTE)
                 .observe(this, it -> {
                     if (it == null) return;
                     switch (it.loadingState) {

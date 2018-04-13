@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.exception;
+package com.sunfusheng.github.util;
 
 import android.net.ParseException;
 
@@ -99,5 +99,28 @@ public class ExceptionUtil {
 
     private static ResponseException unknownException() {
         return new ResponseException(UNKNOWN, "未知错误");
+    }
+
+    public static class ResponseException extends Exception {
+
+        public int code;
+        public String msg;
+
+        public ResponseException(int code, String msg) {
+            super(msg);
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public ResponseException(int code, String msg, Throwable throwable) {
+            super(msg, throwable);
+            this.code = code;
+            this.msg = msg;
+        }
+
+        @Override
+        public String toString() {
+            return "【code=" + code + "】" + msg;
+        }
     }
 }

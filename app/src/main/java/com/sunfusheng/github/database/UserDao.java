@@ -18,5 +18,4 @@ public interface UserDao {
 
     @Query("select * from User where login like :login limit 1")
     User query(String login);
-
 }

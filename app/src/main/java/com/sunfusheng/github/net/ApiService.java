@@ -1,7 +1,7 @@
 package com.sunfusheng.github.net;
 
 import com.sunfusheng.github.model.Auth;
-import com.sunfusheng.github.model.AuthParams;
+import com.sunfusheng.github.model.params.AuthParams;
 import com.sunfusheng.github.model.User;
 
 import io.reactivex.Observable;
