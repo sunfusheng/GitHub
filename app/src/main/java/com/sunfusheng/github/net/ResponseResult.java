@@ -54,6 +54,10 @@ public class ResponseResult<T> {
         return new ResponseResult<>(response, LoadingState.SUCCESS);
     }
 
+    public static <T> ResponseResult<T> success(T t) {
+        return new ResponseResult<>(LoadingState.SUCCESS, "OK", t, LoadingState.SUCCESS);
+    }
+
     public static <T> ResponseResult<T> error(ExceptionUtil.ResponseException e) {
         return new ResponseResult<>(e.code, e.msg, null, LoadingState.ERROR);
     }
