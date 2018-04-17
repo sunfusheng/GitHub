@@ -36,11 +36,43 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
 
-        if (true) {
+        if (false) {
+
+//
+//            Observable.merge(local, remote)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<String>() {
+//                        @Override
+//                        public void onSubscribe(Disposable d) {
+//                            start = System.currentTimeMillis();
+//                            Log.d("--->", "onSubscribe()");
+//                        }
+//
+//                        @Override
+//                        public void onNext(String s) {
+//                            end = System.currentTimeMillis();
+//                            Log.d("--->", "onNext() " + s + " : " + (end - start));
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            Log.d("--->", "onError()");
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//                            end = System.currentTimeMillis();
+//                            Log.d("--->", "onComplete()" + " : " + (end - start));
+//                        }
+//                    });
+
             Observable<String> local = local(1000);
-            Observable<String> remote = remote(1000);
+            Observable<String> remote = remote(2000).share();
 
             Observable.merge(local, remote)
+                    .doOnNext(it -> Log.d("--->", "pre onNext" + it))
+                    .takeUntil(remote)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<String>() {
@@ -67,33 +99,6 @@ public class MainActivity extends BaseActivity {
                             Log.d("--->", "onComplete()" + " : " + (end - start));
                         }
                     });
-
-//            remote(2000)
-//                    .publish(remote -> Observable.merge(local, remote).takeUntil(remote))
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Observer<String>() {
-//                        @Override
-//                        public void onSubscribe(Disposable d) {
-//                            start = System.currentTimeMillis();
-//                        }
-//
-//                        @Override
-//                        public void onNext(String s) {
-//                            end = System.currentTimeMillis();
-//                            Log.d("--->", s + " : " + (end - start));
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {
-//
-//                        }
-//                    });
             return;
         }
 
@@ -105,6 +110,7 @@ public class MainActivity extends BaseActivity {
         ViewModelProviders.of(this).get(UserViewModel.class)
                 .getUser(username, FetchMode.DEFAULT)
                 .observe(this, it -> {
+                    Log.d("--->", "2.observe() :"+it);
                     if (it == null) return;
                     switch (it.loadingState) {
                         case LoadingState.LOADING:

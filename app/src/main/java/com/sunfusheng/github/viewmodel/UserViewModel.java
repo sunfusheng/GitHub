@@ -3,6 +3,7 @@ package com.sunfusheng.github.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.sunfusheng.github.annotation.FetchMode;
@@ -11,6 +12,7 @@ import com.sunfusheng.github.annotation.QueryResult;
 import com.sunfusheng.github.datasource.UserLocalDataSource;
 import com.sunfusheng.github.datasource.UserRemoteDataSource;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.net.CommonObserver;
 import com.sunfusheng.github.net.ObservableLiveData;
 import com.sunfusheng.github.net.ObservableResponseLiveData;
 import com.sunfusheng.github.net.ResponseResult;
@@ -70,7 +72,7 @@ public class UserViewModel extends ViewModel {
             Observable<ResponseResult<User>> localObservable = UserLocalDataSource.instance().getLocalUser(username)
                     .subscribeOn(Schedulers.io())
                     .map(it -> {
-//                        SystemClock.sleep(500);
+                        SystemClock.sleep(1000);
                         if (it != null) {
                             return new ResponseResult<>(QueryResult.EXIST, "exist", it, LoadingState.SUCCESS);
                         }
@@ -78,10 +80,8 @@ public class UserViewModel extends ViewModel {
                     });
 
             Observable<ResponseResult<User>> remoteObservable = UserRemoteDataSource.instance().getRemoteUser("Blankj")
-                    .share()
-                    .doOnNext(userResponse -> Log.d("--->", "doOnNext() userResponse:"+userResponse.toString()))
                     .map(it -> {
-//                        SystemClock.sleep(3000);
+                        SystemClock.sleep(2000);
                         if (it == null) {
                             return ResponseResult.empty();
                         }
@@ -92,17 +92,15 @@ public class UserViewModel extends ViewModel {
 
                     });
 
-            localObservable
-                    .publish(local -> Observable.merge(local, remoteObservable).takeUntil(remoteObservable))
+            Observable.concat(localObservable, remoteObservable)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(it -> {
-                        Log.d("--->", "onNext() it:"+it.toString());
-                        mutableLiveData.postValue(it);
-                    }, throwable -> {
-                        Log.d("--->", "onError()");
-                    }, () -> {
-                        Log.d("--->", "onComplete()");
+                    .subscribe(new CommonObserver<User>() {
+                        @Override
+                        public void onNotify(ResponseResult<User> result) {
+                            mutableLiveData.postValue(result);
+                            Log.d("--->", "1.onNotify() :"+result);
+                        }
                     });
 
             return mutableLiveData;

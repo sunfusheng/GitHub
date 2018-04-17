@@ -27,12 +27,12 @@ public class ObservableLiveData<T> extends LiveData<ResponseResult<T>> {
     @Override
     protected void onActive() {
         super.onActive();
-        observable.subscribe(new CommonObserver<T>() {
-            @Override
-            public void onNotify(ResponseResult<T> result, Disposable disposable) {
-                disposableWeakReference = new WeakReference<>(disposable);
-            }
-        });
+//        observable.subscribe(new CommonObserver<T>() {
+//            @Override
+//            public void onNotify(ResponseResult<T> result, Disposable disposable) {
+//                disposableWeakReference = new WeakReference<>(disposable);
+//            }
+//        });
 //        observable.subscribe(new Observer<T>() {
 //            @Override
 //            public void onSubscribe(Disposable disposable) {
