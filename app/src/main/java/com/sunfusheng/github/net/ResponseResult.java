@@ -41,8 +41,8 @@ public class ResponseResult<T> {
         return "ResponseResult{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
-                ", data=" + data +
                 ", loadingState=" + loadingState +
+                ", data=" + data +
                 '}';
     }
 
@@ -62,7 +62,16 @@ public class ResponseResult<T> {
         return new ResponseResult<>(e.code, e.msg, null, LoadingState.ERROR);
     }
 
+    public static <T> ResponseResult<T> error(Throwable throwable) {
+        return error(ExceptionUtil.handleException(throwable));
+    }
+
+    public static <T> ResponseResult<T> error(int errorCode) {
+        return error(ExceptionUtil.getResponseExceptionByErrorCode(errorCode));
+    }
+
     public static <T> ResponseResult<T> empty() {
         return new ResponseResult<>(LoadingState.EMPTY, "暂无数据", null, LoadingState.EMPTY);
     }
+
 }

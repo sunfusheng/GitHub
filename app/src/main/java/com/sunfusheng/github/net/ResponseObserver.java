@@ -1,6 +1,6 @@
 package com.sunfusheng.github.net;
 
-import com.sunfusheng.github.util.ExceptionUtil;
+import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -10,33 +10,45 @@ import io.reactivex.disposables.Disposable;
 /**
  * @author sunfusheng on 2018/4/17.
  */
-public abstract class CommonObserver<T> implements Observer<ResponseResult<T>> {
+public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>> {
 
     private WeakReference<Disposable> disposableWeakReference;
+    private boolean isOnNext;
 
     @Override
     public void onSubscribe(Disposable disposable) {
+        isOnNext = false;
         disposableWeakReference = new WeakReference<>(disposable);
+        Log.d("--->", "onSubscribe() 【loading】");
         onNotify(ResponseResult.loading());
     }
 
     @Override
     public void onNext(ResponseResult<T> t) {
-        if (t == null || t.data == null) {
+        isOnNext = true;
+        if (t == null) {
+            Log.d("--->", "onNext() 【empty】");
             onNotify(ResponseResult.empty());
+        } else {
+            Log.d("--->", "onNext() 【success】 :" + t.toString());
+            onNotify(t);
         }
-        onNotify(t);
     }
 
     @Override
     public void onError(Throwable throwable) {
         release();
-        onNotify(ResponseResult.error(ExceptionUtil.handleException(throwable)));
+        Log.d("--->", "onError() 【error】 :" + ResponseResult.error(throwable).errorString());
+        onNotify(ResponseResult.error(throwable));
     }
 
     @Override
     public void onComplete() {
         release();
+        if (!isOnNext) {
+            Log.d("--->", "onComplete() 【empty】");
+            onNotify(ResponseResult.empty());
+        }
     }
 
     public void release() {

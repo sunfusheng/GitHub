@@ -13,53 +13,27 @@ import io.reactivex.disposables.Disposable;
  */
 public class ObservableLiveData<T> extends LiveData<ResponseResult<T>> {
 
-    private final Observable<T> observable;
+    private final Observable<ResponseResult<T>> observable;
     private WeakReference<Disposable> disposableWeakReference;
 
-    public static <T> LiveData<ResponseResult<T>> fromObservable(@NonNull Observable<T> observable) {
+    public static <T> LiveData<ResponseResult<T>> fromObservable(@NonNull Observable<ResponseResult<T>> observable) {
         return new ObservableLiveData<>(observable);
     }
 
-    public ObservableLiveData(@NonNull Observable<T> observable) {
+    public ObservableLiveData(@NonNull Observable<ResponseResult<T>> observable) {
         this.observable = observable;
     }
 
     @Override
     protected void onActive() {
         super.onActive();
-//        observable.subscribe(new CommonObserver<T>() {
-//            @Override
-//            public void onNotify(ResponseResult<T> result, Disposable disposable) {
-//                disposableWeakReference = new WeakReference<>(disposable);
-//            }
-//        });
-//        observable.subscribe(new Observer<T>() {
-//            @Override
-//            public void onSubscribe(Disposable disposable) {
-//                disposableWeakReference = new WeakReference<>(disposable);
-//                postValue(ResponseResult.loading());
-//            }
-//
-//            @Override
-//            public void onNext(T response) {
-//                if (response != null) {
-//                    postValue(new ResponseResult<>(QueryResult.EXIST, "exist", response, LoadingState.SUCCESS));
-//                } else {
-//                    postValue(new ResponseResult<>(QueryResult.NONE, "not exist", null, LoadingState.EMPTY));
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//                release();
-//                postValue(ResponseResult.error(ExceptionUtil.handleException(throwable)));
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//                release();
-//            }
-//        });
+        observable.subscribe(new ResponseObserver<T>() {
+
+            @Override
+            public void onNotify(ResponseResult<T> result) {
+                postValue(result);
+            }
+        });
     }
 
     @Override

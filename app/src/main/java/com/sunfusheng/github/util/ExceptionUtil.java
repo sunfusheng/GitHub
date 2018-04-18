@@ -67,7 +67,7 @@ public class ExceptionUtil {
         } else if (throwable instanceof UnknownHostException) {
             ex = new ResponseException(UNKNOWN_HOST, "未知主机异常", throwable);
         } else {
-            ex = unknownException();
+            ex = new ResponseException(throwable.hashCode(), throwable.getMessage(), throwable);
         }
         return ex;
     }

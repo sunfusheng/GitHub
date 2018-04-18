@@ -2,8 +2,6 @@ package com.sunfusheng.github.view;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.sunfusheng.github.Constants;
@@ -14,12 +12,6 @@ import com.sunfusheng.github.annotation.LoadingState;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.glideimageview.GlideImageView;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
 
@@ -36,82 +28,14 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
 
-        if (false) {
-
-//
-//            Observable.merge(local, remote)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Observer<String>() {
-//                        @Override
-//                        public void onSubscribe(Disposable d) {
-//                            start = System.currentTimeMillis();
-//                            Log.d("--->", "onSubscribe()");
-//                        }
-//
-//                        @Override
-//                        public void onNext(String s) {
-//                            end = System.currentTimeMillis();
-//                            Log.d("--->", "onNext() " + s + " : " + (end - start));
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//                            Log.d("--->", "onError()");
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {
-//                            end = System.currentTimeMillis();
-//                            Log.d("--->", "onComplete()" + " : " + (end - start));
-//                        }
-//                    });
-
-            Observable<String> local = local(1000);
-            Observable<String> remote = remote(2000).share();
-
-            Observable.merge(local, remote)
-                    .doOnNext(it -> Log.d("--->", "pre onNext" + it))
-                    .takeUntil(remote)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-                            start = System.currentTimeMillis();
-                            Log.d("--->", "onSubscribe()");
-                        }
-
-                        @Override
-                        public void onNext(String s) {
-                            end = System.currentTimeMillis();
-                            Log.d("--->", "onNext() " + s + " : " + (end - start));
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d("--->", "onError()");
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            end = System.currentTimeMillis();
-                            Log.d("--->", "onComplete()" + " : " + (end - start));
-                        }
-                    });
-            return;
-        }
-
         vUserAvatar = findViewById(R.id.user_avatar);
         vUserName = findViewById(R.id.username);
 
         String username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
 
         ViewModelProviders.of(this).get(UserViewModel.class)
-                .getUser(username, FetchMode.DEFAULT)
+                .getUser(username, FetchMode.LOCAL)
                 .observe(this, it -> {
-                    Log.d("--->", "2.observe() :"+it);
-                    if (it == null) return;
                     switch (it.loadingState) {
                         case LoadingState.LOADING:
                             showProgressDialog();
@@ -141,32 +65,6 @@ public class MainActivity extends BaseActivity {
             NavigationManager.toLoginActivity();
             finish();
         }
-    }
-
-    public Observable<String> local(long ms) {
-        return Observable.defer(() -> Observable.just("local"))
-                .doOnNext(s -> {
-                    end = System.currentTimeMillis();
-                    Log.d("--->", "doOnNext() : " + s + " : " + (end - start));
-                })
-                .subscribeOn(Schedulers.io())
-                .map(s -> {
-                    SystemClock.sleep(ms);
-                    return s + " sleep:" + ms;
-                });
-    }
-
-    public Observable<String> remote(long ms) {
-        return Observable.defer(() -> Observable.just("remote"))
-                .doOnNext(s -> {
-                    end = System.currentTimeMillis();
-                    Log.d("--->", "doOnNext() : " + s + " : " + (end - start));
-                })
-                .subscribeOn(Schedulers.io())
-                .map(s -> {
-                    SystemClock.sleep(ms);
-                    return s + " sleep:" + ms;
-                });
     }
 
 }
