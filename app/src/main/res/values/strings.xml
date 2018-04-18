@@ -3,6 +3,10 @@
     <string name="app_name">GitHub</string>
     <string name="app_author">作者：孙福生</string>
 
+    <string name="tab_home">主页</string>
+    <string name="tab_discover">发现</string>
+    <string name="tab_mine">我</string>
+
     <string name="com_ok">确定</string>
     <string name="com_cancel">取消</string>
     <string name="com_save">保存</string>

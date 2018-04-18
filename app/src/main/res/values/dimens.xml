@@ -6,4 +6,6 @@
     <dimen name="item_margin_smaller">10dp</dimen>
     <dimen name="item_margin_smallest">8dp</dimen>
 
+    <dimen name="tab_text_size">@dimen/item_margin_small</dimen>
+
 </resources>

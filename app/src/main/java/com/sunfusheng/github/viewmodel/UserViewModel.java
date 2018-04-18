@@ -8,8 +8,8 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.UserLocalDataSource;
 import com.sunfusheng.github.datasource.UserRemoteDataSource;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.net.ResponseObserver;
 import com.sunfusheng.github.net.ObservableLiveData;
+import com.sunfusheng.github.net.ResponseObserver;
 import com.sunfusheng.github.net.ResponseResult;
 import com.sunfusheng.github.util.NetworkUtil;
 
@@ -27,16 +27,18 @@ public class UserViewModel extends ViewModel {
             return ObservableLiveData.fromObservable(UserLocalDataSource.instance().getUser(username));
         } else if (fetchMode == FetchMode.REMOTE) {
             return ObservableLiveData.fromObservable(UserRemoteDataSource.instance().getUser(username)
-                    .onErrorResumeNext(UserLocalDataSource.instance().getUser(username)));
+                    .switchIfEmpty(UserLocalDataSource.instance().getUser(username))
+                    .onErrorResumeNext(UserLocalDataSource.instance().getUser(username))
+            );
         } else {
             MutableLiveData<ResponseResult<User>> mutableLiveData = new MutableLiveData<>();
 
             Observable.concat(UserLocalDataSource.instance().getUser(username), UserRemoteDataSource.instance().getUser(username))
+                    .subscribeOn(Schedulers.io())
                     .switchIfEmpty(Observable.just(ResponseResult.empty()))
                     .onErrorResumeNext(throwable -> {
                         return Observable.just(ResponseResult.error(throwable));
                     })
-                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new ResponseObserver<User>() {
                         @Override

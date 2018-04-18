@@ -28,7 +28,6 @@ public class ObservableLiveData<T> extends LiveData<ResponseResult<T>> {
     protected void onActive() {
         super.onActive();
         observable.subscribe(new ResponseObserver<T>() {
-
             @Override
             public void onNotify(ResponseResult<T> result) {
                 postValue(result);

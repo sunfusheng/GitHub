@@ -55,4 +55,16 @@
         <attr name="svgFillColors" format="reference"/>
     </declare-styleable>
 
+
+    <declare-styleable name="AlphaTabView">
+        <attr name="tabIconNormal" format="reference" />
+        <attr name="tabIconSelected" format="reference" />
+        <attr name="tabText" format="string" />
+        <attr name="tabTextSize" format="dimension" />
+        <attr name="textColorNormal" format="color" />
+        <attr name="textColorSelected" format="color" />
+        <attr name="badgeBackgroundColor" format="color" />
+        <attr name="drawablePadding" format="dimension"/>
+    </declare-styleable>
+
 </resources>

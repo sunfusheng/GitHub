@@ -18,11 +18,11 @@ public class RemoteDataSource {
 
     public <T> ObservableTransformer<Response<T>, ResponseResult<T>> applyRemoteTransformer() {
         return observable -> observable.subscribeOn(Schedulers.io())
-                .doOnError(Throwable::printStackTrace)
                 .map(it -> {
                     if (it == null) {
                         return ResponseResult.empty();
                     }
+
                     if (it.isSuccessful()) {
                         if (it.body() == null) {
                             return ResponseResult.empty();

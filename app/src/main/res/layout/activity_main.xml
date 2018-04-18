@@ -1,25 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <com.sunfusheng.glideimageview.GlideImageView
-        android:id="@+id/user_avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="@dimen/item_margin_large"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text=""
-        android:textColor="@color/font1"
-        android:textSize="17sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#888"/>
 
+    <com.sunfusheng.github.widget.bottombar.AlphaTabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <com.sunfusheng.github.widget.bottombar.AlphaTabView
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/ic_home_normal"
+            app:tabIconSelected="@mipmap/ic_home_selected"
+            app:tabText="主页"
+            app:tabTextSize="@dimen/tab_text_size"
+            app:textColorNormal="@color/tab_normal"
+            app:textColorSelected="@color/tab_selected"/>
+
+        <com.sunfusheng.github.widget.bottombar.AlphaTabView
+            android:id="@+id/tabDiscover"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/ic_discover_normal"
+            app:tabIconSelected="@mipmap/ic_discover_selected"
+            app:tabText="发现"
+            app:tabTextSize="@dimen/tab_text_size"
+            app:textColorNormal="@color/tab_normal"
+            app:textColorSelected="@color/tab_selected"/>
+
+
+        <com.sunfusheng.github.widget.bottombar.AlphaTabView
+            android:id="@+id/tabMine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/ic_mine_normal"
+            app:tabIconSelected="@mipmap/ic_mine_selected"
+            app:tabText="我"
+            app:tabTextSize="@dimen/tab_text_size"
+            app:textColorNormal="@color/tab_normal"
+            app:textColorSelected="@color/tab_selected"/>
+    </com.sunfusheng.github.widget.bottombar.AlphaTabLayout>
 </LinearLayout>
