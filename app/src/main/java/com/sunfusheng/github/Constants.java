@@ -24,4 +24,8 @@ public class Constants {
         public static final String AUTH = "preference_key_auth";
         public static final String TOKEN = "preference_key_token";
     }
+
+    public static class Bundle {
+        public static final String USERNAME = "bundle_username";
+    }
 }

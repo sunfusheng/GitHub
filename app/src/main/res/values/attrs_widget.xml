@@ -1,12 +1,5 @@
 <resources>
 
-    <declare-styleable name="CircleLoadingView">
-        <attr name="circleRadius" format="dimension"/>
-        <attr name="circleSpacing" format="dimension"/>
-        <attr name="cycle" format="integer"/>
-    </declare-styleable>
-
-
     <declare-styleable name="LoadingView">
         <attr name="viewColor"/>
         <attr name="viewSize"/>
@@ -18,6 +11,13 @@
         <attr name="title"/>
         <attr name="detail"/>
         <attr name="button"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="MultiStateLayout">
+        <attr name="loadingLayout"/>
+        <attr name="errorLayout"/>
+        <attr name="emptyLayout"/>
     </declare-styleable>
 
 

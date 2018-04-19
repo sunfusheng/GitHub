@@ -26,7 +26,7 @@ public class UserRemoteDataSource extends RemoteDataSource implements IUserDataS
         return Api.getAuthService().fetchUser(username)
                 .compose(applyRemoteTransformer())
                 .doOnNext(it -> {
-                    if (isSuccess(it)) {
+                    if (isLoadingSuccess(it)) {
                         UserDatabase.instance().getUserDao().insert(it.data);
                     }
                 });

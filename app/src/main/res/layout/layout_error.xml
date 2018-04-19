@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/error_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="加载失败"
+        android:textColor="@color/config_color_gray_5"
+        android:textSize="@dimen/text_size_normal"/>
+
+    <com.sunfusheng.github.widget.radiuswidget.RadiusTextView
+        android:id="@+id/error_button"
+        style="@style/RadiusButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_view_height"
+        android:layout_marginLeft="@dimen/titlebar_view_height"
+        android:layout_marginRight="@dimen/titlebar_view_height"
+        android:layout_marginTop="@dimen/titlebar_view_height"
+        android:text="重试"
+        android:textColor="@color/color_blue_selector"
+        android:textSize="@dimen/text_size_large"
+        app:borderColor="@color/color_blue_selector"/>
+</LinearLayout>

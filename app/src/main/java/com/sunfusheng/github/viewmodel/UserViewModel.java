@@ -2,7 +2,9 @@ package com.sunfusheng.github.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.os.SystemClock;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,11 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class UserViewModel extends ViewModel {
 
+    private final MutableLiveData<Params> params = new MutableLiveData();
+
+    public final LiveData<ResponseResult<User>> liveData =
+            Transformations.switchMap(params, input -> getUser(input.username, input.fetchMode));
+
     @NonNull
     @MainThread
     public static UserViewModel of(@NonNull FragmentActivity activity) {
@@ -38,7 +45,21 @@ public class UserViewModel extends ViewModel {
         return VM.of(fragment, UserViewModel.class);
     }
 
-    public LiveData<ResponseResult<User>> getUser(String username, @FetchMode int fetchMode) {
+    public void setParams(String username, @FetchMode int fetchMode) {
+        params.setValue(new Params(username, fetchMode));
+    }
+
+    public static class Params {
+        public String username;
+        public int fetchMode;
+
+        public Params(String username, int fetchMode) {
+            this.username = username;
+            this.fetchMode = fetchMode;
+        }
+    }
+
+    private LiveData<ResponseResult<User>> getUser(String username, @FetchMode int fetchMode) {
         if (fetchMode == FetchMode.LOCAL || !NetworkUtil.isConnected()) {
             return ObservableLiveData.fromObservable(UserLocalDataSource.instance().getUser(username));
         } else if (fetchMode == FetchMode.REMOTE) {
@@ -51,6 +72,10 @@ public class UserViewModel extends ViewModel {
 
             Observable.concat(UserLocalDataSource.instance().getUser(username), UserRemoteDataSource.instance().getUser(username))
                     .subscribeOn(Schedulers.io())
+                    .map(it -> {
+                        SystemClock.sleep(3000);
+                        return it;
+                    })
                     .switchIfEmpty(Observable.just(ResponseResult.empty()))
                     .onErrorResumeNext(throwable -> {
                         return Observable.just(ResponseResult.error(throwable));

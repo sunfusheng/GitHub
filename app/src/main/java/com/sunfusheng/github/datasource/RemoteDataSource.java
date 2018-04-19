@@ -12,8 +12,12 @@ import retrofit2.Response;
  */
 public class RemoteDataSource {
 
-    public <T> boolean isSuccess(ResponseResult<T> result) {
+    public static <T> boolean isLoadingSuccess(ResponseResult<T> result) {
         return result != null && result.loadingState == LoadingState.SUCCESS;
+    }
+
+    public static <T> boolean isLoadingError(ResponseResult<T> result) {
+        return result != null && result.loadingState == LoadingState.ERROR;
     }
 
     public <T> ObservableTransformer<Response<T>, ResponseResult<T>> applyRemoteTransformer() {
