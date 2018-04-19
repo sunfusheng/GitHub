@@ -42,6 +42,10 @@ public class LoadingStateDelegate {
         views[0] = loadingView;
     }
 
+    public void setNormalView(View successView) {
+        views[1] = successView;
+    }
+
     public void setErrorView(View errorView) {
         views[2] = errorView;
     }

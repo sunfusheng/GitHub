@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.LoadingState;
 
+import io.reactivex.functions.Action;
+
 /**
  * @author sunfusheng on 2018/4/19.
  */
@@ -58,8 +60,32 @@ public class MultiStateLayout extends FrameLayout {
         delegate.setLoadingState(state);
     }
 
+    public void setLoadingState(@LoadingState int state, Action onSuccess, Action onError) {
+        setLoadingState(state);
+        try {
+            switch (state) {
+                case LoadingState.SUCCESS:
+                    if (onSuccess != null) {
+                        onSuccess.run();
+                    }
+                    break;
+                case LoadingState.ERROR:
+                    if (onError != null) {
+                        onError.run();
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setLoadingView(View loadingView) {
         delegate.setLoadingView(loadingView);
+    }
+
+    public void setNormalView(View successView) {
+        delegate.setNormalView(successView);
     }
 
     public void setErrorView(View errorView) {
