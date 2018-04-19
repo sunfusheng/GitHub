@@ -55,11 +55,16 @@ public class UserFragment extends BaseFragment {
 
     private void initView(View view) {
         multiStateLayout = view.findViewById(R.id.multiStateLayout);
+
         multiStateLayout.setErrorButtonListener(v -> {
             UserViewModel.of(this).setParams(username, FetchMode.DEFAULT);
         });
 
-        UserViewModel.of(this).setParams(username+"s", FetchMode.DEFAULT);
+        multiStateLayout.setEmptyViewListener(v -> {
+            UserViewModel.of(this).setParams(username+"s", FetchMode.REMOTE);
+        });
+
+        UserViewModel.of(this).setParams(username+"s", FetchMode.LOCAL);
 
         UserViewModel.of(this).liveData.observe(this, it -> {
             multiStateLayout.setLoadingState(it.loadingState);

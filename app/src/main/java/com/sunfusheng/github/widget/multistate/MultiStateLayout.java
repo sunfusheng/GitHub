@@ -27,7 +27,7 @@ public class MultiStateLayout extends FrameLayout {
 
     @LoadingState
     private int state;
-    private MultiStateDelegate delegate;
+    private LoadingStateDelegate delegate;
 
     public MultiStateLayout(@NonNull Context context) {
         this(context, null);
@@ -49,13 +49,25 @@ public class MultiStateLayout extends FrameLayout {
         addView(loadingView);
         addView(errorView);
         addView(emptyView);
-        delegate = new MultiStateDelegate(loadingView, errorView, emptyView);
+        delegate = new LoadingStateDelegate(loadingView, errorView, emptyView);
         setLoadingState(LoadingState.SUCCESS);
     }
 
     public void setLoadingState(@LoadingState int state) {
         this.state = state;
         delegate.setLoadingState(state);
+    }
+
+    public void setLoadingView(View loadingView) {
+        delegate.setLoadingView(loadingView);
+    }
+
+    public void setErrorView(View errorView) {
+        delegate.setErrorView(errorView);
+    }
+
+    public void setEmptyView(View emptyView) {
+        delegate.setEmptyView(emptyView);
     }
 
     public void setErrorTip(String tip) {
@@ -68,11 +80,19 @@ public class MultiStateLayout extends FrameLayout {
         }
     }
 
+    public void setErrorViewListener(OnClickListener listener) {
+        errorView.setOnClickListener(listener);
+    }
+
     public void setErrorButtonListener(OnClickListener listener) {
         View view = errorView.findViewById(R.id.error_button);
         if (view != null) {
             view.setOnClickListener(listener);
         }
+    }
+
+    public void setEmptyViewListener(OnClickListener listener) {
+        emptyView.setOnClickListener(listener);
     }
 
     @Override

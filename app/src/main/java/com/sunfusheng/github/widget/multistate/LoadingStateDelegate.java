@@ -7,15 +7,15 @@ import com.sunfusheng.github.annotation.LoadingState;
 /**
  * @author by sunfusheng on 2018/4/19.
  */
-public class MultiStateDelegate {
+public class LoadingStateDelegate {
 
     private View views[] = new View[4];
 
-    public MultiStateDelegate(View loadingView, View errorView, View emptyView) {
+    public LoadingStateDelegate(View loadingView, View errorView, View emptyView) {
         this(loadingView, null, errorView, emptyView);
     }
 
-    public MultiStateDelegate(View loadingView, View successView, View errorView, View emptyView) {
+    public LoadingStateDelegate(View loadingView, View successView, View errorView, View emptyView) {
         views[0] = loadingView;
         views[1] = successView;
         views[2] = errorView;
@@ -36,5 +36,17 @@ public class MultiStateDelegate {
         if (views[state] != null) {
             views[state].setVisibility(View.VISIBLE);
         }
+    }
+
+    public void setLoadingView(View loadingView) {
+        views[0] = loadingView;
+    }
+
+    public void setErrorView(View errorView) {
+        views[2] = errorView;
+    }
+
+    public void setEmptyView(View emptyView) {
+        views[3] = emptyView;
     }
 }
