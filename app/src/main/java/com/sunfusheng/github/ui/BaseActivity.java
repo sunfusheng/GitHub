@@ -1,9 +1,11 @@
-package com.sunfusheng.github.view;
+package com.sunfusheng.github.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.MenuItem;
 
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.widget.dialog.ProgressDialogHelper;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -17,16 +19,19 @@ public class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initStatusBar();
+    }
+
+    protected void initStatusBar() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     protected void showProgressDialog() {

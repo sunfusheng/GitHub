@@ -1,4 +1,4 @@
-package com.sunfusheng.github.view;
+package com.sunfusheng.github.ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,7 +36,6 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        StatusBarUtil.fullScreen(getWindow());
         initView();
         initSvgView();
     }
@@ -67,6 +66,11 @@ public class LoginActivity extends BaseActivity {
             svgView.rebuildGlyphData();
             svgView.start();
         }, 200);
+    }
+
+    @Override
+    protected void initStatusBar() {
+        StatusBarUtil.fullScreen(getWindow());
     }
 
     private void login() {

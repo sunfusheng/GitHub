@@ -91,7 +91,9 @@ dependencies {
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
 
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
     implementation 'com.orhanobut:logger:2.2.0'
+    implementation 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.6'
     implementation 'com.sunfusheng:glideimageview:1.2.0'
     implementation 'com.sunfusheng:FirUpdater:1.0.8'
 }

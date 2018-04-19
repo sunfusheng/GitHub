@@ -1,6 +1,5 @@
-package com.sunfusheng.github.view;
+package com.sunfusheng.github.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,8 +38,7 @@ public class UserFragment extends BaseFragment {
     private void initView() {
         String username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
 
-        ViewModelProviders.of(this).get(UserViewModel.class)
-                .getUser(username, FetchMode.LOCAL)
+        UserViewModel.of(this).getUser(username, FetchMode.DEFAULT)
                 .observe(this, it -> {
                     switch (it.loadingState) {
                         case LoadingState.LOADING:

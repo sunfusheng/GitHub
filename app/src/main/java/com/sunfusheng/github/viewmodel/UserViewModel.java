@@ -3,6 +3,10 @@ package com.sunfusheng.github.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.UserLocalDataSource;
@@ -21,6 +25,18 @@ import io.reactivex.schedulers.Schedulers;
  * @author sunfusheng on 2018/4/12.
  */
 public class UserViewModel extends ViewModel {
+
+    @NonNull
+    @MainThread
+    public static UserViewModel of(@NonNull FragmentActivity activity) {
+        return VM.of(activity, UserViewModel.class);
+    }
+
+    @NonNull
+    @MainThread
+    public static UserViewModel of(@NonNull Fragment fragment) {
+        return VM.of(fragment, UserViewModel.class);
+    }
 
     public LiveData<ResponseResult<User>> getUser(String username, @FetchMode int fetchMode) {
         if (fetchMode == FetchMode.LOCAL || !NetworkUtil.isConnected()) {

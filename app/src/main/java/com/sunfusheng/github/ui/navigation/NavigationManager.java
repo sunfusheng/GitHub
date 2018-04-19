@@ -1,11 +1,11 @@
-package com.sunfusheng.github;
+package com.sunfusheng.github.ui.navigation;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.sunfusheng.github.util.AppUtil;
-import com.sunfusheng.github.view.LoginActivity;
-import com.sunfusheng.github.view.MainActivity;
+import com.sunfusheng.github.ui.LoginActivity;
+import com.sunfusheng.github.ui.MainActivity;
 
 /**
  * @author sunfusheng on 2018/4/12.
