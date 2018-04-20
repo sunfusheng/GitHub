@@ -35,7 +35,7 @@ public class HomeFragment extends BaseFragment {
         initView();
 
         ContributionsView webView = view.findViewById(R.id.contributions);
-        webView.loadUrl("https://github.com/users/sfsheng0322/contributions");
+        webView.loadContributions("sfsheng0322");
 
     }
 

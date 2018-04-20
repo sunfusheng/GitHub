@@ -16,6 +16,14 @@
 
         <include
             layout="@layout/item_user_profile"/>
+
+        <include
+            layout="@layout/divider_20dp"/>
+
+        <com.sunfusheng.github.widget.ContributionsView
+            android:id="@+id/contributions"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"/>
     </LinearLayout>
 
 </RelativeLayout>

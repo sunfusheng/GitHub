@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.os.SystemClock;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.UserLocalDataSource;
@@ -55,10 +54,6 @@ public class UserViewModel extends ViewModel {
 
             Observable.concat(UserLocalDataSource.instance().getUser(username), UserRemoteDataSource.instance().getUser(username))
                     .subscribeOn(Schedulers.io())
-                    .map(it -> {
-                        SystemClock.sleep(3000);
-                        return it;
-                    })
                     .switchIfEmpty(Observable.just(ResponseResult.empty()))
                     .onErrorResumeNext(throwable -> {
                         return Observable.just(ResponseResult.error(throwable));

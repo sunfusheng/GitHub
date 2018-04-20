@@ -17,6 +17,7 @@ import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
+import com.sunfusheng.github.widget.ContributionsView;
 import com.sunfusheng.github.widget.multistate.MultiStateView;
 import com.sunfusheng.glideimageview.GlideImageView;
 
@@ -90,6 +91,9 @@ public class UserFragment extends BaseFragment {
         multiStateView.setErrorButtonListener(v -> {
             userViewModel.setRequestParams(username, FetchMode.DEFAULT);
         });
+
+        ContributionsView webView = view.findViewById(R.id.contributions);
+        webView.loadContributions(username);
     }
 
     private void observeDataSource() {
