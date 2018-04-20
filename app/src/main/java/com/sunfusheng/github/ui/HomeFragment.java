@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.widget.ContributionsView;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -32,6 +33,9 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
+
+        ContributionsView webView = view.findViewById(R.id.contributions);
+        webView.loadUrl("https://github.com/users/sfsheng0322/contributions");
 
     }
 
