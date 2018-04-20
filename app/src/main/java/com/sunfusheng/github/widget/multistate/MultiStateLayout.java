@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.LoadingState;
-
-import io.reactivex.functions.Action;
 
 /**
  * @author sunfusheng on 2018/4/19.
@@ -60,23 +57,19 @@ public class MultiStateLayout extends FrameLayout {
         delegate.setLoadingState(state);
     }
 
-    public void setLoadingState(@LoadingState int state, Action onSuccess, Action onError) {
+    public void setLoadingState(@LoadingState int state, Runnable onSuccess, Runnable onError) {
         setLoadingState(state);
-        try {
-            switch (state) {
-                case LoadingState.SUCCESS:
-                    if (onSuccess != null) {
-                        onSuccess.run();
-                    }
-                    break;
-                case LoadingState.ERROR:
-                    if (onError != null) {
-                        onError.run();
-                    }
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        switch (state) {
+            case LoadingState.SUCCESS:
+                if (onSuccess != null) {
+                    onSuccess.run();
+                }
+                break;
+            case LoadingState.ERROR:
+                if (onError != null) {
+                    onError.run();
+                }
+                break;
         }
     }
 
@@ -85,7 +78,7 @@ public class MultiStateLayout extends FrameLayout {
     }
 
     public void setNormalView(View successView) {
-        delegate.setNormalView(successView);
+        delegate.setSuccessView(successView);
     }
 
     public void setErrorView(View errorView) {
@@ -96,11 +89,22 @@ public class MultiStateLayout extends FrameLayout {
         delegate.setEmptyView(emptyView);
     }
 
-    public void setErrorTip(String tip) {
-        if (TextUtils.isEmpty(tip)) {
-            return;
+    public void setLoadingTip(String tip) {
+        TextView textView = loadingView.findViewById(R.id.loading_tip);
+        if (textView != null) {
+            textView.setText(tip);
         }
+    }
+
+    public void setErrorTip(String tip) {
         TextView textView = errorView.findViewById(R.id.error_tip);
+        if (textView != null) {
+            textView.setText(tip);
+        }
+    }
+
+    public void setEmptyTip(String tip) {
+        TextView textView = emptyView.findViewById(R.id.empty_tip);
         if (textView != null) {
             textView.setText(tip);
         }
