@@ -34,16 +34,16 @@
                 android:layout_height="wrap_content"
                 android:text="用户名"
                 android:textColor="@color/font1"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/text_size_medium"/>
 
             <TextView
                 android:id="@+id/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:text="个人信息"
                 android:textColor="@color/font2"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
 
         <ImageView
@@ -79,13 +79,13 @@
                 android:layout_height="wrap_content"
                 android:text="仓库"
                 android:textColor="@color/font1"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/text_size_normal"/>
 
             <TextView
                 android:id="@+id/repo_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:text="0"
                 android:textColor="@color/font2"
                 android:textSize="14sp"/>
@@ -108,16 +108,16 @@
                 android:layout_height="wrap_content"
                 android:text="关注"
                 android:textColor="@color/font1"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/text_size_normal"/>
 
             <TextView
                 android:id="@+id/following_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
 
         <LinearLayout
@@ -137,16 +137,16 @@
                 android:layout_height="wrap_content"
                 android:text="粉丝"
                 android:textColor="@color/font1"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/text_size_normal"/>
 
             <TextView
                 android:id="@+id/followers_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

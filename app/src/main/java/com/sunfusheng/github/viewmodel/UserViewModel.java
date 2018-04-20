@@ -5,10 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.os.SystemClock;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.UserLocalDataSource;
@@ -31,18 +27,6 @@ public class UserViewModel extends ViewModel {
 
     public final LiveData<ResponseResult<User>> liveData =
             Transformations.switchMap(params, input -> getUser(input.username, input.fetchMode));
-
-    @NonNull
-    @MainThread
-    public static UserViewModel of(@NonNull FragmentActivity activity) {
-        return VM.of(activity, UserViewModel.class);
-    }
-
-    @NonNull
-    @MainThread
-    public static UserViewModel of(@NonNull Fragment fragment) {
-        return VM.of(fragment, UserViewModel.class);
-    }
 
     public void setParams(String username, @FetchMode int fetchMode) {
         params.setValue(new Params(username, fetchMode));

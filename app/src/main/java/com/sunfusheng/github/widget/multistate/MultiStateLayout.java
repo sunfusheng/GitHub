@@ -40,9 +40,9 @@ public class MultiStateLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.MultiStateLayout, defStyleAttr, 0);
-        loadingView = inflater.inflate(array.getResourceId(R.styleable.MultiStateLayout_loadingLayout, R.layout.layout_loading), this, false);
-        errorView = inflater.inflate(array.getResourceId(R.styleable.MultiStateLayout_errorLayout, R.layout.layout_error), this, false);
-        emptyView = inflater.inflate(array.getResourceId(R.styleable.MultiStateLayout_emptyLayout, R.layout.layout_empty), this, false);
+        loadingView = inflater.inflate(array.getResourceId(R.styleable.MultiStateLayout_loadingLayout, R.layout.layout_loading_default), this, false);
+        errorView = inflater.inflate(array.getResourceId(R.styleable.MultiStateLayout_errorLayout, R.layout.layout_error_default), this, false);
+        emptyView = inflater.inflate(array.getResourceId(R.styleable.MultiStateLayout_emptyLayout, R.layout.layout_empty_default), this, false);
         array.recycle();
 
         addView(loadingView);

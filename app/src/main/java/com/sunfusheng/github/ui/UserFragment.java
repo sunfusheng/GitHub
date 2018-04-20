@@ -16,6 +16,7 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.viewmodel.UserViewModel;
+import com.sunfusheng.github.viewmodel.VM;
 import com.sunfusheng.github.widget.multistate.MultiStateLayout;
 import com.sunfusheng.glideimageview.GlideImageView;
 
@@ -76,17 +77,20 @@ public class UserFragment extends BaseFragment {
         multiStateLayout = view.findViewById(R.id.multiStateLayout);
 
         multiStateLayout.setNormalView(vProfile);
+
+        UserViewModel viewModel = VM.of(this, UserViewModel.class);
+
         multiStateLayout.setErrorButtonListener(v -> {
-            UserViewModel.of(this).setParams(username, FetchMode.DEFAULT);
+            viewModel.setParams(username, FetchMode.DEFAULT);
         });
 
         multiStateLayout.setEmptyViewListener(v -> {
-            UserViewModel.of(this).setParams(username + "s", FetchMode.REMOTE);
+            viewModel.setParams(username + "s", FetchMode.REMOTE);
         });
 
-        UserViewModel.of(this).setParams(username + "s", FetchMode.LOCAL);
+        viewModel.setParams(username + "s", FetchMode.LOCAL);
 
-        UserViewModel.of(this).liveData.observe(this, it -> {
+        viewModel.liveData.observe(this, it -> {
             multiStateLayout.setLoadingState(it.loadingState, () -> {
                 initUserProfile(it.data);
             }, () -> {
@@ -97,7 +101,7 @@ public class UserFragment extends BaseFragment {
 
     private void initUserProfile(User user) {
         vAvatar.loadImage(user.getAvatar_url(), R.color.white);
-        vName.setText(user.getName());
+        vName.setText(user.getName() + "（" + user.getLogin() + "）");
         vInfo.setText(user.getBio());
         vRepoCount.setText(String.valueOf(user.getPublic_repos()));
         vFollowingCount.setText(String.valueOf(user.getFollowing()));

@@ -26,8 +26,8 @@
         android:id="@+id/multiStateLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:emptyLayout="@layout/layout_empty"
-        app:errorLayout="@layout/layout_error"
-        app:loadingLayout="@layout/layout_loading"/>
+        app:emptyLayout="@layout/layout_empty_default"
+        app:errorLayout="@layout/layout_error_default"
+        app:loadingLayout="@layout/layout_loading_default"/>
 
 </RelativeLayout>
