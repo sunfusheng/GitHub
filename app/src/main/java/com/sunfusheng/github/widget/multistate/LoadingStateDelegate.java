@@ -11,15 +11,11 @@ public class LoadingStateDelegate {
 
     private View views[] = new View[4];
 
-    public LoadingStateDelegate(View loadingView, View errorView, View emptyView) {
-        this(loadingView, null, errorView, emptyView);
-    }
-
     public LoadingStateDelegate(View loadingView, View successView, View errorView, View emptyView) {
-        views[0] = loadingView;
-        views[1] = successView;
-        views[2] = errorView;
-        views[3] = emptyView;
+        views[LoadingState.LOADING] = loadingView;
+        views[LoadingState.SUCCESS] = successView;
+        views[LoadingState.ERROR] = errorView;
+        views[LoadingState.EMPTY] = emptyView;
     }
 
     public void setLoadingState(@LoadingState int state) {
@@ -39,18 +35,34 @@ public class LoadingStateDelegate {
     }
 
     public void setLoadingView(View loadingView) {
-        views[0] = loadingView;
+        views[LoadingState.LOADING] = loadingView;
     }
 
     public void setSuccessView(View successView) {
-        views[1] = successView;
+        views[LoadingState.SUCCESS] = successView;
     }
 
     public void setErrorView(View errorView) {
-        views[2] = errorView;
+        views[LoadingState.ERROR] = errorView;
     }
 
     public void setEmptyView(View emptyView) {
-        views[3] = emptyView;
+        views[LoadingState.EMPTY] = emptyView;
+    }
+
+    public View getLoadingView() {
+        return views[LoadingState.LOADING];
+    }
+
+    public View getSuccessView() {
+        return views[LoadingState.SUCCESS];
+    }
+
+    public View getErrorView() {
+        return views[LoadingState.ERROR];
+    }
+
+    public View getEmptyView() {
+        return views[LoadingState.EMPTY];
     }
 }

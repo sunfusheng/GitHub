@@ -23,20 +23,20 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class UserViewModel extends ViewModel {
 
-    private final MutableLiveData<Params> params = new MutableLiveData();
+    private final MutableLiveData<RequestParams> params = new MutableLiveData();
 
     public final LiveData<ResponseResult<User>> liveData =
             Transformations.switchMap(params, input -> getUser(input.username, input.fetchMode));
 
-    public void setParams(String username, @FetchMode int fetchMode) {
-        params.setValue(new Params(username, fetchMode));
+    public void setRequestParams(String username, @FetchMode int fetchMode) {
+        params.setValue(new RequestParams(username, fetchMode));
     }
 
-    public static class Params {
+    public static class RequestParams {
         public String username;
         public int fetchMode;
 
-        public Params(String username, int fetchMode) {
+        public RequestParams(String username, int fetchMode) {
             this.username = username;
             this.fetchMode = fetchMode;
         }

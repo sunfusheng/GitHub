@@ -6,26 +6,12 @@
     </declare-styleable>
 
 
-    <declare-styleable name="EmptyView">
-        <attr name="showLoading"/>
-        <attr name="title"/>
-        <attr name="detail"/>
-        <attr name="button"/>
-    </declare-styleable>
-
-
-    <declare-styleable name="MultiStateLayout">
+    <declare-styleable name="MultiStateView">
         <attr name="loadingLayout"/>
+        <attr name="normalLayout"/>
         <attr name="errorLayout"/>
         <attr name="emptyLayout"/>
-    </declare-styleable>
-
-
-    <declare-styleable name="RefreshableLayout">
-        <attr name="isHeightMatchParent" format="boolean"/>
-        <attr name="isWidthMatchParent" format="boolean"/>
-        <attr name="autoRefresh" format="boolean"/>
-        <attr name="autoLoadMore" format="boolean"/>
+        <attr name="loadingState"/>
     </declare-styleable>
 
 
@@ -57,13 +43,13 @@
 
 
     <declare-styleable name="AlphaTabView">
-        <attr name="tabIconNormal" format="reference" />
-        <attr name="tabIconSelected" format="reference" />
-        <attr name="tabText" format="string" />
-        <attr name="tabTextSize" format="dimension" />
-        <attr name="textColorNormal" format="color" />
-        <attr name="textColorSelected" format="color" />
-        <attr name="badgeBackgroundColor" format="color" />
+        <attr name="tabIconNormal" format="reference"/>
+        <attr name="tabIconSelected" format="reference"/>
+        <attr name="tabText" format="string"/>
+        <attr name="tabTextSize" format="dimension"/>
+        <attr name="textColorNormal" format="color"/>
+        <attr name="textColorSelected" format="color"/>
+        <attr name="badgeBackgroundColor" format="color"/>
         <attr name="drawablePadding" format="dimension"/>
     </declare-styleable>
 

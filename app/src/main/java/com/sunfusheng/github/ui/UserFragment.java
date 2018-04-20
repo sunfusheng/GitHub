@@ -17,7 +17,7 @@ import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
-import com.sunfusheng.github.widget.multistate.MultiStateLayout;
+import com.sunfusheng.github.widget.multistate.MultiStateView;
 import com.sunfusheng.glideimageview.GlideImageView;
 
 /**
@@ -25,7 +25,7 @@ import com.sunfusheng.glideimageview.GlideImageView;
  */
 public class UserFragment extends BaseFragment {
 
-    private MultiStateLayout multiStateLayout;
+    private MultiStateView multiStateView;
     private LinearLayout vProfile;
     private GlideImageView vAvatar;
     private TextView vName;
@@ -38,32 +38,43 @@ public class UserFragment extends BaseFragment {
     private TextView vFollowersCount;
 
     private String username;
+    private UserViewModel userViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            arguments.getString(Constants.Bundle.USERNAME);
-        }
-        if (TextUtils.isEmpty(username)) {
-            username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
-        }
+        initData();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        return inflater.inflate(R.layout.layout_multi_state, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView(view);
+        initView();
+        observeDataSource();
     }
 
-    private void initView(View view) {
+    private void initData() {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            arguments.getString(Constants.Bundle.USERNAME);
+        }
+
+        if (TextUtils.isEmpty(username)) {
+            username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
+        }
+
+        userViewModel = VM.of(this, UserViewModel.class);
+    }
+
+    private void initView() {
+        multiStateView = (MultiStateView) getView();
+        View view = multiStateView.setContentView(R.layout.fragment_user);
         vProfile = view.findViewById(R.id.profile);
         vAvatar = view.findViewById(R.id.avatar);
         vName = view.findViewById(R.id.name);
@@ -74,27 +85,19 @@ public class UserFragment extends BaseFragment {
         vFollowingCount = view.findViewById(R.id.following_count);
         vFollowers = view.findViewById(R.id.followers);
         vFollowersCount = view.findViewById(R.id.followers_count);
-        multiStateLayout = view.findViewById(R.id.multiStateLayout);
 
-        multiStateLayout.setNormalView(vProfile);
-
-        UserViewModel viewModel = VM.of(this, UserViewModel.class);
-
-        multiStateLayout.setErrorButtonListener(v -> {
-            viewModel.setParams(username, FetchMode.DEFAULT);
+        userViewModel.setRequestParams(username, FetchMode.DEFAULT);
+        multiStateView.setErrorButtonListener(v -> {
+            userViewModel.setRequestParams(username, FetchMode.DEFAULT);
         });
+    }
 
-        multiStateLayout.setEmptyViewListener(v -> {
-            viewModel.setParams(username + "s", FetchMode.REMOTE);
-        });
-
-        viewModel.setParams(username + "s", FetchMode.LOCAL);
-
-        viewModel.liveData.observe(this, it -> {
-            multiStateLayout.setLoadingState(it.loadingState, () -> {
+    private void observeDataSource() {
+        userViewModel.liveData.observe(this, it -> {
+            multiStateView.setLoadingState(it.loadingState, () -> {
                 initUserProfile(it.data);
             }, () -> {
-                multiStateLayout.setErrorTip(it.errorString());
+                multiStateView.setErrorTip(it.errorString());
             });
         });
     }

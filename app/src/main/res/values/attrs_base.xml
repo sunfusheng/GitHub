@@ -14,6 +14,7 @@
     <attr name="viewSize" format="dimension"/>
 
     <attr name="loadingLayout" format="integer"/>
+    <attr name="normalLayout" format="integer"/>
     <attr name="errorLayout" format="integer"/>
     <attr name="emptyLayout" format="integer"/>
 
@@ -24,7 +25,7 @@
 
     <attr name="loadingState" format="enum">
         <enum name="loading" value="0"/>
-        <enum name="success" value="1"/>
+        <enum name="normal" value="1"/>
         <enum name="error" value="2"/>
         <enum name="empty" value="3"/>
     </attr>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_common">
@@ -11,9 +9,7 @@
         android:id="@+id/profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:orientation="vertical">
 
         <include
             layout="@layout/divider_20dp"/>
@@ -21,13 +17,5 @@
         <include
             layout="@layout/item_user_profile"/>
     </LinearLayout>
-
-    <com.sunfusheng.github.widget.multistate.MultiStateLayout
-        android:id="@+id/multiStateLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:emptyLayout="@layout/layout_empty_default"
-        app:errorLayout="@layout/layout_error_default"
-        app:loadingLayout="@layout/layout_loading_default"/>
 
 </RelativeLayout>
