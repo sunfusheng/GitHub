@@ -47,7 +47,6 @@ public class HomeFragment extends BaseFragment {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private GlideImageView avatarBg;
     private GlideImageView avatar;
-    private TextView vName;
     private TextView vInfo;
     private TextView vTitle;
     private TextView vSubtitle;
@@ -82,7 +81,6 @@ public class HomeFragment extends BaseFragment {
         avatar = view.findViewById(R.id.avatar);
         collapsingToolbarLayout = view.findViewById(R.id.collapsingToolbarLayout);
         toolbar = view.findViewById(R.id.toolbar);
-        vName = view.findViewById(R.id.name);
         vInfo = view.findViewById(R.id.info);
         vTitle = view.findViewById(R.id.title);
         vSubtitle = view.findViewById(R.id.subtitle);
@@ -99,14 +97,14 @@ public class HomeFragment extends BaseFragment {
             if (it.loadingState == LoadingState.SUCCESS) {
                 User user = it.data;
 
-                avatarBg.loadImage(user.getAvatar_url(), R.color.background_common);
                 avatar.loadImage(user.getAvatar_url(), R.color.background_common);
-                vTitle.setText(user.getName());
+                vTitle.setText(user.getName() + "（" + user.getLogin() + "）");
                 vSubtitle.setText("创建于" + DateUtil.convertString2String(user.getCreated_at()));
-                vName.setText(user.getLogin());
                 vInfo.setText("签名: " + user.getBio() + "\n" +
                         "公司: " + user.getCompany() + "\n" +
-                        "位置: " + user.getLocation());
+                        "位置: " + user.getLocation() + "\n" +
+                        "博客: " + user.getBlog() + "\n" +
+                        "地址: " + user.getHtml_url());
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.addItemDecoration(new StickyHeaderDecoration());
