@@ -15,7 +15,9 @@ public class NavigationManager {
     private static Context context = AppUtil.getContext();
 
     public static void toLoginActivity() {
-        context.startActivity(new Intent(context, LoginActivity.class));
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     public static void toMainActivity() {

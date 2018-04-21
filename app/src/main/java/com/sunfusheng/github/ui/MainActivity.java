@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.ui.navigation.NavigationManager;
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.ui.navigation.NavigationManager;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.widget.bottombar.AlphaTabLayout;
 import com.sunfusheng.github.widget.bottombar.AlphaTabView;
 import com.sunfusheng.github.widget.bottombar.FragmentPagerItem;
 import com.sunfusheng.github.widget.bottombar.FragmentPagerItemAdapter;
-import com.sunfusheng.github.widget.titlebar.CustomTitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +34,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void initTitleBar() {
-        CustomTitleBar titleBar = findViewById(R.id.titleBar);
-        titleBar.setTitle(R.string.app_name);
+//        CustomTitleBar titleBar = findViewById(R.id.titleBar);
+//        titleBar.setTitle(R.string.app_name);
     }
 
     private void initView() {

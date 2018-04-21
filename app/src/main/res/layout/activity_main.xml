@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.sunfusheng.github.widget.titlebar.CustomTitleBar
-        android:id="@+id/titleBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <!--<com.sunfusheng.github.widget.titlebar.CustomTitleBar-->
+        <!--android:id="@+id/titleBar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

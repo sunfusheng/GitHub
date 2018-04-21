@@ -37,6 +37,7 @@ public class UserFragment extends BaseFragment {
     private TextView vFollowingCount;
     private LinearLayout vFollowers;
     private TextView vFollowersCount;
+    private ContributionsView vContributions;
 
     private String username;
     private UserViewModel userViewModel;
@@ -92,8 +93,8 @@ public class UserFragment extends BaseFragment {
             userViewModel.setRequestParams(username, FetchMode.DEFAULT);
         });
 
-        ContributionsView webView = view.findViewById(R.id.contributions);
-        webView.loadContributions(username);
+        vContributions = view.findViewById(R.id.contributions);
+        vContributions.loadContributions(username);
     }
 
     private void observeDataSource() {
@@ -113,5 +114,11 @@ public class UserFragment extends BaseFragment {
         vRepoCount.setText(String.valueOf(user.getPublic_repos()));
         vFollowingCount.setText(String.valueOf(user.getFollowing()));
         vFollowersCount.setText(String.valueOf(user.getFollowers()));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        vContributions.destroy();
     }
 }

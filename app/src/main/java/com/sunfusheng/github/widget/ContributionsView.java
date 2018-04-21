@@ -83,4 +83,8 @@ public class ContributionsView extends WebView {
     public void scrollTo(int x, int y) {
         super.scrollTo(x, 0);
     }
+
+    public void onDestroy() {
+        destroy();
+    }
 }
