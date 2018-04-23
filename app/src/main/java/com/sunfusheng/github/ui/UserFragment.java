@@ -29,7 +29,6 @@ public class UserFragment extends BaseFragment {
     private MultiStateView multiStateView;
     private LinearLayout vProfile;
     private GlideImageView vAvatar;
-    private TextView vName;
     private TextView vInfo;
     private LinearLayout vRepo;
     private TextView vRepoCount;
@@ -79,7 +78,6 @@ public class UserFragment extends BaseFragment {
         View view = multiStateView.setContentView(R.layout.fragment_user);
         vProfile = view.findViewById(R.id.profile);
         vAvatar = view.findViewById(R.id.avatar);
-        vName = view.findViewById(R.id.name);
         vInfo = view.findViewById(R.id.info);
         vRepo = view.findViewById(R.id.repo);
         vRepoCount = view.findViewById(R.id.repo_count);
@@ -109,7 +107,6 @@ public class UserFragment extends BaseFragment {
 
     private void initUserProfile(User user) {
         vAvatar.loadImage(user.getAvatar_url(), R.color.white);
-        vName.setText(user.getName() + "（" + user.getLogin() + "）");
         vInfo.setText(user.getBio());
         vRepoCount.setText(String.valueOf(user.getPublic_repos()));
         vFollowingCount.setText(String.valueOf(user.getFollowing()));

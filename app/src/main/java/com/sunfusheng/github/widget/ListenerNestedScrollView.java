@@ -9,7 +9,7 @@ import android.util.AttributeSet;
  */
 public class ListenerNestedScrollView extends NestedScrollView {
 
-    private OnScrollChangedListener onScrollChangedListener;
+    private OnScrollChangedInterface onScrollChangedInterface;
 
     public ListenerNestedScrollView(Context context) {
         super(context);
@@ -25,17 +25,17 @@ public class ListenerNestedScrollView extends NestedScrollView {
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        if (onScrollChangedListener != null) {
-            onScrollChangedListener.onScrollChanged(l, t, oldl, oldt);
+        if (onScrollChangedInterface != null) {
+            onScrollChangedInterface.onScrollChanged(l, t, oldl, oldt);
         }
         super.onScrollChanged(l, t, oldl, oldt);
     }
 
-    public void setOnScrollChangedListener(OnScrollChangedListener listener) {
-        this.onScrollChangedListener = listener;
+    public void setOnScrollChangedInterface(OnScrollChangedInterface listener) {
+        this.onScrollChangedInterface = listener;
     }
 
-    public interface OnScrollChangedListener {
+    public interface OnScrollChangedInterface {
         void onScrollChanged(int scrollX, int scrollY, int oldScrollX, int oldScrollY);
     }
 }

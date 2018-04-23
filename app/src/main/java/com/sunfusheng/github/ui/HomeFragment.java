@@ -74,7 +74,6 @@ public class HomeFragment extends BaseFragment {
         }
 
         userViewModel = VM.of(this, UserViewModel.class);
-
         userViewModel.setRequestParams(username, FetchMode.DEFAULT);
 
         avatarBg = view.findViewById(R.id.avatar_bg);

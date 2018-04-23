@@ -52,14 +52,6 @@
                     android:text="个人信息"
                     android:textColor="@color/transparent60_white"
                     android:textSize="@dimen/text_size_x_small"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/item_margin_large"
-                    android:visibility="gone"/>
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar

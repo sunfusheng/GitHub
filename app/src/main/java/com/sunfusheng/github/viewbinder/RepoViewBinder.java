@@ -13,6 +13,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.util.DateUtil;
+import com.sunfusheng.github.util.LanguageColorUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 
 import me.drakeet.multitype.ItemViewBinder;
@@ -39,22 +40,30 @@ public class RepoViewBinder extends ItemViewBinder<Repo, RepoViewBinder.ViewHold
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Repo item) {
         holder.vName.setText(item.getName());
 
-        if (TextUtils.isEmpty(item.getDescription())) {
-            holder.vDesc.setVisibility(View.GONE);
-        } else {
+        if (!TextUtils.isEmpty(item.getDescription())) {
             holder.vDesc.setVisibility(View.VISIBLE);
             holder.vDesc.setText(item.getDescription());
+        } else {
+            holder.vDesc.setVisibility(View.GONE);
         }
 
-        holder.vLanguage.setText(item.getLanguage());
-        if (item.getStargazers_count() <= 0) {
-            holder.vStarCountImg.setVisibility(View.GONE);
-            holder.vStarCount.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(item.getLanguage())) {
+            holder.vLanguage.setVisibility(View.VISIBLE);
+            holder.vLanguage.setText(item.getLanguage());
+            holder.vLanguage.setTextColor(LanguageColorUtil.getColor(item.getLanguage()));
         } else {
+            holder.vLanguage.setVisibility(View.GONE);
+        }
+
+        if (item.getStargazers_count() > 0) {
             holder.vStarCountImg.setVisibility(View.VISIBLE);
             holder.vStarCount.setVisibility(View.VISIBLE);
             holder.vStarCount.setText(String.valueOf(item.getStargazers_count()));
+        } else {
+            holder.vStarCountImg.setVisibility(View.GONE);
+            holder.vStarCount.setVisibility(View.GONE);
         }
+
         holder.vTime.setText(DateUtil.convertString2String(item.getPushed_at()));
     }
 
