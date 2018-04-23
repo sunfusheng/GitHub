@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sunfusheng.github.widget.ListenerNestedScrollView
-    android:id="@+id/nestedScrollView"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <com.sunfusheng.github.widget.ListenerNestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-</com.sunfusheng.github.widget.ListenerNestedScrollView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.sunfusheng.github.widget.ListenerNestedScrollView>
+
+    <include layout="@layout/fragment_user_toolbar"/>
+</FrameLayout>
