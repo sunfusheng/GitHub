@@ -51,7 +51,7 @@ public class UserFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_multi_state, container, false);
+        return inflater.inflate(R.layout.layout_multistate, container, false);
     }
 
     @Override

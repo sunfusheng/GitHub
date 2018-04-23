@@ -20,7 +20,7 @@ public class RemoteDataSource {
         return result != null && result.loadingState == LoadingState.ERROR;
     }
 
-    public <T> ObservableTransformer<Response<T>, ResponseResult<T>> applyRemoteTransformer() {
+    public static  <T> ObservableTransformer<Response<T>, ResponseResult<T>> applyRemoteTransformer() {
         return observable -> observable.subscribeOn(Schedulers.io())
                 .map(it -> {
                     if (it == null) {

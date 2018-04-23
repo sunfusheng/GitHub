@@ -1,8 +1,11 @@
 package com.sunfusheng.github.net;
 
 import com.sunfusheng.github.model.Auth;
-import com.sunfusheng.github.model.params.AuthParams;
+import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.model.params.AuthParams;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
@@ -10,6 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * @author by sunfusheng on 2018/4/8.
@@ -22,7 +26,10 @@ public interface ApiService {
     @POST("authorizations")
     Observable<Auth> createAuth(@Body AuthParams authParams);
 
-    @GET("users/{userName}")
-    Observable<Response<User>> fetchUser(@Path("userName") String userName);
+    @GET("users/{username}")
+    Observable<Response<User>> fetchUser(@Path("username") String username);
+
+    @GET("users/{username}/repos")
+    Observable<Response<List<Repo>>> fetchRepos(@Path("username") String username, @Query("sort") String sort);
 
 }
