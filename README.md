@@ -1,6 +1,6 @@
 # DroidGitHub
 
-Java语言版GitHub客户端
+Java版GitHub客户端
 
 ## api地址
 

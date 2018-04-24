@@ -2,6 +2,7 @@ package com.sunfusheng.github.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.WebView;
 
 import com.sunfusheng.github.Constants;
@@ -38,7 +39,9 @@ public class ContributionsView extends WebView {
 
     public void loadContributions(String username) {
         this.username = username;
-        loadUrl(Constants.FileDir.CONTRIBUTIONS + username + "_contributions.html");
+        String localPath = "file://" + Constants.FileDir.CONTRIBUTIONS + username + "_contributions.html";
+        Log.d("--->", "localPath: " + localPath);
+        loadUrl(localPath);
     }
 
     @Override

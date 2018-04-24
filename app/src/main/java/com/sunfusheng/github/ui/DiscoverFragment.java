@@ -1,6 +1,5 @@
 package com.sunfusheng.github.ui;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.annotation.LoadingState;
+import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.datasource.RemoteDataSource;
 import com.sunfusheng.github.model.Contribution;
 import com.sunfusheng.github.model.Repo;
@@ -23,22 +24,19 @@ import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.net.api.Api;
 import com.sunfusheng.github.net.api.ResponseObserver;
 import com.sunfusheng.github.net.api.ResponseResult;
-import com.sunfusheng.github.net.download.DownloadManager;
-import com.sunfusheng.github.net.download.IDownloadListener;
 import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
-import com.sunfusheng.github.util.PermissionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.viewbinder.ContributionsViewBinder;
 import com.sunfusheng.github.viewbinder.RepoViewBinder;
 import com.sunfusheng.github.viewbinder.UserProfileViewBinder;
+import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
 import com.sunfusheng.glideimageview.GlideImageView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +57,6 @@ public class DiscoverFragment extends BaseFragment {
     private Toolbar toolbar;
 
     private String username;
-    private UserViewModel userViewModel;
 
     @Nullable
     @Override
@@ -106,20 +103,8 @@ public class DiscoverFragment extends BaseFragment {
         adapter.register(Repo.class, new RepoViewBinder());
         adapter.register(Contribution.class, new ContributionsViewBinder());
 
-        userViewModel = VM.of(this, UserViewModel.class);
-        userViewModel.setRequestParams(username, FetchMode.DEFAULT);
-        userViewModel.liveData.observe(this, it -> {
-            if (it.loadingState == LoadingState.SUCCESS && !hasAdded) {
-                User user = it.data;
-                hasAdded = true;
-
-                toolbar.setTitle(user.getName() + "（" + user.getLogin() + "）");
-                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.getCreated_at()));
-                items.add(0, user);
-                adapter.setItems(items);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        observeUser();
+//        observeContributions();
 
         Api.getCommonService().fetchRepos("sfsheng0322", "pushed")
                 .subscribeOn(Schedulers.io())
@@ -135,44 +120,6 @@ public class DiscoverFragment extends BaseFragment {
                         }
                     }
                 });
-
-        PermissionUtil.getInstant().requestPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionUtil.OnPermissionCallback() {
-            @Override
-            public void onGranted() {
-                File dir = new File(Constants.FileDir.CONTRIBUTIONS);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                DownloadManager.instance().download("https://github.com/users/" + username + "/contributions",
-                        Constants.FileDir.CONTRIBUTIONS + username + "_contributions.html",
-                        new IDownloadListener() {
-                            @Override
-                            public void onStart() {
-
-                            }
-
-                            @Override
-                            public void onSuccess(File file) {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onProgress(long bytesTransferred, long totalBytes, int percentage) {
-
-                            }
-                        });
-            }
-
-            @Override
-            public void onDenied() {
-
-            }
-        });
     }
 
     private void initToolbar() {
@@ -193,6 +140,39 @@ public class DiscoverFragment extends BaseFragment {
                 toolbarBg.setAlpha((int) (alpha * 255));
             } else {
                 toolbarBg.setAlpha(255);
+            }
+        });
+    }
+
+    private void observeUser() {
+        UserViewModel userViewModel = VM.of(this, UserViewModel.class);
+        userViewModel.setRequestParams(username, FetchMode.DEFAULT);
+
+        userViewModel.liveData.observe(this, it -> {
+            if (it.loadingState == LoadingState.SUCCESS && !hasAdded) {
+                User user = it.data;
+                hasAdded = true;
+
+                toolbar.setTitle(user.getName() + "（" + user.getLogin() + "）");
+                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.getCreated_at()));
+                items.add(0, user);
+                items.add(new Contribution(username));
+                adapter.setItems(items);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void observeContributions() {
+        ContributionsViewModel viewModel = VM.of(this, ContributionsViewModel.class);
+        viewModel.setRequestParams(username);
+
+        viewModel.liveData.observe(this, it -> {
+            Log.d("---->", it.toString());
+            if (it.progressState == ProgressState.SUCCESS) {
+                items.add(0, new Contribution(it.data));
+                adapter.setItems(items);
+                adapter.notifyDataSetChanged();
             }
         });
     }

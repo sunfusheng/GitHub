@@ -8,6 +8,10 @@ public class Contribution {
     private String title;
     private String username;
 
+    public Contribution(String username) {
+        this.username = username;
+    }
+
     public Contribution(String title, String username) {
         this.title = title;
         this.username = username;

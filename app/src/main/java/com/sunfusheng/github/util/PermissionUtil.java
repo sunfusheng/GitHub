@@ -1,11 +1,9 @@
 package com.sunfusheng.github.util;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,10 +44,6 @@ public class PermissionUtil {
 
         permissionList = new ArrayList<>();
         permissionList.addAll(permissions);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-        permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (!isGranted(context, permissionList)) {
             PermissionActivity.start(context);

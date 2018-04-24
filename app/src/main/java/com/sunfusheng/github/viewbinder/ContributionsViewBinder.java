@@ -27,7 +27,7 @@ public class ContributionsViewBinder extends ItemViewBinder<Contribution, Contri
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Contribution item) {
-
+        holder.vContributions.loadContributions(item.getUsername());
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

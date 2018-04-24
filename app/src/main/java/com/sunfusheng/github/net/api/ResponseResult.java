@@ -62,8 +62,8 @@ public class ResponseResult<T> {
         return new ResponseResult<>(e.code, e.msg, null, LoadingState.ERROR);
     }
 
-    public static <T> ResponseResult<T> error(Throwable throwable) {
-        return error(ExceptionUtil.handleException(throwable));
+    public static <T> ResponseResult<T> error(Throwable e) {
+        return error(ExceptionUtil.handleException(e));
     }
 
     public static <T> ResponseResult<T> error(int errorCode) {
