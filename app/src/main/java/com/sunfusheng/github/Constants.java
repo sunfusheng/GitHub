@@ -1,5 +1,9 @@
 package com.sunfusheng.github;
 
+import android.os.Environment;
+
+import java.io.File;
+
 /**
  * @author sunfusheng on 2018/4/8.
  */
@@ -27,5 +31,13 @@ public class Constants {
 
     public static class Bundle {
         public static final String USERNAME = "bundle_username";
+    }
+
+    public static class FileDir {
+        public static final String ROOT_DIR = Environment.getExternalStorageDirectory() + File.separator + "GitHub" + File.separator;
+        public static final String CACHE = ROOT_DIR + "cache" + File.separator;
+        public static final String IMAGE = ROOT_DIR + "image" + File.separator;
+        public static final String FILE = ROOT_DIR + "file" + File.separator;
+        public static final String CONTRIBUTIONS = ROOT_DIR + "contributions" + File.separator;
     }
 }

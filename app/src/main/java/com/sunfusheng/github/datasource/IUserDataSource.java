@@ -1,7 +1,7 @@
 package com.sunfusheng.github.datasource;
 
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.net.ResponseResult;
+import com.sunfusheng.github.net.api.ResponseResult;
 
 import io.reactivex.Observable;
 

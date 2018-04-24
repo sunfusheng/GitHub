@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net;
+package com.sunfusheng.github.net.api;
 
 import android.util.Log;
 

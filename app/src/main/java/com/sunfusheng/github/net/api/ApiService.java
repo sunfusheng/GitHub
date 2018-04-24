@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net;
+package com.sunfusheng.github.net.api;
 
 import com.sunfusheng.github.model.Auth;
 import com.sunfusheng.github.model.Repo;

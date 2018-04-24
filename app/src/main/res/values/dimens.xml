@@ -17,9 +17,11 @@
     <dimen name="text_size_x_small">12sp</dimen>
     <dimen name="text_size_xx_small">11sp</dimen>
     <dimen name="text_size_xxx_small">10sp</dimen>
+    <dimen name="text_size_xxxx_small">9sp</dimen>
+    <dimen name="text_size_xxxxx_small">8sp</dimen>
 
     <dimen name="tab_text_size">@dimen/text_size_x_small</dimen>
 
-    <dimen name="user_head_height">220dp</dimen>
+    <dimen name="user_profile_height">220dp</dimen>
 
 </resources>

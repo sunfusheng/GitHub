@@ -28,14 +28,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onCreate(savedInstanceState);
         toLoginActivity();
         setContentView(R.layout.activity_main);
-        initTitleBar();
         initView();
         initFragment();
-    }
-
-    private void initTitleBar() {
-//        CustomTitleBar titleBar = findViewById(R.id.titleBar);
-//        titleBar.setTitle(R.string.app_name);
     }
 
     private void initView() {
@@ -48,8 +42,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void initFragment() {
         List<FragmentPagerItem> items = new ArrayList<>();
-        items.add(FragmentPagerItem.create(homeTab.getText(), new HomeFragment()));
         items.add(FragmentPagerItem.create(discoverTab.getText(), new DiscoverFragment()));
+        items.add(FragmentPagerItem.create(homeTab.getText(), new HomeFragment()));
         items.add(FragmentPagerItem.create(mineTab.getText(), new UserFragment()));
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(this, getSupportFragmentManager(), items);

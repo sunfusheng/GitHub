@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net;
+package com.sunfusheng.github.net.api;
 
 import com.sunfusheng.github.annotation.LoadingState;
 import com.sunfusheng.github.util.ExceptionUtil;

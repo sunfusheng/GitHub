@@ -10,7 +10,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.database.UserDatabase;
 import com.sunfusheng.github.model.params.AuthParams;
-import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.net.api.Api;
 import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
