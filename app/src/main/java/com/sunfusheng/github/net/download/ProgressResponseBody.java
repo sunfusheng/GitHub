@@ -2,6 +2,7 @@ package com.sunfusheng.github.net.download;
 
 import java.io.IOException;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import okio.Buffer;
@@ -53,7 +54,9 @@ public class ProgressResponseBody extends ResponseBody {
                 if (downloadListener != null) {
                     int percentage = (int) (totalBytesRead * 100 / contentLength());
                     if (bytesRead != -1) {
-                        downloadListener.onProgress(totalBytesRead, contentLength(), percentage);
+                        AndroidSchedulers.mainThread().createWorker().schedule(() -> {
+                            downloadListener.onProgress(totalBytesRead, contentLength(), percentage);
+                        });
                     }
 
                 }

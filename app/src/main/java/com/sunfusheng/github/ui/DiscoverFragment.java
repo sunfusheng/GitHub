@@ -104,7 +104,7 @@ public class DiscoverFragment extends BaseFragment {
         adapter.register(Contribution.class, new ContributionsViewBinder());
 
         observeUser();
-//        observeContributions();
+        observeContributions();
 
         Api.getCommonService().fetchRepos("sfsheng0322", "pushed")
                 .subscribeOn(Schedulers.io())
@@ -156,7 +156,6 @@ public class DiscoverFragment extends BaseFragment {
                 toolbar.setTitle(user.getName() + "（" + user.getLogin() + "）");
                 toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.getCreated_at()));
                 items.add(0, user);
-                items.add(new Contribution(username));
                 adapter.setItems(items);
                 adapter.notifyDataSetChanged();
             }
@@ -170,7 +169,7 @@ public class DiscoverFragment extends BaseFragment {
         viewModel.liveData.observe(this, it -> {
             Log.d("---->", it.toString());
             if (it.progressState == ProgressState.SUCCESS) {
-                items.add(0, new Contribution(it.data));
+                items.add(new Contribution(it.data));
                 adapter.setItems(items);
                 adapter.notifyDataSetChanged();
             }

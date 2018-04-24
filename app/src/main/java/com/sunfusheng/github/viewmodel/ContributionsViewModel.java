@@ -64,6 +64,7 @@ public class ContributionsViewModel extends ViewModel {
 
                             @Override
                             public void onError(Throwable e) {
+                                e.printStackTrace();
                                 mutableLiveData.setValue(ProgressResult.error(e));
                             }
 

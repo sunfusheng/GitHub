@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -25,7 +26,9 @@ public class ProgressObserver implements Observer<InputStream> {
     public void onSubscribe(Disposable disposable) {
         disposableWeakReference = new WeakReference<>(disposable);
         if (downloadListener != null) {
-            downloadListener.onStart();
+            AndroidSchedulers.mainThread().createWorker().schedule(() -> {
+                downloadListener.onStart();
+            });
         }
     }
 
@@ -37,7 +40,9 @@ public class ProgressObserver implements Observer<InputStream> {
     public void onError(Throwable e) {
         release();
         if (downloadListener != null) {
-            downloadListener.onError(e);
+            AndroidSchedulers.mainThread().createWorker().schedule(() -> {
+                downloadListener.onError(e);
+            });
         }
     }
 
@@ -45,7 +50,9 @@ public class ProgressObserver implements Observer<InputStream> {
     public void onComplete() {
         release();
         if (downloadListener != null) {
-            downloadListener.onSuccess(new File(filePath));
+            AndroidSchedulers.mainThread().createWorker().schedule(() -> {
+                downloadListener.onSuccess(new File(filePath));
+            });
         }
     }
 
