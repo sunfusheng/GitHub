@@ -58,6 +58,9 @@ public class DiscoverFragment extends BaseFragment {
 
     private String username;
 
+    private User user;
+    private Contribution contribution;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,6 +92,12 @@ public class DiscoverFragment extends BaseFragment {
             username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
         }
 
+//        username = "Blankj";
+
+        user = new User();
+        user.setLogin(username);
+        contribution = new Contribution(username);
+
         initToolbar();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -100,13 +109,17 @@ public class DiscoverFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         adapter.register(User.class, new UserProfileViewBinder());
-        adapter.register(Repo.class, new RepoViewBinder());
         adapter.register(Contribution.class, new ContributionsViewBinder());
+        adapter.register(Repo.class, new RepoViewBinder());
+
+//        items.add(user);
+//        items.add(contribution);
+//        adapter.setItems(items);
 
         observeUser();
         observeContributions();
 
-        Api.getCommonService().fetchRepos("sfsheng0322", "pushed")
+        Api.getCommonService().fetchRepos(username, "pushed")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RemoteDataSource.applyRemoteTransformer())
@@ -145,12 +158,12 @@ public class DiscoverFragment extends BaseFragment {
     }
 
     private void observeUser() {
-        UserViewModel userViewModel = VM.of(this, UserViewModel.class);
-        userViewModel.setRequestParams(username, FetchMode.DEFAULT);
+        UserViewModel viewModel = VM.of(this, UserViewModel.class);
+        viewModel.setRequestParams(username, FetchMode.DEFAULT);
 
-        userViewModel.liveData.observe(this, it -> {
+        viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS && !hasAdded) {
-                User user = it.data;
+                user = it.data;
                 hasAdded = true;
 
                 toolbar.setTitle(user.getName() + "（" + user.getLogin() + "）");
