@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.UserLocalDataSource;
@@ -62,6 +63,38 @@ public class UserViewModel extends ViewModel {
                     .subscribe(new ResponseObserver<User>() {
                         @Override
                         public void onNotify(ResponseResult<User> result) {
+                            mutableLiveData.setValue(result);
+                        }
+                    });
+
+            return mutableLiveData;
+        }
+    }
+
+
+    private <T> LiveData<ResponseResult<T>> getUser1(@NonNull Observable<ResponseResult<T>> localObservable,
+                                                     @NonNull Observable<ResponseResult<T>> remoteObservable,
+                                                     @FetchMode int fetchMode) {
+        if (fetchMode == FetchMode.LOCAL || !NetworkUtil.isConnected()) {
+            return ObservableLiveData.fromObservable(localObservable);
+        } else if (fetchMode == FetchMode.REMOTE) {
+            return ObservableLiveData.fromObservable(remoteObservable
+                    .switchIfEmpty(localObservable)
+                    .onErrorResumeNext(localObservable)
+            );
+        } else {
+            MutableLiveData<ResponseResult<T>> mutableLiveData = new MutableLiveData<>();
+
+            Observable.concat(localObservable, remoteObservable)
+                    .subscribeOn(Schedulers.io())
+                    .switchIfEmpty(Observable.just(ResponseResult.empty()))
+                    .onErrorResumeNext(throwable -> {
+                        return Observable.just(ResponseResult.error(throwable));
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new ResponseObserver<T>() {
+                        @Override
+                        public void onNotify(ResponseResult<T> result) {
                             mutableLiveData.setValue(result);
                         }
                     });
