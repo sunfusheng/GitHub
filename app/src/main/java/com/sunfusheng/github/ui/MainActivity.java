@@ -42,9 +42,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private void initFragment() {
         List<FragmentPagerItem> items = new ArrayList<>();
-        items.add(FragmentPagerItem.create(discoverTab.getText(), new DiscoverFragment()));
-        items.add(FragmentPagerItem.create(homeTab.getText(), new HomeFragment()));
         items.add(FragmentPagerItem.create(mineTab.getText(), new UserFragment()));
+        items.add(FragmentPagerItem.create(homeTab.getText(), new HomeFragment()));
+        items.add(FragmentPagerItem.create(discoverTab.getText(), new DiscoverFragment()));
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(this, getSupportFragmentManager(), items);
         viewPager.setAdapter(adapter);

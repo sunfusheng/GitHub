@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity {
 
         Observable.zip(Api.getLoginService().login(), Api.getLoginService().createAuth(AuthParams.getParams()),
                 (user, auth) -> {
-                    if (user == null || TextUtils.isEmpty(user.getLogin()) || auth == null || TextUtils.isEmpty(auth.getToken())) {
+                    if (user == null || TextUtils.isEmpty(user.login) || auth == null || TextUtils.isEmpty(auth.getToken())) {
                         return false;
                     }
                     UserDatabase.instance().getUserDao().insert(user);

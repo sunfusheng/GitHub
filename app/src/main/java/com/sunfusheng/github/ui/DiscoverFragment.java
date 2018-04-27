@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +15,8 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.annotation.LoadingState;
-import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.datasource.RemoteDataSource;
-import com.sunfusheng.github.model.Contribution;
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.net.api.Api;
 import com.sunfusheng.github.net.api.ResponseObserver;
 import com.sunfusheng.github.net.api.ResponseResult;
@@ -28,10 +24,7 @@ import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
-import com.sunfusheng.github.viewbinder.ContributionsViewBinder;
 import com.sunfusheng.github.viewbinder.RepoViewBinder;
-import com.sunfusheng.github.viewbinder.UserProfileViewBinder;
-import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
@@ -52,14 +45,10 @@ public class DiscoverFragment extends BaseFragment {
     private ListenerNestedScrollView nestedScrollView;
     private RecyclerView recyclerView;
     private MultiTypeAdapter adapter;
-
     private GlideImageView toolbarBg;
     private Toolbar toolbar;
 
     private String username;
-
-    private User user;
-    private Contribution contribution;
 
     @Nullable
     @Override
@@ -75,7 +64,6 @@ public class DiscoverFragment extends BaseFragment {
     }
 
     private List<Object> items = new ArrayList<>();
-    private boolean hasAdded;
 
     private void initView() {
         View view = getView();
@@ -94,11 +82,8 @@ public class DiscoverFragment extends BaseFragment {
 
 //        username = "Blankj";
 
-        user = new User();
-        user.setLogin(username);
-        contribution = new Contribution(username);
-
         initToolbar();
+        observeUser();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setSmoothScrollbarEnabled(true);
@@ -108,19 +93,9 @@ public class DiscoverFragment extends BaseFragment {
         adapter = new MultiTypeAdapter();
         recyclerView.setAdapter(adapter);
 
-        adapter.register(User.class, new UserProfileViewBinder());
-        adapter.register(Contribution.class, new ContributionsViewBinder());
         adapter.register(Repo.class, new RepoViewBinder());
 
-//        items.add(user);
-//        items.add(contribution);
-//        adapter.setItems(items);
-//        adapter.notifyDataSetChanged();
-
-        observeUser();
-        observeContributions();
-
-        Api.getCommonService().fetchRepos(username, "pushed")
+        Api.getCommonService().fetchRepos(username, "pushed", 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RemoteDataSource.applyRemoteTransformer())
@@ -163,29 +138,9 @@ public class DiscoverFragment extends BaseFragment {
         viewModel.setRequestParams(username, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
-            if (it.loadingState == LoadingState.SUCCESS && !hasAdded) {
-                user = it.data;
-                hasAdded = true;
-
-                toolbar.setTitle(user.getName() + "（" + user.getLogin() + "）");
-                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.getCreated_at()));
-                items.add(0, user);
-                adapter.setItems(items);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    private void observeContributions() {
-        ContributionsViewModel viewModel = VM.of(this, ContributionsViewModel.class);
-        viewModel.setRequestParams(username);
-
-        viewModel.liveData.observe(this, it -> {
-            Log.d("---->", it.toString());
-            if (it.progressState == ProgressState.SUCCESS) {
-                items.add(new Contribution(it.data));
-                adapter.setItems(items);
-                adapter.notifyDataSetChanged();
+            if (it.loadingState == LoadingState.SUCCESS) {
+                toolbar.setTitle(it.data.name + "（" + it.data.login + "）");
+                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(it.data.created_at));
             }
         });
     }

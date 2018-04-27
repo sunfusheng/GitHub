@@ -41,33 +41,33 @@ public class RepoViewBinder extends ItemViewBinder<Repo, RepoViewBinder.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Repo item) {
-        holder.vName.setText(item.getName());
+        holder.vName.setText(item.name);
 
-        if (!TextUtils.isEmpty(item.getDescription())) {
+        if (!TextUtils.isEmpty(item.description)) {
             holder.vDesc.setVisibility(View.VISIBLE);
-            holder.vDesc.setText(item.getDescription());
+            holder.vDesc.setText(item.description);
         } else {
             holder.vDesc.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(item.getLanguage())) {
+        if (!TextUtils.isEmpty(item.language)) {
             holder.vLanguage.setVisibility(View.VISIBLE);
-            holder.vLanguage.setText(item.getLanguage());
-            holder.vLanguage.setTextColor(LanguageColorUtil.getColor(item.getLanguage()));
+            holder.vLanguage.setText(item.language);
+            holder.vLanguage.setTextColor(LanguageColorUtil.getColor(item.language));
         } else {
             holder.vLanguage.setVisibility(View.GONE);
         }
 
-        if (item.getStargazers_count() > 0) {
+        if (item.stargazers_count > 0) {
             holder.vStarCountImg.setVisibility(View.VISIBLE);
             holder.vStarCount.setVisibility(View.VISIBLE);
-            holder.vStarCount.setText(String.valueOf(item.getStargazers_count()));
+            holder.vStarCount.setText(String.valueOf(item.stargazers_count));
         } else {
             holder.vStarCountImg.setVisibility(View.GONE);
             holder.vStarCount.setVisibility(View.GONE);
         }
 
-        holder.vTime.setText(DateUtil.convertString2String(item.getPushed_at()));
+        holder.vTime.setText(DateUtil.convertString2String(item.pushed_at));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -16,28 +16,19 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.annotation.LoadingState;
 import com.sunfusheng.github.annotation.ProgressState;
-import com.sunfusheng.github.datasource.RemoteDataSource;
-import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.net.api.Api;
-import com.sunfusheng.github.net.api.ResponseObserver;
-import com.sunfusheng.github.net.api.ResponseResult;
 import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.viewbinder.RepoViewBinder;
 import com.sunfusheng.github.viewmodel.ContributionsViewModel;
+import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
 import com.sunfusheng.github.widget.ContributionsView;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
 import com.sunfusheng.glideimageview.GlideImageView;
-
-import java.util.List;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author sunfusheng on 2018/4/12.
@@ -65,7 +56,6 @@ public class UserFragment extends BaseFragment {
     private LinearLayout vEventContainer;
 
     private String username;
-    private UserViewModel userViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,8 +88,6 @@ public class UserFragment extends BaseFragment {
         if (TextUtils.isEmpty(username)) {
             username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
         }
-
-        userViewModel = VM.of(this, UserViewModel.class);
     }
 
     private void initView() {
@@ -152,19 +140,19 @@ public class UserFragment extends BaseFragment {
             if (it.loadingState == LoadingState.SUCCESS) {
                 User user = it.data;
 
-                toolbar.setTitle(user.getName() + "（" + user.getLogin() + "）");
-                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.getCreated_at()));
+                toolbar.setTitle(user.name + "（" + user.login + "）");
+                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.created_at));
 
-                vAvatar.loadImage(user.getAvatar_url(), R.color.background_common);
-                vInfo.setText("签名: " + user.getBio() + "\n" +
-                        "公司: " + user.getCompany() + "\n" +
-                        "位置: " + user.getLocation() + "\n" +
-                        "博客: " + user.getBlog() + "\n" +
-                        "地址: " + user.getHtml_url());
+                vAvatar.loadImage(user.avatar_url, R.color.background_common);
+                vInfo.setText("签名: " + user.bio + "\n" +
+                        "公司: " + user.company + "\n" +
+                        "位置: " + user.location + "\n" +
+                        "博客: " + user.blog + "\n" +
+                        "地址: " + user.html_url);
 
-                vRepoCount.setText(String.valueOf(user.getPublic_repos()));
-                vFollowingCount.setText(String.valueOf(user.getFollowing()));
-                vFollowersCount.setText(String.valueOf(user.getFollowers()));
+                vRepoCount.setText(String.valueOf(user.public_repos));
+                vFollowingCount.setText(String.valueOf(user.following));
+                vFollowersCount.setText(String.valueOf(user.followers));
             }
         });
     }
@@ -181,27 +169,22 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeRepos() {
+        RepoViewModel viewModel = VM.of(this, RepoViewModel.class);
+        viewModel.setRequestParams(username, 1, FetchMode.REMOTE);
 
-        Api.getCommonService().fetchRepos(username, "pushed")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RemoteDataSource.applyRemoteTransformer())
-                .subscribe(new ResponseObserver<List<Repo>>() {
-                    @Override
-                    public void onNotify(ResponseResult<List<Repo>> it) {
-                        if (it.loadingState == LoadingState.SUCCESS) {
-                            for (int i = 0; i < it.data.size(); i++) {
-                                if (i >= 10) {
-                                    break;
-                                }
-                                RepoViewBinder repoViewBinder = new RepoViewBinder();
-                                View repoView = repoViewBinder.onCreateView(LayoutInflater.from(getContext()), vContributions);
-                                vRepoContainer.addView(repoView);
-                                repoViewBinder.onBindViewHolder(new RepoViewBinder.ViewHolder(repoView), it.data.get(i));
-                            }
-                        }
-                    }
-                });
+        viewModel.liveData.observe(this, it -> {
+            if (it.loadingState == LoadingState.SUCCESS) {
+                vRepoContainer.removeAllViews();
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+
+                for (int i = 0; i < it.data.size(); i++) {
+                    if (i >= 10) break;
+                    View view = inflater.inflate(R.layout.item_repo, vContributions, false);
+                    new RepoViewBinder().onBindViewHolder(new RepoViewBinder.ViewHolder(view), it.data.get(i));
+                    vRepoContainer.addView(view);
+                }
+            }
+        });
     }
 
 }

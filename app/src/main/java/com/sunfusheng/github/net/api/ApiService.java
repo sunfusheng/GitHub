@@ -30,6 +30,8 @@ public interface ApiService {
     Observable<Response<User>> fetchUser(@Path("username") String username);
 
     @GET("users/{username}/repos")
-    Observable<Response<List<Repo>>> fetchRepos(@Path("username") String username, @Query("sort") String sort);
+    Observable<Response<List<Repo>>> fetchRepos(@Path("username") String username,
+                                                @Query("sort") String sort,
+                                                @Query("page") int page);
 
 }
