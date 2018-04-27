@@ -29,15 +29,18 @@ public class RepoViewBinder extends ItemViewBinder<Repo, RepoViewBinder.ViewHold
         this.username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
     }
 
+    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return inflater.inflate(R.layout.item_repo, parent, false);
+    }
+
     @NonNull
     @Override
-    protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(R.layout.item_repo, parent, false);
-        return new ViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+        return new ViewHolder(onCreateView(inflater, parent));
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Repo item) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Repo item) {
         holder.vName.setText(item.getName());
 
         if (!TextUtils.isEmpty(item.getDescription())) {
@@ -67,7 +70,7 @@ public class RepoViewBinder extends ItemViewBinder<Repo, RepoViewBinder.ViewHold
         holder.vTime.setText(DateUtil.convertString2String(item.getPushed_at()));
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView vName;
         TextView vDesc;
         TextView vLanguage;
@@ -75,7 +78,7 @@ public class RepoViewBinder extends ItemViewBinder<Repo, RepoViewBinder.ViewHold
         TextView vStarCount;
         TextView vTime;
 
-        ViewHolder(View view) {
+        public ViewHolder(View view) {
             super(view);
             vName = view.findViewById(R.id.name);
             vDesc = view.findViewById(R.id.desc);

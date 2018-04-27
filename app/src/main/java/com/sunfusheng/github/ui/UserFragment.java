@@ -3,6 +3,7 @@ package com.sunfusheng.github.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,30 +14,55 @@ import android.widget.TextView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.annotation.LoadingState;
+import com.sunfusheng.github.annotation.ProgressState;
+import com.sunfusheng.github.datasource.RemoteDataSource;
+import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.net.api.Api;
+import com.sunfusheng.github.net.api.ResponseObserver;
+import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.util.DateUtil;
+import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
+import com.sunfusheng.github.util.StatusBarUtil;
+import com.sunfusheng.github.viewbinder.RepoViewBinder;
+import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
 import com.sunfusheng.github.widget.ContributionsView;
-import com.sunfusheng.github.widget.multistate.MultiStateView;
+import com.sunfusheng.github.widget.ListenerNestedScrollView;
 import com.sunfusheng.glideimageview.GlideImageView;
+
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author sunfusheng on 2018/4/12.
  */
 public class UserFragment extends BaseFragment {
 
-    private MultiStateView multiStateView;
+    private ListenerNestedScrollView nestedScrollView;
+
+    private GlideImageView toolbarBg;
+    private Toolbar toolbar;
+
     private LinearLayout vProfile;
     private GlideImageView vAvatar;
     private TextView vInfo;
+
     private LinearLayout vRepo;
     private TextView vRepoCount;
     private LinearLayout vFollowing;
     private TextView vFollowingCount;
     private LinearLayout vFollowers;
     private TextView vFollowersCount;
+
     private ContributionsView vContributions;
+    private LinearLayout vRepoContainer;
+    private LinearLayout vEventContainer;
 
     private String username;
     private UserViewModel userViewModel;
@@ -50,14 +76,17 @@ public class UserFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_multistate, container, false);
+        return inflater.inflate(R.layout.fragment_user, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        observeDataSource();
+        initToolbar();
+        observeUser();
+        observeContributions();
+        observeRepos();
     }
 
     private void initData() {
@@ -74,8 +103,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void initView() {
-        multiStateView = (MultiStateView) getView();
-        View view = multiStateView.setContentView(R.layout.fragment_user);
+        View view = getView();
         vProfile = view.findViewById(R.id.profile);
         vAvatar = view.findViewById(R.id.avatar);
         vInfo = view.findViewById(R.id.info);
@@ -86,36 +114,94 @@ public class UserFragment extends BaseFragment {
         vFollowers = view.findViewById(R.id.followers);
         vFollowersCount = view.findViewById(R.id.followers_count);
 
-        userViewModel.setRequestParams(username, FetchMode.DEFAULT);
-        multiStateView.setErrorButtonListener(v -> {
-            userViewModel.setRequestParams(username, FetchMode.DEFAULT);
-        });
-
+        toolbarBg = view.findViewById(R.id.toolbar_bg);
+        toolbar = view.findViewById(R.id.toolbar);
+        nestedScrollView = view.findViewById(R.id.nestedScrollView);
         vContributions = view.findViewById(R.id.contributions);
-        vContributions.loadContributions(username);
+        vRepoContainer = view.findViewById(R.id.repo_container);
+        vEventContainer = view.findViewById(R.id.event_container);
     }
 
-    private void observeDataSource() {
-        userViewModel.liveData.observe(this, it -> {
-            multiStateView.setLoadingState(it.loadingState, () -> {
-                initUserProfile(it.data);
-            }, () -> {
-                multiStateView.setErrorTip(it.errorString());
-            });
+    private void initToolbar() {
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) toolbarBg.getLayoutParams();
+        int toolbarAndStatusBarHeight = toolbar.getLayoutParams().height + StatusBarUtil.getStatusBarHeight(getContext());
+        int height = layoutParams.height - toolbarAndStatusBarHeight;
+        layoutParams.setMargins(0, -height, 0, 0);
+        toolbarBg.setAlpha(0);
+
+        int distance = DisplayUtil.dp2px(getContext(), 220) - toolbarAndStatusBarHeight;
+
+        nestedScrollView.setOnScrollChangedInterface((scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY < 0) {
+                scrollY = 0;
+            }
+            float alpha = Math.abs(scrollY) * 1.0f / (distance);
+            if (scrollY <= distance) {
+                toolbarBg.setAlpha((int) (alpha * 255));
+            } else {
+                toolbarBg.setAlpha(255);
+            }
         });
     }
 
-    private void initUserProfile(User user) {
-        vAvatar.loadImage(user.getAvatar_url(), R.color.white);
-        vInfo.setText(user.getBio());
-        vRepoCount.setText(String.valueOf(user.getPublic_repos()));
-        vFollowingCount.setText(String.valueOf(user.getFollowing()));
-        vFollowersCount.setText(String.valueOf(user.getFollowers()));
+    private void observeUser() {
+        UserViewModel viewModel = VM.of(this, UserViewModel.class);
+        viewModel.setRequestParams(username, FetchMode.DEFAULT);
+
+        viewModel.liveData.observe(this, it -> {
+            if (it.loadingState == LoadingState.SUCCESS) {
+                User user = it.data;
+
+                toolbar.setTitle(user.getName() + "（" + user.getLogin() + "）");
+                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.getCreated_at()));
+
+                vAvatar.loadImage(user.getAvatar_url(), R.color.background_common);
+                vInfo.setText("签名: " + user.getBio() + "\n" +
+                        "公司: " + user.getCompany() + "\n" +
+                        "位置: " + user.getLocation() + "\n" +
+                        "博客: " + user.getBlog() + "\n" +
+                        "地址: " + user.getHtml_url());
+
+                vRepoCount.setText(String.valueOf(user.getPublic_repos()));
+                vFollowingCount.setText(String.valueOf(user.getFollowing()));
+                vFollowersCount.setText(String.valueOf(user.getFollowers()));
+            }
+        });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        vContributions.destroy();
+    private void observeContributions() {
+        ContributionsViewModel viewModel = VM.of(this, ContributionsViewModel.class);
+        viewModel.setRequestParams(username);
+
+        viewModel.liveData.observe(this, it -> {
+            if (it.progressState == ProgressState.SUCCESS) {
+                vContributions.loadContributions(it.data);
+            }
+        });
     }
+
+    private void observeRepos() {
+
+        Api.getCommonService().fetchRepos(username, "pushed")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RemoteDataSource.applyRemoteTransformer())
+                .subscribe(new ResponseObserver<List<Repo>>() {
+                    @Override
+                    public void onNotify(ResponseResult<List<Repo>> it) {
+                        if (it.loadingState == LoadingState.SUCCESS) {
+                            for (int i = 0; i < it.data.size(); i++) {
+                                if (i >= 10) {
+                                    break;
+                                }
+                                RepoViewBinder repoViewBinder = new RepoViewBinder();
+                                View repoView = repoViewBinder.onCreateView(LayoutInflater.from(getContext()), vContributions);
+                                vRepoContainer.addView(repoView);
+                                repoViewBinder.onBindViewHolder(new RepoViewBinder.ViewHolder(repoView), it.data.get(i));
+                            }
+                        }
+                    }
+                });
+    }
+
 }

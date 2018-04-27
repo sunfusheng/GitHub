@@ -2,6 +2,7 @@ package com.sunfusheng.github.widget.bottombar;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -27,6 +28,7 @@ public class FragmentPagerItemAdapter extends FragmentPagerAdapter {
         this.items = items;
     }
 
+    @NonNull
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
@@ -44,8 +46,8 @@ public class FragmentPagerItemAdapter extends FragmentPagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
-        fragments.remove(position);
+//        super.destroyItem(container, position, object);
+//        fragments.remove(position);
     }
 
     @Override

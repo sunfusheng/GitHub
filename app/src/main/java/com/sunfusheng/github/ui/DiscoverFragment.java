@@ -115,6 +115,7 @@ public class DiscoverFragment extends BaseFragment {
 //        items.add(user);
 //        items.add(contribution);
 //        adapter.setItems(items);
+//        adapter.notifyDataSetChanged();
 
         observeUser();
         observeContributions();

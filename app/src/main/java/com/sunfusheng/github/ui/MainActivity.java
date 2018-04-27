@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(this, getSupportFragmentManager(), items);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(this);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setViewPager(viewPager);
     }
 
