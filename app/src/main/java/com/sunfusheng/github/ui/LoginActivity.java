@@ -11,6 +11,7 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.database.UserDatabase;
 import com.sunfusheng.github.model.params.AuthParams;
 import com.sunfusheng.github.net.api.Api;
+import com.sunfusheng.github.ui.navigation.NavigationManager;
 import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
@@ -110,7 +111,8 @@ public class LoginActivity extends BaseActivity {
                     if (!it) {
                         PreferenceUtil.getInstance().remove(Constants.PreferenceKey.TOKEN);
                     } else {
-                        ToastUtil.toast("登录成功");
+                        NavigationManager.toMainActivity();
+                        finish();
                     }
                 }, throwable -> {
                     dismissProgressDialog();

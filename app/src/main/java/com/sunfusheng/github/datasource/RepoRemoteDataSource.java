@@ -25,7 +25,7 @@ public class RepoRemoteDataSource extends RemoteDataSource implements IRepoDataS
 
     @Override
     public Observable<ResponseResult<List<Repo>>> getRepos(String username, int page) {
-        return Api.getAuthService().fetchRepos(username, "pushed", page)
+        return Api.getCommonService().fetchRepos(username, "pushed", page)
                 .compose(applyRemoteTransformer())
                 .doOnNext(it -> {
                     if (isLoadingSuccess(it)) {

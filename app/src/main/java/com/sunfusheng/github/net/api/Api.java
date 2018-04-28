@@ -1,7 +1,6 @@
 package com.sunfusheng.github.net.api;
 
 import com.sunfusheng.github.net.factory.RetrofitFactory;
-import com.sunfusheng.github.net.interceptor.AuthHeaderInterceptor;
 import com.sunfusheng.github.net.interceptor.CommonHeaderInterceptor;
 import com.sunfusheng.github.net.interceptor.LoginHeaderInterceptor;
 
@@ -12,7 +11,6 @@ public class Api {
 
     private static ApiService apiCommonService;
     private static ApiService apiLoginService;
-    private static ApiService apiAuthService;
 
     private Api() {
     }
@@ -29,12 +27,5 @@ public class Api {
             apiLoginService = RetrofitFactory.getService(ApiService.class, new LoginHeaderInterceptor());
         }
         return apiLoginService;
-    }
-
-    public static ApiService getAuthService() {
-        if (apiAuthService == null) {
-            apiAuthService = RetrofitFactory.getService(ApiService.class, new AuthHeaderInterceptor());
-        }
-        return apiAuthService;
     }
 }

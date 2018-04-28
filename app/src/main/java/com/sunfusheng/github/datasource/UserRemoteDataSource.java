@@ -23,7 +23,7 @@ public class UserRemoteDataSource extends RemoteDataSource implements IUserDataS
 
     @Override
     public Observable<ResponseResult<User>> getUser(String username) {
-        return Api.getAuthService().fetchUser(username)
+        return Api.getCommonService().fetchUser(username)
                 .compose(applyRemoteTransformer())
                 .doOnNext(it -> {
                     if (isLoadingSuccess(it)) {
