@@ -31,6 +31,7 @@ public class CommonHeaderInterceptor implements Interceptor {
 
     public static HashMap getCommonHeaders() {
         HashMap<String, String> headers = new HashMap<>();
+        headers.put("User-Agent", Constants.USER_AGENT);
         headers.put("Accept", Constants.ACCEPT);
         headers.put("Authorization", "token " + PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN));
         return headers;

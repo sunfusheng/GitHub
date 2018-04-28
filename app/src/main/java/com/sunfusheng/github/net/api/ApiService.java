@@ -31,7 +31,8 @@ public interface ApiService {
 
     @GET("users/{username}/repos")
     Observable<Response<List<Repo>>> fetchRepos(@Path("username") String username,
-                                                @Query("sort") String sort,
-                                                @Query("page") int page);
+                                                @Query("page") int page,
+                                                @Query("per_page") int per_page,
+                                                @Query("sort") String sort);
 
 }

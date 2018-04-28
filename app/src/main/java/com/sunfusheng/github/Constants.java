@@ -11,6 +11,7 @@ public class Constants {
 
     public static final String BASE_URL = "https://api.github.com/";
 
+    public static final String USER_AGENT ="sfsheng0322";
     public static final String ACCEPT = "application/vnd.github.v3+json";
     public static final String[] SCOPES = {"user", "repo", "notifications", "gist", "admin:org"};
     public static final String NOTE = "DroidGitHub";

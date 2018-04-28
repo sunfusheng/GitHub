@@ -3,6 +3,7 @@ package com.sunfusheng.github.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
@@ -12,18 +13,22 @@ import com.google.gson.annotations.SerializedName;
 /**
  * @author sunfusheng on 2018/4/23.
  */
-@Entity(indices = {@Index(value = {"name", "full_name"}, unique = true)})
+@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "owner_name", onDelete = ForeignKey.CASCADE),
+        indices = {@Index(value = {"owner_name", "name", "full_name"}, unique = true)})
 public class Repo {
 
     @PrimaryKey
     public int id;
     public String name;
     public String full_name;
-    public int owner_id;
+
     @Ignore
     public User owner;
+    public String owner_name;
+
     @SerializedName("private")
     public boolean privateX;
+
     public String html_url;
     public String description;
     public boolean fork;
@@ -85,12 +90,13 @@ public class Repo {
     public String mirror_url;
     public boolean archived;
     public int open_issues_count;
-    @Embedded
-    public License license;
     public int forks;
     public int open_issues;
     public int watchers;
     public String default_branch;
+
+    @Embedded
+    public License license;
 
     public static class License {
         @ColumnInfo(name = "license_key")
@@ -102,5 +108,83 @@ public class Repo {
         @ColumnInfo(name = "license_url")
         public String url;
 
+    }
+
+    @Override
+    public String toString() {
+        return "Repo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", full_name='" + full_name + '\'' +
+                ", owner=" + owner +
+                ", owner_name='" + owner_name + '\'' +
+                ", privateX=" + privateX +
+                ", html_url='" + html_url + '\'' +
+                ", description='" + description + '\'' +
+                ", fork=" + fork +
+                ", url='" + url + '\'' +
+                ", forks_url='" + forks_url + '\'' +
+                ", keys_url='" + keys_url + '\'' +
+                ", collaborators_url='" + collaborators_url + '\'' +
+                ", teams_url='" + teams_url + '\'' +
+                ", hooks_url='" + hooks_url + '\'' +
+                ", issue_events_url='" + issue_events_url + '\'' +
+                ", events_url='" + events_url + '\'' +
+                ", assignees_url='" + assignees_url + '\'' +
+                ", branches_url='" + branches_url + '\'' +
+                ", tags_url='" + tags_url + '\'' +
+                ", blobs_url='" + blobs_url + '\'' +
+                ", git_tags_url='" + git_tags_url + '\'' +
+                ", git_refs_url='" + git_refs_url + '\'' +
+                ", trees_url='" + trees_url + '\'' +
+                ", statuses_url='" + statuses_url + '\'' +
+                ", languages_url='" + languages_url + '\'' +
+                ", stargazers_url='" + stargazers_url + '\'' +
+                ", contributors_url='" + contributors_url + '\'' +
+                ", subscribers_url='" + subscribers_url + '\'' +
+                ", subscription_url='" + subscription_url + '\'' +
+                ", commits_url='" + commits_url + '\'' +
+                ", git_commits_url='" + git_commits_url + '\'' +
+                ", comments_url='" + comments_url + '\'' +
+                ", issue_comment_url='" + issue_comment_url + '\'' +
+                ", contents_url='" + contents_url + '\'' +
+                ", compare_url='" + compare_url + '\'' +
+                ", merges_url='" + merges_url + '\'' +
+                ", archive_url='" + archive_url + '\'' +
+                ", downloads_url='" + downloads_url + '\'' +
+                ", issues_url='" + issues_url + '\'' +
+                ", pulls_url='" + pulls_url + '\'' +
+                ", milestones_url='" + milestones_url + '\'' +
+                ", notifications_url='" + notifications_url + '\'' +
+                ", labels_url='" + labels_url + '\'' +
+                ", releases_url='" + releases_url + '\'' +
+                ", deployments_url='" + deployments_url + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                ", pushed_at='" + pushed_at + '\'' +
+                ", git_url='" + git_url + '\'' +
+                ", ssh_url='" + ssh_url + '\'' +
+                ", clone_url='" + clone_url + '\'' +
+                ", svn_url='" + svn_url + '\'' +
+                ", homepage='" + homepage + '\'' +
+                ", size=" + size +
+                ", stargazers_count=" + stargazers_count +
+                ", watchers_count=" + watchers_count +
+                ", language='" + language + '\'' +
+                ", has_issues=" + has_issues +
+                ", has_projects=" + has_projects +
+                ", has_downloads=" + has_downloads +
+                ", has_wiki=" + has_wiki +
+                ", has_pages=" + has_pages +
+                ", forks_count=" + forks_count +
+                ", mirror_url='" + mirror_url + '\'' +
+                ", archived=" + archived +
+                ", open_issues_count=" + open_issues_count +
+                ", forks=" + forks +
+                ", open_issues=" + open_issues +
+                ", watchers=" + watchers +
+                ", default_branch='" + default_branch + '\'' +
+                ", license=" + license +
+                '}';
     }
 }

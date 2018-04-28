@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,11 +167,11 @@ public class UserFragment extends BaseFragment {
                 vContributions.loadContributions(it.data);
             }
         });
-    }
+}
 
     private void observeRepos() {
         RepoViewModel viewModel = VM.of(this, RepoViewModel.class);
-        viewModel.setRequestParams(username, 1, FetchMode.REMOTE);
+        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {
@@ -179,6 +180,7 @@ public class UserFragment extends BaseFragment {
 
                 for (int i = 0; i < it.data.size(); i++) {
                     if (i >= 10) break;
+                    Log.d("--->", "【" + i + "】" + it.data.get(i));
                     View view = inflater.inflate(R.layout.item_repo, vContributions, false);
                     new RepoViewBinder().onBindViewHolder(new RepoViewBinder.ViewHolder(view), it.data.get(i));
                     vRepoContainer.addView(view);

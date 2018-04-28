@@ -25,7 +25,7 @@ public class BaseViewModel extends ViewModel {
     public static class RequestParams {
         public String username;
         public int page;
-        public int per_page = Constants.PER_PAGE_30;
+        public int perPage = Constants.PER_PAGE_30;
         public int fetchMode;
 
         public RequestParams(String username, int fetchMode) {
@@ -36,10 +36,10 @@ public class BaseViewModel extends ViewModel {
             this(username, page, Constants.PER_PAGE_30, fetchMode);
         }
 
-        public RequestParams(String username, int page, int per_page, int fetchMode) {
+        public RequestParams(String username, int page, int perPage, int fetchMode) {
             this.username = username;
             this.page = page;
-            this.per_page = per_page;
+            this.perPage = perPage;
             this.fetchMode = fetchMode;
         }
     }
@@ -70,7 +70,6 @@ public class BaseViewModel extends ViewModel {
                             mutableLiveData.setValue(result);
                         }
                     });
-
             return mutableLiveData;
         }
     }

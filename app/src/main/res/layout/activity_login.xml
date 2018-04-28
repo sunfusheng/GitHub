@@ -55,7 +55,7 @@
                 android:inputType="textCapCharacters"
                 android:maxLines="1"
                 android:paddingLeft="80dp"
-                android:text=""
+                android:text="sfsheng0322"
                 android:textColor="@color/font1"
                 android:textColorHint="@color/font3"
                 android:textSize="17sp"/>
@@ -89,7 +89,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:paddingLeft="80dp"
-                android:text=""
+                android:text="sunfusheng0322"
                 android:textColor="@color/font1"
                 android:textColorHint="@color/font3"
                 android:textSize="17sp"/>

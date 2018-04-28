@@ -21,9 +21,6 @@ public interface RepoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Repo> repos);
 
-    @Query("select * from Repo where name like :name limit 1")
-    Repo query(String name);
-
-    @Query("select * from Repo limit :count")
-    List<Repo> query(int count);
+    @Query("select * from Repo repo inner join User user on User.login = :owner_name limit :count")
+    List<Repo> query(String owner_name, int count);
 }

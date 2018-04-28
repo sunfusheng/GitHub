@@ -49,9 +49,13 @@ public class LoginActivity extends BaseActivity {
 
         String username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME, "");
         String password = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.PASSWORD, "");
-        vUsername.setText(username);
-        vUsername.setSelection(username.length());
-        vPassword.setText(password);
+        if (!TextUtils.isEmpty(username)) {
+            vUsername.setText(username);
+            vUsername.setSelection(username.length());
+        }
+        if (!TextUtils.isEmpty(password)) {
+            vPassword.setText(password);
+        }
 
         vLogin.setOnClickListener(v -> login());
     }

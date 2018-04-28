@@ -11,5 +11,5 @@ import io.reactivex.Observable;
  * @author sunfusheng on 2018/4/27.
  */
 public interface IRepoDataSource {
-    Observable<ResponseResult<List<Repo>>> getRepos(String username, int page);
+    Observable<ResponseResult<List<Repo>>> getRepos(String username, int page, int perPage);
 }

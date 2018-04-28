@@ -95,7 +95,7 @@ public class DiscoverFragment extends BaseFragment {
 
         adapter.register(Repo.class, new RepoViewBinder());
 
-        Api.getCommonService().fetchRepos(username, "pushed", 1)
+        Api.getCommonService().fetchRepos(username, 1, Constants.PER_PAGE_30, "pushed")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RemoteDataSource.applyRemoteTransformer())
