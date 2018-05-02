@@ -45,7 +45,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
 
         if (TextUtils.isEmpty(username)) {
             username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
@@ -64,7 +63,7 @@ public class HomeFragment extends BaseFragment {
     long start;
     long end;
 
-    private void initView() {
+    private void test() {
 
         Observable<String> localObservable = local(2000);
         Observable<String> remoteObservable = remote(2000);

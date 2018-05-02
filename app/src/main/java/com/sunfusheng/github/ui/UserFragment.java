@@ -167,7 +167,7 @@ public class UserFragment extends BaseFragment {
                 vContributions.loadContributions(it.data);
             }
         });
-}
+    }
 
     private void observeRepos() {
         RepoViewModel viewModel = VM.of(this, RepoViewModel.class);

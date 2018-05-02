@@ -3,7 +3,6 @@ package com.sunfusheng.github.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
@@ -13,8 +12,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * @author sunfusheng on 2018/4/23.
  */
-@Entity(foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "owner_name", onDelete = ForeignKey.CASCADE),
-        indices = {@Index(value = {"owner_name", "name", "full_name"}, unique = true)})
+@Entity(indices = {@Index(value = {"owner_name", "name", "full_name"}, unique = true)})
 public class Repo {
 
     @PrimaryKey

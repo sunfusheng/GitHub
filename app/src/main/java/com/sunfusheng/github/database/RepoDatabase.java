@@ -5,13 +5,12 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.AppUtil;
 
 /**
  * @author sunfusheng on 2018/4/27.
  */
-@Database(entities = {Repo.class, User.class}, version = 1, exportSchema = false)
+@Database(entities = {Repo.class}, version = 1, exportSchema = false)
 public abstract class RepoDatabase extends RoomDatabase {
 
     public static final String DB_NAME = "repos.db";
@@ -30,7 +29,5 @@ public abstract class RepoDatabase extends RoomDatabase {
     }
 
     public abstract RepoDao getRepoDao();
-
-    public abstract UserDao getUserDao();
 
 }
