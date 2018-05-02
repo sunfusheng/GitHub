@@ -35,7 +35,7 @@ public class RepoRemoteDataSource extends RemoteDataSource implements IRepoDataS
                         List<Repo> data = it.data;
                         if (!CollectionUtil.isEmpty(data)) {
                             for (Repo repo : data) {
-                                repo.username = repo.owner.login;
+                                repo.owner_name = repo.owner.login;
                             }
                             RepoDatabase.instance().getRepoDao().insert(data);
                         }
