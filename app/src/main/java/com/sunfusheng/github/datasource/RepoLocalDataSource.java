@@ -30,4 +30,5 @@ public class RepoLocalDataSource extends LocalDataSource implements IRepoDataSou
             emitResult(emitter, RepoDatabase.instance().getRepoDao().query(username, perPage));
         })).subscribeOn(Schedulers.io());
     }
+
 }
