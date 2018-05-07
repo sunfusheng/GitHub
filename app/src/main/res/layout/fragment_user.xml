@@ -21,6 +21,16 @@
             <include
                 layout="@layout/divider_20dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/item_margin_large"
+                android:text="Contributions"
+                android:textColor="@color/font1"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"/>
+
             <com.sunfusheng.github.widget.ContributionsView
                 android:id="@+id/contributions"
                 android:layout_width="match_parent"
@@ -28,6 +38,16 @@
 
             <include
                 layout="@layout/divider_20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/item_margin_large"
+                android:text="Repositories"
+                android:textColor="@color/font1"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:id="@+id/repo_container"
@@ -38,12 +58,24 @@
             <include
                 layout="@layout/divider_20dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/item_margin_large"
+                android:text="Events"
+                android:textColor="@color/font1"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"/>
+
             <LinearLayout
                 android:id="@+id/event_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>
 
+            <include
+                layout="@layout/divider_20dp"/>
         </LinearLayout>
     </com.sunfusheng.github.widget.ListenerNestedScrollView>
 

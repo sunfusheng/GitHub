@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class RepoViewModel extends BaseViewModel {
 
-
     public final LiveData<ResponseResult<List<Repo>>> liveData =
             Transformations.switchMap(requestParams, input -> getRepos(input.username, input.page, input.perPage, input.fetchMode));
 
@@ -30,8 +29,10 @@ public class RepoViewModel extends BaseViewModel {
     }
 
     private LiveData<ResponseResult<List<Repo>>> getRepos(String username, int page, int perPage, @FetchMode int fetchMode) {
-        return fetchData(RepoLocalDataSource.instance().getRepos(username, page, perPage),
+        return fetchData(
+                RepoLocalDataSource.instance().getRepos(username, page, perPage),
                 RepoRemoteDataSource.instance().getRepos(username, page, perPage),
-                fetchMode);
+                fetchMode
+        );
     }
 }

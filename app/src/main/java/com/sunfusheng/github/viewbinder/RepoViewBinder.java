@@ -13,7 +13,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.util.DateUtil;
-import com.sunfusheng.github.util.LanguageColorUtil;
+import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.util.PreferenceUtil;
 
 import me.drakeet.multitype.ItemViewBinder;
@@ -53,7 +53,7 @@ public class RepoViewBinder extends ItemViewBinder<Repo, RepoViewBinder.ViewHold
         if (!TextUtils.isEmpty(item.language)) {
             holder.vLanguage.setVisibility(View.VISIBLE);
             holder.vLanguage.setText(item.language);
-            holder.vLanguage.setTextColor(LanguageColorUtil.getColor(item.language));
+            holder.vLanguage.setTextColor(Utils.getColorByLanguage(item.language));
         } else {
             holder.vLanguage.setVisibility(View.GONE);
         }

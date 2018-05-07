@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,10 @@ import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
+import com.sunfusheng.github.viewbinder.EventViewBinder;
 import com.sunfusheng.github.viewbinder.RepoViewBinder;
 import com.sunfusheng.github.viewmodel.ContributionsViewModel;
+import com.sunfusheng.github.viewmodel.EventViewModel;
 import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
@@ -78,6 +79,7 @@ public class UserFragment extends BaseFragment {
         observeUser();
         observeContributions();
         observeRepos();
+        observeEvents();
     }
 
     private void initData() {
@@ -177,13 +179,33 @@ public class UserFragment extends BaseFragment {
             if (it.loadingState == LoadingState.SUCCESS) {
                 vRepoContainer.removeAllViews();
                 LayoutInflater inflater = LayoutInflater.from(getContext());
+                RepoViewBinder repoViewBinder = new RepoViewBinder();
 
                 for (int i = 0; i < it.data.size(); i++) {
                     if (i >= 10) break;
-                    Log.d("--->", "【" + i + "】" + it.data.get(i));
-                    View view = inflater.inflate(R.layout.item_repo, vContributions, false);
-                    new RepoViewBinder().onBindViewHolder(new RepoViewBinder.ViewHolder(view), it.data.get(i));
+                    View view = repoViewBinder.onCreateView(inflater, vRepoContainer);
+                    repoViewBinder.onBindViewHolder(new RepoViewBinder.ViewHolder(view), it.data.get(i));
                     vRepoContainer.addView(view);
+                }
+            }
+        });
+    }
+
+    private void observeEvents() {
+        EventViewModel viewModel = VM.of(this, EventViewModel.class);
+        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.DEFAULT);
+
+        viewModel.liveData.observe(this, it -> {
+            if (it.loadingState == LoadingState.SUCCESS) {
+                vEventContainer.removeAllViews();
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                EventViewBinder eventViewBinder = new EventViewBinder();
+
+                for (int i = 0; i < it.data.size(); i++) {
+                    if (i >= 10) break;
+                    View view = eventViewBinder.onCreateView(inflater, vEventContainer);
+                    eventViewBinder.onBindViewHolder(new EventViewBinder.ViewHolder(view), it.data.get(i));
+                    vEventContainer.addView(view);
                 }
             }
         });

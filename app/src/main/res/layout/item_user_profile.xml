@@ -53,7 +53,7 @@
                 android:id="@+id/repo_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="仓库"
+                android:text="Repositories"
                 android:textColor="@color/font1"
                 android:textSize="@dimen/text_size_normal"/>
 
@@ -82,7 +82,7 @@
                 android:id="@+id/following_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="关注"
+                android:text="Following"
                 android:textColor="@color/font1"
                 android:textSize="@dimen/text_size_normal"/>
 
@@ -111,7 +111,7 @@
                 android:id="@+id/followers_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="粉丝"
+                android:text="Followers"
                 android:textColor="@color/font1"
                 android:textSize="@dimen/text_size_normal"/>
 

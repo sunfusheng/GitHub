@@ -1,4 +1,4 @@
-package com.sunfusheng.github.datasource;
+package com.sunfusheng.github.datasource.base;
 
 import com.sunfusheng.github.net.api.ResponseResult;
 
