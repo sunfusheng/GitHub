@@ -27,7 +27,7 @@
                 android:background="@color/white"
                 android:padding="@dimen/item_margin_large"
                 android:text="Contributions"
-                android:textColor="@color/font1"
+                android:textColor="@color/green"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"/>
 
@@ -45,7 +45,7 @@
                 android:background="@color/white"
                 android:padding="@dimen/item_margin_large"
                 android:text="Repositories"
-                android:textColor="@color/font1"
+                android:textColor="@color/config_color_blue"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"/>
 
@@ -64,7 +64,7 @@
                 android:background="@color/white"
                 android:padding="@dimen/item_margin_large"
                 android:text="Events"
-                android:textColor="@color/font1"
+                android:textColor="@color/google_yellow"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"/>
 
