@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
@@ -30,7 +31,7 @@ import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.VM;
 import com.sunfusheng.github.widget.ContributionsView;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
-import com.sunfusheng.glideimageview.GlideImageView;
+import com.sunfusheng.transformation.BlurTransformation;
 
 /**
  * @author sunfusheng on 2018/4/12.
@@ -39,11 +40,11 @@ public class UserFragment extends BaseFragment {
 
     private ListenerNestedScrollView nestedScrollView;
 
-    private GlideImageView toolbarBg;
     private Toolbar toolbar;
-
-    private LinearLayout vProfile;
+    private GlideImageView toolbarBg;
+    private GlideImageView profileAvatarBg;
     private GlideImageView vAvatar;
+    private LinearLayout vProfile;
     private TextView vInfo;
 
     private LinearLayout vRepo;
@@ -96,6 +97,7 @@ public class UserFragment extends BaseFragment {
     private void initView() {
         View view = getView();
         vProfile = view.findViewById(R.id.profile);
+        profileAvatarBg = view.findViewById(R.id.profile_avatar_bg);
         vAvatar = view.findViewById(R.id.avatar);
         vInfo = view.findViewById(R.id.info);
         vRepo = view.findViewById(R.id.repo);
@@ -146,7 +148,9 @@ public class UserFragment extends BaseFragment {
                 toolbar.setTitle(user.name + "（" + user.login + "）");
                 toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.created_at));
 
-                vAvatar.loadImage(user.avatar_url, R.color.background_common);
+                toolbarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
+                profileAvatarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
+                vAvatar.load(user.avatar_url, R.color.background_common, 5);
                 vInfo.setText("签名: " + user.bio + "\n" +
                         "公司: " + user.company + "\n" +
                         "位置: " + user.location + "\n" +

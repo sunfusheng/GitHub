@@ -95,6 +95,6 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.6'
-    implementation 'com.sunfusheng:glideimageview:1.2.0'
     implementation 'com.sunfusheng:FirUpdater:1.0.8'
+    implementation 'com.sunfusheng:GlideImageView:2.0.0'
 }

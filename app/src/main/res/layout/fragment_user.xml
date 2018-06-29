@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <include
-                layout="@layout/item_user_profile"/>
+                layout="@layout/fragment_user_profile"/>
 
             <include
                 layout="@layout/divider_20dp"/>

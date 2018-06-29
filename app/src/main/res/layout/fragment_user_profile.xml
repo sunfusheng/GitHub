@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -8,10 +9,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/user_profile_height"
-        android:background="@mipmap/ic_blur_default">
+        android:layout_height="@dimen/user_profile_height">
 
-        <com.sunfusheng.glideimageview.GlideImageView
+        <com.sunfusheng.GlideImageView
+            android:id="@+id/profile_avatar_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/user_profile_height"
+            android:background="@color/transparent"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_blur_default"/>
+
+        <com.sunfusheng.GlideImageView
             android:id="@+id/avatar"
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -19,7 +27,7 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="@dimen/item_margin_large"
             android:layout_marginRight="@dimen/item_margin_large"
-            android:src="@mipmap/ic_launcher"/>
+            tools:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:id="@+id/info"
