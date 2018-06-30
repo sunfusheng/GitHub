@@ -96,6 +96,7 @@ public class UserFragment extends BaseFragment {
 
     private void initView() {
         View view = getView();
+        if (view == null) return;
         vProfile = view.findViewById(R.id.profile);
         profileAvatarBg = view.findViewById(R.id.profile_avatar_bg);
         vAvatar = view.findViewById(R.id.avatar);

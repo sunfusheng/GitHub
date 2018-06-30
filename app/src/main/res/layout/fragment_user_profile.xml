@@ -76,35 +76,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/following"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/drawable_list_item_selector"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/item_margin_smaller"
-            android:paddingTop="@dimen/item_margin_smaller">
-
-            <TextView
-                android:id="@+id/following_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Following"
-                android:textColor="@color/font1"
-                android:textSize="@dimen/text_size_normal"/>
-
-            <TextView
-                android:id="@+id/following_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="0"
-                android:textColor="@color/font2"
-                android:textSize="@dimen/text_size_small"/>
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/followers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,6 +96,35 @@
 
             <TextView
                 android:id="@+id/followers_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="0"
+                android:textColor="@color/font2"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/following"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/drawable_list_item_selector"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/item_margin_smaller"
+            android:paddingTop="@dimen/item_margin_smaller">
+
+            <TextView
+                android:id="@+id/following_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Following"
+                android:textColor="@color/font1"
+                android:textSize="@dimen/text_size_normal"/>
+
+            <TextView
+                android:id="@+id/following_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
