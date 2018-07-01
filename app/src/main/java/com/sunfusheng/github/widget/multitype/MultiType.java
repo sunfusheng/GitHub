@@ -13,7 +13,11 @@ import io.reactivex.functions.Function;
 public class MultiType<T, K> {
 
     private Map<Object, ItemViewBinder<?, ?>> binderMap = new HashMap<>();
-    protected Function<T, K> keyGenerator;
+    private Function<T, K> keyGenerator;
+
+    public void setKeyGenerator(Function<T, K> keyGenerator) {
+        this.keyGenerator = keyGenerator;
+    }
 
     public @NonNull ItemViewBinder<?, ?> getItemViewBinder(@NonNull Object model) {
         try {

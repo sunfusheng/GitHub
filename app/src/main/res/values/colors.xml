@@ -5,6 +5,21 @@
     <color name="colorPrimaryDark">#373a41</color>
     <color name="colorAccent">#373a41</color>
 
+    <!-- common -->
+    <color name="c0">#ff000000</color>
+    <color name="c1">#D9000000</color>
+    <color name="c2">#8C000000</color>
+    <color name="c3">#66000000</color>
+    <color name="c4">#1A000000</color>
+    <color name="c5">#C34A42</color>
+    <color name="c6">#FF9800</color>
+    <color name="c7">#009734</color>
+    <color name="c8">#46AE36</color>
+    <color name="c9">#47B000</color>
+    <color name="c10">#007AFF</color>
+    <color name="c11">#1194F6</color>
+    <color name="c12">#9D1BB2</color>
+
     <color name="font1">#373a41</color>
     <color name="font2">#9d9d9d</color>
     <color name="font3">#d6d6d6</color>
