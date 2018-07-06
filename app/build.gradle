@@ -97,4 +97,5 @@ dependencies {
     implementation 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.6'
     implementation 'com.sunfusheng:FirUpdater:1.0.8'
     implementation 'com.sunfusheng:GlideImageView:2.0.0'
+    implementation 'com.sunfusheng:MultiType:1.0.0'
 }
