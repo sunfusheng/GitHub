@@ -36,7 +36,6 @@ public class DiscoverFragment extends BaseFragment {
         if (view == null) {
             return;
         }
-
     }
 
 }

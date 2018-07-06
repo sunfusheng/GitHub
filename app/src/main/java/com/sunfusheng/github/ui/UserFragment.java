@@ -28,7 +28,7 @@ import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.EventViewModel;
 import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
-import com.sunfusheng.github.viewmodel.VM;
+import com.sunfusheng.github.viewmodel.VmUtil;
 import com.sunfusheng.github.widget.ContributionsView;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
 import com.sunfusheng.transformation.BlurTransformation;
@@ -139,7 +139,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeUser() {
-        UserViewModel viewModel = VM.of(this, UserViewModel.class);
+        UserViewModel viewModel = VmUtil.of(this, UserViewModel.class);
         viewModel.setRequestParams(username, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
@@ -166,7 +166,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeContributions() {
-        ContributionsViewModel viewModel = VM.of(this, ContributionsViewModel.class);
+        ContributionsViewModel viewModel = VmUtil.of(this, ContributionsViewModel.class);
         viewModel.setRequestParams(username);
 
         viewModel.liveData.observe(this, it -> {
@@ -177,7 +177,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeRepos() {
-        RepoViewModel viewModel = VM.of(this, RepoViewModel.class);
+        RepoViewModel viewModel = VmUtil.of(this, RepoViewModel.class);
         viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
@@ -197,7 +197,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeEvents() {
-        EventViewModel viewModel = VM.of(this, EventViewModel.class);
+        EventViewModel viewModel = VmUtil.of(this, EventViewModel.class);
         viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {

@@ -15,8 +15,7 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.viewmodel.UserViewModel;
-import com.sunfusheng.github.viewmodel.VM;
-import com.sunfusheng.github.widget.multitype.MultiTypeAdapter;
+import com.sunfusheng.github.viewmodel.VmUtil;
 
 /**
  * @author sunfusheng on 2018/4/18.
@@ -25,7 +24,6 @@ public class HomeFragment extends BaseFragment {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private MultiTypeAdapter multiTypeAdapter;
 
     private String username;
     private UserViewModel userViewModel;
@@ -44,7 +42,7 @@ public class HomeFragment extends BaseFragment {
             username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
         }
 
-        userViewModel = VM.of(this, UserViewModel.class);
+        userViewModel = VmUtil.of(this, UserViewModel.class);
         userViewModel.setRequestParams(username, FetchMode.DEFAULT);
 
         toolbar = view.findViewById(R.id.toolbar);
@@ -57,7 +55,8 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initView() {
-        multiTypeAdapter = new MultiTypeAdapter();
+
+
     }
 
 }

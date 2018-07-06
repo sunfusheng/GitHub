@@ -1,27 +1,33 @@
 package com.sunfusheng.github.viewmodel;
 
+import android.app.Activity;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 /**
- * @author sunfusheng on 2018/4/19.
+ * @author sunfusheng on 2018/7/6.
  */
-public class VM {
+public class VM<T> extends ViewModel {
+    private final MutableLiveData<T> liveData = new MutableLiveData();
 
-    @NonNull
-    @MainThread
-    public static <T extends ViewModel> T of(@NonNull FragmentActivity activity, @NonNull Class<T> modelClass) {
-        return ViewModelProviders.of(activity).get(modelClass);
+    public void put(T data) {
+        VmUtil.setValue(() -> {
+            liveData.setValue(data);
+        });
     }
 
+    public void onNotify(@NonNull Activity activity, Observer<T> observer) {
+        liveData.observe(VmUtil.getActivity(activity), observer);
+    }
 
-    @NonNull
-    @MainThread
-    public static <T extends ViewModel> T of(@NonNull Fragment fragment, @NonNull Class<T> modelClass) {
-        return ViewModelProviders.of(fragment).get(modelClass);
+    public void onNotify(@NonNull Fragment fragment, Observer<T> observer) {
+        onNotify(VmUtil.getActivity(fragment.getActivity()), observer);
+    }
+
+    public T getData1() {
+        return liveData.getValue();
     }
 }
