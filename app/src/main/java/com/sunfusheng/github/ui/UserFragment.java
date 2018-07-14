@@ -137,7 +137,7 @@ public class UserFragment extends BaseFragment {
 
     private void observeUser() {
         UserViewModel viewModel = VmProvider.of(this, UserViewModel.class);
-        viewModel.setRequestParams(username, FetchMode.DEFAULT);
+        viewModel.setRequestParams(username, FetchMode.REMOTE);
 
         viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {
@@ -175,7 +175,7 @@ public class UserFragment extends BaseFragment {
 
     private void observeRepos() {
         RepoViewModel viewModel = VmProvider.of(this, RepoViewModel.class);
-        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.DEFAULT);
+        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.REMOTE);
 
         viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {

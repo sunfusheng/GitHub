@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -17,18 +16,18 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
-            android:id="@+id/desc"
+            android:id="@+id/event_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/avatar"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textSize="12sp"
-            tools:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"/>
+            android:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"
+            android:textSize="12sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -39,10 +38,81 @@
             android:layout_toRightOf="@+id/avatar"
             android:background="@drawable/drawable_repo_selector">
 
-            <include layout="@layout/item_repo"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/repo_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="repo name"
+                    android:textColor="@color/font1"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/repo_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="repo desc"
+                    android:textColor="@color/font2"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="language"
+                        android:textColor="@color/font2"
+                        android:textSize="@dimen/text_size_x_small"/>
+
+                    <ImageView
+                        android:id="@+id/star_count_img"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginLeft="@dimen/item_margin"
+                        android:src="@mipmap/ic_action_star"/>
+
+                    <TextView
+                        android:id="@+id/star_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="0"
+                        android:textColor="@color/font2"
+                        android:textSize="@dimen/text_size_x_small"/>
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/item_margin"
+                        android:text="0"
+                        android:textColor="@color/font2"
+                        android:textSize="@dimen/text_size_x_small"/>
+                </LinearLayout>
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 
-
-    <include layout="@layout/divider_1px_16dp"/>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider2"/>
 </LinearLayout>

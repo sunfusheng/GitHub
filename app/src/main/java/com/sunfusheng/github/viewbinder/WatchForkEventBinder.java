@@ -25,17 +25,18 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
-
+        holder.vAvatar.load(item.actor.avatar_url, R.color.background_common_dark, 3);
+        holder.vEventDesc.setText(item.type + " " + item.created_at);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
-        TextView vDesc;
+        TextView vEventDesc;
 
         public ViewHolder(View view) {
             super(view);
             vAvatar = view.findViewById(R.id.avatar);
-            vDesc = view.findViewById(R.id.desc);
+            vEventDesc = view.findViewById(R.id.event_desc);
         }
     }
 }
