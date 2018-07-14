@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.api;
+package com.sunfusheng.github.net;
 
 import com.sunfusheng.github.model.Auth;
 import com.sunfusheng.github.model.Event;
@@ -40,5 +40,10 @@ public interface ApiService {
     Observable<Response<List<Event>>> fetchEvents(@Path("username") String username,
                                                  @Query("page") int page,
                                                  @Query("per_page") int per_page);
+
+    @GET("users/{username}/received_events")
+    Observable<Response<List<Event>>> fetchReceivedEvents(@Path("username") String username,
+                                                  @Query("page") int page,
+                                                  @Query("per_page") int per_page);
 
 }

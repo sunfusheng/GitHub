@@ -13,19 +13,18 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.util.DateUtil;
-import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.util.PreferenceUtil;
-
-import me.drakeet.multitype.ItemViewBinder;
+import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.multitype.ItemViewBinder;
 
 /**
  * @author sunfusheng on 2018/4/23.
  */
-public class RepoViewBinder extends ItemViewBinder<Repo, RepoViewBinder.ViewHolder> {
+public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
 
     private String username;
 
-    public RepoViewBinder() {
+    public RepoBinder() {
         this.username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
     }
 

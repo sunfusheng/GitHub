@@ -64,38 +64,37 @@ def generateApk(variant) {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:design:' + rootProject.supportLibraryVersion
-    implementation 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
-    implementation 'com.android.support:recyclerview-v7:' + rootProject.supportLibraryVersion
-    implementation 'com.android.support:support-v4:' + rootProject.supportLibraryVersion
-    implementation 'com.android.support:support-v13:' + rootProject.supportLibraryVersion
-    implementation 'com.android.support:animated-vector-drawable:' + rootProject.supportLibraryVersion
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.android.support:design:' + rootProject.supportLibraryVersion
+    api 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
+    api 'com.android.support:recyclerview-v7:' + rootProject.supportLibraryVersion
+    api 'com.android.support:support-v4:' + rootProject.supportLibraryVersion
+    api 'com.android.support:support-v13:' + rootProject.supportLibraryVersion
+    api 'com.android.support:animated-vector-drawable:' + rootProject.supportLibraryVersion
 
-    implementation 'android.arch.lifecycle:viewmodel:' + rootProject.lifecycle
-    implementation 'android.arch.lifecycle:livedata:' + rootProject.lifecycle
-    implementation 'android.arch.lifecycle:extensions:' + rootProject.lifecycle
-    implementation 'android.arch.lifecycle:reactivestreams:' + rootProject.lifecycle
+    api 'android.arch.lifecycle:viewmodel:' + rootProject.lifecycle
+    api 'android.arch.lifecycle:livedata:' + rootProject.lifecycle
+    api 'android.arch.lifecycle:extensions:' + rootProject.lifecycle
+    api 'android.arch.lifecycle:reactivestreams:' + rootProject.lifecycle
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.lifecycle
-    implementation 'android.arch.persistence.room:runtime:' + rootProject.room
-    implementation 'android.arch.persistence.room:rxjava2:' + rootProject.room
+    api 'android.arch.persistence.room:runtime:' + rootProject.room
+    api 'android.arch.persistence.room:rxjava2:' + rootProject.room
     annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.room
 
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+    api 'com.squareup.okhttp3:okhttp:3.10.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    api 'com.squareup.retrofit2:retrofit:2.4.0'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    api 'io.reactivex.rxjava2:rxjava:2.1.16'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
 
-    implementation 'me.drakeet.multitype:multitype:3.4.4'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
-    implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.6'
-    implementation 'com.sunfusheng:FirUpdater:1.0.8'
-    implementation 'com.sunfusheng:GlideImageView:2.0.0'
-    implementation 'com.sunfusheng:MultiType:1.0.0'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
+    api 'com.orhanobut:logger:2.2.0'
+    api 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.6'
+    api 'com.sunfusheng:FirUpdater:1.1.0'
+    api 'com.sunfusheng:GlideImageView:2.0.0'
+    api 'com.sunfusheng:RecyclerViewWrapper:1.0.4'
 }

@@ -1,7 +1,7 @@
 package com.sunfusheng.github.datasource.base;
 
-import com.sunfusheng.github.annotation.LoadingState;
 import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.multistate.LoadingState;
 
 import io.reactivex.ObservableTransformer;
 import io.reactivex.schedulers.Schedulers;

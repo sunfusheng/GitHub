@@ -1,5 +1,6 @@
 package com.sunfusheng.github.net.api;
 
+import com.sunfusheng.github.net.ApiService;
 import com.sunfusheng.github.net.factory.RetrofitFactory;
 import com.sunfusheng.github.net.interceptor.CommonHeaderInterceptor;
 import com.sunfusheng.github.net.interceptor.LoginHeaderInterceptor;

@@ -6,7 +6,7 @@ Java版GitHub客户端
 ## api地址
 
 GitHub开发者文档
-https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization
+https://developer.github.com/v3/
 
 
 用户信息
@@ -21,5 +21,9 @@ https://github.com/users/sfsheng0322/contributions
 https://api.github.com/users/sfsheng0322/repos?page=1&per_page=30&sort=pushed
 
 
-事件
+个人事件
 https://api.github.com/users/sfsheng0322/events?page=1&per_page=10
+
+
+个人收到的事件，朋友圈
+https://api.github.com/users/sfsheng0322/received_events

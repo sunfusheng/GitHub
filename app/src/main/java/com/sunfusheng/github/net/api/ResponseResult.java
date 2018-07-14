@@ -1,7 +1,7 @@
 package com.sunfusheng.github.net.api;
 
-import com.sunfusheng.github.annotation.LoadingState;
 import com.sunfusheng.github.util.ExceptionUtil;
+import com.sunfusheng.multistate.LoadingState;
 
 import retrofit2.Response;
 
@@ -14,7 +14,6 @@ public class ResponseResult<T> {
     public String msg;
     public T data;
 
-    @LoadingState
     public int loadingState;
 
     public ResponseResult(int code, String msg, T data) {
@@ -23,12 +22,12 @@ public class ResponseResult<T> {
         this.data = data;
     }
 
-    public ResponseResult(int code, String msg, T data, @LoadingState int loadingState) {
+    public ResponseResult(int code, String msg, T data, int loadingState) {
         this(code, msg, data);
         this.loadingState = loadingState;
     }
 
-    public ResponseResult(Response<T> response, @LoadingState int loadingState) {
+    public ResponseResult(Response<T> response, int loadingState) {
         this(response.code(), response.message(), response.body(), loadingState);
     }
 

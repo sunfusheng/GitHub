@@ -22,8 +22,8 @@
         app:theme="@style/ToolbarStyle"
         app:titleTextAppearance="@style/ToolBar.Title"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <com.sunfusheng.wrapper.RecyclerViewWrapper
+        android:id="@+id/recyclerViewWrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

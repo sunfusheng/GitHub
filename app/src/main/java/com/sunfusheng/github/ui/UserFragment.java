@@ -15,22 +15,20 @@ import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.annotation.LoadingState;
 import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
-import com.sunfusheng.github.viewbinder.EventViewBinder;
-import com.sunfusheng.github.viewbinder.RepoViewBinder;
+import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.github.viewmodel.ContributionsViewModel;
-import com.sunfusheng.github.viewmodel.EventViewModel;
 import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
-import com.sunfusheng.github.viewmodel.VmUtil;
+import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.ContributionsView;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
+import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.transformation.BlurTransformation;
 
 /**
@@ -80,7 +78,6 @@ public class UserFragment extends BaseFragment {
         observeUser();
         observeContributions();
         observeRepos();
-        observeEvents();
     }
 
     private void initData() {
@@ -139,7 +136,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeUser() {
-        UserViewModel viewModel = VmUtil.of(this, UserViewModel.class);
+        UserViewModel viewModel = VmProvider.of(this, UserViewModel.class);
         viewModel.setRequestParams(username, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
@@ -166,7 +163,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeContributions() {
-        ContributionsViewModel viewModel = VmUtil.of(this, ContributionsViewModel.class);
+        ContributionsViewModel viewModel = VmProvider.of(this, ContributionsViewModel.class);
         viewModel.setRequestParams(username);
 
         viewModel.liveData.observe(this, it -> {
@@ -177,40 +174,20 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeRepos() {
-        RepoViewModel viewModel = VmUtil.of(this, RepoViewModel.class);
+        RepoViewModel viewModel = VmProvider.of(this, RepoViewModel.class);
         viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {
                 vRepoContainer.removeAllViews();
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                RepoViewBinder repoViewBinder = new RepoViewBinder();
+                RepoBinder repoViewBinder = new RepoBinder();
 
                 for (int i = 0; i < it.data.size(); i++) {
                     if (i >= 10) break;
                     View view = repoViewBinder.onCreateView(inflater, vRepoContainer);
-                    repoViewBinder.onBindViewHolder(new RepoViewBinder.ViewHolder(view), it.data.get(i));
+                    repoViewBinder.onBindViewHolder(new RepoBinder.ViewHolder(view), it.data.get(i));
                     vRepoContainer.addView(view);
-                }
-            }
-        });
-    }
-
-    private void observeEvents() {
-        EventViewModel viewModel = VmUtil.of(this, EventViewModel.class);
-        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.DEFAULT);
-
-        viewModel.liveData.observe(this, it -> {
-            if (it.loadingState == LoadingState.SUCCESS) {
-                vEventContainer.removeAllViews();
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                EventViewBinder eventViewBinder = new EventViewBinder();
-
-                for (int i = 0; i < it.data.size(); i++) {
-                    if (i >= 10) break;
-                    View view = eventViewBinder.onCreateView(inflater, vEventContainer);
-                    eventViewBinder.onBindViewHolder(new EventViewBinder.ViewHolder(view), it.data.get(i));
-                    vEventContainer.addView(view);
                 }
             }
         });
