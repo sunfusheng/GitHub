@@ -35,9 +35,10 @@ public class CacheInterceptor implements Interceptor {
                     .header("Cache-Control", cacheControl)
                     .build();
         } else {
+            int maxStale = 60 * 60 * 24 * 30; // 没网一个月后失效
             return response.newBuilder()
                     .removeHeader("Pragma")
-                    .header("Cache-Control", CacheControl.FORCE_CACHE.toString())
+                    .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
                     .build();
         }
     }

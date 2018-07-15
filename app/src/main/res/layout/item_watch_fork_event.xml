@@ -28,9 +28,11 @@
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/avatar"
             android:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"
-            android:textSize="12sp"/>
+            android:textColor="@color/font1"
+            android:textSize="11sp"/>
 
         <RelativeLayout
+            android:id="@+id/rl_repo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/event_desc"
@@ -40,11 +42,12 @@
             android:background="@drawable/drawable_repo_selector">
 
             <TextView
+                android:id="@+id/star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/drawable_repo_selector"
                 android:gravity="center"
                 android:paddingBottom="1dp"
@@ -52,15 +55,14 @@
                 android:paddingRight="5dp"
                 android:paddingTop="1dp"
                 android:text="star"
-                android:textColor="@color/font1"
-                android:textSize="11sp"
-                android:textStyle="bold"/>
+                android:textColor="@color/black"
+                android:textSize="12sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/repo_name"
@@ -70,9 +72,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="repo name"
-                    android:textColor="@color/font1"
-                    android:textSize="11sp"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black"
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/repo_desc"
@@ -80,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
-                    android:maxLines="3"
+                    android:maxLines="4"
                     android:text="repo desc"
                     android:textColor="@color/font2"
                     android:textSize="11sp"/>

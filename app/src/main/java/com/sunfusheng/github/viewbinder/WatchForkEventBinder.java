@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
+import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.widget.app.RepoInfo;
 import com.sunfusheng.multitype.ItemViewBinder;
 
@@ -31,23 +33,28 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         holder.vRepoName.setText(item.repo.full_name);
         holder.vRepoDesc.setText(item.repo.description);
         holder.vRepoInfo.setData(item.repo);
+
+        holder.rlRepo.setOnClickListener(v -> {
+
+        });
     }
 
     private String getEventDesc(Event item) {
         StringBuilder sb = new StringBuilder();
         sb.append(item.actor.login).append(" ");
         if (item.type.equals(Event.WatchEvent)) {
-            sb.append("starred ").append(item.repo.name);
+            sb.append("starred ").append(item.repo.full_name);
         } else {
-            sb.append("forked ").append(item.payload.forkee.full_name).append(" from ").append(item.repo.name);
+            sb.append("forked ").append(item.payload.forkee.full_name).append(" from ").append(item.repo.full_name);
         }
-        sb.append(" ").append(item.created_at);
+        sb.append(" ").append(DateUtil.formatDate(item.created_at));
         return sb.toString();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
         TextView vEventDesc;
+        RelativeLayout rlRepo;
         TextView vRepoName;
         TextView vRepoDesc;
         RepoInfo vRepoInfo;
@@ -56,6 +63,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
             super(view);
             vAvatar = view.findViewById(R.id.avatar);
             vEventDesc = view.findViewById(R.id.event_desc);
+            rlRepo = view.findViewById(R.id.rl_repo);
             vRepoName = view.findViewById(R.id.repo_name);
             vRepoDesc = view.findViewById(R.id.repo_desc);
             vRepoInfo = view.findViewById(R.id.repo_info);

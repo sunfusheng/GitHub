@@ -12,6 +12,7 @@ import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -42,11 +43,13 @@ public interface ApiService {
                                                   @Query("page") int page,
                                                   @Query("per_page") int per_page);
 
+//    @Headers("Cache-Control: public, max-age=600")
     @GET("users/{username}/received_events")
     Observable<Response<List<Event>>> fetchReceivedEvents(@Path("username") String username,
                                                           @Query("page") int page,
                                                           @Query("per_page") int per_page);
 
+    @Headers("Cache-Control: public, max-age=600")
     @GET
     Observable<Response<Repo>> fetchRepo(@Url String url);
 

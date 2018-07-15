@@ -144,7 +144,7 @@ public class UserFragment extends BaseFragment {
                 User user = it.data;
 
                 toolbar.setTitle(user.name + "（" + user.login + "）");
-                toolbar.setSubtitle("创建于" + DateUtil.convertString2String(user.created_at));
+                toolbar.setSubtitle("创建于" + DateUtil.formatDate2String(user.created_at, DateUtil.FORMAT.format(DateUtil.FORMAT.yyyyMMdd)));
 
                 toolbarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
                 profileAvatarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
