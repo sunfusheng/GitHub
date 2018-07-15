@@ -23,7 +23,7 @@ public class Utils {
             case "HTML":
                 return Color.parseColor("#df4e37");
         }
-        return Color.parseColor("#d6d6d6");
+        return Color.parseColor("#666666");
     }
 
     public static String getDesc(String type, String ref, String repoName) {

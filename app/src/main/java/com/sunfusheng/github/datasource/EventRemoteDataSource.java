@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author sunfusheng on 2018/5/7.
  */
-public class EventRemoteDataSource extends RemoteDataSource implements IEventDataSource {
+public class EventRemoteDataSource extends RemoteDataSource {
 
     private static EventRemoteDataSource instance = new EventRemoteDataSource();
 
@@ -24,30 +24,33 @@ public class EventRemoteDataSource extends RemoteDataSource implements IEventDat
         return instance;
     }
 
-    @Override
-    public Observable<ResponseResult<List<Event>>> getEvents(String username, int page, int perPage) {
-        return Api.getCommonService().fetchEvents(username, page, perPage)
-                .subscribeOn(Schedulers.io())
-                .compose(applyRemoteTransformer())
-                .doOnNext(it -> {
-                    if (isLoadingSuccess(it)) {
-//                        List<Event> data = it.data;
-//                        if (!CollectionUtil.isEmpty(data)) {
-//                            for (Event event : data) {
-//                                if (event.payload != null && !CollectionUtil.isEmpty(event.payload.commits)) {
-//                                    event.payload.commit = event.payload.commits.get(0);
-//                                }
-//                            }
-//                            EventDatabase.instance().getEventDao().insert(data);
-//                        }
-                    }
-                });
-    }
-
     public Observable<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage) {
         return Api.getCommonService().fetchReceivedEvents(username, page, perPage)
                 .subscribeOn(Schedulers.io())
-                .compose(applyRemoteTransformer());
+                .compose(applyRemoteTransformer())
+                .flatMap(it -> {
+                    if (isLoadingSuccess(it)) {
+                        return Observable.just(it.data)
+                                .flatMap(Observable::fromIterable)
+                                .flatMap(event -> {
+                                    return Api.getCommonService().fetchRepo(event.repo.url)
+                                            .compose(applyRemoteTransformer())
+                                            .map(repoResult -> {
+                                                if (isLoadingSuccess(repoResult)) {
+                                                    event.repo = repoResult.data;
+                                                }
+                                                return event;
+                                            });
+                                })
+                                .toList()
+                                .map(events -> {
+                                    it.data = events;
+                                    return it;
+                                })
+                                .toObservable();
+                    }
+                    return Observable.just(it);
+                });
     }
 
 }

@@ -15,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * @author by sunfusheng on 2018/4/8.
@@ -38,12 +39,15 @@ public interface ApiService {
 
     @GET("users/{username}/events")
     Observable<Response<List<Event>>> fetchEvents(@Path("username") String username,
-                                                 @Query("page") int page,
-                                                 @Query("per_page") int per_page);
+                                                  @Query("page") int page,
+                                                  @Query("per_page") int per_page);
 
     @GET("users/{username}/received_events")
     Observable<Response<List<Event>>> fetchReceivedEvents(@Path("username") String username,
-                                                  @Query("page") int page,
-                                                  @Query("per_page") int per_page);
+                                                          @Query("page") int page,
+                                                          @Query("per_page") int per_page);
+
+    @GET
+    Observable<Response<Repo>> fetchRepo(@Url String url);
 
 }

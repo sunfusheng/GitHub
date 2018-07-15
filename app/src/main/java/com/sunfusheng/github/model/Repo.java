@@ -93,6 +93,11 @@ public class Repo {
     public int watchers;
     public String default_branch;
 
+    @Ignore
+    public Repo parent;
+    @Ignore
+    public Repo source;
+
     @Embedded
     public License license;
 

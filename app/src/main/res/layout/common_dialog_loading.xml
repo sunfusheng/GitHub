@@ -15,10 +15,10 @@
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/item_margin_smallest"
+        android:paddingBottom="@dimen/item_margin_smaller"
         android:paddingLeft="@dimen/item_margin_small"
         android:paddingRight="@dimen/item_margin_small"
-        android:paddingTop="@dimen/item_margin_smallest">
+        android:paddingTop="@dimen/item_margin_smaller">
 
         <ProgressBar
             android:id="@+id/common_dialog_loading_progress"

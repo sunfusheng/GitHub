@@ -9,7 +9,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:paddingBottom="16dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="16dp">
 
         <com.sunfusheng.GlideImageView
             android:id="@+id/avatar"
@@ -24,19 +27,34 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/avatar"
-            android:ellipsize="end"
-            android:maxLines="3"
             android:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"
             android:textSize="12sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/avatar"
+            android:layout_below="@+id/event_desc"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/avatar"
             android:background="@drawable/drawable_repo_selector">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/drawable_repo_selector"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="1dp"
+                android:text="star"
+                android:textColor="@color/font1"
+                android:textSize="11sp"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,59 +71,26 @@
                     android:singleLine="true"
                     android:text="repo name"
                     android:textColor="@color/font1"
-                    android:textSize="12sp"/>
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/repo_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text="repo desc"
                     android:textColor="@color/font2"
-                    android:textSize="12sp"/>
+                    android:textSize="11sp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.sunfusheng.github.widget.app.RepoInfo
+                    android:id="@+id/repo_info"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/language"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="language"
-                        android:textColor="@color/font2"
-                        android:textSize="@dimen/text_size_x_small"/>
-
-                    <ImageView
-                        android:id="@+id/star_count_img"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_marginLeft="@dimen/item_margin"
-                        android:src="@mipmap/ic_action_star"/>
-
-                    <TextView
-                        android:id="@+id/star_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:text="0"
-                        android:textColor="@color/font2"
-                        android:textSize="@dimen/text_size_x_small"/>
-
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/item_margin"
-                        android:text="0"
-                        android:textColor="@color/font2"
-                        android:textSize="@dimen/text_size_x_small"/>
-                </LinearLayout>
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"/>
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
