@@ -26,15 +26,15 @@ import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
-import com.sunfusheng.github.widget.app.ContributionsView;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
+import com.sunfusheng.github.widget.app.ContributionsView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.transformation.BlurTransformation;
 
 /**
  * @author sunfusheng on 2018/4/12.
  */
-public class UserFragment extends BaseFragment {
+public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     private ListenerNestedScrollView nestedScrollView;
 
@@ -109,6 +109,10 @@ public class UserFragment extends BaseFragment {
         nestedScrollView = view.findViewById(R.id.nestedScrollView);
         vContributions = view.findViewById(R.id.contributions);
         vRepoContainer = view.findViewById(R.id.repo_container);
+
+        vRepo.setOnClickListener(this);
+        vFollowing.setOnClickListener(this);
+        vFollowers.setOnClickListener(this);
     }
 
     private void initToolbar() {
@@ -191,4 +195,8 @@ public class UserFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }

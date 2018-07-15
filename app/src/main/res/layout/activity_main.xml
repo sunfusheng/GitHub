@@ -12,7 +12,10 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <include layout="@layout/divider_1px"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/background_common_dark"/>
 
     <com.sunfusheng.github.widget.bottombar.AlphaTabLayout
         android:id="@+id/tabLayout"

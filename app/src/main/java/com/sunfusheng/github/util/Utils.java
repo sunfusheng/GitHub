@@ -29,6 +29,14 @@ public class Utils {
                 return Color.parseColor("#3873a3");
             case "Go":
                 return Color.parseColor("#3960a9");
+            case "Kotlin":
+                return Color.parseColor("#ef8d3f");
+            case "Dart":
+                return Color.parseColor("#1cb4bb");
+            case "Groovy":
+                return Color.parseColor("#e59e5c");
+            case "PHP":
+                return Color.parseColor("#4f5e93");
         }
         return Color.parseColor("#666666");
     }

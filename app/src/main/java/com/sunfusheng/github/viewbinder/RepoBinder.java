@@ -38,6 +38,10 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
             holder.vDesc.setVisibility(View.GONE);
         }
         holder.vRepoInfo.setData(item);
+
+        holder.itemView.setOnClickListener(v -> {
+
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
