@@ -10,7 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/item_margin_large">
+        android:paddingBottom="@dimen/item_margin_large"
+        android:paddingLeft="@dimen/item_margin"
+        android:paddingRight="@dimen/item_margin"
+        android:paddingTop="@dimen/item_margin_large">
 
         <TextView
             android:id="@+id/name"
@@ -20,8 +23,8 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text="name"
-            android:textColor="@color/font1"
-            android:textSize="@dimen/text_size_normal"/>
+            android:textColor="@color/black"
+            android:textSize="12dp"/>
 
         <TextView
             android:id="@+id/desc"
@@ -32,9 +35,9 @@
             android:maxLines="4"
             android:text="desc"
             android:textColor="@color/font2"
-            android:textSize="@dimen/text_size_x_small"/>
+            android:textSize="10dp"/>
 
-        <com.sunfusheng.github.widget.app.RepoInfo
+        <com.sunfusheng.github.widget.app.RepoInfoView
             android:id="@+id/repo_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,5 +46,10 @@
             android:orientation="horizontal"/>
     </LinearLayout>
 
-    <include layout="@layout/divider_1px_16dp"/>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/item_margin"
+        android:background="@color/divider2"/>
 </LinearLayout>

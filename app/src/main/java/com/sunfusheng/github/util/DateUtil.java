@@ -21,7 +21,7 @@ public class DateUtil {
     public static final long MONTH_2_SECOND = DAY_2_SECOND * 31;
     public static final long YEAR_2_SECOND = DAY_2_SECOND * 365;
 
-    public static final String GITHUB_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final long BEIJING_SECOND = HOUR_2_SECOND * 8;
 
     public static Date formatDate2Date(String dateStr, String pattern) {
         java.text.DateFormat dateFormat = new SimpleDateFormat(pattern);
@@ -43,12 +43,8 @@ public class DateUtil {
         return dateFormat.format(new Date());
     }
 
-    private static long getMilliSeconds(String dateStr, String pattern) {
+    public static long getMilliSeconds(String dateStr, String pattern) {
         return formatDate2Date(dateStr, pattern).getTime();
-    }
-
-    public static String formatDate(String dateStr) {
-        return formatDate(getMilliSeconds(dateStr, GITHUB_PATTERN));
     }
 
     public static String formatDate(long milliseconds) {
@@ -65,17 +61,11 @@ public class DateUtil {
         }
     }
 
-    public static String formatTimeAgo(String dateStr, boolean isEnglish) {
-        return formatTimeAgo(new Date().getTime() - getMilliSeconds(dateStr, GITHUB_PATTERN), false, isEnglish);
-    }
-
-    public static String formatTimeAgo(long milliSeconds, boolean showWeek, boolean isEnglish) {
+    public static String formatTimeAgo(long milliSeconds, boolean isEnglish) {
         long year = milliSeconds / YEAR_2_SECOND;
         milliSeconds %= YEAR_2_SECOND;
         long month = milliSeconds / MONTH_2_SECOND;
         milliSeconds %= MONTH_2_SECOND;
-        long week = milliSeconds / WEEK_2_SECOND;
-        milliSeconds %= WEEK_2_SECOND;
         long day = milliSeconds / DAY_2_SECOND;
         milliSeconds %= DAY_2_SECOND;
         long hour = milliSeconds / HOUR_2_SECOND;
@@ -86,8 +76,6 @@ public class DateUtil {
             return year + (isEnglish ? " years ago" : "年前");
         } else if (month > 0) {
             return month + (isEnglish ? " months ago" : "月前");
-        } else if (showWeek && week > 0) {
-            return week + (isEnglish ? " weeks ago" : "周前");
         } else if (day > 0) {
             return day + (isEnglish ? " days ago" : "天前");
         } else if (hour > 0) {

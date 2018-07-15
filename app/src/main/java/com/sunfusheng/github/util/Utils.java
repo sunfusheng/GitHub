@@ -1,12 +1,15 @@
 package com.sunfusheng.github.util;
 
 import android.graphics.Color;
-import android.text.TextUtils;
+
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author sunfusheng on 2018/4/23.
  */
 public class Utils {
+    public static final String GITHUB_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     public static int getColorByLanguage(String language) {
         switch (language) {
@@ -26,30 +29,24 @@ public class Utils {
         return Color.parseColor("#666666");
     }
 
-    public static String getDesc(String type, String ref, String repoName) {
-        StringBuilder sb = new StringBuilder();
-
-        switch (type) {
-            case "PushEvent":
-                sb.append("Pushed ");
-                break;
-            default:
-                sb.append(type).append(" ");
-                break;
+    public static String getStarCount(int starCount) {
+        if (starCount > 1000) {
+            float result = (starCount / 100) * 1f / 10 + (starCount % 100 >= 50 ? 0.1f : 0f);
+            return String.format(Locale.getDefault(), "%.1f", result) + "k";
         }
+        return String.valueOf(starCount);
+    }
 
-        if (!TextUtils.isEmpty(ref)) {
-            String[] split = ref.split("/");
-            sb.append("to ");
-            sb.append(split[split.length - 1]);
-            sb.append(" ");
-        }
+    public static long getMilliSeconds(String dateStr) {
+        return DateUtil.getMilliSeconds(dateStr, GITHUB_PATTERN) + DateUtil.BEIJING_SECOND;
+    }
 
-        if (!TextUtils.isEmpty(repoName)) {
-            sb.append("in ").append(repoName);
-        }
+    public static String getDate(String dateStr) {
+        return DateUtil.formatDate(getMilliSeconds(dateStr));
+    }
 
-        return sb.toString();
+    public static String getDateAgo(String dateStr) {
+        return DateUtil.formatTimeAgo(new Date().getTime() - getMilliSeconds(dateStr), true);
     }
 
 }

@@ -29,7 +29,7 @@
             android:textSize="@dimen/text_size_normal"/>
     </LinearLayout>
 
-    <com.sunfusheng.github.widget.ContributionsView
+    <com.sunfusheng.github.widget.app.ContributionsView
         android:id="@+id/contributions"
         android:layout_width="match_parent"
         android:layout_height="120dp"

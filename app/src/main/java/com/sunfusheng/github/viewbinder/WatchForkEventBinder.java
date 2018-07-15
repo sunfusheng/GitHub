@@ -2,6 +2,8 @@ package com.sunfusheng.github.viewbinder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,13 @@ import android.widget.TextView;
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
-import com.sunfusheng.github.util.DateUtil;
-import com.sunfusheng.github.widget.app.RepoInfo;
+import com.sunfusheng.github.util.SpannableUtil;
+import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.github.widget.app.RepoInfoView;
 import com.sunfusheng.multitype.ItemViewBinder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author sunfusheng on 2018/7/14.
@@ -31,7 +37,12 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         holder.vAvatar.load(item.actor.avatar_url, R.color.background_common_dark, 3);
         holder.vEventDesc.setText(getEventDesc(item));
         holder.vRepoName.setText(item.repo.full_name);
-        holder.vRepoDesc.setText(item.repo.description);
+        if (!TextUtils.isEmpty(item.repo.description)) {
+            holder.vRepoDesc.setVisibility(View.VISIBLE);
+            holder.vRepoDesc.setText(item.repo.description);
+        } else {
+            holder.vRepoDesc.setVisibility(View.GONE);
+        }
         holder.vRepoInfo.setData(item.repo);
 
         holder.rlRepo.setOnClickListener(v -> {
@@ -39,16 +50,21 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         });
     }
 
-    private String getEventDesc(Event item) {
+    private SpannableString getEventDesc(Event item) {
         StringBuilder sb = new StringBuilder();
+        List<String> tags = new ArrayList<>();
         sb.append(item.actor.login).append(" ");
+        tags.add(item.actor.login);
         if (item.type.equals(Event.WatchEvent)) {
             sb.append("starred ").append(item.repo.full_name);
+            tags.add(item.repo.full_name);
         } else {
             sb.append("forked ").append(item.payload.forkee.full_name).append(" from ").append(item.repo.full_name);
+            tags.add(item.payload.forkee.full_name);
+            tags.add(item.repo.full_name);
         }
-        sb.append(" ").append(DateUtil.formatDate(item.created_at));
-        return sb.toString();
+        sb.append(" ").append(Utils.getDateAgo(item.created_at));
+        return SpannableUtil.getSpannableString(sb.toString(), R.color.black, tags);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +73,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         RelativeLayout rlRepo;
         TextView vRepoName;
         TextView vRepoDesc;
-        RepoInfo vRepoInfo;
+        RepoInfoView vRepoInfo;
 
         public ViewHolder(View view) {
             super(view);

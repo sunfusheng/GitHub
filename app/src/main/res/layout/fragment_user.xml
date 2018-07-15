@@ -25,13 +25,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/item_margin_large"
+                android:padding="@dimen/item_margin"
                 android:text="Contributions"
-                android:textColor="@color/green"
-                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold"/>
 
-            <com.sunfusheng.github.widget.ContributionsView
+            <com.sunfusheng.github.widget.app.ContributionsView
                 android:id="@+id/contributions"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"/>
@@ -43,33 +43,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/item_margin_large"
+                android:padding="@dimen/item_margin"
                 android:text="Repositories"
-                android:textColor="@color/config_color_blue"
-                android:textSize="@dimen/text_size_large"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold"/>
 
             <LinearLayout
                 android:id="@+id/repo_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"/>
-
-            <include
-                layout="@layout/divider_20dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="@dimen/item_margin_large"
-                android:text="Events"
-                android:textColor="@color/google_yellow"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold"/>
-
-            <LinearLayout
-                android:id="@+id/event_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>

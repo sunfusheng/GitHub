@@ -62,17 +62,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Repositories"
-                android:textColor="@color/font1"
-                android:textSize="@dimen/text_size_normal"/>
+                android:textColor="@color/black"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/repo_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="14sp"/>
+                android:textSize="10sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -92,16 +93,17 @@
                 android:layout_height="wrap_content"
                 android:text="Followers"
                 android:textColor="@color/font1"
-                android:textSize="@dimen/text_size_normal"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/followers_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="@dimen/text_size_small"/>
+                android:textSize="10sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -121,18 +123,17 @@
                 android:layout_height="wrap_content"
                 android:text="Following"
                 android:textColor="@color/font1"
-                android:textSize="@dimen/text_size_normal"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/following_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="@dimen/text_size_small"/>
+                android:textSize="10sp"/>
         </LinearLayout>
     </LinearLayout>
-
-    <include layout="@layout/divider_1px_16dp"/>
 </LinearLayout>

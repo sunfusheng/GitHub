@@ -28,8 +28,8 @@
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@+id/avatar"
             android:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"
-            android:textColor="@color/font1"
-            android:textSize="11sp"/>
+            android:textColor="@color/font2"
+            android:textSize="12sp"/>
 
         <RelativeLayout
             android:id="@+id/rl_repo"
@@ -84,9 +84,9 @@
                     android:maxLines="4"
                     android:text="repo desc"
                     android:textColor="@color/font2"
-                    android:textSize="11sp"/>
+                    android:textSize="10sp"/>
 
-                <com.sunfusheng.github.widget.app.RepoInfo
+                <com.sunfusheng.github.widget.app.RepoInfoView
                     android:id="@+id/repo_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

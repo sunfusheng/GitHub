@@ -1,4 +1,4 @@
-package com.sunfusheng.github.widget;
+package com.sunfusheng.github.widget.app;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -32,7 +32,7 @@ public class ContributionsView extends WebView {
     private void init() {
         setBackgroundColor(getResources().getColor(R.color.white));
 
-        getSettings().setDefaultFontSize(12);
+        getSettings().setDefaultFontSize(11);
         getSettings().setSupportZoom(false);
         post(() -> scrollTo(DisplayUtil.getWindowWidth(getContext()), 0));
     }

@@ -25,6 +25,30 @@
     <com.sunfusheng.wrapper.RecyclerViewWrapper
         android:id="@+id/recyclerViewWrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <com.sunfusheng.github.widget.CircleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        app:circleBorder="1dp"
+        app:circleBorderColor="@color/red"
+        app:circleColor="@color/orange"
+        app:circleRadius="30dp"/>
+
+    <com.sunfusheng.github.widget.CircleTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        app:circleBorder="2dp"
+        app:circleBorderColor="@color/red"
+        app:circleColor="@color/orange"
+        app:circleRadius="50dp"
+        app:viewText="Circle"
+        app:viewTextColor="@color/black"
+        app:viewTextSize="15sp"/>
 
 </LinearLayout>

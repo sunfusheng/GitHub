@@ -5,6 +5,7 @@ import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.net.api.Api;
 import com.sunfusheng.github.net.api.ResponseResult;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -44,6 +45,7 @@ public class EventRemoteDataSource extends RemoteDataSource {
                                 })
                                 .toList()
                                 .map(events -> {
+                                    Collections.sort(events);
                                     it.data = events;
                                     return it;
                                 })

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.StatusBarUtil;
-import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
 
 /**
@@ -44,7 +43,8 @@ public class DiscoverFragment extends BaseFragment {
         toolbar.setTitle("Discover");
 
         recyclerViewWrapper = view.findViewById(R.id.recyclerViewWrapper);
-        recyclerViewWrapper.setLoadingState(LoadingState.ERROR);
+        recyclerViewWrapper.setVisibility(View.GONE);
+//        recyclerViewWrapper.setLoadingState(LoadingState.ERROR);
     }
 
 }

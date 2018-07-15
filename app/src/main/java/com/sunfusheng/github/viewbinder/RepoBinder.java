@@ -2,6 +2,7 @@ package com.sunfusheng.github.viewbinder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.widget.app.RepoInfo;
+import com.sunfusheng.github.widget.app.RepoInfoView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
 /**
@@ -30,13 +31,19 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Repo item) {
         holder.vName.setText(item.name);
+        if (!TextUtils.isEmpty(item.description)) {
+            holder.vDesc.setVisibility(View.VISIBLE);
+            holder.vDesc.setText(item.description);
+        } else {
+            holder.vDesc.setVisibility(View.GONE);
+        }
         holder.vRepoInfo.setData(item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView vName;
         TextView vDesc;
-        RepoInfo vRepoInfo;
+        RepoInfoView vRepoInfo;
 
         public ViewHolder(View view) {
             super(view);

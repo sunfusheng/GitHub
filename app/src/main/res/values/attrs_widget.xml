@@ -53,4 +53,18 @@
         <attr name="drawablePadding" format="dimension"/>
     </declare-styleable>
 
+
+    <declare-styleable name="CircleView">
+        <attr name="circleColor"/>
+        <attr name="circleRadius"/>
+        <attr name="circleBorderColor"/>
+        <attr name="circleBorder"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleTextView" parent="CircleView">
+        <attr name="viewText"/>
+        <attr name="viewTextColor"/>
+        <attr name="viewTextSize"/>
+    </declare-styleable>
+
 </resources>

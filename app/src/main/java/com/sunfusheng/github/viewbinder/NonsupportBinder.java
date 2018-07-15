@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.model.Event;
 import com.sunfusheng.multitype.ItemViewBinder;
 
 /**
@@ -24,7 +25,13 @@ public class NonsupportBinder extends ItemViewBinder<Object, NonsupportBinder.Vi
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Object item) {
         holder.vTitle.setTextColor(holder.itemView.getResources().getColor(R.color.colorPrimary));
-        holder.vTitle.setText("【暂不支持该数据类型】");
+        String type;
+        if (item instanceof Event) {
+            type = "【" + ((Event) item).getType() + "】";
+        } else {
+            type = "【" + item.getClass().getSimpleName() + ".class】";
+        }
+        holder.vTitle.setText("暂不支持" + type + "类型数据");
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

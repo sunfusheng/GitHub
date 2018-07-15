@@ -26,7 +26,7 @@ import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
-import com.sunfusheng.github.widget.ContributionsView;
+import com.sunfusheng.github.widget.app.ContributionsView;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.transformation.BlurTransformation;
@@ -54,7 +54,6 @@ public class UserFragment extends BaseFragment {
 
     private ContributionsView vContributions;
     private LinearLayout vRepoContainer;
-    private LinearLayout vEventContainer;
 
     private String username;
 
@@ -110,7 +109,6 @@ public class UserFragment extends BaseFragment {
         nestedScrollView = view.findViewById(R.id.nestedScrollView);
         vContributions = view.findViewById(R.id.contributions);
         vRepoContainer = view.findViewById(R.id.repo_container);
-        vEventContainer = view.findViewById(R.id.event_container);
     }
 
     private void initToolbar() {

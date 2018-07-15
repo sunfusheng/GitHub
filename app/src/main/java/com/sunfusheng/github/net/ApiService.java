@@ -43,7 +43,7 @@ public interface ApiService {
                                                   @Query("page") int page,
                                                   @Query("per_page") int per_page);
 
-//    @Headers("Cache-Control: public, max-age=600")
+    @Headers("Cache-Control: public, max-age=600")
     @GET("users/{username}/received_events")
     Observable<Response<List<Event>>> fetchReceivedEvents(@Path("username") String username,
                                                           @Query("page") int page,
