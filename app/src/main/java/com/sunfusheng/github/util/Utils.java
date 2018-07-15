@@ -25,6 +25,10 @@ public class Utils {
                 return Color.parseColor("#fbaa59");
             case "HTML":
                 return Color.parseColor("#df4e37");
+            case "Python":
+                return Color.parseColor("#3873a3");
+            case "Go":
+                return Color.parseColor("#3960a9");
         }
         return Color.parseColor("#666666");
     }

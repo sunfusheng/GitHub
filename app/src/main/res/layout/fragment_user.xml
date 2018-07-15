@@ -19,13 +19,16 @@
                 layout="@layout/fragment_user_profile"/>
 
             <include
-                layout="@layout/divider_20dp"/>
+                layout="@layout/divider_16dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/item_margin"
+                android:includeFontPadding="false"
+                android:paddingBottom="10dp"
+                android:paddingLeft="@dimen/item_margin"
+                android:paddingTop="@dimen/item_margin"
                 android:text="Contributions"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_normal"
@@ -37,13 +40,15 @@
                 android:layout_height="120dp"/>
 
             <include
-                layout="@layout/divider_20dp"/>
+                layout="@layout/divider_16dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/item_margin"
+                android:includeFontPadding="false"
+                android:paddingLeft="@dimen/item_margin"
+                android:paddingTop="@dimen/item_margin"
                 android:text="Repositories"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_normal"
@@ -56,7 +61,7 @@
                 android:orientation="vertical"/>
 
             <include
-                layout="@layout/divider_20dp"/>
+                layout="@layout/divider_16dp"/>
         </LinearLayout>
     </com.sunfusheng.github.widget.ListenerNestedScrollView>
 

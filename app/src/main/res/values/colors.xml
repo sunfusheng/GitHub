@@ -28,8 +28,8 @@
     <color name="divider1">@color/background_common</color>
     <color name="divider2">@color/background_common_dark</color>
 
-    <color name="background_common">#ebebeb</color>
-    <color name="background_common_dark">#d6d6d6</color>
+    <color name="background_common">#fafafa</color>
+    <color name="background_common_dark">#dadada</color>
 
     <color name="tab_normal">#9d9d9d</color>
     <color name="tab_selected">#1AAD19</color>

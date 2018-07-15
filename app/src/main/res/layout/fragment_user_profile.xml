@@ -61,6 +61,7 @@
                 android:id="@+id/repo_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:text="Repositories"
                 android:textColor="@color/black"
                 android:textSize="12sp"/>
@@ -73,7 +74,7 @@
                 android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="10sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -91,6 +92,7 @@
                 android:id="@+id/followers_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:text="Followers"
                 android:textColor="@color/font1"
                 android:textSize="12sp"/>
@@ -103,7 +105,7 @@
                 android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="10sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -121,6 +123,7 @@
                 android:id="@+id/following_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:text="Following"
                 android:textColor="@color/font1"
                 android:textSize="12sp"/>
@@ -133,7 +136,7 @@
                 android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/font2"
-                android:textSize="10sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
