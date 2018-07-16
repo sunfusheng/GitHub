@@ -51,5 +51,5 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginLeft="@dimen/item_margin"
-        android:background="@color/divider2"/>
+        android:background="@color/divider"/>
 </LinearLayout>

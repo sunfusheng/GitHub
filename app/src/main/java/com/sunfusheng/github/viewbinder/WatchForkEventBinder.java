@@ -34,7 +34,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
-        holder.vAvatar.load(item.actor.avatar_url, R.color.background_common_dark, 3);
+        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_avatar_default1, 3);
         holder.vEventDesc.setText(getEventDesc(item));
         holder.vRepoName.setText(item.repo.full_name);
         if (!TextUtils.isEmpty(item.repo.description)) {

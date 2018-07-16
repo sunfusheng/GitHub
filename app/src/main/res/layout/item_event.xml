@@ -35,6 +35,4 @@
             android:textSize="@dimen/text_size_x_small"/>
 
     </LinearLayout>
-
-    <include layout="@layout/divider_1px_16dp"/>
 </LinearLayout>

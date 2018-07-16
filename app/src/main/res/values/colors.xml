@@ -25,10 +25,9 @@
     <color name="font3">#999999</color>
     <color name="font4">#cccccc</color>
 
-    <color name="divider1">@color/background_common</color>
-    <color name="divider2">@color/background_common_dark</color>
+    <color name="divider">@color/background_common_dark</color>
 
-    <color name="background_common">#fefefe</color>
+    <color name="background_common">#ffffff</color>
     <color name="background_common_dark">#dadada</color>
 
     <color name="tab_normal">#9d9d9d</color>
