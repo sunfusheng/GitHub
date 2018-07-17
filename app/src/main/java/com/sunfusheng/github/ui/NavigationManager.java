@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui.navigation;
+package com.sunfusheng.github.ui;
 
 import android.content.Context;
 import android.content.Intent;

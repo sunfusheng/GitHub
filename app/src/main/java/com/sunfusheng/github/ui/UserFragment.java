@@ -70,6 +70,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
         super.onViewCreated(view, savedInstanceState);
         initView();
         initHeader();
@@ -126,7 +127,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         layoutParams.setMargins(0, -height, 0, 0);
         toolbarBackground.setLayoutParams(layoutParams);
 
-        int distance = DisplayUtil.dp2px(getContext(), 220) - toolbarAndStatusBarHeight;
+        int distance = DisplayUtil.dp2px(getContext(), 200) - toolbarAndStatusBarHeight;
 
         nestedScrollView.setOnScrollChangedInterface((scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY < 0) scrollY = 0;
@@ -179,7 +180,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     private void observeRepos() {
         RepoViewModel viewModel = VmProvider.of(this, RepoViewModel.class);
-        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_10, FetchMode.REMOTE);
+        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_20, FetchMode.REMOTE);
 
         viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {
@@ -188,7 +189,6 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 RepoBinder repoViewBinder = new RepoBinder();
 
                 for (int i = 0; i < it.data.size(); i++) {
-                    if (i >= 10) break;
                     View view = repoViewBinder.onCreateView(inflater, vRepoContainer);
                     repoViewBinder.onBindViewHolder(new RepoBinder.ViewHolder(view), it.data.get(i));
                     vRepoContainer.addView(view);

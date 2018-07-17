@@ -21,7 +21,7 @@
 
     <dimen name="tab_text_size">@dimen/text_size_x_small</dimen>
 
-    <dimen name="user_profile_height">220dp</dimen>
+    <dimen name="user_profile_height">200dp</dimen>
 
     <dimen name="radius_button_height">48dp</dimen>
 

@@ -58,7 +58,7 @@ def generateApk(variant) {
     if (variant.buildType.name == "release") {
         variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/app/outputs")
         variant.getPackageApplication().outputScope.apkDatas.forEach { apkData ->
-            apkData.outputFileName = "GitHub-${variant.mergedFlavor.versionName}.apk"
+            apkData.outputFileName = "GitHub.apk"
         }
     }
 }

@@ -5,7 +5,6 @@ import android.support.v4.view.ViewPager;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.ui.navigation.NavigationManager;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.widget.bottombar.AlphaTabLayout;
 import com.sunfusheng.github.widget.bottombar.AlphaTabView;

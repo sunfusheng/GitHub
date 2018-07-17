@@ -1,4 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="DefaultAttr" format="reference"/>
+    <attr name="title" format="string"/>
+    <attr name="subtitle" format="string"/>
+    <attr name="detail" format="string"/>
+    <attr name="button" format="string"/>
+    <attr name="backgroundColor" format="color"/>
+    <attr name="borderColor" format="color"/>
+    <attr name="borderWidth" format="dimension"/>
+    <attr name="showLoading" format="boolean"/>
+    <attr name="viewRadius" format="dimension|reference"/>
+    <attr name="viewColor" format="color|reference"/>
+    <attr name="viewSize" format="dimension|reference"/>
+
+    <attr name="viewText" format="string|reference"/>
+    <attr name="viewTextColor" format="color|reference"/>
+    <attr name="viewTextSize" format="dimension|reference"/>
+
+    <attr name="circleColor" format="color|reference"/>
+    <attr name="circleRadius" format="dimension|reference"/>
+    <attr name="circleBorder" format="dimension|reference"/>
+    <attr name="circleBorderColor" format="color|reference"/>
+
+    <attr name="loadingLayout" format="integer"/>
+    <attr name="normalLayout" format="integer"/>
+    <attr name="errorLayout" format="integer"/>
+    <attr name="emptyLayout" format="integer"/>
+
+    <attr name="orientation" format="enum">
+        <enum name="horizontal" value="0"/>
+        <enum name="vertical" value="1"/>
+    </attr>
+
+    <attr name="loadingState" format="enum">
+        <enum name="loading" value="0"/>
+        <enum name="normal" value="1"/>
+        <enum name="error" value="2"/>
+        <enum name="empty" value="3"/>
+    </attr>
+
+    <attr name="isRadiusAdjustBounds" format="boolean"/>
+    <attr name="radius" format="dimension"/>
+    <attr name="radiusTopLeft" format="dimension"/>
+    <attr name="radiusTopRight" format="dimension"/>
+    <attr name="radiusBottomLeft" format="dimension"/>
+    <attr name="radiusBottomRight" format="dimension"/>
+
+    <attr name="radius_button_background_color" format="color"/>
+    <attr name="radius_button_text_color" format="color"/>
+    <attr name="radius_button_text_size" format="dimension"/>
+    <attr name="radius_button_border_color" format="color"/>
+    <attr name="radius_button_border_width" format="dimension"/>
+
 </resources>

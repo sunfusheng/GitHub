@@ -53,10 +53,8 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initToolBar() {
         super.initToolBar();
-        if (toolbar != null) {
-            toolbar.setTitle(getString(R.string.app_name_with_version, AppUtil.getVersionName()));
-            toolbar.setSubtitle(R.string.github_url);
-        }
+        toolbar.setTitle(getString(R.string.app_name_with_version, AppUtil.getVersionName()));
+        toolbar.setSubtitle(R.string.github_url);
     }
 
     protected void initData() {
@@ -83,6 +81,8 @@ public class HomeFragment extends BaseFragment {
         eventViewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {
                 recyclerViewWrapper.setItems(it.data);
+            } else {
+                recyclerViewWrapper.setLoadingState(it.loadingState);
             }
         });
     }
