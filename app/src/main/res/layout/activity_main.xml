@@ -14,8 +14,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/background_common_dark"/>
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
 
     <com.sunfusheng.github.widget.bottombar.AlphaTabLayout
         android:id="@+id/tabLayout"

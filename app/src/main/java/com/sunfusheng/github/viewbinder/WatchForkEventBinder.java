@@ -68,7 +68,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
             tags.add(item.repo.full_name);
         }
         sb.append(" ").append(Utils.getDateAgo(item.created_at));
-        return SpannableUtil.getSpannableString(sb.toString(), R.color.black, tags);
+        return SpannableUtil.getSpannableString(sb.toString(), R.color.font_name, tags);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

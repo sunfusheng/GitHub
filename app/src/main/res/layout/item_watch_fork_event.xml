@@ -25,10 +25,10 @@
             android:id="@+id/event_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/avatar"
             android:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"
-            android:textColor="@color/font2"
+            android:textColor="@color/font3"
             android:textSize="12sp"/>
 
         <RelativeLayout
@@ -36,10 +36,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/event_desc"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/avatar"
-            android:background="@drawable/drawable_repo_selector">
+            android:background="@drawable/shape_repo_selector">
 
             <TextView
                 android:id="@+id/star"
@@ -48,7 +48,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/drawable_star_selector"
+                android:background="@drawable/shape_star_selector"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:orientation="horizontal"
