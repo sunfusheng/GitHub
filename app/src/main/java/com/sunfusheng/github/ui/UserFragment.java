@@ -3,7 +3,6 @@ package com.sunfusheng.github.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
@@ -38,8 +38,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     private ListenerNestedScrollView nestedScrollView;
 
-    private Toolbar toolbar;
-    private GlideImageView toolbarBg;
+    private GlideImageView toolbarBackground;
     private GlideImageView profileAvatarBg;
     private GlideImageView vAvatar;
     private LinearLayout vProfile;
@@ -73,7 +72,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        initToolbar();
+        initHeader();
         observeUser();
         observeContributions();
         observeRepos();
@@ -104,8 +103,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         vFollowers = view.findViewById(R.id.followers);
         vFollowersCount = view.findViewById(R.id.followers_count);
 
-        toolbarBg = view.findViewById(R.id.toolbar_bg);
-        toolbar = view.findViewById(R.id.toolbar);
+
         nestedScrollView = view.findViewById(R.id.nestedScrollView);
         vContributions = view.findViewById(R.id.contributions);
         vRepoContainer = view.findViewById(R.id.repo_container);
@@ -115,24 +113,28 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         vFollowers.setOnClickListener(this);
     }
 
-    private void initToolbar() {
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) toolbarBg.getLayoutParams();
-        int toolbarAndStatusBarHeight = toolbar.getLayoutParams().height + StatusBarUtil.getStatusBarHeight(getContext());
+    private void initHeader() {
+        if (getView() == null) return;
+        statusBar.setBackgroundResource(R.color.transparent);
+        toolbar.setBackgroundResource(R.color.transparent);
+
+        toolbarBackground = getView().findViewById(R.id.toolbarBackground);
+        toolbarBackground.setAlpha(0);
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) toolbarBackground.getLayoutParams();
+        int toolbarAndStatusBarHeight = toolbar.getLayoutParams().height + StatusBarUtil.getStatusBarHeight(AppUtil.getContext());
         int height = layoutParams.height - toolbarAndStatusBarHeight;
         layoutParams.setMargins(0, -height, 0, 0);
-        toolbarBg.setAlpha(0);
+        toolbarBackground.setLayoutParams(layoutParams);
 
         int distance = DisplayUtil.dp2px(getContext(), 220) - toolbarAndStatusBarHeight;
 
         nestedScrollView.setOnScrollChangedInterface((scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY < 0) {
-                scrollY = 0;
-            }
+            if (scrollY < 0) scrollY = 0;
             float alpha = Math.abs(scrollY) * 1.0f / (distance);
             if (scrollY <= distance) {
-                toolbarBg.setAlpha((int) (alpha * 255));
+                toolbarBackground.setAlpha((int) (alpha * 255));
             } else {
-                toolbarBg.setAlpha(255);
+                toolbarBackground.setAlpha(255);
             }
         });
     }
@@ -148,7 +150,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 toolbar.setTitle(user.name + "（" + user.login + "）");
                 toolbar.setSubtitle("创建于" + DateUtil.formatDate2String(user.created_at, DateUtil.FORMAT.format(DateUtil.FORMAT.yyyyMMdd)));
 
-                toolbarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
+                toolbarBackground.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
                 profileAvatarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
                 vAvatar.load(user.avatar_url, R.color.background_common, 5);
                 vInfo.setText("签名: " + user.bio + "\n" +

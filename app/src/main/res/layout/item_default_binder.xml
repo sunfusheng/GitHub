@@ -16,14 +16,14 @@
         android:layout_marginRight="@dimen/item_margin"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="@color/c1"
-        android:textSize="@dimen/f7"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
         tools:text="标题"/>
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:layout_marginTop="@dimen/d5"
-        android:background="@color/c4"/>
+        android:background="@color/divider"/>
 </LinearLayout>

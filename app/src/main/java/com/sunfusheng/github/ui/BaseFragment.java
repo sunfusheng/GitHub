@@ -3,11 +3,14 @@ package com.sunfusheng.github.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.util.AppUtil;
+import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.widget.dialog.ProgressDialogHelper;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
@@ -16,7 +19,8 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
  */
 public class BaseFragment extends RxFragment {
 
-
+    protected View statusBar;
+    protected Toolbar toolbar;
     protected ProgressDialogHelper progressDialogHelper;
 
     @Nullable
@@ -28,6 +32,19 @@ public class BaseFragment extends RxFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initToolBar();
+    }
+
+    protected void initToolBar() {
+        if (getView() != null) {
+            statusBar = getView().findViewById(R.id.statusBar);
+            if (statusBar != null) {
+                ViewGroup.LayoutParams layoutParams = statusBar.getLayoutParams();
+                layoutParams.height = StatusBarUtil.getStatusBarHeight(AppUtil.getContext());
+                statusBar.setLayoutParams(layoutParams);
+            }
+            toolbar = getView().findViewById(R.id.toolbar);
+        }
     }
 
     protected void showProgressDialog() {

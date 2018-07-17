@@ -3,7 +3,6 @@ package com.sunfusheng.github.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
+import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.EventViewModel;
@@ -28,7 +28,6 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment {
 
-    private Toolbar toolbar;
     private RecyclerViewWrapper recyclerViewWrapper;
     private List<Object> items;
     private int page = -1;
@@ -46,25 +45,33 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (TextUtils.isEmpty(username)) {
-            username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
-        }
-
-        userViewModel = VmProvider.of(this, UserViewModel.class);
-        userViewModel.setRequestParams(username, FetchMode.DEFAULT);
-
-        toolbar = view.findViewById(R.id.toolbar);
-        recyclerViewWrapper = view.findViewById(R.id.recyclerViewWrapper);
-
-        toolbar.setTitle("Home");
-
+        initData();
         initView();
         observeReceivedEvents();
     }
 
+    @Override
+    protected void initToolBar() {
+        super.initToolBar();
+        if (toolbar != null) {
+            toolbar.setTitle(getString(R.string.app_name_with_version, AppUtil.getVersionName()));
+            toolbar.setSubtitle(R.string.github_url);
+        }
+    }
+
+    protected void initData() {
+        if (TextUtils.isEmpty(username)) {
+            username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
+            userViewModel = VmProvider.of(this, UserViewModel.class);
+            userViewModel.setRequestParams(username, FetchMode.DEFAULT);
+        }
+    }
+
     private void initView() {
-//        recyclerViewWrapper.register(Event.class, new EventBinder());
+        if (getView() == null) return;
+        recyclerViewWrapper = getView().findViewById(R.id.recyclerViewWrapper);
+        recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_default);
+
         recyclerViewWrapper.register(Event.class, Event::getType, Event.WatchEvent, new WatchForkEventBinder());
         recyclerViewWrapper.register(Event.class, Event::getType, Event.ForkEvent, new WatchForkEventBinder());
     }

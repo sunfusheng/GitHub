@@ -19,7 +19,7 @@ public class NonsupportBinder extends ItemViewBinder<Object, NonsupportBinder.Vi
     @NonNull
     @Override
     protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new ViewHolder(inflater.inflate(R.layout.item_default_view_binder, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.item_default_binder, parent, false));
     }
 
     @Override

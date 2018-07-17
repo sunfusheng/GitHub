@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#C34A42</color>
-    <color name="colorPrimaryDark">#C34A42</color>
-    <color name="colorAccent">#C34A42</color>
+    <color name="colorPrimary">#373a41</color>
+    <color name="colorPrimaryDark">#373a41</color>
+    <color name="colorAccent">#373a41</color>
 
     <!-- common -->
     <color name="c0">#ff000000</color>
@@ -25,13 +25,13 @@
     <color name="font3">#999999</color>
     <color name="font4">#cccccc</color>
 
-    <color name="divider">#d6d6d6</color>
-
-    <color name="font_name">#455a64</color>
+    <color name="font_event">#455a64</color>
 
     <color name="background_common">#ffffffff</color>
     <color name="background_common_dark">#ebebeb</color>
     <color name="background_common_darker">#cccccc</color>
+
+    <color name="divider">#d6d6d6</color>
 
     <color name="tab_normal">#9d9d9d</color>
     <color name="tab_selected">#1AAD19</color>
