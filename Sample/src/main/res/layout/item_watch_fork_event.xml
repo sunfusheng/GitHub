@@ -46,15 +46,14 @@
                 android:id="@+id/repo_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/star"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="repo name"
                 android:textColor="@color/c1"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/repo_desc"
@@ -67,7 +66,7 @@
                 android:includeFontPadding="false"
                 android:maxLines="4"
                 android:text="repo desc"
-                android:textColor="@color/c3"
+                android:textColor="@color/c2"
                 android:textSize="11sp"/>
 
             <com.sunfusheng.github.widget.app.RepoInfoView
@@ -77,23 +76,6 @@
                 android:layout_below="@+id/repo_desc"
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical"/>
-
-            <TextView
-                android:id="@+id/star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/shape_star_selector"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:orientation="horizontal"
-                android:paddingBottom="1dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:paddingTop="1dp"
-                android:text="star"
-                android:textColor="@color/font_event"
-                android:textSize="12sp"/>
         </RelativeLayout>
     </RelativeLayout>
 

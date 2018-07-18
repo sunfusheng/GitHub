@@ -29,7 +29,7 @@ public class RemoteDataSource {
 
                     if (it.isSuccessful()) {
                         if (it.body() == null) {
-                            return ResponseResult.empty();
+                            return ResponseResult.empty(it.code());
                         }
                         return ResponseResult.success(it);
                     } else {

@@ -69,9 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/issue_avatar"
-                android:ellipsize="end"
                 android:includeFontPadding="false"
-                android:maxLines="2"
                 android:text="issue_desc"
                 android:textColor="@color/c3"
                 android:textSize="12sp"/>

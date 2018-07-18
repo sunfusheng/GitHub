@@ -97,6 +97,8 @@ public class Repo {
     public Repo parent;
     @Ignore
     public Repo source;
+    @Ignore
+    public boolean isStarred;
 
     @Embedded
     public License license;

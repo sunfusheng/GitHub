@@ -40,10 +40,6 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         }
         holder.vRepoInfo.setData(item.repo);
 
-        holder.vStar.setOnClickListener(v -> {
-
-        });
-
         holder.rlRepo.setOnClickListener(v -> {
 
         });
@@ -52,7 +48,6 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
     static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
         TextView vEventDesc;
-        TextView vStar;
         RelativeLayout rlRepo;
         TextView vRepoName;
         TextView vRepoDesc;
@@ -62,7 +57,6 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
             super(view);
             vAvatar = view.findViewById(R.id.avatar);
             vEventDesc = view.findViewById(R.id.event_desc);
-            vStar = view.findViewById(R.id.star);
             rlRepo = view.findViewById(R.id.rl_repo);
             vRepoName = view.findViewById(R.id.repo_name);
             vRepoDesc = view.findViewById(R.id.repo_desc);

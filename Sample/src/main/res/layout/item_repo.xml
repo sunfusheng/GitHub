@@ -21,7 +21,8 @@
             android:singleLine="true"
             android:text="name"
             android:textColor="@color/c1"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/desc"
@@ -31,7 +32,7 @@
             android:ellipsize="end"
             android:maxLines="4"
             android:text="desc"
-            android:textColor="@color/c3"
+            android:textColor="@color/c2"
             android:textSize="11dp"/>
 
         <com.sunfusheng.github.widget.app.RepoInfoView

@@ -11,9 +11,11 @@ import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -53,4 +55,12 @@ public interface ApiService {
     @GET
     Observable<Response<Repo>> fetchRepo(@Url String url);
 
+    @GET("user/starred/{username}/{repo_name}")
+    Observable<Response<Boolean>> fetchStarred(@Path("username") String username, @Path("repo_name") String repo_name);
+
+    @PUT("user/starred/{username}/{repo_name}")
+    Observable<Response<Boolean>> star(@Path("username") String username, @Path("repo_name") String repo_name);
+
+    @DELETE("user/starred/{username}/{repo_name}")
+    Observable<Response<Boolean>> unstar(@Path("username") String username, @Path("repo_name") String repo_name);
 }

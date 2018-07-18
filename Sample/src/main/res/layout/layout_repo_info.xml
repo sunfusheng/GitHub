@@ -24,7 +24,7 @@
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="language"
-        android:textColor="@color/c3"
+        android:textColor="@color/c2"
         android:textSize="11sp"/>
 
     <ImageView
@@ -43,7 +43,7 @@
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="0"
-        android:textColor="@color/c3"
+        android:textColor="@color/c2"
         android:textSize="11sp"/>
 
     <TextView
@@ -53,6 +53,6 @@
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="0"
-        android:textColor="@color/c3"
+        android:textColor="@color/c2"
         android:textSize="11sp"/>
 </LinearLayout>

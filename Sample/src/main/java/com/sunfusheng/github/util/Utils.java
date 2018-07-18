@@ -90,7 +90,7 @@ public class Utils {
         StringBuilder sb = new StringBuilder();
         List<String> tags = new ArrayList<>();
         Comment comment = item.payload.comment;
-        String issueNumber = item.repo.name + "#" + item.payload.issue.number;
+        String issueNumber = item.repo.full_name + "#" + item.payload.issue.number;
 
         sb.append(comment.user.login)
                 .append(" commented on issue ")
@@ -106,7 +106,7 @@ public class Utils {
         StringBuilder sb = new StringBuilder();
         List<String> tags = new ArrayList<>();
         Issue issue = item.payload.issue;
-        String issueNumber = item.repo.name + "#" + issue.number;
+        String issueNumber = item.repo.full_name + "#" + issue.number;
         String actor = issue.user.login;
         if (item.type.equals(Event.IssuesEvent)) {
             actor = item.actor.login;
@@ -119,7 +119,7 @@ public class Utils {
 
         tags.add(actor);
         tags.add(issueNumber);
-        return SpannableUtil.getSpannableString(sb.toString(), R.color.font_event, tags);
+        return SpannableUtil.getSpannableString(sb.toString().trim(), R.color.font_event, tags);
     }
 
 }

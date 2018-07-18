@@ -69,8 +69,12 @@ public class ResponseResult<T> {
         return error(ExceptionUtil.getResponseExceptionByErrorCode(errorCode));
     }
 
+    public static <T> ResponseResult<T> empty(int code) {
+        return new ResponseResult<>(code, "暂无数据", null, LoadingState.EMPTY);
+    }
+
     public static <T> ResponseResult<T> empty() {
-        return new ResponseResult<>(LoadingState.EMPTY, "暂无数据", null, LoadingState.EMPTY);
+        return empty(LoadingState.EMPTY);
     }
 
 }
