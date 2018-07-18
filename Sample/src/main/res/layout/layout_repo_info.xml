@@ -24,8 +24,8 @@
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="language"
-        android:textColor="@color/font2"
-        android:textSize="10sp"/>
+        android:textColor="@color/c3"
+        android:textSize="11sp"/>
 
     <ImageView
         android:id="@+id/star_count_img"
@@ -43,8 +43,8 @@
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="0"
-        android:textColor="@color/font2"
-        android:textSize="10sp"/>
+        android:textColor="@color/c3"
+        android:textSize="11sp"/>
 
     <TextView
         android:id="@+id/time"
@@ -53,6 +53,6 @@
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="0"
-        android:textColor="@color/font2"
-        android:textSize="10sp"/>
+        android:textColor="@color/c3"
+        android:textSize="11sp"/>
 </LinearLayout>

@@ -22,7 +22,6 @@ import com.sunfusheng.github.R;
  */
 public class AlphaTabView extends View {
 
-
     private Context mContext;                     //上下文
     private Bitmap mIconNormal;                   //默认图标
     private Bitmap mIconSelected;                 //选中的图标

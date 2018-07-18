@@ -13,6 +13,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="暂无数据"
-        android:textColor="@color/font2"
+        android:textColor="@color/c3"
         android:textSize="@dimen/text_size_normal"/>
 </LinearLayout>

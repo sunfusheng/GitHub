@@ -21,16 +21,17 @@ import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author sunfusheng on 2018/4/18.
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.OnRefreshListener, RecyclerViewWrapper.OnLoadMoreListener {
 
     private RecyclerViewWrapper recyclerViewWrapper;
-    private List<Object> items;
-    private int page = -1;
+    private List<Object> items = new ArrayList<>();
+    private int page = 1;
 
     private String username;
     private UserViewModel userViewModel;
@@ -54,7 +55,6 @@ public class HomeFragment extends BaseFragment {
     protected void initToolBar() {
         super.initToolBar();
         toolbar.setTitle(getString(R.string.app_name_with_version, AppUtil.getVersionName()));
-        toolbar.setSubtitle(R.string.github_url);
     }
 
     protected void initData() {
@@ -70,21 +70,45 @@ public class HomeFragment extends BaseFragment {
         recyclerViewWrapper = getView().findViewById(R.id.recyclerViewWrapper);
         recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_default);
 
+        recyclerViewWrapper.setOnRefreshListener(this);
+        recyclerViewWrapper.setOnLoadMoreListener(this);
+
         recyclerViewWrapper.register(Event.class, Event::getType, Event.WatchEvent, new WatchForkEventBinder());
         recyclerViewWrapper.register(Event.class, Event::getType, Event.ForkEvent, new WatchForkEventBinder());
     }
 
     private void observeReceivedEvents() {
         eventViewModel = VmProvider.of(this, EventViewModel.class);
-        eventViewModel.setRequestParams(username, 1, Constants.PER_PAGE_30, FetchMode.DEFAULT);
+        eventViewModel.setRequestParams(username, page, Constants.PER_PAGE_30, FetchMode.DEFAULT);
 
         eventViewModel.liveData.observe(this, it -> {
-            if (it.loadingState == LoadingState.SUCCESS) {
-                recyclerViewWrapper.setItems(it.data);
-            } else {
-                recyclerViewWrapper.setLoadingState(it.loadingState);
+            switch (it.loadingState) {
+                case LoadingState.SUCCESS:
+                    items.addAll(it.data);
+                    recyclerViewWrapper.setItems(items);
+                    break;
+                case LoadingState.EMPTY:
+                case LoadingState.ERROR:
+                    if (page <= 1) {
+                        recyclerViewWrapper.setLoadingState(it.loadingState);
+                    } else {
+                        page--;
+                    }
+                    break;
             }
         });
     }
 
+    @Override
+    public void onRefresh() {
+        page = 1;
+        items.clear();
+        eventViewModel.setRequestParams(username, page, Constants.PER_PAGE_30, FetchMode.DEFAULT);
+    }
+
+    @Override
+    public void onLoadMore() {
+        page++;
+        eventViewModel.setRequestParams(username, page, Constants.PER_PAGE_30, FetchMode.DEFAULT);
+    }
 }

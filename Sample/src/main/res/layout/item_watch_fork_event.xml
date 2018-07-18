@@ -28,7 +28,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/avatar"
             android:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"
-            android:textColor="@color/font3"
+            android:textColor="@color/c3"
             android:textSize="12sp"/>
 
         <RelativeLayout
@@ -49,10 +49,11 @@
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/star"
                 android:ellipsize="end"
+                android:includeFontPadding="false"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="repo name"
-                android:textColor="@color/black"
+                android:textColor="@color/c1"
                 android:textSize="12sp"/>
 
             <TextView
@@ -61,19 +62,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/repo_name"
                 android:layout_below="@+id/repo_name"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="5dp"
                 android:ellipsize="end"
+                android:includeFontPadding="false"
                 android:maxLines="4"
                 android:text="repo desc"
-                android:textColor="@color/font2"
-                android:textSize="10sp"/>
+                android:textColor="@color/c3"
+                android:textSize="11sp"/>
 
             <com.sunfusheng.github.widget.app.RepoInfoView
                 android:id="@+id/repo_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/repo_desc"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical"/>
 
             <TextView
@@ -90,7 +92,7 @@
                 android:paddingRight="6dp"
                 android:paddingTop="1dp"
                 android:text="star"
-                android:textColor="@color/black"
+                android:textColor="@color/font_event"
                 android:textSize="12sp"/>
         </RelativeLayout>
     </RelativeLayout>

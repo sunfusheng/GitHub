@@ -32,7 +32,7 @@ public class ContributionsView extends WebView {
     private void init() {
         setBackgroundColor(getResources().getColor(R.color.white));
 
-        getSettings().setDefaultFontSize(11);
+        getSettings().setDefaultFontSize(12);
         getSettings().setSupportZoom(false);
         post(() -> scrollTo(DisplayUtil.getWindowWidth(getContext()), 0));
     }

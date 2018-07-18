@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="加载失败"
-        android:textColor="@color/config_color_gray_5"
+        android:textColor="@color/c3"
         android:textSize="@dimen/text_size_normal"/>
 
     <com.sunfusheng.github.widget.radiuswidget.RadiusTextView
