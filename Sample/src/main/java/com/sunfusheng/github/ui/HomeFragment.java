@@ -14,6 +14,8 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
+import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
+import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.EventViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
@@ -75,6 +77,8 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
         recyclerViewWrapper.register(Event.class, Event::getType, Event.WatchEvent, new WatchForkEventBinder());
         recyclerViewWrapper.register(Event.class, Event::getType, Event.ForkEvent, new WatchForkEventBinder());
+        recyclerViewWrapper.register(Event.class, Event::getType, Event.IssuesEvent, new IssueEventBinder());
+        recyclerViewWrapper.register(Event.class, Event::getType, Event.IssueCommentEvent, new IssueCommentEventBinder());
     }
 
     private void observeReceivedEvents() {

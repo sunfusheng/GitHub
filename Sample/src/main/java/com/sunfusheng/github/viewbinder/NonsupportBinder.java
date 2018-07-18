@@ -24,7 +24,6 @@ public class NonsupportBinder extends ItemViewBinder<Object, NonsupportBinder.Vi
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Object item) {
-        holder.vTitle.setTextColor(holder.itemView.getResources().getColor(R.color.colorPrimary));
         String type;
         if (item instanceof Event) {
             type = "【" + ((Event) item).getType() + "】";
