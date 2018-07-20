@@ -1,5 +1,6 @@
 package com.sunfusheng.github.net.download;
 
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.net.factory.RetrofitFactory;
 import com.sunfusheng.github.net.interceptor.DownloadInterceptor;
 
@@ -15,7 +16,7 @@ public class Download {
 
     public static DownloadService getService(IDownloadListener downloadListener) {
         if (downloadService == null) {
-            downloadService = RetrofitFactory.getService(DownloadService.class, new DownloadInterceptor(downloadListener));
+            downloadService = RetrofitFactory.getService(FetchMode.REMOTE, DownloadService.class, new DownloadInterceptor(downloadListener));
         }
         return downloadService;
     }

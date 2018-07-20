@@ -29,7 +29,7 @@ public class CommonHeaderInterceptor implements Interceptor {
         return chain.proceed(builder.build());
     }
 
-    public static HashMap getCommonHeaders() {
+    private static HashMap<String, String> getCommonHeaders() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("User-Agent", Constants.USER_AGENT);
         headers.put("Accept", Constants.ACCEPT);

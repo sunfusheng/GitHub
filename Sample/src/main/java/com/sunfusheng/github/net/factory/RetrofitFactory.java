@@ -1,6 +1,7 @@
 package com.sunfusheng.github.net.factory;
 
 import com.sunfusheng.github.Constants;
+import com.sunfusheng.github.annotation.FetchMode;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -22,11 +23,11 @@ public class RetrofitFactory {
                 .build();
     }
 
-    public static Retrofit get(Interceptor... interceptors) {
-        return get(OkHttpClientFactory.get(interceptors));
+    public static Retrofit get(@FetchMode int fetchMode, Interceptor... interceptors) {
+        return get(OkHttpClientFactory.get(fetchMode, interceptors));
     }
 
-    public static <T> T getService(Class<T> service, Interceptor... interceptors) {
-        return get(interceptors).create(service);
+    public static <T> T getService(@FetchMode int fetchMode, Class<T> service, Interceptor... interceptors) {
+        return get(fetchMode, interceptors).create(service);
     }
 }

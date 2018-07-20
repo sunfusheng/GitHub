@@ -19,7 +19,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     public void onSubscribe(Disposable disposable) {
         isOnNext = false;
         disposableWeakReference = new WeakReference<>(disposable);
-        Log.d("--->", "onSubscribe() 【loading】");
+        Log.d("--->", "onSubscribe() 【loading】 hashCode: " + getDisposableHashCode());
         onNotify(ResponseResult.loading());
     }
 
@@ -27,10 +27,10 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     public void onNext(ResponseResult<T> t) {
         isOnNext = true;
         if (t == null) {
-            Log.d("--->", "onNext() 【empty】");
+            Log.d("--->", "onNext() 【empty】 hashCode: " + getDisposableHashCode());
             onNotify(ResponseResult.empty());
         } else {
-            Log.d("--->", "onNext() 【success】 :" + t.toString());
+            Log.d("--->", "onNext() 【success】 hashCode: " + getDisposableHashCode());
             onNotify(t);
         }
     }
@@ -38,7 +38,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     @Override
     public void onError(Throwable throwable) {
         release();
-        Log.d("--->", "onError() 【error】 :" + ResponseResult.error(throwable).errorString());
+        Log.d("--->", "onError() 【error】 hashCode: " + getDisposableHashCode() + ResponseResult.error(throwable).errorString());
         onNotify(ResponseResult.error(throwable));
     }
 
@@ -46,7 +46,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     public void onComplete() {
         release();
         if (!isOnNext) {
-            Log.d("--->", "onComplete() 【empty】");
+            Log.d("--->", "onComplete() 【empty】 hashCode: " + getDisposableHashCode());
             onNotify(ResponseResult.empty());
         }
     }
@@ -59,6 +59,16 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
             }
             disposableWeakReference = null;
         }
+    }
+
+    public int getDisposableHashCode() {
+        if (disposableWeakReference != null) {
+            Disposable disposable = disposableWeakReference.get();
+            if (disposable != null) {
+                return disposable.hashCode();
+            }
+        }
+        return 0;
     }
 
     public abstract void onNotify(ResponseResult<T> result);

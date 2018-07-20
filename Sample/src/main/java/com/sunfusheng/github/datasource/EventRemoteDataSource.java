@@ -1,5 +1,6 @@
 package com.sunfusheng.github.datasource;
 
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.base.RemoteDataSource;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.net.api.Api;
@@ -25,8 +26,8 @@ public class EventRemoteDataSource extends RemoteDataSource {
         return instance;
     }
 
-    public Observable<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage) {
-        return Api.getCommonService().fetchReceivedEvents(username, page, perPage)
+    public Observable<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage, @FetchMode int fetchMode) {
+        return Api.getCommonService(fetchMode).fetchReceivedEvents(username, page, perPage)
                 .subscribeOn(Schedulers.io())
                 .compose(applyRemoteTransformer())
                 .flatMap(it -> {
@@ -34,7 +35,7 @@ public class EventRemoteDataSource extends RemoteDataSource {
                         return Observable.just(it.data)
                                 .flatMap(Observable::fromIterable)
                                 .flatMap(event -> {
-                                    return Api.getCommonService().fetchRepo(event.repo.url)
+                                    return Api.getCommonService(fetchMode).fetchRepo(event.repo.url)
                                             .compose(applyRemoteTransformer())
                                             .map(repoResult -> {
                                                 if (isLoadingSuccess(repoResult)) {

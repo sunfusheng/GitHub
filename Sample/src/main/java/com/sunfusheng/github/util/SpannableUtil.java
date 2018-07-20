@@ -44,11 +44,13 @@ public class SpannableUtil {
         int lastIndex = -1;
         SpannableString spannableString = new SpannableString(wholeText);
         for (int i = 0; i < targetTexts.size(); i++) {
-            int index = wholeText.indexOf(targetTexts.get(i), lastIndex);
+            String target = targetTexts.get(i);
+            if (TextUtils.isEmpty(target)) continue;
+            int index = wholeText.indexOf(target, lastIndex);
             if (index != lastIndex) {
-                lastIndex = index + targetTexts.get(i).length();
+                lastIndex = index + target.length();
                 spannableString.setSpan(new ForegroundColorSpan(AppUtil.getContext().getResources().getColor(targetTextColor)),
-                        index, index + targetTexts.get(i).length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        index, lastIndex, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             }
         }
         return spannableString;
@@ -66,11 +68,13 @@ public class SpannableUtil {
         int lastIndex = -1;
         SpannableString spannableString = new SpannableString(wholeText);
         for (int i = 0; i < targetTexts.length; i++) {
-            int index = wholeText.indexOf(targetTexts[i], lastIndex);
+            String target = targetTexts[i];
+            if (TextUtils.isEmpty(target)) continue;
+            int index = wholeText.indexOf(target, lastIndex);
             if (index != lastIndex) {
-                lastIndex = index + targetTexts[i].length();
+                lastIndex = index + target.length();
                 spannableString.setSpan(new ForegroundColorSpan(AppUtil.getContext().getResources().getColor(targetTextColor)),
-                        index, index + targetTexts[i].length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        index, lastIndex, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
             }
         }
         return spannableString;

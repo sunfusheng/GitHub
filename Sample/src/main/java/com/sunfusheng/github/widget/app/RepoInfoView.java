@@ -67,7 +67,12 @@ public class RepoInfoView extends LinearLayout {
             vStarCount.setVisibility(View.GONE);
         }
 
-        vTime.setText("Updated " + Utils.getDateAgo(repo.pushed_at));
+        if (!TextUtils.isEmpty(repo.pushed_at)) {
+            vTime.setVisibility(VISIBLE);
+            vTime.setText("Updated " + Utils.getDateAgo(repo.pushed_at));
+        } else {
+            vTime.setVisibility(GONE);
+        }
     }
 
 }

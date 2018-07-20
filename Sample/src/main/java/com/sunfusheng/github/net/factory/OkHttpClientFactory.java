@@ -1,6 +1,7 @@
 package com.sunfusheng.github.net.factory;
 
 import com.sunfusheng.github.BuildConfig;
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.net.interceptor.CacheInterceptor;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.CollectionUtil;
@@ -18,7 +19,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class OkHttpClientFactory {
 
-    public static OkHttpClient get(Interceptor... interceptors) {
+    public static OkHttpClient get(@FetchMode int fetchMode, Interceptor... interceptors) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -28,8 +29,8 @@ public class OkHttpClientFactory {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(new CacheInterceptor())
-                .addNetworkInterceptor(new CacheInterceptor())
+                .addInterceptor(new CacheInterceptor(fetchMode))
+                .addNetworkInterceptor(new CacheInterceptor(fetchMode))
                 .cache(cache);
 
         if (BuildConfig.debugMode) {

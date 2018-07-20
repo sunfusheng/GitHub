@@ -27,10 +27,10 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
-        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_avatar_default1, 3);
+        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_default_avatar, 3);
         holder.vCommentDesc.setText(Utils.getCommentDesc(item));
         holder.vCommentBody.setText(item.payload.comment.body);
-        holder.vIssueAvatar.load(item.payload.issue.user.avatar_url, R.mipmap.ic_avatar_default1, 3);
+        holder.vIssueAvatar.load(item.payload.issue.user.avatar_url, R.mipmap.ic_default_avatar, 3);
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 

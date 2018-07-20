@@ -17,7 +17,7 @@ import java.util.List;
 public class EventViewModel extends BaseViewModel {
 
     public final LiveData<ResponseResult<List<Event>>> liveData =
-            Transformations.switchMap(requestParams, input -> getReceivedEvents(input.username, input.page, input.perPage));
+            Transformations.switchMap(requestParams, input -> getReceivedEvents(input.username, input.page, input.perPage, input.fetchMode));
 
     public void setRequestParams(String username, int page, @FetchMode int fetchMode) {
         setRequestParams(username, page, Constants.PER_PAGE_30, fetchMode);
@@ -27,7 +27,11 @@ public class EventViewModel extends BaseViewModel {
         requestParams.setValue(new RequestParams(username, page, perPage, fetchMode));
     }
 
-    private LiveData<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage) {
-        return ObservableLiveData.fromObservable(EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage));
+    private LiveData<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage, @FetchMode int fetchMode) {
+        return fetchData(
+                EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.LOCAL),
+                EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.REMOTE),
+                fetchMode
+        );
     }
 }

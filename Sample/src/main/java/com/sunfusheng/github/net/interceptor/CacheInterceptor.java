@@ -2,6 +2,7 @@ package com.sunfusheng.github.net.interceptor;
 
 import android.support.annotation.NonNull;
 
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.util.NetworkUtil;
 
 import java.io.IOException;
@@ -18,10 +19,16 @@ import okhttp3.Response;
  */
 public class CacheInterceptor implements Interceptor {
 
+    private int fetchMode;
+
+    public CacheInterceptor(@FetchMode int fetchMode) {
+        this.fetchMode = fetchMode;
+    }
+
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        if (!NetworkUtil.isConnected()) {
+        if (!NetworkUtil.isConnected() || fetchMode == FetchMode.LOCAL) {
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();

@@ -26,7 +26,7 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
-        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_avatar_default1, 3);
+        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_default_avatar, 3);
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 

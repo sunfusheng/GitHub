@@ -33,7 +33,9 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private RecyclerViewWrapper recyclerViewWrapper;
     private List<Object> items = new ArrayList<>();
-    private int page = 1;
+    private static final int FIRST_PAGE = 1;
+    private static final int PER_PAGE = 10;
+    private int page = FIRST_PAGE;
 
     private String username;
     private UserViewModel userViewModel;
@@ -71,6 +73,8 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         if (getView() == null) return;
         recyclerViewWrapper = getView().findViewById(R.id.recyclerViewWrapper);
         recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_default);
+        recyclerViewWrapper.getRefreshLayout().autoRefresh(100, 300, 1);
+        recyclerViewWrapper.getRefreshLayout().setEnableAutoLoadMore(false);
 
         recyclerViewWrapper.setOnRefreshListener(this);
         recyclerViewWrapper.setOnLoadMoreListener(this);
@@ -83,17 +87,20 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private void observeReceivedEvents() {
         eventViewModel = VmProvider.of(this, EventViewModel.class);
-        eventViewModel.setRequestParams(username, page, Constants.PER_PAGE_30, FetchMode.DEFAULT);
+        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.LOCAL);
 
         eventViewModel.liveData.observe(this, it -> {
             switch (it.loadingState) {
                 case LoadingState.SUCCESS:
+                    if (page == FIRST_PAGE) {
+                        items.clear();
+                    }
                     items.addAll(it.data);
                     recyclerViewWrapper.setItems(items);
                     break;
                 case LoadingState.EMPTY:
                 case LoadingState.ERROR:
-                    if (page <= 1) {
+                    if (page <= FIRST_PAGE) {
                         recyclerViewWrapper.setLoadingState(it.loadingState);
                     } else {
                         page--;
@@ -105,14 +112,13 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     @Override
     public void onRefresh() {
-        page = 1;
-        items.clear();
-        eventViewModel.setRequestParams(username, page, Constants.PER_PAGE_30, FetchMode.DEFAULT);
+        page = FIRST_PAGE;
+        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.REMOTE);
     }
 
     @Override
     public void onLoadMore() {
         page++;
-        eventViewModel.setRequestParams(username, page, Constants.PER_PAGE_30, FetchMode.DEFAULT);
+        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.REMOTE);
     }
 }

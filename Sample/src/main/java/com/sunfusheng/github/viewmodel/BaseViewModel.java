@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class BaseViewModel extends ViewModel {
 
-    protected final MutableLiveData<RequestParams> requestParams = new MutableLiveData();
+    protected final MutableLiveData<RequestParams> requestParams = new MutableLiveData<>();
 
     public static class RequestParams {
         public String username;
@@ -44,9 +44,9 @@ public class BaseViewModel extends ViewModel {
         }
     }
 
-    protected  <T> LiveData<ResponseResult<T>> fetchData(@NonNull Observable<ResponseResult<T>> localObservable,
-                                                      @NonNull Observable<ResponseResult<T>> remoteObservable,
-                                                      @FetchMode int fetchMode) {
+    protected <T> LiveData<ResponseResult<T>> fetchData(@NonNull Observable<ResponseResult<T>> localObservable,
+                                                        @NonNull Observable<ResponseResult<T>> remoteObservable,
+                                                        @FetchMode int fetchMode) {
         if (fetchMode == FetchMode.LOCAL || !NetworkUtil.isConnected()) {
             return ObservableLiveData.fromObservable(localObservable);
         } else if (fetchMode == FetchMode.REMOTE) {
@@ -56,13 +56,13 @@ public class BaseViewModel extends ViewModel {
             );
         } else {
             MutableLiveData<ResponseResult<T>> mutableLiveData = new MutableLiveData<>();
-
             Observable.concat(localObservable, remoteObservable)
                     .subscribeOn(Schedulers.io())
                     .switchIfEmpty(Observable.just(ResponseResult.empty()))
                     .onErrorResumeNext(throwable -> {
                         return Observable.just(ResponseResult.error(throwable));
                     })
+                    .doOnNext(it-> {})
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new ResponseObserver<T>() {
                         @Override

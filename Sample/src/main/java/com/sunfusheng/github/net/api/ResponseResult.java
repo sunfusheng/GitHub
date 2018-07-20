@@ -9,11 +9,9 @@ import retrofit2.Response;
  * @author sunfusheng on 2018/4/13.
  */
 public class ResponseResult<T> {
-
     public int code;
     public String msg;
     public T data;
-
     public int loadingState;
 
     public ResponseResult(int code, String msg, T data) {
