@@ -19,9 +19,9 @@
         <item name="android:ellipsize">end</item>
         <item name="isRadiusAdjustBounds">true</item>
         <item name="backgroundColor">@color/transparent</item>
-        <item name="android:textColor">@color/color_green_selector</item>
+        <item name="android:textColor">@color/color_primary_selector</item>
         <item name="android:textSize">15sp</item>
-        <item name="borderColor">@color/color_green_selector</item>
+        <item name="borderColor">@color/color_primary_selector</item>
         <item name="borderWidth">1dp</item>
     </style>
 

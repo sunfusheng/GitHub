@@ -42,6 +42,7 @@ public class DiscoverFragment extends BaseFragment {
         View view = getView();
         if (view == null) return;
         recyclerViewWrapper = view.findViewById(R.id.recyclerViewWrapper);
+        recyclerViewWrapper.setErrorLayout(R.layout.layout_error_default);
         recyclerViewWrapper.setLoadingState(LoadingState.ERROR);
     }
 

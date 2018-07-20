@@ -40,7 +40,7 @@
             android:id="@+id/title"
             style="@style/textView.singleLine.titlebar_title"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="@dimen/item_margin_smaller"
             android:layout_toRightOf="@+id/svg_loading"
             android:text="标题"/>
     </RelativeLayout>

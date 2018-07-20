@@ -60,15 +60,16 @@ public class BaseViewModel extends ViewModel {
                                                         @NonNull Observable<ResponseResult<T>> remoteObservable,
                                                         @FetchMode int fetchMode) {
         if (fetchMode == FetchMode.LOCAL) {
-            return ObservableLiveData.fromObservable(localObservable);
+            return ObservableLiveData.fromObservable(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL));
         } else if (fetchMode == FetchMode.REMOTE) {
-            return ObservableLiveData.fromObservable(remoteObservable
-                    .switchIfEmpty(localObservable)
-                    .onErrorResumeNext(localObservable)
+            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.fetchMode = FetchMode.REMOTE)
+                    .switchIfEmpty(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
+                    .onErrorResumeNext(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
             );
         } else {
             MutableLiveData<ResponseResult<T>> mutableLiveData = new MutableLiveData<>();
-            Observable.concat(localObservable, remoteObservable)
+            Observable.concat(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL),
+                    remoteObservable.doOnNext(it -> it.fetchMode = FetchMode.REMOTE))
                     .subscribeOn(Schedulers.io())
                     .switchIfEmpty(Observable.just(ResponseResult.empty()))
                     .onErrorResumeNext(throwable -> {

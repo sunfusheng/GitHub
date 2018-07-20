@@ -51,7 +51,7 @@ public interface ApiService {
                                                           @Query("page") int page,
                                                           @Query("per_page") int per_page);
 
-    @Headers("Cache-Control: public, max-age=60")
+    @Headers("Cache-Control: public, max-age=300")
     @GET
     Observable<Response<Repo>> fetchRepo(@Url String url);
 

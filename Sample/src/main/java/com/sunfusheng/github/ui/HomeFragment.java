@@ -19,6 +19,7 @@ import com.sunfusheng.github.net.api.ResponseResult;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
+import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
@@ -75,7 +76,10 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
         vSvgLoading = getView().findViewById(R.id.svg_loading);
         vSvgLoading.setOnStateChangeListener(null);
-        vSvgLoading.start();
+        vSvgLoading.setToFinishedFrame();
+        vSvgLoading.setOnClickListener(v -> {
+            ToastUtil.toast(getString(R.string.app_name_with_version, AppUtil.getVersionName()));
+        });
     }
 
     protected void initData() {
@@ -137,11 +141,12 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private boolean isFirstLoading;
 
     private void dealWithFirstLoading(ResponseResult response) {
-        if (isFirstLoading) {
+        if (isFirstLoading && eventViewModel.getRequestFetchMode() != FetchMode.LOCAL) {
             switch (response.loadingState) {
                 case LoadingState.LOADING:
                     recyclerViewWrapper.enableRefresh(false);
                     recyclerViewWrapper.enableLoadMore(false);
+                    vSvgLoading.start();
                     vSvgLoading.setOnStateChangeListener(state -> {
                         if (state == SvgView.STATE_FINISHED) {
                             vSvgLoading.start();
@@ -151,7 +156,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                 case LoadingState.SUCCESS:
                 case LoadingState.ERROR:
                 case LoadingState.EMPTY:
-                    if (response.fetchMode == FetchMode.REMOTE || (eventViewModel.getRequestFetchMode() == FetchMode.LOCAL && response.fetchMode == FetchMode.LOCAL)) {
+                    if (response.fetchMode == FetchMode.REMOTE) {
                         recyclerViewWrapper.enableRefresh(true);
                         recyclerViewWrapper.enableLoadMore(true);
                         vSvgLoading.setOnStateChangeListener(null);

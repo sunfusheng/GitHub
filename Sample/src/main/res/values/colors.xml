@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#C34A42</color>
-    <color name="colorPrimaryDark">#C34A42</color>
-    <color name="colorAccent">#C34A42</color>
+    <color name="colorPrimary">#546e7a</color>
+    <color name="colorPrimaryDark">#546e7a</color>
+    <color name="colorAccent">#546e7a</color>
 
     <!-- common -->
     <color name="c0">#ff000000</color>
@@ -84,6 +84,9 @@
     <color name="transparent80_white">#CCffffff</color>
     <color name="transparent90_white">#E5ffffff</color>
     <color name="transparent100_white">#FFffffff</color>
+
+    <color name="config_color_primary">#ff546e7a</color>
+    <color name="config_color_primary_50">#80546e7a</color>
 
     <color name="config_color_green">#FF1AAD19</color>
     <color name="config_color_green_50">#801AAD19</color>

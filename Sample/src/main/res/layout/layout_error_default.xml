@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/error_tip"
+        android:id="@+id/retry_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -18,7 +18,7 @@
         android:textSize="@dimen/text_size_normal"/>
 
     <com.sunfusheng.github.widget.radiuswidget.RadiusTextView
-        android:id="@+id/error_button"
+        android:id="@+id/retry"
         style="@style/RadiusButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/radius_button_height"
@@ -26,7 +26,7 @@
         android:layout_marginRight="@dimen/radius_button_height"
         android:layout_marginTop="@dimen/radius_button_height"
         android:text="重试"
-        android:textColor="@color/color_blue_selector"
+        android:textColor="@color/color_primary_selector"
         android:textSize="@dimen/text_size_large"
-        app:borderColor="@color/color_blue_selector"/>
+        app:borderColor="@color/color_primary_selector"/>
 </LinearLayout>
