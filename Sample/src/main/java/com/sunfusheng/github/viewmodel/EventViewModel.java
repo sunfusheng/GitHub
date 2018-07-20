@@ -29,8 +29,14 @@ public class EventViewModel extends BaseViewModel {
 
     private LiveData<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage, @FetchMode int fetchMode) {
         return fetchData(
-                EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.LOCAL),
-                EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.REMOTE),
+                EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.LOCAL)
+                        .doOnNext(it -> {
+                            it.fetchMode = FetchMode.LOCAL;
+                        }),
+                EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.REMOTE)
+                        .doOnNext(it -> {
+                            it.fetchMode = FetchMode.REMOTE;
+                        }),
                 fetchMode
         );
     }

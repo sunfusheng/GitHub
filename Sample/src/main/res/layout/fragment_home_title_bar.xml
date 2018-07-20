@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="@color/colorPrimary"
+        android:isScrollContainer="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_view_height"
+        android:background="@color/colorPrimary"
+        android:minHeight="@dimen/toolbar_view_height">
+
+        <com.sunfusheng.github.widget.SvgView
+            android:id="@+id/svg_loading"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/item_margin_small"
+            app:svgFillColors="@array/colors_github_white"
+            app:svgFillStart="1000"
+            app:svgFillTime="1000"
+            app:svgGlyphStrings="@array/github_glyphs_strings"
+            app:svgImageSizeX="512"
+            app:svgImageSizeY="512"
+            app:svgTraceColors="@array/colors_github_primary"
+            app:svgTraceResidueColors="@array/colors_github_white"
+            app:svgTraceTime="1000"
+            app:svgTraceTimePerGlyph="1000"/>
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/textView.singleLine.titlebar_title"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/svg_loading"
+            android:text="标题"/>
+    </RelativeLayout>
+</LinearLayout>

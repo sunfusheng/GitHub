@@ -13,12 +13,14 @@
         android:layout_height="140dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        app:svgFillColors="@array/google_glyphs_colors"
+        app:svgFillColors="@array/colors_github_grey"
         app:svgFillStart="1500"
         app:svgFillTime="1500"
-        app:svgGlyphStrings="@array/google_glyphs_strings"
-        app:svgImageSizeX="400"
-        app:svgImageSizeY="400"
+        app:svgGlyphStrings="@array/github_glyphs_strings"
+        app:svgImageSizeX="512"
+        app:svgImageSizeY="512"
+        app:svgTraceColors="@array/colors_github_primary"
+        app:svgTraceResidueColors="@array/colors_github_grey"
         app:svgTraceTime="3000"
         app:svgTraceTimePerGlyph="1500"/>
 
@@ -39,7 +41,7 @@
                 android:layout_marginBottom="-24dp"
                 android:layout_marginLeft="@dimen/item_margin_smaller"
                 android:text="@string/username"
-                android:textColor="@color/font1"
+                android:textColor="@color/c1"
                 android:textSize="17sp"/>
 
             <EditText
@@ -56,8 +58,8 @@
                 android:maxLines="1"
                 android:paddingLeft="80dp"
                 android:text="sfsheng0322"
-                android:textColor="@color/font1"
-                android:textColorHint="@color/font3"
+                android:textColor="@color/c1"
+                android:textColorHint="@color/c3"
                 android:textSize="17sp"/>
         </RelativeLayout>
 
@@ -73,7 +75,7 @@
                 android:layout_marginBottom="-24dp"
                 android:layout_marginLeft="@dimen/item_margin_smaller"
                 android:text="@string/password"
-                android:textColor="@color/font1"
+                android:textColor="@color/c1"
                 android:textSize="17sp"/>
 
             <EditText
@@ -90,8 +92,8 @@
                 android:maxLines="1"
                 android:paddingLeft="80dp"
                 android:text=""
-                android:textColor="@color/font1"
-                android:textColorHint="@color/font3"
+                android:textColor="@color/c1"
+                android:textColorHint="@color/c3"
                 android:textSize="17sp"/>
         </RelativeLayout>
 

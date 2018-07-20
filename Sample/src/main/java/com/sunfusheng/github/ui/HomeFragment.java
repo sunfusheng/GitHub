@@ -4,22 +4,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
+import com.sunfusheng.github.net.api.ResponseResult;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
+import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.EventViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
+import com.sunfusheng.github.widget.SvgView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
 
@@ -31,10 +37,12 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.OnRefreshListener, RecyclerViewWrapper.OnLoadMoreListener {
 
+    private SvgView vSvgLoading;
     private RecyclerViewWrapper recyclerViewWrapper;
+
     private List<Object> items = new ArrayList<>();
     private static final int FIRST_PAGE = 1;
-    private static final int PER_PAGE = 10;
+    private static final int PER_PAGE = Constants.PER_PAGE_30;
     private int page = FIRST_PAGE;
 
     private String username;
@@ -50,15 +58,24 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initTitleBar();
         initData();
         initView();
         observeReceivedEvents();
     }
 
-    @Override
-    protected void initToolBar() {
-        super.initToolBar();
-        toolbar.setTitle(getString(R.string.app_name_with_version, AppUtil.getVersionName()));
+    private void initTitleBar() {
+        View vStatusBar = getView().findViewById(R.id.statusBar);
+        ViewGroup.LayoutParams layoutParams = vStatusBar.getLayoutParams();
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(AppUtil.getContext());
+        vStatusBar.setLayoutParams(layoutParams);
+
+        TextView vTitle = getView().findViewById(R.id.title);
+        vTitle.setText("Browse activity");
+
+        vSvgLoading = getView().findViewById(R.id.svg_loading);
+        vSvgLoading.setOnStateChangeListener(null);
+        vSvgLoading.start();
     }
 
     protected void initData() {
@@ -72,9 +89,9 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private void initView() {
         if (getView() == null) return;
         recyclerViewWrapper = getView().findViewById(R.id.recyclerViewWrapper);
-        recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_default);
-        recyclerViewWrapper.getRefreshLayout().autoRefresh(100, 300, 1);
-        recyclerViewWrapper.getRefreshLayout().setEnableAutoLoadMore(false);
+        View loadingView = recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_activity);
+        GlideImageView vGithubLoading = loadingView.findViewById(R.id.github_loading);
+        vGithubLoading.loadDrawable(R.mipmap.github_loading);
 
         recyclerViewWrapper.setOnRefreshListener(this);
         recyclerViewWrapper.setOnLoadMoreListener(this);
@@ -87,9 +104,12 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private void observeReceivedEvents() {
         eventViewModel = VmProvider.of(this, EventViewModel.class);
-        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.LOCAL);
+        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.DEFAULT);
+        isFirstLoading = true;
 
         eventViewModel.liveData.observe(this, it -> {
+            Log.d("------>", it.toString());
+            dealWithFirstLoading(it);
             switch (it.loadingState) {
                 case LoadingState.SUCCESS:
                     if (page == FIRST_PAGE) {
@@ -98,26 +118,59 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                     items.addAll(it.data);
                     recyclerViewWrapper.setItems(items);
                     break;
-                case LoadingState.EMPTY:
                 case LoadingState.ERROR:
-                    if (page <= FIRST_PAGE) {
+                    if (page == FIRST_PAGE) {
                         recyclerViewWrapper.setLoadingState(it.loadingState);
                     } else {
                         page--;
+                    }
+                    break;
+                case LoadingState.EMPTY:
+                    if (page == FIRST_PAGE) {
+                        recyclerViewWrapper.setLoadingState(it.loadingState);
                     }
                     break;
             }
         });
     }
 
+    private boolean isFirstLoading;
+
+    private void dealWithFirstLoading(ResponseResult response) {
+        if (isFirstLoading) {
+            switch (response.loadingState) {
+                case LoadingState.LOADING:
+                    recyclerViewWrapper.enableRefresh(false);
+                    recyclerViewWrapper.enableLoadMore(false);
+                    vSvgLoading.setOnStateChangeListener(state -> {
+                        if (state == SvgView.STATE_FINISHED) {
+                            vSvgLoading.start();
+                        }
+                    });
+                    break;
+                case LoadingState.SUCCESS:
+                case LoadingState.ERROR:
+                case LoadingState.EMPTY:
+                    if (response.fetchMode == FetchMode.REMOTE || (eventViewModel.getRequestFetchMode() == FetchMode.LOCAL && response.fetchMode == FetchMode.LOCAL)) {
+                        recyclerViewWrapper.enableRefresh(true);
+                        recyclerViewWrapper.enableLoadMore(true);
+                        vSvgLoading.setOnStateChangeListener(null);
+                    }
+                    break;
+            }
+        }
+    }
+
     @Override
     public void onRefresh() {
+        isFirstLoading = false;
         page = FIRST_PAGE;
         eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.REMOTE);
     }
 
     @Override
     public void onLoadMore() {
+        isFirstLoading = false;
         page++;
         eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.REMOTE);
     }

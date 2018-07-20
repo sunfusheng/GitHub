@@ -1,5 +1,6 @@
 package com.sunfusheng.github.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -15,7 +16,6 @@ import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
-import com.sunfusheng.github.widget.SvgEnum;
 import com.sunfusheng.github.widget.SvgView;
 
 import io.reactivex.Observable;
@@ -26,7 +26,6 @@ import io.reactivex.schedulers.Schedulers;
  * @author sunfusheng on 2018/4/10.
  */
 public class LoginActivity extends BaseActivity {
-
     private EditText vUsername;
     private EditText vPassword;
     private TextView vLogin;
@@ -61,13 +60,6 @@ public class LoginActivity extends BaseActivity {
 
     private void initSvgView() {
         svgView.postDelayed(() -> {
-            SvgEnum svg = SvgEnum.GITHUB;
-            svgView.setGlyphStrings(svg.glyphs);
-            svgView.setFillColors(svg.colors);
-            svgView.setViewportSize(svg.width, svg.height);
-            svgView.setTraceResidueColor(getResources().getColor(R.color.config_color_green_50));
-            svgView.setTraceColors(svg.colors);
-            svgView.rebuildGlyphData();
             svgView.start();
         }, 200);
     }
@@ -77,6 +69,7 @@ public class LoginActivity extends BaseActivity {
         StatusBarUtil.fullScreen(getWindow());
     }
 
+    @SuppressLint("CheckResult")
     private void login() {
         String username = vUsername.getText().toString().trim();
         if (TextUtils.isEmpty(username)) {

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_toolbar"/>
+    <include layout="@layout/fragment_home_title_bar"/>
 
     <com.sunfusheng.wrapper.RecyclerViewWrapper
         android:id="@+id/recyclerViewWrapper"

@@ -1,5 +1,6 @@
 package com.sunfusheng.github.net.api;
 
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.multistate.LoadingState;
 
@@ -13,6 +14,8 @@ public class ResponseResult<T> {
     public String msg;
     public T data;
     public int loadingState;
+    @FetchMode
+    public int fetchMode;
 
     public ResponseResult(int code, String msg, T data) {
         this.code = code;
@@ -38,9 +41,35 @@ public class ResponseResult<T> {
         return "ResponseResult{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
-                ", loadingState=" + loadingState +
-                ", data=" + data +
+                ", loadingState=" + getLoadingStateString(loadingState) +
+                ", fetchMode=" + getFetchModeString(fetchMode) +
                 '}';
+    }
+
+    public static String getLoadingStateString(@LoadingState int loadingState) {
+        switch (loadingState) {
+            case LoadingState.SUCCESS:
+                return "SUCCESS";
+            case LoadingState.ERROR:
+                return "ERROR";
+            case LoadingState.EMPTY:
+                return "EMPTY";
+            default:
+            case LoadingState.LOADING:
+                return "LOADING";
+        }
+    }
+
+    public static String getFetchModeString(@FetchMode int fetchMode) {
+        switch (fetchMode) {
+            case FetchMode.LOCAL:
+                return "LOCAL";
+            case FetchMode.REMOTE:
+                return "REMOTE";
+            default:
+            case FetchMode.DEFAULT:
+                return "DEFAULT";
+        }
     }
 
     public static <T> ResponseResult<T> loading() {

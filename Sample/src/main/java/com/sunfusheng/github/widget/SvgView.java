@@ -31,7 +31,7 @@ public class SvgView extends View {
     public static final int STATE_FILL_STARTED = 2;
     public static final int STATE_FINISHED = 3;
 
-    private static final String TAG = "sSvgView";
+    private static final String TAG = "SvgView";
 
     private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
 

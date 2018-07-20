@@ -40,14 +40,26 @@ public class BaseViewModel extends ViewModel {
             this.username = username;
             this.page = page;
             this.perPage = perPage;
-            this.fetchMode = fetchMode;
+            this.fetchMode = NetworkUtil.isConnected() ? fetchMode : FetchMode.LOCAL;
         }
+    }
+
+    public RequestParams getRequestParams() {
+        return requestParams.getValue();
+    }
+
+    @FetchMode
+    public int getRequestFetchMode() {
+        if (getRequestParams() != null) {
+            return getRequestParams().fetchMode;
+        }
+        return FetchMode.DEFAULT;
     }
 
     protected <T> LiveData<ResponseResult<T>> fetchData(@NonNull Observable<ResponseResult<T>> localObservable,
                                                         @NonNull Observable<ResponseResult<T>> remoteObservable,
                                                         @FetchMode int fetchMode) {
-        if (fetchMode == FetchMode.LOCAL || !NetworkUtil.isConnected()) {
+        if (fetchMode == FetchMode.LOCAL) {
             return ObservableLiveData.fromObservable(localObservable);
         } else if (fetchMode == FetchMode.REMOTE) {
             return ObservableLiveData.fromObservable(remoteObservable
@@ -62,7 +74,6 @@ public class BaseViewModel extends ViewModel {
                     .onErrorResumeNext(throwable -> {
                         return Observable.just(ResponseResult.error(throwable));
                     })
-                    .doOnNext(it-> {})
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new ResponseObserver<T>() {
                         @Override

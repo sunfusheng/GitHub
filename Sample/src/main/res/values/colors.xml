@@ -110,16 +110,16 @@
     <color name="config_color_gray_8">#C4C8D0</color>
     <color name="config_color_gray_9">#D8DCE4</color>
 
-    <color name="google_red">#EA4335</color>
-    <color name="google_yellow">#FBBC05</color>
-    <color name="google_blue">#4285F4</color>
-    <color name="google_green">#34A853</color>
+    <integer-array name="colors_github_white">
+        <item>@color/white</item>
+    </integer-array>
 
-    <integer-array name="google_glyphs_colors">
-        <item>@color/google_red</item>
-        <item>@color/google_yellow</item>
-        <item>@color/google_blue</item>
-        <item>@color/google_green</item>
+    <integer-array name="colors_github_grey">
+        <item>@color/divider</item>
+    </integer-array>
+
+    <integer-array name="colors_github_primary">
+        <item>@color/colorPrimary</item>
     </integer-array>
 
 </resources>

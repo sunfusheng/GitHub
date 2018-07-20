@@ -19,7 +19,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     public void onSubscribe(Disposable disposable) {
         isOnNext = false;
         disposableWeakReference = new WeakReference<>(disposable);
-        Log.d("--->", "onSubscribe() 【loading】 hashCode: " + getDisposableHashCode());
+        Log.d("--->", "onSubscribe()【loading】 hashCode:" + getDisposableHashCode());
         onNotify(ResponseResult.loading());
     }
 
@@ -27,10 +27,10 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     public void onNext(ResponseResult<T> t) {
         isOnNext = true;
         if (t == null) {
-            Log.d("--->", "onNext() 【empty】 hashCode: " + getDisposableHashCode());
+            Log.d("--->", "onNext()【empty】 hashCode:" + getDisposableHashCode());
             onNotify(ResponseResult.empty());
         } else {
-            Log.d("--->", "onNext() 【success】 hashCode: " + getDisposableHashCode());
+            Log.d("--->", "onNext()【success】 fetchMode:" + t.fetchMode + " hashCode:" + getDisposableHashCode());
             onNotify(t);
         }
     }
@@ -38,7 +38,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     @Override
     public void onError(Throwable throwable) {
         release();
-        Log.d("--->", "onError() 【error】 hashCode: " + getDisposableHashCode() + ResponseResult.error(throwable).errorString());
+        Log.d("--->", "onError()【error】 hashCode:" + getDisposableHashCode() + " error info:" + ResponseResult.error(throwable).errorString());
         onNotify(ResponseResult.error(throwable));
     }
 
@@ -46,7 +46,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     public void onComplete() {
         release();
         if (!isOnNext) {
-            Log.d("--->", "onComplete() 【empty】 hashCode: " + getDisposableHashCode());
+            Log.d("--->", "onComplete()【empty】 hashCode:" + getDisposableHashCode());
             onNotify(ResponseResult.empty());
         }
     }
