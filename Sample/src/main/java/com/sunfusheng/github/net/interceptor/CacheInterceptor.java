@@ -1,11 +1,13 @@
 package com.sunfusheng.github.net.interceptor;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.util.NetworkUtil;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -19,6 +21,8 @@ import okhttp3.Response;
  */
 public class CacheInterceptor implements Interceptor {
 
+    private static CacheControl onlyIfCached = new CacheControl.Builder().maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS).onlyIfCached().build();
+    private static CacheControl.Builder maxStaleCacheControl = new CacheControl.Builder().maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS);
     private int fetchMode;
 
     public CacheInterceptor(@FetchMode int fetchMode) {
@@ -30,22 +34,25 @@ public class CacheInterceptor implements Interceptor {
         Request request = chain.request();
         if (!NetworkUtil.isConnected() || fetchMode == FetchMode.LOCAL) {
             request = request.newBuilder()
-                    .cacheControl(CacheControl.FORCE_CACHE)
+                    .removeHeader("Pragma")
+                    .cacheControl(onlyIfCached)
                     .build();
         }
 
         Response response = chain.proceed(request);
-        if (NetworkUtil.isConnected()) {
+        if (!NetworkUtil.isConnected()) {
+            return response.newBuilder()
+                    .removeHeader("Pragma")
+                    .header("Cache-Control", onlyIfCached.toString())
+                    .build();
+        } else {
             String cacheControl = request.cacheControl().toString();
+            if (TextUtils.isEmpty(cacheControl)) {
+                cacheControl = maxStaleCacheControl.toString();
+            }
             return response.newBuilder()
                     .removeHeader("Pragma")
                     .header("Cache-Control", cacheControl)
-                    .build();
-        } else {
-            int maxStale = 60 * 60 * 24 * 30; // 没网一个月后失效
-            return response.newBuilder()
-                    .removeHeader("Pragma")
-                    .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
                     .build();
         }
     }

@@ -19,15 +19,20 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class OkHttpClientFactory {
 
+    public static final int TIMEOUT = 60;//60 seconds
+    public static final int CACHE_SIZE = 1024 * 1024 * 20;//20MB
+
     public static OkHttpClient get(@FetchMode int fetchMode, Interceptor... interceptors) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         File cacheDir = new File(AppUtil.getApp().getCacheDir(), "HttpCache");
-        Cache cache = new Cache(cacheDir, 1024 * 1024 * 20);
+        Cache cache = new Cache(cacheDir, CACHE_SIZE);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(new CacheInterceptor(fetchMode))
                 .addNetworkInterceptor(new CacheInterceptor(fetchMode))

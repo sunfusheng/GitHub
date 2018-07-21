@@ -44,6 +44,11 @@ public class BaseViewModel extends ViewModel {
         }
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+    }
+
     public RequestParams getRequestParams() {
         return requestParams.getValue();
     }

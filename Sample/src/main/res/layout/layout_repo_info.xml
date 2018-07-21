@@ -38,7 +38,7 @@
         android:id="@+id/star_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginRight="@dimen/item_margin"
         android:gravity="center_vertical"
         android:includeFontPadding="false"

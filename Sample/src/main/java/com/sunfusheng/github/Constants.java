@@ -11,7 +11,7 @@ public class Constants {
 
     public static final String BASE_URL = "https://api.github.com/";
 
-    public static final String USER_AGENT ="sfsheng0322";
+    public static final String USER_AGENT = "sfsheng0322";
     public static final String ACCEPT = "application/vnd.github.v3+json";
     public static final String[] SCOPES = {"user", "repo", "notifications", "gist", "admin:org"};
     public static final String NOTE = "DroidGitHub";
@@ -23,6 +23,10 @@ public class Constants {
     public static final int PER_PAGE_20 = 20;
     public static final int PER_PAGE_30 = 30;
 
+    public static final int USER_MAX_AGE = 300;//秒
+    public static final int REPO_MAX_AGE = 300;//秒
+    public static final int RECEIVED_EVENTS_MAX_AGE = 300;//秒
+
     public static class PreferenceName {
         public static final String SETTINGS = "preference_name_settings";
     }
@@ -32,6 +36,8 @@ public class Constants {
         public static final String PASSWORD = "preference_key_password";
         public static final String AUTH = "preference_key_auth";
         public static final String TOKEN = "preference_key_token";
+
+        public static final String RECEIVED_EVENTS_REFRESH_TIME = "preference_key_received_events_refresh_time";
     }
 
     public static class Bundle {

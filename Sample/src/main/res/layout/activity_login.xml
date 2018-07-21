@@ -91,7 +91,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:paddingLeft="80dp"
-                android:text=""
+                android:text="sunfusheng0322"
                 android:textColor="@color/c1"
                 android:textColorHint="@color/c3"
                 android:textSize="17sp"/>

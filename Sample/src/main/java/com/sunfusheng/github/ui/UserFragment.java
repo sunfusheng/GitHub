@@ -142,7 +142,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     private void observeUser() {
         UserViewModel viewModel = VmProvider.of(this, UserViewModel.class);
-        viewModel.setRequestParams(username, FetchMode.REMOTE);
+        viewModel.setRequestParams(username, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {
@@ -180,7 +180,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     private void observeRepos() {
         RepoViewModel viewModel = VmProvider.of(this, RepoViewModel.class);
-        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_20, FetchMode.REMOTE);
+        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_20, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
             if (it.loadingState == LoadingState.SUCCESS) {

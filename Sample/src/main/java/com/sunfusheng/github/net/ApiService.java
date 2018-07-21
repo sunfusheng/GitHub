@@ -1,5 +1,6 @@
 package com.sunfusheng.github.net;
 
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.model.Auth;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
@@ -31,9 +32,11 @@ public interface ApiService {
     @POST("authorizations")
     Observable<Auth> createAuth(@Body AuthParams authParams);
 
+    @Headers("Cache-Control: public, max-age=" + Constants.USER_MAX_AGE)
     @GET("users/{username}")
     Observable<Response<User>> fetchUser(@Path("username") String username);
 
+    @Headers("Cache-Control: public, max-age=" + Constants.REPO_MAX_AGE)
     @GET("users/{username}/repos")
     Observable<Response<List<Repo>>> fetchRepos(@Path("username") String username,
                                                 @Query("page") int page,
@@ -45,13 +48,13 @@ public interface ApiService {
                                                   @Query("page") int page,
                                                   @Query("per_page") int per_page);
 
-    @Headers("Cache-Control: public, max-age=300")
+    @Headers("Cache-Control: public, max-age=" + Constants.RECEIVED_EVENTS_MAX_AGE)
     @GET("users/{username}/received_events")
     Observable<Response<List<Event>>> fetchReceivedEvents(@Path("username") String username,
                                                           @Query("page") int page,
                                                           @Query("per_page") int per_page);
 
-    @Headers("Cache-Control: public, max-age=300")
+    @Headers("Cache-Control: public, max-age=" + Constants.REPO_MAX_AGE)
     @GET
     Observable<Response<Repo>> fetchRepo(@Url String url);
 

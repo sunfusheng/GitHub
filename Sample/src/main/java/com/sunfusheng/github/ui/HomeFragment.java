@@ -108,12 +108,23 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private void observeReceivedEvents() {
         eventViewModel = VmProvider.of(this, EventViewModel.class);
-        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.DEFAULT);
+        int fetchMode = FetchMode.LOCAL;
+        long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, 0);
+        long timeInterval = ((System.currentTimeMillis() - lastRefreshTime) / 1000);
+        if (lastRefreshTime == 0 || timeInterval > Constants.RECEIVED_EVENTS_MAX_AGE) {
+            fetchMode = FetchMode.DEFAULT;
+        }
+        Log.d("------>", "fetchMode:" + ResponseResult.getFetchModeString(fetchMode) + " time interval:" + timeInterval);
+        eventViewModel.setRequestParams(username, page, PER_PAGE, fetchMode);
         isFirstLoading = true;
 
         eventViewModel.liveData.observe(this, it -> {
-            Log.d("------>", it.toString());
+            Log.d("------>", it.toString() + " page:" + page);
             dealWithFirstLoading(it);
+            if (page == FIRST_PAGE && it.fetchMode == FetchMode.REMOTE) {
+                recyclerViewWrapper.setLoadingState(it.loadingState);
+                PreferenceUtil.getInstance().put(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
+            }
             switch (it.loadingState) {
                 case LoadingState.SUCCESS:
                     if (page == FIRST_PAGE) {
@@ -123,15 +134,8 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                     recyclerViewWrapper.setItems(items);
                     break;
                 case LoadingState.ERROR:
-                    if (page == FIRST_PAGE) {
-                        recyclerViewWrapper.setLoadingState(it.loadingState);
-                    } else {
+                    if (page > FIRST_PAGE) {
                         page--;
-                    }
-                    break;
-                case LoadingState.EMPTY:
-                    if (page == FIRST_PAGE) {
-                        recyclerViewWrapper.setLoadingState(it.loadingState);
                     }
                     break;
             }
