@@ -83,13 +83,13 @@ public class Utils {
         return DateUtil.formatTimeAgo(new Date().getTime() - getMilliSeconds(dateStr), true);
     }
 
-    public static void refinedSpannableString(String desc, SpannableString sp, String tag, @ColorRes int color, Action action) {
+    public static void refinedSpannableString(String desc, SpannableString sp, String tag, @ColorRes int textColor, @ColorRes int pressedBackgroundColor, Action action) {
         int index;
         int start = 0;
         int end;
         while ((index = desc.indexOf(tag, start)) > -1) {
             end = index + tag.length();
-            sp.setSpan(new TouchableSpan(AppUtil.getContext(), color, color, R.color.transparent, R.color.background_common_darker) {
+            sp.setSpan(new TouchableSpan(AppUtil.getContext(), textColor, textColor, R.color.transparent, pressedBackgroundColor) {
                 @Override
                 public void onSpanClick(View widget) {
                     if (action != null) {
@@ -103,6 +103,10 @@ public class Utils {
             }, index, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             start = end;
         }
+    }
+
+    public static void refinedSpannableString(String desc, SpannableString sp, String tag, @ColorRes int textColor, Action action) {
+        refinedSpannableString(desc, sp, tag, textColor, R.color.background_common_darker, action);
     }
 
     public static void refinedUserSpannableString(String desc, SpannableString sp, User user) {
@@ -125,7 +129,7 @@ public class Utils {
     }
 
     public static void refinedKeywordSpannableString(String desc, SpannableString sp, String keywords) {
-        refinedSpannableString(desc, sp, keywords, R.color.font_keyword, null);
+        refinedSpannableString(desc, sp, keywords, R.color.font_keyword, R.color.transparent, null);
     }
 
     public static SpannableString getDescSpannableString(String desc, List<User> users, List<Repo> repos, List<Issue> issues, List<String> keywords) {
