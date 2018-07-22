@@ -11,6 +11,7 @@ import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.github.widget.span.SpanTouchTextView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
 /**
@@ -37,7 +38,7 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
-        TextView vIssueDesc;
+        SpanTouchTextView vIssueDesc;
         TextView vIssueTitle;
 
         ViewHolder(View view) {
@@ -45,6 +46,9 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
             vAvatar = view.findViewById(R.id.avatar);
             vIssueDesc = view.findViewById(R.id.issue_desc);
             vIssueTitle = view.findViewById(R.id.issue_title);
+
+            vIssueDesc.setMovementMethodDefault();
+            vIssueDesc.setNeedForceEventToParent(true);
         }
     }
 }

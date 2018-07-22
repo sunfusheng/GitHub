@@ -26,4 +26,6 @@ public class Issue {
     public String author_association;
     public List<Label> labels;
     public String body;
+
+    public Repo repo;
 }

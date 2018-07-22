@@ -14,6 +14,7 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.widget.app.RepoInfoView;
+import com.sunfusheng.github.widget.span.SpanTouchTextView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
 /**
@@ -30,7 +31,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
         holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_default_avatar, 3);
-        holder.vEventDesc.setText(Utils.getEventDesc(item));
+        holder.vEventDesc.setText(Utils.getWatchForkDesc(item));
         holder.vRepoName.setText(item.repo.full_name);
         if (!TextUtils.isEmpty(item.repo.description)) {
             holder.vRepoDesc.setVisibility(View.VISIBLE);
@@ -47,7 +48,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
-        TextView vEventDesc;
+        SpanTouchTextView vEventDesc;
         RelativeLayout rlRepo;
         TextView vRepoName;
         TextView vRepoDesc;
@@ -61,6 +62,9 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
             vRepoName = view.findViewById(R.id.repo_name);
             vRepoDesc = view.findViewById(R.id.repo_desc);
             vRepoInfo = view.findViewById(R.id.repo_info);
+
+            vEventDesc.setMovementMethodDefault();
+            vEventDesc.setNeedForceEventToParent(true);
         }
     }
 }

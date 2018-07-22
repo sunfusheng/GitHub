@@ -25,7 +25,8 @@
     <color name="font3">#999999</color>
     <color name="font4">#cccccc</color>
 
-    <color name="font_event">#546e7a</color>
+    <color name="font_highlight">#547FB0</color>
+    <color name="font_keyword">#333333</color>
 
     <color name="background_common">#ffffffff</color>
     <color name="background_common_dark">#ebebeb</color>

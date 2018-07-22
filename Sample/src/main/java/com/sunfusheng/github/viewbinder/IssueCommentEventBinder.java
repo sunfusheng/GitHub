@@ -12,6 +12,7 @@ import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.github.widget.span.SpanTouchTextView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
 /**
@@ -28,7 +29,7 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
         holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_default_avatar, 3);
-        holder.vCommentDesc.setText(Utils.getCommentDesc(item));
+        holder.vCommentDesc.setText(Utils.getCommentIssueDesc(item));
         holder.vCommentBody.setText(item.payload.comment.body);
         holder.vIssueAvatar.load(item.payload.issue.user.avatar_url, R.mipmap.ic_default_avatar, 3);
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
@@ -41,11 +42,11 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
-        TextView vCommentDesc;
+        SpanTouchTextView vCommentDesc;
         TextView vCommentBody;
         RelativeLayout rlIssue;
         GlideImageView vIssueAvatar;
-        TextView vIssueDesc;
+        SpanTouchTextView vIssueDesc;
         TextView vIssueTitle;
 
         ViewHolder(View view) {
@@ -57,6 +58,11 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
             vIssueAvatar = view.findViewById(R.id.issue_avatar);
             vIssueDesc = view.findViewById(R.id.issue_desc);
             vIssueTitle = view.findViewById(R.id.issue_title);
+
+            vCommentDesc.setMovementMethodDefault();
+            vCommentDesc.setNeedForceEventToParent(true);
+            vIssueDesc.setMovementMethodDefault();
+            vIssueDesc.setNeedForceEventToParent(true);
         }
     }
 }

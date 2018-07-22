@@ -1,23 +1,37 @@
 package com.sunfusheng.github.util;
 
 import android.graphics.Color;
+import android.support.annotation.ColorRes;
 import android.text.SpannableString;
+import android.text.Spanned;
+import android.view.View;
+import android.widget.Toast;
 
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.model.Comment;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Issue;
+import com.sunfusheng.github.model.Repo;
+import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.widget.span.TouchableSpan;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.functions.Action;
+
 /**
  * @author sunfusheng on 2018/4/23.
  */
 public class Utils {
     public static final String GITHUB_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
+    public static final String STARRED = "starred";
+    public static final String FORKED = "forked";
+    public static final String FROM = "from";
+    public static final String COMMENT_ISSUE = "commented on issue";
+    public static final String ISSUE = "issue";
 
     public static int getColorByLanguage(String language) {
         switch (language) {
@@ -69,57 +83,146 @@ public class Utils {
         return DateUtil.formatTimeAgo(new Date().getTime() - getMilliSeconds(dateStr), true);
     }
 
-    public static SpannableString getEventDesc(Event item) {
-        StringBuilder sb = new StringBuilder();
-        List<String> tags = new ArrayList<>();
-        sb.append(item.actor.login).append(" ");
-        tags.add(item.actor.login);
-        if (item.type.equals(Event.WatchEvent)) {
-            sb.append("starred ").append(item.repo.full_name);
-            tags.add(item.repo.full_name);
-        } else {
-            sb.append("forked ").append(item.payload.forkee.full_name).append(" from ").append(item.repo.full_name);
-            tags.add(item.payload.forkee.full_name);
-            tags.add(item.repo.full_name);
+    public static void refinedSpannableString(String desc, SpannableString sp, String tag, @ColorRes int color, Action action) {
+        int index;
+        int start = 0;
+        int end;
+        while ((index = desc.indexOf(tag, start)) > -1) {
+            end = index + tag.length();
+            sp.setSpan(new TouchableSpan(AppUtil.getContext(), color, color, R.color.transparent, R.color.background_common_darker) {
+                @Override
+                public void onSpanClick(View widget) {
+                    if (action != null) {
+                        try {
+                            action.run();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }, index, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            start = end;
         }
-        sb.append(" ").append(Utils.getDateAgo(item.created_at));
-        return SpannableUtil.getSpannableString(sb.toString(), R.color.font_event, tags);
     }
 
-    public static SpannableString getCommentDesc(Event item) {
-        StringBuilder sb = new StringBuilder();
-        List<String> tags = new ArrayList<>();
-        Comment comment = item.payload.comment;
-        String issueNumber = item.repo.full_name + "#" + item.payload.issue.number;
+    public static void refinedUserSpannableString(String desc, SpannableString sp, User user) {
+        refinedSpannableString(desc, sp, user.login, R.color.font_highlight, () -> {
+            Toast.makeText(AppUtil.getContext(), user.login, Toast.LENGTH_SHORT).show();
+        });
+    }
 
-        sb.append(comment.user.login)
-                .append(" commented on issue ")
-                .append(issueNumber).append(" ")
+    public static void refinedRepoSpannableString(String desc, SpannableString sp, Repo repo) {
+        refinedSpannableString(desc, sp, repo.full_name, R.color.font_highlight, () -> {
+            Toast.makeText(AppUtil.getContext(), repo.full_name, Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    public static void refinedIssueSpannableString(String desc, SpannableString sp, Issue issue) {
+        String label = issue.repo.full_name + '#' + issue.number;
+        refinedSpannableString(desc, sp, label, R.color.font_highlight, () -> {
+            Toast.makeText(AppUtil.getContext(), label, Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    public static void refinedKeywordSpannableString(String desc, SpannableString sp, String keywords) {
+        refinedSpannableString(desc, sp, keywords, R.color.font_keyword, null);
+    }
+
+    public static SpannableString getDescSpannableString(String desc, List<User> users, List<Repo> repos, List<Issue> issues, List<String> keywords) {
+        SpannableString spannableString = new SpannableString(desc);
+        if (!CollectionUtil.isEmpty(users)) {
+            for (User user : users) {
+                refinedUserSpannableString(desc, spannableString, user);
+            }
+        }
+
+        if (!CollectionUtil.isEmpty(repos)) {
+            for (Repo repo : repos) {
+                refinedRepoSpannableString(desc, spannableString, repo);
+            }
+        }
+
+        if (!CollectionUtil.isEmpty(issues)) {
+            for (Issue issue : issues) {
+                refinedIssueSpannableString(desc, spannableString, issue);
+            }
+        }
+
+        if (!CollectionUtil.isEmpty(keywords)) {
+            for (String keyword : keywords) {
+                refinedKeywordSpannableString(desc, spannableString, keyword);
+            }
+        }
+        return spannableString;
+    }
+
+    public static SpannableString getWatchForkDesc(Event item) {
+        StringBuilder desc = new StringBuilder();
+        List<User> users = new ArrayList<>();
+        List<Repo> repos = new ArrayList<>();
+        List<String> keywords = new ArrayList<>();
+
+        desc.append(item.actor.login).append(' ');
+        users.add(item.actor);
+        if (item.type.equals(Event.WatchEvent)) {
+            desc.append(STARRED).append(' ').append(item.repo.full_name);
+            keywords.add(STARRED);
+            repos.add(item.repo);
+        } else {
+            desc.append(FORKED).append(' ')
+                    .append(item.payload.forkee.full_name).append(' ')
+                    .append(FROM).append(' ')
+                    .append(item.repo.full_name);
+            keywords.add(FORKED);
+            keywords.add(FROM);
+            repos.add(item.payload.forkee);
+            repos.add(item.repo);
+        }
+        desc.append(' ').append(Utils.getDateAgo(item.created_at));
+
+        return getDescSpannableString(desc.toString(), users, repos, null, keywords);
+    }
+
+    public static SpannableString getCommentIssueDesc(Event item) {
+        StringBuilder desc = new StringBuilder();
+        List<User> users = new ArrayList<>();
+        List<Issue> issues = new ArrayList<>();
+        List<String> keywords = new ArrayList<>();
+        String issueNumber = item.repo.full_name + '#' + item.payload.issue.number;
+
+        desc.append(item.actor.login).append(' ')
+                .append(COMMENT_ISSUE).append(' ')
+                .append(issueNumber).append(' ')
                 .append(Utils.getDateAgo(item.created_at));
 
-        tags.add(comment.user.login);
-        tags.add(issueNumber);
-        return SpannableUtil.getSpannableString(sb.toString(), R.color.font_event, tags);
+        users.add(item.actor);
+        item.payload.issue.repo = item.repo;
+        issues.add(item.payload.issue);
+        keywords.add(COMMENT_ISSUE);
+
+        return getDescSpannableString(desc.toString(), users, null, issues, keywords);
     }
 
     public static SpannableString getIssueDesc(Event item) {
-        StringBuilder sb = new StringBuilder();
-        List<String> tags = new ArrayList<>();
-        Issue issue = item.payload.issue;
-        String issueNumber = item.repo.full_name + "#" + issue.number;
-        String actor = issue.user.login;
-        if (item.type.equals(Event.IssuesEvent)) {
-            actor = item.actor.login;
-        }
+        StringBuilder desc = new StringBuilder();
+        List<User> users = new ArrayList<>();
+        List<Issue> issues = new ArrayList<>();
+        List<String> keywords = new ArrayList<>();
+        String issueNumber = item.repo.full_name + '#' + item.payload.issue.number;
 
-        sb.append(actor).append(" ").
-                append(item.payload.action).append(" issue ")
-                .append(issueNumber).append(" ")
+        desc.append(item.actor.login).append(' ')
+                .append(item.payload.action).append(' ')
+                .append(ISSUE).append(' ')
+                .append(issueNumber).append(' ')
                 .append(Utils.getDateAgo(item.created_at));
 
-        tags.add(actor);
-        tags.add(issueNumber);
-        return SpannableUtil.getSpannableString(sb.toString().trim(), R.color.font_event, tags);
+        users.add(item.actor);
+        item.payload.issue.repo = item.repo;
+        issues.add(item.payload.issue);
+        keywords.add(item.payload.action);
+        keywords.add(ISSUE);
+
+        return getDescSpannableString(desc.toString(), users, null, issues, keywords);
     }
 
 }
