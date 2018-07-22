@@ -190,12 +190,12 @@ public class Utils {
         List<String> keywords = new ArrayList<>();
         String issueNumber = item.repo.full_name + '#' + item.payload.issue.number;
 
-        desc.append(item.actor.login).append(' ')
+        desc.append(item.payload.comment.user.login).append(' ')
                 .append(COMMENT_ISSUE).append(' ')
                 .append(issueNumber).append(' ')
                 .append(Utils.getDateAgo(item.created_at));
 
-        users.add(item.actor);
+        users.add(item.payload.comment.user);
         item.payload.issue.repo = item.repo;
         issues.add(item.payload.issue);
         keywords.add(COMMENT_ISSUE);
@@ -208,15 +208,19 @@ public class Utils {
         List<User> users = new ArrayList<>();
         List<Issue> issues = new ArrayList<>();
         List<String> keywords = new ArrayList<>();
+        User user = item.payload.issue.user;
+        if (item.type.equals(Event.IssuesEvent)) {
+            user = item.actor;
+        }
         String issueNumber = item.repo.full_name + '#' + item.payload.issue.number;
 
-        desc.append(item.actor.login).append(' ')
+        desc.append(user.login).append(' ')
                 .append(item.payload.action).append(' ')
                 .append(ISSUE).append(' ')
                 .append(issueNumber).append(' ')
                 .append(Utils.getDateAgo(item.created_at));
 
-        users.add(item.actor);
+        users.add(user);
         item.payload.issue.repo = item.repo;
         issues.add(item.payload.issue);
         keywords.add(item.payload.action);
