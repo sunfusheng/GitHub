@@ -32,11 +32,11 @@ public interface ApiService {
     @POST("authorizations")
     Observable<Auth> createAuth(@Body AuthParams authParams);
 
-    @Headers("Cache-Control: max-age=" + Constants.USER_MAX_AGE)
+    @Headers({Constants.HEADER_CACHE_10_MINUTES})
     @GET("users/{username}")
     Observable<Response<User>> fetchUser(@Path("username") String username);
 
-    @Headers("Cache-Control: max-age=" + Constants.REPO_MAX_AGE)
+    @Headers({Constants.HEADER_CACHE_10_MINUTES})
     @GET("users/{username}/repos")
     Observable<Response<List<Repo>>> fetchRepos(@Path("username") String username,
                                                 @Query("page") int page,
@@ -48,13 +48,13 @@ public interface ApiService {
                                                   @Query("page") int page,
                                                   @Query("per_page") int per_page);
 
-    @Headers("Cache-Control: max-age=" + Constants.RECEIVED_EVENTS_MAX_AGE)
+    @Headers({Constants.HEADER_CACHE_10_MINUTES})
     @GET("users/{username}/received_events")
     Observable<Response<List<Event>>> fetchReceivedEvents(@Path("username") String username,
                                                           @Query("page") int page,
                                                           @Query("per_page") int per_page);
 
-    @Headers("Cache-Control: max-age=" + Constants.REPO_MAX_AGE)
+    @Headers({Constants.HEADER_CACHE_10_MINUTES})
     @GET
     Observable<Response<Repo>> fetchRepo(@Url String url);
 

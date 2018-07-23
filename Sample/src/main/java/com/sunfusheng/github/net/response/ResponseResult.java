@@ -66,6 +66,8 @@ public class ResponseResult<T> {
                 return "LOCAL";
             case FetchMode.REMOTE:
                 return "REMOTE";
+            case FetchMode.FORCE_REMOTE:
+                return "FORCE_REMOTE";
             default:
             case FetchMode.DEFAULT:
                 return "DEFAULT";

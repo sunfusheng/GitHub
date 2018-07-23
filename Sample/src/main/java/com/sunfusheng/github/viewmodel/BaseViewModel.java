@@ -71,6 +71,11 @@ public class BaseViewModel extends ViewModel {
                     .switchIfEmpty(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
                     .onErrorResumeNext(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
             );
+        } else if (fetchMode == FetchMode.FORCE_REMOTE) {
+            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.fetchMode = FetchMode.FORCE_REMOTE)
+                    .switchIfEmpty(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
+                    .onErrorResumeNext(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
+            );
         } else {
             MutableLiveData<ResponseResult<T>> mutableLiveData = new MutableLiveData<>();
             Observable.concat(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL),

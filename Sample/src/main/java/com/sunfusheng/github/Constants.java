@@ -23,9 +23,8 @@ public class Constants {
     public static final int PER_PAGE_20 = 20;
     public static final int PER_PAGE_30 = 30;
 
-    public static final int USER_MAX_AGE = 300;//秒
-    public static final int REPO_MAX_AGE = 300;//秒
-    public static final int RECEIVED_EVENTS_MAX_AGE = 300;//秒
+    public static final int _10_MINUTES = 600;
+    public static final String HEADER_CACHE_10_MINUTES = "Cache-Control: public, max-age=" + _10_MINUTES;//缓存10分钟
 
     public static class PreferenceName {
         public static final String SETTINGS = "preference_name_settings";

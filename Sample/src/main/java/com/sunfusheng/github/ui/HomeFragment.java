@@ -111,7 +111,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         int fetchMode = FetchMode.LOCAL;
         long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, 0);
         long timeInterval = ((System.currentTimeMillis() - lastRefreshTime) / 1000);
-        if (lastRefreshTime == 0 || timeInterval > Constants.RECEIVED_EVENTS_MAX_AGE) {
+        if (lastRefreshTime == 0 || timeInterval > Constants._10_MINUTES) {
             fetchMode = FetchMode.DEFAULT;
         }
         Log.d("------>", "fetchMode:" + ResponseResult.getFetchModeString(fetchMode) + " time interval:" + timeInterval);
@@ -174,7 +174,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     public void onRefresh() {
         isFirstLoading = false;
         page = FIRST_PAGE;
-        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.REMOTE);
+        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.FORCE_REMOTE);
     }
 
     @Override
