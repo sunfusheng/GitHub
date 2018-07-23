@@ -3,8 +3,8 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.database.UserDatabase;
 import com.sunfusheng.github.datasource.base.RemoteDataSource;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.net.api.Api;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;

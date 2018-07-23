@@ -2,7 +2,7 @@ package com.sunfusheng.github.datasource;
 
 import com.sunfusheng.github.datasource.base.LocalDataSource;
 import com.sunfusheng.github.model.Event;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 import java.util.List;
 

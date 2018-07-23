@@ -1,6 +1,6 @@
 package com.sunfusheng.github.datasource.base;
 
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseResult;
 import com.sunfusheng.multistate.LoadingState;
 
 import io.reactivex.ObservableTransformer;

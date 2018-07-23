@@ -8,7 +8,7 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.RepoLocalDataSource;
 import com.sunfusheng.github.datasource.RepoRemoteDataSource;
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 import java.util.List;
 

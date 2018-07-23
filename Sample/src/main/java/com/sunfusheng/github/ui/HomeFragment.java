@@ -15,7 +15,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseResult;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;

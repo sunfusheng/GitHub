@@ -41,7 +41,8 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         }
         holder.vRepoInfo.setData(item.repo);
 
-        holder.rlRepo.setOnClickListener(v -> {
+        holder.vRepoLayout.setBackgroundResource(Utils.isMyRepo(item.repo) ? R.drawable.shape_light_green_selector : R.drawable.shape_grey_selector);
+        holder.vRepoLayout.setOnClickListener(v -> {
 
         });
     }
@@ -49,7 +50,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
     static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
         SpanTouchTextView vEventDesc;
-        RelativeLayout rlRepo;
+        RelativeLayout vRepoLayout;
         TextView vRepoName;
         TextView vRepoDesc;
         RepoInfoView vRepoInfo;
@@ -58,7 +59,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
             super(view);
             vAvatar = view.findViewById(R.id.avatar);
             vEventDesc = view.findViewById(R.id.event_desc);
-            rlRepo = view.findViewById(R.id.rl_repo);
+            vRepoLayout = view.findViewById(R.id.rl_repo);
             vRepoName = view.findViewById(R.id.repo_name);
             vRepoDesc = view.findViewById(R.id.repo_desc);
             vRepoInfo = view.findViewById(R.id.repo_info);

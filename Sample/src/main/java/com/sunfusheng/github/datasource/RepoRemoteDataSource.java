@@ -3,8 +3,8 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.database.RepoDatabase;
 import com.sunfusheng.github.datasource.base.RemoteDataSource;
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.net.api.Api;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.net.response.ResponseResult;
 import com.sunfusheng.github.util.CollectionUtil;
 
 import java.util.List;

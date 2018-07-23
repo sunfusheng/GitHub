@@ -27,6 +27,10 @@
 
     <color name="font_highlight">#547FB0</color>
     <color name="font_keyword">#333333</color>
+    <color name="font_light_red_normal">#33C34A42</color>
+    <color name="font_light_red_pressed">#66C34A42</color>
+    <color name="font_light_green_normal">#331AAD19</color>
+    <color name="font_light_green_pressed">#661AAD19</color>
 
     <color name="background_common">#ffffffff</color>
     <color name="background_common_dark">#ebebeb</color>

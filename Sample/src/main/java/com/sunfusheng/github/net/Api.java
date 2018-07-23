@@ -1,19 +1,18 @@
-package com.sunfusheng.github.net.api;
+package com.sunfusheng.github.net;
 
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.net.ApiService;
+import com.sunfusheng.github.net.factory.OkHttpClientFactory;
 import com.sunfusheng.github.net.factory.RetrofitFactory;
 import com.sunfusheng.github.net.interceptor.CommonHeaderInterceptor;
 import com.sunfusheng.github.net.interceptor.LoginHeaderInterceptor;
+
+import okhttp3.Interceptor;
 
 /**
  * @author by sunfusheng on 2018/4/8.
  */
 public class Api {
-
-    private static ApiService localCommonService;
     private static ApiService remoteCommonService;
-    private static ApiService loginService;
 
     private static final Api instance = new Api();
 
@@ -24,16 +23,21 @@ public class Api {
         return instance;
     }
 
-    public static ApiService getLocalCommonService() {
-        if (localCommonService == null) {
-            localCommonService = RetrofitFactory.getService(FetchMode.LOCAL, ApiService.class, new CommonHeaderInterceptor());
-        }
-        return localCommonService;
+    public static <T> T getService(Class<T> service, @FetchMode int fetchMode, Interceptor... interceptors) {
+        return RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors)).create(service);
     }
 
-    public static ApiService getRemoteCommonService() {
+    public static ApiService getLoginService() {
+        return getService(ApiService.class, FetchMode.REMOTE, new LoginHeaderInterceptor());
+    }
+
+    private static ApiService getLocalCommonService() {
+        return getService(ApiService.class, FetchMode.LOCAL, new CommonHeaderInterceptor());
+    }
+
+    private static synchronized ApiService getRemoteCommonService() {
         if (remoteCommonService == null) {
-            remoteCommonService = RetrofitFactory.getService(FetchMode.REMOTE, ApiService.class, new CommonHeaderInterceptor());
+            remoteCommonService = getService(ApiService.class, FetchMode.REMOTE, new CommonHeaderInterceptor());
         }
         return remoteCommonService;
     }
@@ -47,12 +51,5 @@ public class Api {
 
     public static ApiService getCommonService() {
         return getRemoteCommonService();
-    }
-
-    public static ApiService getLoginService() {
-        if (loginService == null) {
-            loginService = RetrofitFactory.getService(FetchMode.REMOTE, ApiService.class, new LoginHeaderInterceptor());
-        }
-        return loginService;
     }
 }

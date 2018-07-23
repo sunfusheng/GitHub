@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sunfusheng.GlideImageView;
@@ -31,19 +32,22 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 
-        holder.itemView.setOnClickListener(v -> {
+        holder.vIssueLayout.setBackgroundResource(Utils.isMyIssue(item.payload.issue) ? R.drawable.drawable_light_red_selector : R.drawable.drawable_list_item_selector);
+        holder.vIssueLayout.setOnClickListener(v -> {
 
         });
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         GlideImageView vAvatar;
+        RelativeLayout vIssueLayout;
         SpanTouchTextView vIssueDesc;
         TextView vIssueTitle;
 
         ViewHolder(View view) {
             super(view);
             vAvatar = view.findViewById(R.id.avatar);
+            vIssueLayout = view.findViewById(R.id.rl_issue);
             vIssueDesc = view.findViewById(R.id.issue_desc);
             vIssueTitle = view.findViewById(R.id.issue_title);
 

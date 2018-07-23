@@ -53,7 +53,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/avatar"
-            android:background="@drawable/shape_repo_selector"
+            android:background="@drawable/shape_light_red_selector"
             android:padding="10dp">
 
             <com.sunfusheng.GlideImageView

@@ -35,7 +35,8 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 
-        holder.rlIssue.setOnClickListener(v -> {
+        holder.vIssueLayout.setBackgroundResource(Utils.isMyIssue(item.payload.issue) ? R.drawable.shape_light_red_selector : R.drawable.shape_grey_selector);
+        holder.vIssueLayout.setOnClickListener(v -> {
 
         });
     }
@@ -44,7 +45,7 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
         GlideImageView vAvatar;
         SpanTouchTextView vCommentDesc;
         TextView vCommentBody;
-        RelativeLayout rlIssue;
+        RelativeLayout vIssueLayout;
         GlideImageView vIssueAvatar;
         SpanTouchTextView vIssueDesc;
         TextView vIssueTitle;
@@ -54,7 +55,7 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
             vAvatar = view.findViewById(R.id.avatar);
             vCommentDesc = view.findViewById(R.id.comment_desc);
             vCommentBody = view.findViewById(R.id.comment_body);
-            rlIssue = view.findViewById(R.id.rl_issue);
+            vIssueLayout = view.findViewById(R.id.rl_issue);
             vIssueAvatar = view.findViewById(R.id.issue_avatar);
             vIssueDesc = view.findViewById(R.id.issue_desc);
             vIssueTitle = view.findViewById(R.id.issue_title);

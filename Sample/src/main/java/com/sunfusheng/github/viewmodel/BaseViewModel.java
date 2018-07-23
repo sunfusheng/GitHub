@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.net.api.ResponseObserver;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseObserver;
+import com.sunfusheng.github.net.response.ResponseResult;
 import com.sunfusheng.github.util.NetworkUtil;
 
 import io.reactivex.Observable;

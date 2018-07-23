@@ -3,8 +3,8 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.base.RemoteDataSource;
 import com.sunfusheng.github.model.Event;
-import com.sunfusheng.github.net.api.Api;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 import java.util.Collections;
 import java.util.List;

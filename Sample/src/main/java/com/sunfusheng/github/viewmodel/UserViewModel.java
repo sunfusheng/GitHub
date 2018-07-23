@@ -7,7 +7,7 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.UserLocalDataSource;
 import com.sunfusheng.github.datasource.UserRemoteDataSource;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 /**
  * @author sunfusheng on 2018/4/12.

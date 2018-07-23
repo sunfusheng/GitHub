@@ -7,7 +7,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.EventRemoteDataSource;
 import com.sunfusheng.github.model.Event;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.sunfusheng.github.datasource.base;
 
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableTransformer;

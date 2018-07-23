@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.api;
+package com.sunfusheng.github.net.response;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.util.ExceptionUtil;

@@ -2,8 +2,8 @@ package com.sunfusheng.github.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 
-import com.sunfusheng.github.net.api.ResponseObserver;
-import com.sunfusheng.github.net.api.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseObserver;
+import com.sunfusheng.github.net.response.ResponseResult;
 
 import java.lang.ref.WeakReference;
 

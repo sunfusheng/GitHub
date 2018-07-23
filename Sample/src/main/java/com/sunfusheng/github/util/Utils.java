@@ -4,9 +4,11 @@ import android.graphics.Color;
 import android.support.annotation.ColorRes;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Issue;
@@ -27,6 +29,7 @@ import io.reactivex.functions.Action;
 public class Utils {
     public static final String GITHUB_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
+    // Keywords
     public static final String STARRED = "starred";
     public static final String FORKED = "forked";
     public static final String FROM = "from";
@@ -81,6 +84,17 @@ public class Utils {
 
     public static String getDateAgo(String dateStr) {
         return DateUtil.formatTimeAgo(new Date().getTime() - getMilliSeconds(dateStr), true);
+    }
+
+    public static boolean isMyRepo(Repo repo) {
+        if (repo != null && repo.owner != null && !TextUtils.isEmpty(repo.owner.login)) {
+            return repo.owner.login.equals(PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME, ""));
+        }
+        return false;
+    }
+
+    public static boolean isMyIssue(Issue issue) {
+        return isMyRepo(issue.repo);
     }
 
     public static void refinedSpannableString(String desc, SpannableString sp, String tag, @ColorRes int textColor, @ColorRes int pressedBackgroundColor, Action action) {
