@@ -42,15 +42,10 @@ public class CacheInterceptor implements Interceptor {
                     maxAge = 0;
                 }
 
-                int maxStale = Integer.MAX_VALUE;
-                if (fetchMode == FetchMode.REMOTE) {
-                    maxStale = 0;
-                }
                 request = request.newBuilder()
                         .removeHeader("Pragma")
                         .cacheControl(maxStaleCacheControlBuilder
                                 .maxAge(maxAge, TimeUnit.SECONDS)
-                                .maxStale(maxStale, TimeUnit.SECONDS)
                                 .build()
                         ).build();
             }
