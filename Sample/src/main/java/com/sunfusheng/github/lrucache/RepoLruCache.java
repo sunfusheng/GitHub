@@ -7,9 +7,9 @@ import com.sunfusheng.github.model.Repo;
 /**
  * @author sunfusheng on 2018/7/24.
  */
-public class RepoLruCache implements ILruCacheProvider<Integer, Repo> {
+public class RepoLruCache implements ILruCacheProvider<String, Repo> {
     private static final int MAX_CACHE_SIZE = 1000;
-    private static final LruCache<Integer, Repo> cache = new LruCache<>(MAX_CACHE_SIZE);
+    private static final LruCache<String, Repo> cache = new LruCache<>(MAX_CACHE_SIZE);
     private static final RepoLruCache instance = new RepoLruCache();
 
     private RepoLruCache() {
@@ -20,17 +20,17 @@ public class RepoLruCache implements ILruCacheProvider<Integer, Repo> {
     }
 
     @Override
-    public Repo put(Integer key, Repo value) {
+    public Repo put(String key, Repo value) {
         return cache.put(key, value);
     }
 
     @Override
-    public Repo get(Integer key) {
+    public Repo get(String key) {
         return cache.get(key);
     }
 
     @Override
-    public Repo remove(Integer key) {
+    public Repo remove(String key) {
         return cache.remove(key);
     }
 

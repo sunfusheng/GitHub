@@ -9,7 +9,6 @@ import com.sunfusheng.github.datasource.EventRemoteDataSource;
 import com.sunfusheng.github.lrucache.RepoLruCache;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.net.response.ResponseResult;
-import com.sunfusheng.github.util.PreferenceUtil;
 
 import java.util.List;
 
@@ -30,9 +29,6 @@ public class EventViewModel extends BaseViewModel {
     }
 
     private LiveData<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage, @FetchMode int fetchMode) {
-        if (fetchMode == FetchMode.FORCE_REMOTE) {
-            RepoLruCache.getInstance().clear();
-        }
         return fetchData(
                 EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.LOCAL),
                 EventRemoteDataSource.instance().getReceivedEvents(username, page, perPage, FetchMode.REMOTE),
@@ -43,9 +39,7 @@ public class EventViewModel extends BaseViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, 0);
-        long timeInterval = ((System.currentTimeMillis() - lastRefreshTime) / 1000);
-        if (lastRefreshTime == 0 || timeInterval > Constants._10_MINUTES) {
+        if (Constants.isReceivedEventsRefreshTimeExpired()) {
             RepoLruCache.getInstance().clear();
         }
     }

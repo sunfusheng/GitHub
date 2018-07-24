@@ -2,6 +2,8 @@ package com.sunfusheng.github;
 
 import android.os.Environment;
 
+import com.sunfusheng.github.util.PreferenceUtil;
+
 import java.io.File;
 
 /**
@@ -25,6 +27,12 @@ public class Constants {
 
     public static final int _10_MINUTES = 600;
     public static final String HEADER_CACHE_10_MINUTES = "Cache-Control: public, max-age=" + _10_MINUTES;//缓存10分钟
+
+    public static boolean isReceivedEventsRefreshTimeExpired() {
+        long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
+        long intervalSeconds = ((System.currentTimeMillis() - lastRefreshTime) / 1000);
+        return intervalSeconds > Constants._10_MINUTES;
+    }
 
     public static class PreferenceName {
         public static final String SETTINGS = "preference_name_settings";
