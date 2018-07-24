@@ -9,8 +9,8 @@
 
     <com.sunfusheng.GlideImageView
         android:id="@+id/github_loading"
-        android:layout_width="50dp"
-        android:layout_height="50dp"/>
+        android:layout_width="35dp"
+        android:layout_height="35dp"/>
 
     <TextView
         android:id="@+id/loading_tip"

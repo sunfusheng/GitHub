@@ -40,7 +40,6 @@ public class CacheInterceptor implements Interceptor {
                 request = request.newBuilder()
                         .removeHeader("Pragma")
                         .cacheControl(cacheControlBuilder
-                                .maxStale(0, TimeUnit.SECONDS)
                                 .maxAge(0, TimeUnit.SECONDS)
                                 .build()
                         ).build();

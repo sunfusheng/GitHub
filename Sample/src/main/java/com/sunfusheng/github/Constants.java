@@ -31,7 +31,7 @@ public class Constants {
     public static boolean isReceivedEventsRefreshTimeExpired() {
         long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
         long intervalSeconds = ((System.currentTimeMillis() - lastRefreshTime) / 1000);
-        return intervalSeconds > Constants._10_MINUTES;
+        return intervalSeconds <= 0 || intervalSeconds > Constants._10_MINUTES;
     }
 
     public static class PreferenceName {
