@@ -30,7 +30,9 @@ public class DownloadManager {
                 .unsubscribeOn(Schedulers.io())
                 .doOnError(throwable -> {
                     if (downloadListener != null) {
-                        downloadListener.onError(throwable);
+                        AndroidSchedulers.mainThread().createWorker().schedule(() -> {
+                            downloadListener.onError(throwable);
+                        });
                     }
                 })
                 .map(ResponseBody::byteStream)
