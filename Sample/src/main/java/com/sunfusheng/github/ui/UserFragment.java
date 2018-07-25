@@ -3,10 +3,13 @@ package com.sunfusheng.github.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,9 +24,7 @@ import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
-import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.github.viewmodel.ContributionsViewModel;
-import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.ListenerNestedScrollView;
@@ -52,7 +53,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
     private TextView vFollowersCount;
 
     private ContributionsView vContributions;
-    private LinearLayout vRepoContainer;
+    private FrameLayout vRepoContainer;
 
     private String username;
 
@@ -76,7 +77,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         initHeader();
         observeUser();
         observeContributions();
-        observeRepos();
+        addRepoFragment();
     }
 
     private void initData() {
@@ -178,23 +179,11 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         });
     }
 
-    private void observeRepos() {
-        RepoViewModel viewModel = VmProvider.of(this, RepoViewModel.class);
-        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_20, FetchMode.DEFAULT);
-
-        viewModel.liveData.observe(this, it -> {
-            if (it.loadingState == LoadingState.SUCCESS) {
-                vRepoContainer.removeAllViews();
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                RepoBinder repoViewBinder = new RepoBinder();
-
-                for (int i = 0; i < it.data.size(); i++) {
-                    View view = repoViewBinder.onCreateView(inflater, vRepoContainer);
-                    repoViewBinder.onBindViewHolder(new RepoBinder.ViewHolder(view), it.data.get(i));
-                    vRepoContainer.addView(view);
-                }
-            }
-        });
+    private void addRepoFragment() {
+        FragmentManager manager = getChildFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.repo_container, RepoFragment.newFragment(username));
+        transaction.commit();
     }
 
     @Override
