@@ -1,6 +1,5 @@
 package com.sunfusheng.github.datasource;
 
-import android.util.Log;
 import android.util.Pair;
 
 import com.sunfusheng.github.Constants;
@@ -62,10 +61,8 @@ public class EventRemoteDataSource extends RemoteDataSource {
                     .flatMap(Observable::fromIterable)
                     .flatMap(url -> {
                         if (RepoLruCache.getInstance().get(url) != null && !Constants.isReceivedEventsRefreshTimeExpired()) {
-                            Log.d("------>", "复用");
                             return Observable.just(new Pair<>(url, RepoLruCache.getInstance().get(url)));
                         }
-                        Log.d("------>", "不复用");
                         return Api.getCommonService(fetchMode).fetchRepo(url)
                                 .compose(applyRemoteTransformer())
                                 .map(repoResult -> {

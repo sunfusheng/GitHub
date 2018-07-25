@@ -108,23 +108,19 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private void observeReceivedEvents() {
         eventViewModel = VmProvider.of(this, EventViewModel.class);
-        int fetchMode = FetchMode.LOCAL;
-        long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
-        long timeInterval = (System.currentTimeMillis() - lastRefreshTime) / 1000;
-        if (Constants.isReceivedEventsRefreshTimeExpired()) {
-            fetchMode = FetchMode.DEFAULT;
-        }
-        Log.d("------>", "fetchMode:" + ResponseResult.getFetchModeString(fetchMode) + " time interval:" + timeInterval);
+        int fetchMode = Constants.isReceivedEventsRefreshTimeExpired() ? FetchMode.DEFAULT : FetchMode.LOCAL;
         eventViewModel.setRequestParams(username, page, PER_PAGE, fetchMode);
         isFirstLoading = true;
 
         eventViewModel.liveData.observe(this, it -> {
-            Log.d("------>", it.toString() + " page:" + page);
+            Log.d("------>", it.toString());
             dealWithFirstLoading(it);
+
             if (page == FIRST_PAGE && (it.fetchMode == FetchMode.REMOTE || it.fetchMode == FetchMode.FORCE_REMOTE)) {
-                recyclerViewWrapper.setLoadingState(it.loadingState);
                 PreferenceUtil.getInstance().put(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
+                recyclerViewWrapper.setLoadingState(it.loadingState);
             }
+
             switch (it.loadingState) {
                 case LoadingState.SUCCESS:
                     if (page == FIRST_PAGE) {

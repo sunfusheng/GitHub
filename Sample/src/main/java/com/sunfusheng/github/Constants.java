@@ -29,9 +29,8 @@ public class Constants {
     public static final String HEADER_CACHE_10_MINUTES = "Cache-Control: public, max-age=" + _10_MINUTES;//缓存10分钟
 
     public static boolean isReceivedEventsRefreshTimeExpired() {
-        long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
-        long intervalSeconds = ((System.currentTimeMillis() - lastRefreshTime) / 1000);
-        return intervalSeconds <= 0 || intervalSeconds > Constants._10_MINUTES;
+        long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, -1);
+        return lastRefreshTime == -1 || ((System.currentTimeMillis() - lastRefreshTime) / 1000) > Constants._10_MINUTES;
     }
 
     public static class PreferenceName {
