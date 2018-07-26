@@ -3,9 +3,8 @@ package com.sunfusheng.github.ui;
 import android.content.Context;
 import android.content.Intent;
 
+import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.AppUtil;
-import com.sunfusheng.github.ui.LoginActivity;
-import com.sunfusheng.github.ui.MainActivity;
 
 /**
  * @author sunfusheng on 2018/4/12.
@@ -22,5 +21,9 @@ public class NavigationManager {
 
     public static void toMainActivity() {
         context.startActivity(new Intent(context, MainActivity.class));
+    }
+
+    public static void toUserActivity(User user) {
+        context.startActivity(new Intent(context, UserActivity.class));
     }
 }

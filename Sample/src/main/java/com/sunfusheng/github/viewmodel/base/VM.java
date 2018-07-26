@@ -26,7 +26,7 @@ public class VM<T> extends ViewModel {
         onNotify(getActivity(fragment.getActivity()), observer);
     }
 
-    static FragmentActivity getActivity(Context context) {
+    public static FragmentActivity getActivity(Context context) {
         if (context instanceof FragmentActivity) {
             return (FragmentActivity) context;
         }

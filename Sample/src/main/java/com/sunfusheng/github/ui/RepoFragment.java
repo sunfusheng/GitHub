@@ -14,12 +14,13 @@ import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.github.viewmodel.RepoViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
+import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
 
 /**
  * @author sunfusheng on 2018/7/25.
  */
-public class RepoFragment extends BaseFragment {
+public class RepoFragment extends BaseFragment implements ScrollableHelper.ScrollableViewContainer {
 
     private RecyclerViewWrapper recyclerViewWrapper;
     private String username;
@@ -53,8 +54,6 @@ public class RepoFragment extends BaseFragment {
         recyclerViewWrapper.enableRefresh(false);
         recyclerViewWrapper.enableLoadMore(false);
 
-//        recyclerViewWrapper.getRefreshLayout().
-
         recyclerViewWrapper.register(Repo.class, new RepoBinder());
 
         observeRepos();
@@ -69,4 +68,8 @@ public class RepoFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public View getScrollableView() {
+        return recyclerViewWrapper.getRecyclerView();
+    }
 }

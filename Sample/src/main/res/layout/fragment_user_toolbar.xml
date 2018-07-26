@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.sunfusheng.GlideImageView
-        android:id="@+id/toolbarBackground"
+        android:id="@+id/toolbar_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/user_profile_height"
         android:scaleType="centerCrop"

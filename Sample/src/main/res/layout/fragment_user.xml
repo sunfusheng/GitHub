@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sunfusheng.github.widget.ListenerNestedScrollView
-        android:id="@+id/nestedScrollView"
+    <com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout
+        android:id="@+id/scrollableLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,11 +16,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/fragment_user_profile"/>
+            <com.sunfusheng.github.widget.app.UserProfileView
+                android:id="@+id/user_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <include
-                layout="@layout/divider_16dp"/>
+            <include layout="@layout/divider_16dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -40,28 +41,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"/>
 
-            <include
-                layout="@layout/divider_16dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/background_common"
-                android:includeFontPadding="false"
-                android:paddingLeft="@dimen/item_margin_large"
-                android:paddingTop="@dimen/item_margin"
-                android:text="Repositories"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"/>
-
-            <FrameLayout
-                android:id="@+id/repo_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            <include layout="@layout/divider_16dp"/>
         </LinearLayout>
-    </com.sunfusheng.github.widget.ListenerNestedScrollView>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/background_common"
+            app:tabGravity="fill"
+            app:tabMode="scrollable"
+            app:tabPaddingStart="@dimen/item_margin_large"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
+            app:tabTextColor="@color/colorAccent_50"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout>
 
     <include layout="@layout/fragment_user_toolbar"/>
 </FrameLayout>

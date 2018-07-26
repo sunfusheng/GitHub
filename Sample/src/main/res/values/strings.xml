@@ -9,6 +9,12 @@
     <string name="tab_discover">发现</string>
     <string name="tab_mine">我</string>
 
+    <string name="Repositories">Repositories</string>
+    <string name="Followers">Followers</string>
+    <string name="Following">Following</string>
+    <string name="Stars">Stars</string>
+    <string name="Activities">Activities</string>
+
     <string name="com_ok">确定</string>
     <string name="com_cancel">取消</string>
     <string name="com_save">保存</string>

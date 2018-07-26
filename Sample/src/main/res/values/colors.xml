@@ -4,6 +4,7 @@
     <color name="colorPrimary">#546e7a</color>
     <color name="colorPrimaryDark">#546e7a</color>
     <color name="colorAccent">#546e7a</color>
+    <color name="colorAccent_50">#80546e7a</color>
 
     <!-- common -->
     <color name="c0">#ff000000</color>

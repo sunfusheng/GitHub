@@ -18,14 +18,10 @@ import com.sunfusheng.multitype.ItemViewBinder;
  */
 public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
 
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return inflater.inflate(R.layout.item_repo, parent, false);
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        return new ViewHolder(onCreateView(inflater, parent));
+        return new ViewHolder(inflater.inflate(R.layout.item_repo, parent, false));
     }
 
     @Override
@@ -44,12 +40,12 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
         });
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView vName;
         TextView vDesc;
         RepoInfoView vRepoInfo;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             vName = view.findViewById(R.id.name);
             vDesc = view.findViewById(R.id.desc);
