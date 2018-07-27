@@ -22,12 +22,14 @@
     <style name="ToolBar.Title" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <!--Toolbar 副标题-->
     <style name="Toolbar.SubTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
         <item name="android:textSize">@dimen/text_size_xxxx_small</item>
         <item name="android:textColor">@color/transparent70_white</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="singleLine">

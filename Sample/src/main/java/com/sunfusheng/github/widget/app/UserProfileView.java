@@ -146,10 +146,14 @@ public class UserProfileView extends LinearLayout {
             vEmailLayout.setVisibility(GONE);
         }
 
-        if (!TextUtils.isEmpty(user.blog)) {
+        String blog = user.blog;
+        if (TextUtils.isEmpty(blog)) {
+            blog = user.html_url;
+        }
+        if (!TextUtils.isEmpty(blog)) {
             infoCount++;
             vBlogLayout.setVisibility(VISIBLE);
-            vBlog.setText(user.blog);
+            vBlog.setText(blog);
         } else {
             vBlogLayout.setVisibility(GONE);
         }
