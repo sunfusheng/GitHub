@@ -43,7 +43,7 @@ public class Constants {
         public static final String AUTH = "preference_key_auth";
         public static final String TOKEN = "preference_key_token";
 
-        public static final String RECEIVED_EVENTS_REFRESH_TIME = "preference_key_received_events_refresh_time";
+        public static final String RECEIVED_EVENTS_REFRESH_TIME = "received_events_refresh_time";
     }
 
     public static class Bundle {
@@ -55,6 +55,5 @@ public class Constants {
         public static final String CACHE = ROOT_DIR + "cache" + File.separator;
         public static final String IMAGE = ROOT_DIR + "image" + File.separator;
         public static final String FILE = ROOT_DIR + "file" + File.separator;
-        public static final String CONTRIBUTIONS = ROOT_DIR + "contributions" + File.separator;
     }
 }

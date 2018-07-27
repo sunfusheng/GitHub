@@ -30,4 +30,10 @@ public class VmProvider {
     public static <T extends ViewModel> T of(@NonNull Fragment fragment, @NonNull Class<T> vmClass) {
         return of(VM.getActivity(fragment.getActivity()), vmClass);
     }
+
+    @NonNull
+    @MainThread
+    public static <T extends ViewModel> T ofFragment(@NonNull Fragment fragment, @NonNull Class<T> vmClass) {
+        return ViewModelProviders.of(fragment).get(vmClass);
+    }
 }

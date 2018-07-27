@@ -6,12 +6,12 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.net.download.DownloadManager;
 import com.sunfusheng.github.net.download.IDownloadListener;
 import com.sunfusheng.github.net.download.ProgressResult;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PermissionUtil;
+import com.sunfusheng.github.util.SdCardUtil;
 
 import java.io.File;
 
@@ -19,6 +19,7 @@ import java.io.File;
  * @author sunfusheng on 2018/4/24.
  */
 public class ContributionsViewModel extends ViewModel {
+    public static final String CONTRIBUTIONS_DIR = "contributions";
 
     private final MutableLiveData<String> params = new MutableLiveData();
 
@@ -29,8 +30,8 @@ public class ContributionsViewModel extends ViewModel {
         params.setValue(username);
     }
 
-    private String getContributionsFilePath(String username) {
-        return Constants.FileDir.CONTRIBUTIONS + username + "_contributions.html";
+    public static String getContributionsFilePath(String username) {
+        return SdCardUtil.getDiskCacheDir(CONTRIBUTIONS_DIR).getPath() + File.separator + username + "_contributions.html";
     }
 
     private LiveData<ProgressResult<String>> downloadContributionsFile(String username) {
@@ -45,7 +46,7 @@ public class ContributionsViewModel extends ViewModel {
         PermissionUtil.getInstant().requestPermission(AppUtil.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionUtil.OnPermissionCallback() {
             @Override
             public void onGranted() {
-                File dir = new File(Constants.FileDir.CONTRIBUTIONS);
+                File dir = SdCardUtil.getDiskCacheDir(CONTRIBUTIONS_DIR);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }

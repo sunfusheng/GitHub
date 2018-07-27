@@ -35,6 +35,7 @@ public class UserProfileView extends LinearLayout {
     private TextView vBlog;
 
     private TextView vBio;
+    private TextView vTip;
 
     private LinearLayout vRepoLayout;
     private TextView vRepoCount;
@@ -71,6 +72,7 @@ public class UserProfileView extends LinearLayout {
         vBlog = findViewById(R.id.blog);
 
         vBio = findViewById(R.id.bio);
+        vTip = findViewById(R.id.tip);
 
         vRepoLayout = findViewById(R.id.repo_layout);
         vRepoCount = findViewById(R.id.repo_count);
@@ -78,6 +80,11 @@ public class UserProfileView extends LinearLayout {
         vFollowersCount = findViewById(R.id.followers_count);
         vFollowingLayout = findViewById(R.id.following_layout);
         vFollowingCount = findViewById(R.id.following_count);
+
+        vTip.setVisibility(VISIBLE);
+        vTip.setText("Loading...");
+        vBio.setVisibility(VISIBLE);
+        vBio.setText("BIO: Loading...");
     }
 
     public void setUsername(String username) {
@@ -92,11 +99,31 @@ public class UserProfileView extends LinearLayout {
         });
     }
 
+    public void setLoadingState(@LoadingState int loadingState) {
+        switch (loadingState) {
+            case LoadingState.LOADING:
+                break;
+            case LoadingState.SUCCESS:
+                break;
+            case LoadingState.ERROR:
+                vTip.setText("Load Failed!");
+                vBio.setText("BIO: Load Failed!");
+                break;
+            case LoadingState.EMPTY:
+                vTip.setText("Empty!");
+                vBio.setText("BIO: Empty!");
+                break;
+        }
+    }
+
     public void setUser(User user) {
+        vTip.setVisibility(GONE);
+        int infoCount = 0;
         vAvatarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 20, 20));
         vAvatar.load(user.avatar_url, R.mipmap.ic_default_avatar, 5);
 
         if (!TextUtils.isEmpty(user.company)) {
+            infoCount++;
             vCompanyLayout.setVisibility(VISIBLE);
             vCompany.setText(user.company);
         } else {
@@ -104,6 +131,7 @@ public class UserProfileView extends LinearLayout {
         }
 
         if (!TextUtils.isEmpty(user.location)) {
+            infoCount++;
             vLocationLayout.setVisibility(VISIBLE);
             vLocation.setText(user.location);
         } else {
@@ -111,6 +139,7 @@ public class UserProfileView extends LinearLayout {
         }
 
         if (!TextUtils.isEmpty(user.email)) {
+            infoCount++;
             vEmailLayout.setVisibility(VISIBLE);
             vEmail.setText(user.email);
         } else {
@@ -118,13 +147,20 @@ public class UserProfileView extends LinearLayout {
         }
 
         if (!TextUtils.isEmpty(user.blog)) {
+            infoCount++;
             vBlogLayout.setVisibility(VISIBLE);
             vBlog.setText(user.blog);
         } else {
             vBlogLayout.setVisibility(GONE);
         }
 
-        vBio.setText("BIO: " + (TextUtils.isEmpty(user.bio) ? "暂无简介" : user.bio));
+        if (infoCount == 0) {
+            vTip.setVisibility(VISIBLE);
+            vTip.setText("No Information!");
+        }
+
+        vBio.setVisibility(VISIBLE);
+        vBio.setText(TextUtils.isEmpty(user.bio) ? "No Biography" : "BIO: " + user.bio);
 
         vRepoCount.setText(String.valueOf(user.public_repos));
         vFollowingCount.setText(String.valueOf(user.following));

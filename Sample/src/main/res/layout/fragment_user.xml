@@ -23,23 +23,10 @@
 
             <include layout="@layout/divider_16dp"/>
 
-            <TextView
+            <com.sunfusheng.github.widget.app.UserContributionsView
+                android:id="@+id/user_contributions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/background_common"
-                android:includeFontPadding="false"
-                android:paddingBottom="10dp"
-                android:paddingLeft="@dimen/item_margin_large"
-                android:paddingTop="@dimen/item_margin"
-                android:text="Contributions"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"/>
-
-            <com.sunfusheng.github.widget.app.ContributionsView
-                android:id="@+id/contributions"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"/>
+                android:layout_height="wrap_content"/>
 
             <include layout="@layout/divider_16dp"/>
         </LinearLayout>
@@ -54,7 +41,7 @@
             app:tabPaddingStart="@dimen/item_margin_large"
             app:tabSelectedTextColor="@color/colorPrimary"
             app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabTextColor="@color/colorAccent_50"/>
+            app:tabTextColor="@color/c3"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"

@@ -87,6 +87,23 @@ public class Utils {
         return DateUtil.formatTimeAgo(new Date().getTime() - getMilliSeconds(dateStr), true);
     }
 
+    public static String getUsernameDesc(User user) {
+        StringBuilder sb = new StringBuilder();
+        if (!TextUtils.isEmpty(user.name)) {
+            sb.append(user.name);
+        }
+        if (!TextUtils.isEmpty(sb)) {
+            sb.append("（").append(user.login).append("）");
+        } else {
+            sb.append(user.login);
+        }
+        return sb.toString();
+    }
+
+    public static String getCreatedTimeDesc(String createdTime) {
+        return "Created in " + DateUtil.formatDate2String(createdTime, DateUtil.FORMAT.format(DateUtil.FORMAT.yyyyMMdd));
+    }
+
     public static boolean isMyRepo(Repo repo) {
         if (repo != null && repo.owner != null && !TextUtils.isEmpty(repo.owner.login)) {
             return repo.owner.login.equals(PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME, ""));

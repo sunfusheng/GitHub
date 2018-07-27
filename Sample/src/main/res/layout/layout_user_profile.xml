@@ -39,12 +39,26 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="loading..."
+                android:textColor="@color/transparent70_white"
+                android:textSize="@dimen/text_size_x_small"
+                android:visibility="visible"
+                tools:text="Loading..."
+                tools:visibility="visible"/>
+
             <LinearLayout
                 android:id="@+id/company_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -59,7 +73,7 @@
                     android:autoLink="all"
                     android:includeFontPadding="false"
                     android:singleLine="true"
-                    android:text="loading..."
+                    android:text="Loading..."
                     android:textColor="@color/transparent70_white"
                     android:textColorLink="@color/transparent70_white"
                     android:textSize="@dimen/text_size_x_small"
@@ -72,7 +86,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -87,7 +103,7 @@
                     android:autoLink="all"
                     android:includeFontPadding="false"
                     android:singleLine="true"
-                    android:text="loading..."
+                    android:text="Loading..."
                     android:textColor="@color/transparent70_white"
                     android:textColorLink="@color/transparent70_white"
                     android:textSize="@dimen/text_size_x_small"
@@ -100,7 +116,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -115,7 +133,7 @@
                     android:autoLink="all"
                     android:includeFontPadding="false"
                     android:singleLine="true"
-                    android:text="loading..."
+                    android:text="Loading..."
                     android:textColor="@color/transparent70_white"
                     android:textColorLink="@color/transparent70_white"
                     android:textSize="@dimen/text_size_x_small"
@@ -128,7 +146,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -143,7 +163,7 @@
                     android:autoLink="all"
                     android:includeFontPadding="false"
                     android:singleLine="true"
-                    android:text="loading..."
+                    android:text="Loading..."
                     android:textColor="@color/transparent70_white"
                     android:textColorLink="@color/transparent70_white"
                     android:textSize="@dimen/text_size_x_small"
@@ -163,7 +183,7 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="BIO: loading..."
+            android:text="BIO: Loading..."
             android:textColor="@color/transparent70_white"
             android:textColorLink="@color/transparent70_white"
             android:textSize="@dimen/text_size_x_small"

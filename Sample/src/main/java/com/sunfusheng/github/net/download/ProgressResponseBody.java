@@ -51,7 +51,7 @@ public class ProgressResponseBody extends ResponseBody {
             public long read(Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                if (downloadListener != null) {
+                if (downloadListener != null && contentLength() > 0) {
                     int percentage = (int) (totalBytesRead * 100 / contentLength());
                     if (bytesRead != -1) {
                         AndroidSchedulers.mainThread().createWorker().schedule(() -> {

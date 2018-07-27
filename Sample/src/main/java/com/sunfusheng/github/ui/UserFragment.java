@@ -14,19 +14,17 @@ import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.AppUtil;
-import com.sunfusheng.github.util.DateUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
-import com.sunfusheng.github.viewmodel.ContributionsViewModel;
+import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.UserViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout;
-import com.sunfusheng.github.widget.app.ContributionsView;
+import com.sunfusheng.github.widget.app.UserContributionsView;
 import com.sunfusheng.github.widget.app.UserProfileView;
 import com.sunfusheng.github.widget.bottombar.FragmentPagerItemAdapter;
 import com.sunfusheng.multistate.LoadingState;
@@ -35,7 +33,7 @@ import com.sunfusheng.transformation.BlurTransformation;
 /**
  * @author sunfusheng on 2018/4/12.
  */
-public class UserFragment extends BaseFragment implements View.OnClickListener {
+public class UserFragment extends BaseFragment {
 
     private ScrollableLayout scrollableLayout;
     private TabLayout tabLayout;
@@ -43,7 +41,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
 
     private GlideImageView vToolbarBg;
     private UserProfileView vUserProfile;
-    private ContributionsView vContributions;
+    private UserContributionsView vUserContributions;
 
     private boolean hasInstantiate = false;
     private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
@@ -95,23 +93,15 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         View view = getView();
         if (view == null) return;
         vUserProfile = view.findViewById(R.id.user_profile);
-        vContributions = view.findViewById(R.id.contributions);
+        vUserContributions = view.findViewById(R.id.user_contributions);
 
         scrollableLayout = view.findViewById(R.id.scrollableLayout);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
 
-        vUserProfile.setRepoClickListener(v -> {
-            tabLayout.getTabAt(0).select();
-        });
-
-        vUserProfile.setFollowersClickListener(v -> {
-            tabLayout.getTabAt(1).select();
-        });
-
-        vUserProfile.setFollowingClickListener(v -> {
-            tabLayout.getTabAt(2).select();
-        });
+        vUserProfile.setRepoClickListener(v -> tabLayout.getTabAt(0).select());
+        vUserProfile.setFollowersClickListener(v -> tabLayout.getTabAt(1).select());
+        vUserProfile.setFollowingClickListener(v -> tabLayout.getTabAt(2).select());
     }
 
     private void initHeader() {
@@ -131,9 +121,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         int distance = DisplayUtil.dp2px(getContext(), 220) - toolbarAndStatusBarHeight;
         scrollableLayout.setOnScrollListener((scrollY, offsetY, maxY) -> {
             float alpha = offsetY * 1f / (distance);
-            if (alpha > 1f) {
-                alpha = 1f;
-            }
+            if (alpha > 1f) alpha = 1f;
             vToolbarBg.setAlpha((int) (alpha * 255));
         });
     }
@@ -143,34 +131,20 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         viewModel.setRequestParams(username, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
+            if (it == null) return;
+            vUserProfile.setLoadingState(it.loadingState);
             if (it.loadingState == LoadingState.SUCCESS) {
                 User user = it.data;
                 vUserProfile.setUser(user);
-                StringBuilder sb = new StringBuilder();
-                if (!TextUtils.isEmpty(user.name)) {
-                    sb.append(user.name);
-                }
-                if (!TextUtils.isEmpty(sb)) {
-                    sb.append("（").append(user.login).append("）");
-                } else {
-                    sb.append(user.login);
-                }
-                toolbar.setTitle(sb);
-                toolbar.setSubtitle("创建于" + DateUtil.formatDate2String(user.created_at, DateUtil.FORMAT.format(DateUtil.FORMAT.yyyyMMdd)));
+                toolbar.setTitle(Utils.getUsernameDesc(user));
+                toolbar.setSubtitle(Utils.getCreatedTimeDesc(user.created_at));
                 vToolbarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
             }
         });
     }
 
     private void observeContributions() {
-        ContributionsViewModel viewModel = VmProvider.of(this, ContributionsViewModel.class);
-        viewModel.setRequestParams(username);
-
-        viewModel.liveData.observe(this, it -> {
-            if (it.progressState == ProgressState.SUCCESS) {
-                vContributions.loadContributions(it.data);
-            }
-        });
+        vUserContributions.setUsername(username);
     }
 
     private void initViewPager() {
@@ -215,9 +189,4 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
             }
         });
     }
-
-    @Override
-    public void onClick(View v) {
-    }
-
 }
