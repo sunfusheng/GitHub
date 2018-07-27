@@ -126,11 +126,9 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
         int height = layoutParams.height - toolbarAndStatusBarHeight;
         layoutParams.setMargins(0, -height, 0, 0);
         vToolbarBg.setLayoutParams(layoutParams);
-
         scrollableLayout.setMarginTop(toolbarAndStatusBarHeight);
 
         int distance = DisplayUtil.dp2px(getContext(), 220) - toolbarAndStatusBarHeight;
-
         scrollableLayout.setOnScrollListener((scrollY, offsetY, maxY) -> {
             float alpha = offsetY * 1f / (distance);
             if (alpha > 1f) {

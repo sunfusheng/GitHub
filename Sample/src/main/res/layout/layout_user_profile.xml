@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -32,9 +33,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/avatar"
             android:layout_alignTop="@id/avatar"
-            android:layout_marginTop="@dimen/item_margin"
             android:layout_toRightOf="@+id/avatar"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <LinearLayout
@@ -151,15 +153,16 @@
 
         <TextView
             android:id="@+id/bio"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/item_margin_large"
             android:layout_marginLeft="@dimen/item_margin_large"
+            android:layout_marginRight="@dimen/item_margin_large"
             android:autoLink="all"
             android:ellipsize="end"
             android:includeFontPadding="false"
-            android:maxLines="3"
+            android:maxLines="1"
             android:text="BIO: loading..."
             android:textColor="@color/transparent70_white"
             android:textColorLink="@color/transparent70_white"
