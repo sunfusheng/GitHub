@@ -14,6 +14,7 @@ import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Issue;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.widget.span.TouchableSpan;
 
 import java.util.ArrayList;
@@ -125,7 +126,8 @@ public class Utils {
 
     public static void refinedUserSpannableString(String desc, SpannableString sp, User user) {
         refinedSpannableString(desc, sp, user.login, R.color.font_highlight, () -> {
-            Toast.makeText(AppUtil.getContext(), user.login, Toast.LENGTH_SHORT).show();
+            NavigationManager.toUserActivity(user);
+
         });
     }
 

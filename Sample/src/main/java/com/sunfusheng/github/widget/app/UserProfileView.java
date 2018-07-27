@@ -124,7 +124,7 @@ public class UserProfileView extends LinearLayout {
             vBlogLayout.setVisibility(GONE);
         }
 
-        vBio.setText(TextUtils.isEmpty(user.bio) ? "暂无简介" : "BIO: " + user.bio);
+        vBio.setText("BIO: "+(TextUtils.isEmpty(user.bio) ? "暂无简介" : user.bio));
 
         vRepoCount.setText(String.valueOf(user.public_repos));
         vFollowingCount.setText(String.valueOf(user.following));

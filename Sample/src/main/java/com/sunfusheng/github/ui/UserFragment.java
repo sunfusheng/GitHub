@@ -49,6 +49,14 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
     private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
     private String username;
 
+    public static UserFragment instance(String username) {
+        UserFragment fragment = new UserFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.Bundle.USERNAME, username);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +83,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
     private void initData() {
         Bundle arguments = getArguments();
         if (arguments != null) {
-            arguments.getString(Constants.Bundle.USERNAME);
+            username = arguments.getString(Constants.Bundle.USERNAME);
         }
 
         if (TextUtils.isEmpty(username)) {
@@ -140,7 +148,16 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
             if (it.loadingState == LoadingState.SUCCESS) {
                 User user = it.data;
                 vUserProfile.setUser(user);
-                toolbar.setTitle(user.name + "（" + user.login + "）");
+                StringBuilder sb = new StringBuilder();
+                if (!TextUtils.isEmpty(user.name)) {
+                    sb.append(user.name);
+                }
+                if (!TextUtils.isEmpty(sb)) {
+                    sb.append("（").append(user.login).append("）");
+                } else {
+                    sb.append(user.login);
+                }
+                toolbar.setTitle(sb);
                 toolbar.setSubtitle("创建于" + DateUtil.formatDate2String(user.created_at, DateUtil.FORMAT.format(DateUtil.FORMAT.yyyyMMdd)));
                 vToolbarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
             }
@@ -173,6 +190,7 @@ public class UserFragment extends BaseFragment implements View.OnClickListener {
                 .add(TAB_NAMES[4], RepoFragment.newFragment(username))
                 .build();
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
         tabLayout.setupWithViewPager(viewPager);
 
         adapter.setOnInstantiateFragmentListener((position, fragment, args) -> {
