@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/drawable_list_item_selector"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -87,7 +87,6 @@
                 android:text="issue_title"
                 android:textColor="@color/c2"
                 android:textSize="11sp"/>
-
         </RelativeLayout>
     </RelativeLayout>
 

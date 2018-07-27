@@ -2,6 +2,7 @@ package com.sunfusheng.github.viewbinder;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,9 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 
-        holder.vIssueLayout.setBackgroundResource(Utils.isMyIssue(item.payload.issue) ? R.drawable.drawable_light_red_selector : R.drawable.drawable_list_item_selector);
+        TypedValue typedValue = new TypedValue();
+        holder.vIssueLayout.getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true);
+        holder.vIssueLayout.setBackgroundResource(Utils.isMyIssue(item.payload.issue) ? R.drawable.drawable_light_red_selector : typedValue.resourceId);
         holder.vIssueLayout.setOnClickListener(v -> {
 
         });
