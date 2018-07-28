@@ -33,7 +33,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/toolbar_view_height"
-                android:layout_toLeftOf="@+id/follow"
+                android:layout_toLeftOf="@+id/user_follow"
                 android:gravity="center_vertical"
                 app:layout_scrollFlags="enterAlways|scroll"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -41,17 +41,12 @@
                 app:theme="@style/ToolbarStyle"
                 app:titleTextAppearance="@style/ToolBar.Title"/>
 
-            <TextView
-                android:id="@+id/follow"
+            <com.sunfusheng.github.widget.app.UserFollowView
+                android:id="@+id/user_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/actionBarItemBackground"
-                android:padding="16dp"
-                android:text="Follow"
-                android:textColor="@color/color_white_selector"
-                android:textSize="13sp"/>
+                android:layout_centerVertical="true"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

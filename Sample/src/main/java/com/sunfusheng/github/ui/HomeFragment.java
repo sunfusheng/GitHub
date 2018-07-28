@@ -19,7 +19,6 @@ import com.sunfusheng.github.net.response.ResponseResult;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
-import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
@@ -78,7 +77,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         vSvgLoading.setOnStateChangeListener(null);
         vSvgLoading.setToFinishedFrame();
         vSvgLoading.setOnClickListener(v -> {
-            ToastUtil.toast(getString(R.string.app_name_with_version, AppUtil.getVersionName()));
+            NavigationManager.toUserActivity("sunfusheng");
         });
     }
 

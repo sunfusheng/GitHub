@@ -15,7 +15,7 @@
         android:paddingRight="12dp"
         android:paddingTop="16dp">
 
-        <com.sunfusheng.GlideImageView
+        <com.sunfusheng.github.widget.app.AvatarView
             android:id="@+id/avatar"
             android:layout_width="35dp"
             android:layout_height="35dp"

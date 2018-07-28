@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/actionBarItemBackground"
+        android:padding="16dp"
+        android:text="Follow"
+        android:textColor="@color/color_white_selector"
+        android:textSize="13sp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.sunfusheng.wrapper.LoadingView
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:viewColor="@color/white"
+        app:viewSize="20dp"
+        tools:visibility="visible"/>
+</RelativeLayout>

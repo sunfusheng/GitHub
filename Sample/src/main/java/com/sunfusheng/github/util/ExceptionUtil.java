@@ -19,6 +19,7 @@ import retrofit2.Response;
 public class ExceptionUtil {
 
     // HTTP异常
+    public static final int NO_CONTENT = 204;
     public static final int UNAUTHORIZED = 401;
     public static final int FORBIDDEN = 403;
     public static final int NOT_FOUND = 404;
@@ -74,12 +75,14 @@ public class ExceptionUtil {
 
     public static ResponseException getResponseExceptionByErrorCode(int errorCode) {
         switch (errorCode) {
+            case NO_CONTENT:
+                return new ResponseException(NO_CONTENT, "无内容");
             case UNAUTHORIZED:
                 return new ResponseException(UNAUTHORIZED, "授权异常，未授权");
             case FORBIDDEN:
                 return new ResponseException(FORBIDDEN, "请求异常，拒绝执行");
             case NOT_FOUND:
-                return new ResponseException(NOT_FOUND, "请求失败，资源未找到");
+                return new ResponseException(NOT_FOUND, "资源未找到");
             case REQUEST_TIMEOUT:
                 return new ResponseException(REQUEST_TIMEOUT, "请求超时");
             case UNPROCESSABLE_ENTITY:

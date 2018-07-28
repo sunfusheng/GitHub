@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.github.widget.app.AvatarView;
 import com.sunfusheng.github.widget.span.SpanTouchTextView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
@@ -29,7 +29,7 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
-        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_default_avatar, 3);
+        holder.vAvatar.loadAvatar(item.actor.login, item.actor.avatar_url);
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 
@@ -42,7 +42,7 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        GlideImageView vAvatar;
+        AvatarView vAvatar;
         RelativeLayout vIssueLayout;
         SpanTouchTextView vIssueDesc;
         TextView vIssueTitle;

@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.github.widget.app.AvatarView;
 import com.sunfusheng.github.widget.app.RepoInfoView;
 import com.sunfusheng.github.widget.span.SpanTouchTextView;
 import com.sunfusheng.multitype.ItemViewBinder;
@@ -30,7 +30,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
-        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_default_avatar, 3);
+        holder.vAvatar.loadAvatar(item.actor.login, item.actor.avatar_url);
         holder.vEventDesc.setText(Utils.getWatchForkDesc(item));
         holder.vRepoName.setText(item.repo.full_name);
         if (!TextUtils.isEmpty(item.repo.description)) {
@@ -48,7 +48,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        GlideImageView vAvatar;
+        AvatarView vAvatar;
         SpanTouchTextView vEventDesc;
         RelativeLayout vRepoLayout;
         TextView vRepoName;

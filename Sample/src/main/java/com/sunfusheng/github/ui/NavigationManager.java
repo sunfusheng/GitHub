@@ -2,6 +2,7 @@ package com.sunfusheng.github.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.model.User;
@@ -25,8 +26,13 @@ public class NavigationManager {
     }
 
     public static void toUserActivity(User user) {
+        toUserActivity(user.login);
+    }
+
+    public static void toUserActivity(String username) {
+        if (TextUtils.isEmpty(username)) return;
         Intent intent = new Intent(context, UserActivity.class);
-        intent.putExtra(Constants.Bundle.USERNAME, user.login);
+        intent.putExtra(Constants.Bundle.USERNAME, username);
         context.startActivity(intent);
     }
 }

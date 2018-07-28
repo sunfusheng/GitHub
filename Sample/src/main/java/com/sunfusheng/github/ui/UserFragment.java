@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
@@ -26,6 +25,7 @@ import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout;
 import com.sunfusheng.github.widget.app.UserContributionsView;
+import com.sunfusheng.github.widget.app.UserFollowView;
 import com.sunfusheng.github.widget.app.UserProfileView;
 import com.sunfusheng.github.widget.bottombar.FragmentPagerItemAdapter;
 import com.sunfusheng.multistate.LoadingState;
@@ -41,7 +41,7 @@ public class UserFragment extends BaseFragment {
     private ViewPager viewPager;
 
     private GlideImageView vToolbarBg;
-    private TextView vFollow;
+    private UserFollowView vUserFollow;
     private UserProfileView vUserProfile;
     private UserContributionsView vUserContributions;
 
@@ -76,7 +76,7 @@ public class UserFragment extends BaseFragment {
         initView();
         initHeader();
         observeUser();
-        observeContributions();
+        observeData();
         initViewPager();
     }
 
@@ -94,7 +94,7 @@ public class UserFragment extends BaseFragment {
     private void initView() {
         View view = getView();
         if (view == null) return;
-        vFollow = view.findViewById(R.id.follow);
+        vUserFollow = view.findViewById(R.id.user_follow);
         vUserProfile = view.findViewById(R.id.user_profile);
         vUserContributions = view.findViewById(R.id.user_contributions);
 
@@ -105,8 +105,6 @@ public class UserFragment extends BaseFragment {
         vUserProfile.setRepoClickListener(v -> tabLayout.getTabAt(0).select());
         vUserProfile.setFollowersClickListener(v -> tabLayout.getTabAt(1).select());
         vUserProfile.setFollowingClickListener(v -> tabLayout.getTabAt(2).select());
-
-        vFollow.setOnClickListener(v->{});
     }
 
     private void initHeader() {
@@ -148,7 +146,8 @@ public class UserFragment extends BaseFragment {
         });
     }
 
-    private void observeContributions() {
+    private void observeData() {
+        vUserFollow.setUsername(username);
         vUserContributions.setUsername(username);
     }
 

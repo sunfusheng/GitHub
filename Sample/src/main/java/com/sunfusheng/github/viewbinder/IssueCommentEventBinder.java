@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.github.widget.app.AvatarView;
 import com.sunfusheng.github.widget.span.SpanTouchTextView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
@@ -28,10 +28,10 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
-        holder.vAvatar.load(item.actor.avatar_url, R.mipmap.ic_default_avatar, 3);
+        holder.vAvatar.loadAvatar(item.actor.login, item.actor.avatar_url);
         holder.vCommentDesc.setText(Utils.getCommentIssueDesc(item));
         holder.vCommentBody.setText(item.payload.comment.body);
-        holder.vIssueAvatar.load(item.payload.issue.user.avatar_url, R.mipmap.ic_default_avatar, 3);
+        holder.vIssueAvatar.loadAvatar(item.payload.issue.user.login, item.payload.issue.user.avatar_url);
         holder.vIssueDesc.setText(Utils.getIssueDesc(item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 
@@ -42,11 +42,11 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        GlideImageView vAvatar;
+        AvatarView vAvatar;
         SpanTouchTextView vCommentDesc;
         TextView vCommentBody;
         RelativeLayout vIssueLayout;
-        GlideImageView vIssueAvatar;
+        AvatarView vIssueAvatar;
         SpanTouchTextView vIssueDesc;
         TextView vIssueTitle;
 

@@ -58,6 +58,7 @@ public interface ApiService {
     @GET
     Observable<Response<Repo>> fetchRepo(@Url String url);
 
+
     @GET("user/starred/{username}/{repo_name}")
     Observable<Response<Boolean>> fetchStarred(@Path("username") String username, @Path("repo_name") String repo_name);
 
@@ -66,4 +67,14 @@ public interface ApiService {
 
     @DELETE("user/starred/{username}/{repo_name}")
     Observable<Response<Boolean>> unstar(@Path("username") String username, @Path("repo_name") String repo_name);
+
+
+    @GET("/user/following/{username}")
+    Observable<Response<Boolean>> fetchFollowed(@Path("username") String username);
+
+    @PUT("/user/following/{username}")
+    Observable<Response<Boolean>> follow(@Path("username") String username);
+
+    @DELETE("/user/following/{username}")
+    Observable<Response<Boolean>> unfollow(@Path("username") String username);
 }
