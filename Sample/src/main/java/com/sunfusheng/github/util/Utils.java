@@ -101,7 +101,7 @@ public class Utils {
     }
 
     public static String getCreatedTimeDesc(String createdTime) {
-        return "Created in " + DateUtil.formatDate2String(createdTime, DateUtil.FORMAT.format(DateUtil.FORMAT.yyyyMMdd));
+        return "Joined in " + DateUtil.formatDate2String(createdTime, DateUtil.FORMAT.format(DateUtil.FORMAT.yyyyMMdd));
     }
 
     public static boolean isMyRepo(Repo repo) {
