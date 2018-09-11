@@ -3,8 +3,10 @@ package com.sunfusheng.github.ui;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
+import com.sunfusheng.FirUpdater;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.widget.bottombar.AlphaTabLayout;
 import com.sunfusheng.github.widget.bottombar.AlphaTabView;
@@ -27,8 +29,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onCreate(savedInstanceState);
         toLoginActivity();
         setContentView(R.layout.activity_main);
+        initData();
         initView();
         initFragment();
+
+    }
+
+    private void initData() {
+        new FirUpdater(AppUtil.getContext())
+                .apiToken("3c57fb226edf7facf821501e4eba08d2")
+                .appId("5b977079959d695362ada470")
+                .checkVersion();
     }
 
     private void initView() {

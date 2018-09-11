@@ -10,23 +10,23 @@ https://developer.github.com/v3/
 
 
 用户信息
-https://api.github.com/users/sfsheng0322
+https://api.github.com/users/sunfusheng
 
 
 贡献
-https://github.com/users/sfsheng0322/contributions
+https://github.com/users/sunfusheng/contributions
 
 
 仓库
-https://api.github.com/users/sfsheng0322/repos?page=1&per_page=30&sort=pushed
+https://api.github.com/users/sunfusheng/repos?page=1&per_page=30&sort=pushed
 
 
 个人事件
-https://api.github.com/users/sfsheng0322/events?page=1&per_page=10
+https://api.github.com/users/sunfusheng/events?page=1&per_page=10
 
 
 收到的事件，类似朋友圈
-https://api.github.com/users/sfsheng0322/received_events
+https://api.github.com/users/sunfusheng/received_events
 
 
 Star
@@ -36,8 +36,8 @@ https://api.github.com/user/starred/sfsheng0322/MultiType
 
 
 readme 
-https://api.github.com/repos/sfsheng0322/MultiType/readme
-https://api.github.com/repos/sfsheng0322/MultiType/contents/README.md
+https://api.github.com/repos/sunfusheng/MultiType/readme
+https://api.github.com/repos/sunfusheng/MultiType/contents/README.md
 
 
 
