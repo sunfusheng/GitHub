@@ -1,5 +1,6 @@
 package com.sunfusheng.github.util;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorRes;
 import android.text.SpannableString;
@@ -141,9 +142,9 @@ public class Utils {
         refinedSpannableString(desc, sp, tag, textColor, R.color.background_common_darker, action);
     }
 
-    public static void refinedUserSpannableString(String desc, SpannableString sp, User user) {
+    public static void refinedUserSpannableString(Context context, String desc, SpannableString sp, User user) {
         refinedSpannableString(desc, sp, user.login, R.color.font_highlight, () -> {
-            NavigationManager.toUserActivity(user);
+            NavigationManager.toUserActivity(context, user);
 
         });
     }
@@ -165,11 +166,11 @@ public class Utils {
         refinedSpannableString(desc, sp, keywords, R.color.font_keyword, R.color.transparent, null);
     }
 
-    public static SpannableString getDescSpannableString(String desc, List<User> users, List<Repo> repos, List<Issue> issues, List<String> keywords) {
+    public static SpannableString getDescSpannableString(Context context, String desc, List<User> users, List<Repo> repos, List<Issue> issues, List<String> keywords) {
         SpannableString spannableString = new SpannableString(desc);
         if (!CollectionUtil.isEmpty(users)) {
             for (User user : users) {
-                refinedUserSpannableString(desc, spannableString, user);
+                refinedUserSpannableString(context, desc, spannableString, user);
             }
         }
 
@@ -193,7 +194,7 @@ public class Utils {
         return spannableString;
     }
 
-    public static SpannableString getWatchForkDesc(Event item) {
+    public static SpannableString getWatchForkDesc(Context context, Event item) {
         StringBuilder desc = new StringBuilder();
         List<User> users = new ArrayList<>();
         List<Repo> repos = new ArrayList<>();
@@ -217,10 +218,10 @@ public class Utils {
         }
         desc.append(' ').append(Utils.getDateAgo(item.created_at));
 
-        return getDescSpannableString(desc.toString(), users, repos, null, keywords);
+        return getDescSpannableString(context, desc.toString(), users, repos, null, keywords);
     }
 
-    public static SpannableString getCommentIssueDesc(Event item) {
+    public static SpannableString getCommentIssueDesc(Context context, Event item) {
         StringBuilder desc = new StringBuilder();
         List<User> users = new ArrayList<>();
         List<Issue> issues = new ArrayList<>();
@@ -237,10 +238,10 @@ public class Utils {
         issues.add(item.payload.issue);
         keywords.add(COMMENT_ISSUE);
 
-        return getDescSpannableString(desc.toString(), users, null, issues, keywords);
+        return getDescSpannableString(context, desc.toString(), users, null, issues, keywords);
     }
 
-    public static SpannableString getIssueDesc(Event item) {
+    public static SpannableString getIssueDesc(Context context, Event item) {
         StringBuilder desc = new StringBuilder();
         List<User> users = new ArrayList<>();
         List<Issue> issues = new ArrayList<>();
@@ -263,7 +264,7 @@ public class Utils {
         keywords.add(item.payload.action);
         keywords.add(ISSUE);
 
-        return getDescSpannableString(desc.toString(), users, null, issues, keywords);
+        return getDescSpannableString(context, desc.toString(), users, null, issues, keywords);
     }
 
 }

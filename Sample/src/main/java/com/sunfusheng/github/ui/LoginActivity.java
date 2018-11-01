@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity {
                     if (!it) {
                         PreferenceUtil.getInstance().remove(Constants.PreferenceKey.TOKEN);
                     } else {
-                        NavigationManager.toMainActivity();
+                        NavigationManager.toMainActivity(this);
                         finish();
                     }
                 }, throwable -> {

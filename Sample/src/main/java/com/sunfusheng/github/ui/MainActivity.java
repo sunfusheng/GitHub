@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.PASSWORD) ||
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.AUTH) ||
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.TOKEN)) {
-            NavigationManager.toLoginActivity();
+            NavigationManager.toLoginActivity(this);
             finish();
         }
     }

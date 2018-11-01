@@ -1,5 +1,6 @@
 package com.sunfusheng.github.viewbinder;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,11 +29,12 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
+        Context context = holder.itemView.getContext();
         holder.vAvatar.loadAvatar(item.actor.login, item.actor.avatar_url);
-        holder.vCommentDesc.setText(Utils.getCommentIssueDesc(item));
+        holder.vCommentDesc.setText(Utils.getCommentIssueDesc(context, item));
         holder.vCommentBody.setText(item.payload.comment.body);
         holder.vIssueAvatar.loadAvatar(item.payload.issue.user.login, item.payload.issue.user.avatar_url);
-        holder.vIssueDesc.setText(Utils.getIssueDesc(item));
+        holder.vIssueDesc.setText(Utils.getIssueDesc(context, item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 
         holder.vIssueLayout.setBackgroundResource(Utils.isMyIssue(item.payload.issue) ? R.drawable.shape_light_red_selector : R.drawable.shape_grey_selector);

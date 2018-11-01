@@ -1,5 +1,6 @@
 package com.sunfusheng.github.viewbinder;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -30,8 +31,9 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
+        Context context = holder.itemView.getContext();
         holder.vAvatar.loadAvatar(item.actor.login, item.actor.avatar_url);
-        holder.vEventDesc.setText(Utils.getWatchForkDesc(item));
+        holder.vEventDesc.setText(Utils.getWatchForkDesc(context, item));
         holder.vRepoName.setText(item.repo.full_name);
         if (!TextUtils.isEmpty(item.repo.description)) {
             holder.vRepoDesc.setVisibility(View.VISIBLE);

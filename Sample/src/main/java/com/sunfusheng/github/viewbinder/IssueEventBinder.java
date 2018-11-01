@@ -1,5 +1,6 @@
 package com.sunfusheng.github.viewbinder;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -29,8 +30,9 @@ public class IssueEventBinder extends ItemViewBinder<Event, IssueEventBinder.Vie
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Event item) {
+        Context context = holder.itemView.getContext();
         holder.vAvatar.loadAvatar(item.actor.login, item.actor.avatar_url);
-        holder.vIssueDesc.setText(Utils.getIssueDesc(item));
+        holder.vIssueDesc.setText(Utils.getIssueDesc(context, item));
         holder.vIssueTitle.setText(item.payload.issue.title);
 
         TypedValue typedValue = new TypedValue();

@@ -81,7 +81,7 @@ dependencies {
     api 'android.arch.persistence.room:rxjava2:' + rootProject.room
     annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.room
 
-    api 'com.squareup.okhttp3:okhttp:3.10.0'
+    api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     api 'com.squareup.retrofit2:retrofit:2.4.0'
     api 'com.squareup.retrofit2:converter-gson:2.4.0'
@@ -94,7 +94,7 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
     api 'com.orhanobut:logger:2.2.0'
     api 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.6'
-    api 'com.sunfusheng:FirUpdater:1.1.0'
+    api 'com.sunfusheng:FirUpdater:1.1.1'
     api 'com.sunfusheng:GlideImageView:2.0.0'
     api 'com.sunfusheng:RecyclerViewWrapper:1.0.4'
 }

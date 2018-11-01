@@ -13,23 +13,21 @@ import com.sunfusheng.github.util.AppUtil;
  */
 public class NavigationManager {
 
-    private static Context context = AppUtil.getContext();
-
-    public static void toLoginActivity() {
+    public static void toLoginActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
-    public static void toMainActivity() {
+    public static void toMainActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
     }
 
-    public static void toUserActivity(User user) {
-        toUserActivity(user.login);
+    public static void toUserActivity(Context context, User user) {
+        toUserActivity(context, user.login);
     }
 
-    public static void toUserActivity(String username) {
+    public static void toUserActivity(Context context, String username) {
         if (TextUtils.isEmpty(username)) return;
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(Constants.Bundle.USERNAME, username);

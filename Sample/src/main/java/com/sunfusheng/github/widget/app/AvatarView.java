@@ -28,7 +28,7 @@ public class AvatarView extends GlideImageView {
 
     private void init(Context context) {
         setOnClickListener(v -> {
-            NavigationManager.toUserActivity(username);
+            NavigationManager.toUserActivity(getContext(), username);
         });
     }
 

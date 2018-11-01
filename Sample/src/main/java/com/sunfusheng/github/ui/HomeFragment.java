@@ -77,7 +77,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         vSvgLoading.setOnStateChangeListener(null);
         vSvgLoading.setToFinishedFrame();
         vSvgLoading.setOnClickListener(v -> {
-            NavigationManager.toUserActivity("sunfusheng");
+            NavigationManager.toUserActivity(getActivity(), "sunfusheng");
         });
     }
 
