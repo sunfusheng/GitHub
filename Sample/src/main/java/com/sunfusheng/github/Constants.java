@@ -48,6 +48,7 @@ public class Constants {
 
     public static class Bundle {
         public static final String USERNAME = "bundle_username";
+        public static final String REPO_NAME = "bundle_repo_name";
     }
 
     public static class FileDir {

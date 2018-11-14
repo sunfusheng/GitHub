@@ -6,7 +6,6 @@ import android.text.TextUtils;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.util.AppUtil;
 
 /**
  * @author sunfusheng on 2018/4/12.
@@ -31,6 +30,18 @@ public class NavigationManager {
         if (TextUtils.isEmpty(username)) return;
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(Constants.Bundle.USERNAME, username);
+        context.startActivity(intent);
+    }
+
+    public static void toRepoDetailActivity(Context context, String repoFullName) {
+
+    }
+
+    public static void toRepoDetailActivity(Context context, String username, String repoName) {
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(repoName)) return;
+        Intent intent = new Intent(context, RepoDetailActivity.class);
+        intent.putExtra(Constants.Bundle.USERNAME, username);
+        intent.putExtra(Constants.Bundle.REPO_NAME, repoName);
         context.startActivity(intent);
     }
 }

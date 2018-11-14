@@ -149,8 +149,9 @@ public class Utils {
         });
     }
 
-    public static void refinedRepoSpannableString(String desc, SpannableString sp, Repo repo) {
+    public static void refinedRepoSpannableString(Context context, String desc, SpannableString sp, Repo repo) {
         refinedSpannableString(desc, sp, repo.full_name, R.color.font_highlight, () -> {
+            NavigationManager.toRepoDetailActivity(context, repo.full_name);
             Toast.makeText(AppUtil.getContext(), repo.full_name, Toast.LENGTH_SHORT).show();
         });
     }
@@ -176,7 +177,7 @@ public class Utils {
 
         if (!CollectionUtil.isEmpty(repos)) {
             for (Repo repo : repos) {
-                refinedRepoSpannableString(desc, spannableString, repo);
+                refinedRepoSpannableString(context, desc, spannableString, repo);
             }
         }
 
