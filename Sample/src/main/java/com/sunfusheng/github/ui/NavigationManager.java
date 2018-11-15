@@ -34,7 +34,10 @@ public class NavigationManager {
     }
 
     public static void toRepoDetailActivity(Context context, String repoFullName) {
-
+        if (TextUtils.isEmpty(repoFullName)) return;
+        Intent intent = new Intent(context, RepoDetailActivity.class);
+        intent.putExtra(Constants.Bundle.REPO_FULL_NAME, repoFullName);
+        context.startActivity(intent);
     }
 
     public static void toRepoDetailActivity(Context context, String username, String repoName) {

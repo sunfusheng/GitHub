@@ -71,7 +71,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         vStatusBar.setLayoutParams(layoutParams);
 
         TextView vTitle = getView().findViewById(R.id.title);
-        vTitle.setText("Browse activity");
+        vTitle.setText(R.string.app_name);
 
         vSvgLoading = getView().findViewById(R.id.svg_loading);
         vSvgLoading.setOnStateChangeListener(null);

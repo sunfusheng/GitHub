@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
+import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.widget.app.RepoInfoView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
@@ -33,10 +34,10 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
         } else {
             holder.vDesc.setVisibility(View.GONE);
         }
-        holder.vRepoInfo.setData(item);
+        holder.vRepoInfo.setData(item, true);
 
         holder.itemView.setOnClickListener(v -> {
-
+            NavigationManager.toRepoDetailActivity(holder.itemView.getContext(), item.full_name);
         });
     }
 

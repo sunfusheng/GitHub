@@ -35,7 +35,7 @@ public class DiscoverFragment extends BaseFragment {
         super.initToolBar();
         if (getView() == null) return;
         toolbar = getView().findViewById(R.id.toolbar);
-        toolbar.setTitle("Discover repositories");
+        toolbar.setTitle(R.string.tab_discover);
     }
 
     private void initView() {

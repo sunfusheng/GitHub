@@ -20,13 +20,13 @@ import com.sunfusheng.wrapper.RecyclerViewWrapper;
 /**
  * @author sunfusheng on 2018/7/25.
  */
-public class RepoFragment extends BaseFragment implements ScrollableHelper.ScrollableViewContainer {
+public class RepoListFragment extends BaseFragment implements ScrollableHelper.ScrollableViewContainer {
 
     private RecyclerViewWrapper recyclerViewWrapper;
     private String username;
 
-    public static RepoFragment newFragment(String username) {
-        RepoFragment fragment = new RepoFragment();
+    public static RepoListFragment newFragment(String username) {
+        RepoListFragment fragment = new RepoListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.Bundle.USERNAME, username);
         fragment.setArguments(bundle);

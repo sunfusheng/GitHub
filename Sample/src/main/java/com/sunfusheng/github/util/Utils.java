@@ -68,8 +68,8 @@ public class Utils {
         return Color.parseColor("#666666");
     }
 
-    public static String getStarCount(int starCount) {
-        if (starCount > 1000) {
+    public static String getStarCount(int starCount, boolean showExactNum) {
+        if (!showExactNum && starCount > 1000) {
             float result = (starCount / 100) * 1f / 10 + (starCount % 100 >= 50 ? 0.1f : 0f);
             return String.format(Locale.getDefault(), "%.1f", result) + "k";
         }
@@ -152,7 +152,6 @@ public class Utils {
     public static void refinedRepoSpannableString(Context context, String desc, SpannableString sp, Repo repo) {
         refinedSpannableString(desc, sp, repo.full_name, R.color.font_highlight, () -> {
             NavigationManager.toRepoDetailActivity(context, repo.full_name);
-            Toast.makeText(AppUtil.getContext(), repo.full_name, Toast.LENGTH_SHORT).show();
         });
     }
 

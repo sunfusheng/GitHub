@@ -47,6 +47,8 @@ public class UserFragment extends BaseFragment {
 
     private boolean hasInstantiate = false;
     private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
+    private int currTabIndex = 0;
+    private int lastTabIndex = -1;
     private String username;
 
     public static UserFragment instance(String username) {
@@ -159,14 +161,15 @@ public class UserFragment extends BaseFragment {
         tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[4]), false);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter.Builder(getContext(), getChildFragmentManager())
-                .add(TAB_NAMES[0], RepoFragment.newFragment(username))
-                .add(TAB_NAMES[1], RepoFragment.newFragment(username))
-                .add(TAB_NAMES[2], RepoFragment.newFragment(username))
-                .add(TAB_NAMES[3], RepoFragment.newFragment(username))
-                .add(TAB_NAMES[4], RepoFragment.newFragment(username))
+                .add(TAB_NAMES[0], RepoListFragment.newFragment(username))
+                .add(TAB_NAMES[1], RepoListFragment.newFragment(username))
+                .add(TAB_NAMES[2], RepoListFragment.newFragment(username))
+                .add(TAB_NAMES[3], RepoListFragment.newFragment(username))
+                .add(TAB_NAMES[4], RepoListFragment.newFragment(username))
                 .build();
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);
+        viewPager.setCurrentItem(currTabIndex);
         tabLayout.setupWithViewPager(viewPager);
 
         adapter.setOnInstantiateFragmentListener((position, fragment, args) -> {

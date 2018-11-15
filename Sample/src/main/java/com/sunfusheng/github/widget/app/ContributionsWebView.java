@@ -31,8 +31,12 @@ public class ContributionsWebView extends WebView {
 
         getSettings().setDefaultFontSize(12);
         getSettings().setSupportZoom(false);
+    }
 
-        post(() -> scrollTo(DisplayUtil.getWindowWidth(getContext()), 0));
+    @Override
+    public void loadUrl(String url) {
+        super.loadUrl(url);
+        scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
     }
 
     @Override

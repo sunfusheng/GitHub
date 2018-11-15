@@ -6,7 +6,7 @@
     <dimen name="item_margin_smaller">8dp</dimen>
 
     <dimen name="statusbar_view_height">0dp</dimen>
-    <dimen name="toolbar_view_height">45dp</dimen>
+    <dimen name="toolbar_view_height">48dp</dimen>
 
     <dimen name="text_size_l_large">25sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
@@ -52,5 +52,9 @@
     <dimen name="t3">28dp</dimen>
     <dimen name="t4">22dp</dimen>
     <dimen name="t5">15dp</dimen>
+
+    <dimen name="common_desc_size">11sp</dimen>
+    <dimen name="event_desc_size">13sp</dimen>
+    <dimen name="repo_name_size">14sp</dimen>
 
 </resources>

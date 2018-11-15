@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
+import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.widget.app.AvatarView;
 import com.sunfusheng.github.widget.app.RepoInfoView;
@@ -41,11 +42,11 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         } else {
             holder.vRepoDesc.setVisibility(View.GONE);
         }
-        holder.vRepoInfo.setData(item.repo);
+        holder.vRepoInfo.setData(item.repo, false);
 
         holder.vRepoLayout.setBackgroundResource(Utils.isMyRepo(item.repo) ? R.drawable.shape_light_green_selector : R.drawable.shape_grey_selector);
         holder.vRepoLayout.setOnClickListener(v -> {
-
+            NavigationManager.toRepoDetailActivity(holder.itemView.getContext(), item.repo.full_name);
         });
     }
 

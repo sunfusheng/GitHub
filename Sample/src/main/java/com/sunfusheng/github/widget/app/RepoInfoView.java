@@ -47,7 +47,7 @@ public class RepoInfoView extends LinearLayout {
         vTime = findViewById(R.id.time);
     }
 
-    public void setData(Repo repo) {
+    public void setData(Repo repo, boolean showExactNum) {
         if (!TextUtils.isEmpty(repo.language)) {
             vLanguageCircle.setVisibility(VISIBLE);
             vLanguage.setVisibility(VISIBLE);
@@ -61,7 +61,7 @@ public class RepoInfoView extends LinearLayout {
         if (repo.stargazers_count > 0) {
             vStarCountImg.setVisibility(View.VISIBLE);
             vStarCount.setVisibility(View.VISIBLE);
-            vStarCount.setText(Utils.getStarCount(repo.stargazers_count));
+            vStarCount.setText(Utils.getStarCount(repo.stargazers_count, showExactNum));
         } else {
             vStarCountImg.setVisibility(View.GONE);
             vStarCount.setVisibility(View.GONE);

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
@@ -9,17 +8,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
         android:paddingLeft="12dp"
+        android:paddingTop="16dp"
         android:paddingRight="12dp"
-        android:paddingTop="16dp">
+        android:paddingBottom="16dp">
 
         <com.sunfusheng.github.widget.app.AvatarView
             android:id="@+id/avatar"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_default_avatar"/>
+            android:src="@mipmap/ic_default_avatar" />
 
         <com.sunfusheng.github.widget.span.SpanTouchTextView
             android:id="@+id/event_desc"
@@ -29,7 +28,7 @@
             android:layout_toRightOf="@+id/avatar"
             android:text="xxxxxx starred sfsheng0322/MultiType 35 minutes ago"
             android:textColor="@color/c3"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/event_desc_size" />
 
         <RelativeLayout
             android:id="@+id/rl_repo"
@@ -52,22 +51,22 @@
                 android:singleLine="true"
                 android:text="repo name"
                 android:textColor="@color/c1"
-                android:textSize="12sp"
-                android:textStyle="bold"/>
+                android:textSize="@dimen/repo_name_size"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/repo_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/repo_name"
                 android:layout_below="@+id/repo_name"
+                android:layout_alignLeft="@+id/repo_name"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
                 android:maxLines="4"
                 android:text="repo desc"
                 android:textColor="@color/c2"
-                android:textSize="11sp"/>
+                android:textSize="@dimen/common_desc_size" />
 
             <com.sunfusheng.github.widget.app.RepoInfoView
                 android:id="@+id/repo_info"
@@ -75,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/repo_desc"
                 android:layout_marginTop="5dp"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -83,5 +82,5 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divider"/>
+        android:background="@color/divider" />
 </LinearLayout>
