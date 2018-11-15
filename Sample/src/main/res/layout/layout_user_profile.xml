@@ -212,7 +212,7 @@
                 android:includeFontPadding="false"
                 android:text="Repositories"
                 android:textColor="@color/c1"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/repo_count"
@@ -222,7 +222,7 @@
                 android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/c3"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -242,7 +242,7 @@
                 android:includeFontPadding="false"
                 android:text="Followers"
                 android:textColor="@color/c1"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/followers_count"
@@ -252,7 +252,7 @@
                 android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/c3"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -272,7 +272,7 @@
                 android:includeFontPadding="false"
                 android:text="Following"
                 android:textColor="@color/c1"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/following_count"
@@ -282,7 +282,7 @@
                 android:includeFontPadding="false"
                 android:text="0"
                 android:textColor="@color/c3"
-                android:textSize="12sp"/>
+                android:textSize="13sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

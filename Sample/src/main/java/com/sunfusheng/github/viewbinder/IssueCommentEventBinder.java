@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Event;
+import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.widget.app.AvatarView;
 import com.sunfusheng.github.widget.span.SpanTouchTextView;
@@ -39,7 +40,7 @@ public class IssueCommentEventBinder extends ItemViewBinder<Event, IssueCommentE
 
         holder.vIssueLayout.setBackgroundResource(Utils.isMyIssue(item.payload.issue) ? R.drawable.shape_light_red_selector : R.drawable.shape_grey_selector);
         holder.vIssueLayout.setOnClickListener(v -> {
-
+            NavigationManager.toRepoDetailActivity(context, item.repo.full_name);
         });
     }
 
