@@ -21,6 +21,10 @@ https://github.com/users/sunfusheng/contributions
 https://api.github.com/users/sunfusheng/repos?page=1&per_page=30&sort=pushed
 
 
+仓库详情
+https://api.github.com/repos/sunfusheng/MarqueeView
+
+
 个人事件
 https://api.github.com/users/sunfusheng/events?page=1&per_page=10
 
