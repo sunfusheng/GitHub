@@ -220,13 +220,4 @@ public class AppUtil {
         }
     }
 
-    public static String getUsernameByRepoFullName(String repoFullName) {
-        if (TextUtils.isEmpty(repoFullName)) {
-            return null;
-        }
-        String[] split = repoFullName.split("/");
-        return split[0];
-
-    }
-
 }

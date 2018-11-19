@@ -35,6 +35,10 @@ public class ReadmeViewModel extends ViewModel {
         return SdCardUtil.getDiskCacheDir(README_DIR).getPath() + File.separator + username + "_readme.md";
     }
 
+    public static String getRemoteReadmePath(String repoFullName) {
+        return "https://raw.githubusercontent.com/" + repoFullName + "/master/README.md";
+    }
+
     private LiveData<ProgressResult<String>> downloadReadmeFile(String repoFullName) {
         String username = repoFullName.split("/")[0];
         MutableLiveData<ProgressResult<String>> mutableLiveData = new MutableLiveData<>();
@@ -53,7 +57,7 @@ public class ReadmeViewModel extends ViewModel {
                     dir.mkdirs();
                 }
 
-                DownloadManager.instance().download("https://raw.githubusercontent.com/" + repoFullName + "/master/README.md", filePath,
+                DownloadManager.instance().download(getRemoteReadmePath(repoFullName), filePath,
                         new IDownloadListener() {
                             @Override
                             public void onStart() {
