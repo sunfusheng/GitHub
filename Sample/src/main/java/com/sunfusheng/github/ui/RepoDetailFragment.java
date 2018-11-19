@@ -11,6 +11,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.util.StatusBarUtil;
+import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 
@@ -81,7 +82,7 @@ public class RepoDetailFragment extends BaseFragment {
                     vMarkdownView.loadMarkdownFromFile(new File(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0])));
                     break;
                 case ProgressState.ERROR:
-                        it.errorMsg
+                    ToastUtil.toast(it.errorMsg);
                     break;
             }
         });
