@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/common_dialog_loading_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -15,10 +14,10 @@
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/item_margin_smaller"
         android:paddingLeft="@dimen/item_margin_small"
+        android:paddingTop="@dimen/item_margin_smaller"
         android:paddingRight="@dimen/item_margin_small"
-        android:paddingTop="@dimen/item_margin_smaller">
+        android:paddingBottom="@dimen/item_margin_smaller">
 
         <ProgressBar
             android:id="@+id/common_dialog_loading_progress"
@@ -27,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/item_margin_small"
             android:layout_marginRight="@dimen/item_margin_small"
-            android:indeterminateDrawable="@drawable/drawable_progressbar"/>
+            android:indeterminateDrawable="@drawable/drawable_progressbar" />
 
         <TextView
             android:id="@+id/common_dialog_loading_text"
@@ -36,7 +35,7 @@
             android:layout_marginEnd="@dimen/item_margin_small"
             android:layout_marginRight="@dimen/item_margin_small"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>
