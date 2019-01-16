@@ -46,7 +46,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="2px"
+        android:layout_height="@dimen/divider_height"
         android:layout_marginLeft="@dimen/item_margin_large"
         android:background="@color/divider" />
 </LinearLayout>

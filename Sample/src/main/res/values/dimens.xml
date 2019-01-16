@@ -53,6 +53,7 @@
     <dimen name="t4">22dp</dimen>
     <dimen name="t5">15dp</dimen>
 
+    <dimen name="divider_height">0.5dp</dimen>
     <dimen name="common_desc_size">11sp</dimen>
     <dimen name="event_desc_size">13sp</dimen>
     <dimen name="repo_name_size">14sp</dimen>
