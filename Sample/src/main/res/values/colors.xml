@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#56aae6</color>
-    <color name="colorPrimaryDark">#56aae6</color>
-    <color name="colorAccent">#56aae6</color>
-    <color name="colorPrimary_50">#8056aae6</color>
-    <color name="colorPrimary_30">#4d56aae6</color>
+    <color name="colorPrimary">#2fa5ff</color>
+    <color name="colorPrimaryDark">#2fa5ff</color>
+    <color name="colorAccent">#2fa5ff</color>
+    <color name="colorPrimary_50">#802fa5ff</color>
+    <color name="colorPrimary_30">#4d2fa5ff</color>
 
     <!-- common -->
     <color name="c0">#ff000000</color>

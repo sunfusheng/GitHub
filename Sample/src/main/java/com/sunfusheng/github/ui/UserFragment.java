@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
@@ -44,6 +45,7 @@ public class UserFragment extends BaseFragment {
     private UserFollowView vUserFollow;
     private UserProfileView vUserProfile;
     private UserContributionsView vUserContributions;
+    private ImageView vSort;
 
     private boolean hasInstantiate = false;
     private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
@@ -103,10 +105,13 @@ public class UserFragment extends BaseFragment {
         scrollableLayout = view.findViewById(R.id.scrollableLayout);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
+        vSort = view.findViewById(R.id.vSort);
 
         vUserProfile.setRepoClickListener(v -> tabLayout.getTabAt(0).select());
         vUserProfile.setFollowersClickListener(v -> tabLayout.getTabAt(1).select());
         vUserProfile.setFollowingClickListener(v -> tabLayout.getTabAt(2).select());
+        vSort.setOnClickListener(v -> {
+        });
     }
 
     private void initHeader() {
