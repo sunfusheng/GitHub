@@ -15,7 +15,7 @@
         android:layout_marginRight="@dimen/item_margin"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/config_color_red"
         android:textSize="14sp"
         tools:text="标题" />
 

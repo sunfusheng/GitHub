@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -14,5 +14,5 @@
         android:gravity="center_horizontal"
         android:text="暂无数据"
         android:textColor="@color/c3"
-        android:textSize="@dimen/text_size_normal"/>
+        android:textSize="@dimen/text_size_normal" />
 </LinearLayout>

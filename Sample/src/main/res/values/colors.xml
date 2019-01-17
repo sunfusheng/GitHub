@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#2fa5ff</color>
-    <color name="colorPrimaryDark">#2fa5ff</color>
-    <color name="colorAccent">#2fa5ff</color>
-    <color name="colorPrimary_50">#802fa5ff</color>
-    <color name="colorPrimary_30">#4d2fa5ff</color>
+    <color name="colorPrimary">#C34A42</color>
+    <color name="colorPrimaryDark">#C34A42</color>
+    <color name="colorAccent">#C34A42</color>
+
+    <color name="colorPrimary_50">#8019C25F</color>
+    <color name="colorPrimary_30">#4d19C25F</color>
 
     <!-- common -->
     <color name="c0">#ff000000</color>
@@ -98,7 +99,7 @@
     <color name="config_color_blue">#FF1B88EE</color>
     <color name="config_color_blue_50">#801B88EE</color>
 
-    <color name="config_color_red">#FA3A3A</color>
+    <color name="config_color_red">#C34A42</color>
     <color name="config_color_separator">#DEE0E2</color>
     <color name="config_color_separator_darken">#D4D6D8</color>
     <color name="config_color_background">#F4F5F7</color>
