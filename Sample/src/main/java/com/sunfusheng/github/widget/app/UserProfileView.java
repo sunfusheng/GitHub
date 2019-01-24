@@ -166,7 +166,7 @@ public class UserProfileView extends LinearLayout {
         vBio.setVisibility(VISIBLE);
         vBio.setText(TextUtils.isEmpty(user.bio) ? "No Biography" : "BIO: " + user.bio);
 
-        vRepoCount.setText(String.valueOf(user.public_repos));
+        vRepoCount.setText(String.valueOf(user.public_repos + user.owned_private_repos));
         vFollowingCount.setText(String.valueOf(user.following));
         vFollowersCount.setText(String.valueOf(user.followers));
     }

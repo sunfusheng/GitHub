@@ -24,7 +24,7 @@ import retrofit2.http.Url;
 /**
  * @author by sunfusheng on 2018/4/8.
  */
-public interface ApiService {
+public interface CommonService {
 
     @GET("user")
     Observable<User> login();
@@ -77,4 +77,5 @@ public interface ApiService {
 
     @DELETE("/user/following/{username}")
     Observable<Response<Boolean>> unfollow(@Path("username") String username);
+
 }

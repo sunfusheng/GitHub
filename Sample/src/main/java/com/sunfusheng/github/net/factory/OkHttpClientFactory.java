@@ -17,8 +17,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * @author sunfusheng on 2018/4/24.
  */
 public class OkHttpClientFactory {
-    private static final int TIMEOUT = 60;//60s
-    private static final int MAX_CACHE_SIZE = 1024 * 1024 * 20;//20MB
+    private static final int TIMEOUT = 60; // 60s
+    private static final int MAX_CACHE_SIZE = 1024 * 1024 * 20; // 20MB
 
     public static OkHttpClient create(@FetchMode int fetchMode, Interceptor... interceptors) {
         Cache cache = new Cache(SdCardUtil.getDiskCacheDir("HttpCache"), MAX_CACHE_SIZE);

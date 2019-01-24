@@ -49,7 +49,6 @@
             app:textColorNormal="@color/tab_normal"
             app:textColorSelected="@color/tab_selected" />
 
-
         <com.sunfusheng.github.widget.bottombar.AlphaTabView
             android:id="@+id/tabMine"
             android:layout_width="0dp"

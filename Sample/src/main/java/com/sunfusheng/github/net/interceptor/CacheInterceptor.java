@@ -36,14 +36,12 @@ public class CacheInterceptor implements Interceptor {
                     .cacheControl(onlyIfCached)
                     .build();
         } else {
-            if (fetchMode == FetchMode.FORCE_REMOTE) {
-                request = request.newBuilder()
-                        .removeHeader("Pragma")
-                        .cacheControl(cacheControlBuilder
-                                .maxAge(0, TimeUnit.SECONDS)
-                                .build()
-                        ).build();
-            }
+            request = request.newBuilder()
+                    .removeHeader("Pragma")
+                    .cacheControl(cacheControlBuilder
+                            .maxAge(0, TimeUnit.SECONDS)
+                            .build()
+                    ).build();
         }
 
         return chain.proceed(request);

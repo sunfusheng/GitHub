@@ -43,11 +43,13 @@ readme
 https://api.github.com/repos/sunfusheng/MultiType/readme
 https://api.github.com/repos/sunfusheng/MultiType/contents/README.md
 
+## 第三方核心库
 
+[retrofit2-converter-jaxb](https://github.com/cn-src/retrofit2-converter-jaxb)
 
 ### 个人微信公众号
 
-![](http://ourvm0t8d.bkt.clouddn.com/wx_gongzhonghao.png)
+![jsoup](https://github.com/jhy/jsoup)
 
 ### 打赏才是真爱^_^
 

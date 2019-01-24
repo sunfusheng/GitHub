@@ -19,15 +19,21 @@ import com.sunfusheng.multitype.ItemViewBinder;
  */
 public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
 
+    private boolean showFullName;
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
         return new ViewHolder(inflater.inflate(R.layout.item_repo, parent, false));
     }
 
+    public void showFullName(boolean show) {
+        showFullName = show;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Repo item) {
-        holder.vName.setText(item.name);
+        holder.vName.setText(showFullName ? item.full_name : item.name);
         if (!TextUtils.isEmpty(item.description)) {
             holder.vDesc.setVisibility(View.VISIBLE);
             holder.vDesc.setText(item.description);

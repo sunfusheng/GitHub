@@ -16,7 +16,7 @@ public class Download {
 
     public static DownloadService getService(IDownloadListener downloadListener) {
         if (downloadService == null) {
-            downloadService = Api.getService(DownloadService.class, FetchMode.REMOTE, new DownloadInterceptor(downloadListener));
+            downloadService = Api.getCommonService(DownloadService.class, FetchMode.REMOTE, new DownloadInterceptor(downloadListener));
         }
         return downloadService;
     }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
@@ -14,18 +15,21 @@ import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
+import com.zzhoujay.richtext.ImageHolder;
+import com.zzhoujay.richtext.RichText;
 
 import java.io.File;
-
-import br.tiagohm.markdownview.MarkdownView;
-import br.tiagohm.markdownview.css.styles.Github;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author by sunfusheng on 2018/11/14
  */
 public class RepoDetailFragment extends BaseFragment {
 
-    private MarkdownView vMarkdownView;
+    private TextView vReadMe;
 
     private String repoFullName;
 
@@ -68,8 +72,8 @@ public class RepoDetailFragment extends BaseFragment {
     private void initView() {
         toolbar.setTitle(repoFullName);
 
-        vMarkdownView = getView().findViewById(R.id.markdown_view);
-        vMarkdownView.addStyleSheet(new Github());
+        vReadMe = getView().findViewById(R.id.vReadMe);
+//        vMarkdownView.addStyleSheet(new Github());
     }
 
     private void initReadmeView() {
@@ -79,12 +83,32 @@ public class RepoDetailFragment extends BaseFragment {
         vm.liveData.observe(this, it -> {
             switch (it.progressState) {
                 case ProgressState.SUCCESS:
-                    vMarkdownView.loadMarkdownFromFile(new File(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0])));
+                    RichText.fromMarkdown(getFileString())
+                            .scaleType(ImageHolder.ScaleType.center_crop)
+                            .size(300, 200)
+                            .into(vReadMe);
                     break;
                 case ProgressState.ERROR:
                     ToastUtil.toast(it.errorMsg);
                     break;
             }
         });
+    }
+
+    public String getFileString() {
+        byte[] strBuffer = null;
+        int flen = 0;
+        File file = new File(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0]));
+        try {
+            InputStream in = new FileInputStream(file);
+            flen = (int) file.length();
+            strBuffer = new byte[flen];
+            in.read(strBuffer, 0, flen);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new String(strBuffer);
     }
 }

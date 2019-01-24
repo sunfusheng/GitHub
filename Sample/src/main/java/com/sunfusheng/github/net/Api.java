@@ -1,55 +1,69 @@
 package com.sunfusheng.github.net;
 
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.net.factory.OkHttpClientFactory;
 import com.sunfusheng.github.net.factory.RetrofitFactory;
 import com.sunfusheng.github.net.interceptor.CommonHeaderInterceptor;
 import com.sunfusheng.github.net.interceptor.LoginHeaderInterceptor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.Interceptor;
+import retrofit2.Retrofit;
 
 /**
  * @author by sunfusheng on 2018/4/8.
  */
 public class Api {
-    private static ApiService remoteCommonService;
 
     private static final Api instance = new Api();
-
-    private Api() {
-    }
 
     public static Api getInstance() {
         return instance;
     }
 
-    public static <T> T getService(Class<T> service, @FetchMode int fetchMode, Interceptor... interceptors) {
-        return RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors)).create(service);
+    private static Map<String, Retrofit> retrofitMap = new HashMap<>();
+
+    private Api() {
     }
 
-    public static ApiService getLoginService() {
-        return getService(ApiService.class, FetchMode.REMOTE, new LoginHeaderInterceptor());
-    }
-
-    private static ApiService getLocalCommonService() {
-        return getService(ApiService.class, FetchMode.LOCAL, new CommonHeaderInterceptor());
-    }
-
-    private static synchronized ApiService getRemoteCommonService() {
-        if (remoteCommonService == null) {
-            remoteCommonService = getService(ApiService.class, FetchMode.REMOTE, new CommonHeaderInterceptor());
+    private static <T> T getService(String baseUrl, boolean isJson, Class<T> service, @FetchMode int fetchMode, Interceptor... interceptors) {
+        StringBuilder key = new StringBuilder();
+        key.append(baseUrl);
+        key.append("-").append(isJson);
+        key.append("-").append(service.getSimpleName());
+        key.append("-").append(fetchMode);
+        Retrofit retrofit = retrofitMap.get(key.toString());
+        if (retrofit == null) {
+            retrofit = RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors), baseUrl, isJson);
+            retrofitMap.put(key.toString(), retrofit);
         }
-        return remoteCommonService;
+        return retrofit.create(service);
     }
 
-    public static ApiService getCommonService(@FetchMode int fetchMode) {
-        if (fetchMode == FetchMode.LOCAL) {
-            return getLocalCommonService();
-        }
-        return getRemoteCommonService();
+    public static <T> T getCommonService(Class<T> service, @FetchMode int fetchMode, Interceptor... interceptors) {
+        return getService(Constants.BASE_URL, true, service, fetchMode, interceptors);
     }
 
-    public static ApiService getCommonService() {
-        return getRemoteCommonService();
+    public static CommonService getLoginService() {
+        return getCommonService(CommonService.class, FetchMode.REMOTE, new LoginHeaderInterceptor());
+    }
+
+    public static CommonService getCommonService(@FetchMode int fetchMode) {
+        return getCommonService(CommonService.class, fetchMode, new CommonHeaderInterceptor());
+    }
+
+    public static CommonService getCommonService() {
+        return getCommonService(FetchMode.REMOTE);
+    }
+
+    public static <T> T getWebPageService(Class<T> service, @FetchMode int fetchMode, Interceptor... interceptors) {
+        return getService(Constants.BASE_WEB_PAGE_URL, false, service, fetchMode, interceptors);
+    }
+
+    public static WebPageService getWebPageService() {
+        return getWebPageService(WebPageService.class, FetchMode.REMOTE, new CommonHeaderInterceptor());
     }
 }
