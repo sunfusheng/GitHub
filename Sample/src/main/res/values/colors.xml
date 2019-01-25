@@ -129,4 +129,8 @@
         <item>@color/colorPrimary</item>
     </integer-array>
 
+    <integer-array name="colors_github_transparent">
+        <item>@color/transparent</item>
+    </integer-array>
+
 </resources>

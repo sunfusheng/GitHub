@@ -84,8 +84,7 @@ public class SvgView extends View {
         mFillPaint.setAntiAlias(true);
         mFillPaint.setStyle(Paint.Style.FILL);
 
-        mMarkerLength =
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, MARKER_LENGTH_DIP, getResources().getDisplayMetrics());
+        mMarkerLength = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, MARKER_LENGTH_DIP, getResources().getDisplayMetrics());
 
         mTraceColors = new int[1];
         mTraceColors[0] = Color.BLACK;
@@ -281,8 +280,7 @@ public class SvgView extends View {
             mGlyphData[i].paint.setStyle(Paint.Style.STROKE);
             mGlyphData[i].paint.setAntiAlias(true);
             mGlyphData[i].paint.setColor(Color.WHITE);
-            mGlyphData[i].paint.setStrokeWidth(
-                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
+            mGlyphData[i].paint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
         }
     }
 
