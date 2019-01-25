@@ -3,28 +3,28 @@ package com.sunfusheng.github.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.util.FileUtil;
+import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
-import com.zzhoujay.richtext.ImageHolder;
-import com.zzhoujay.richtext.RichText;
+import com.sunfusheng.github.widget.app.ReadMeWebView;
 
 /**
  * @author by sunfusheng on 2018/11/14
  */
 public class RepoDetailFragment extends BaseFragment {
 
-    private TextView vReadMe;
+    private ReadMeWebView vReadMe;
 
     private String repoFullName;
 
@@ -77,10 +77,11 @@ public class RepoDetailFragment extends BaseFragment {
         vm.liveData.observe(this, it -> {
             switch (it.progressState) {
                 case ProgressState.SUCCESS:
-                    RichText.fromMarkdown(FileUtil.convertFileToString(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0])))
-                            .scaleType(ImageHolder.ScaleType.center_crop)
-                            .size(300, 200)
-                            .into(vReadMe);
+                    String fileContent = FileUtil.convertFileToString(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0]));
+                    String htmlText = HtmlUtil.getReadMeData(fileContent);
+                    if (!TextUtils.isEmpty(htmlText)) {
+                        vReadMe.loadData(htmlText);
+                    }
                     break;
                 case ProgressState.ERROR:
                     ToastUtil.toast(it.errorMsg);

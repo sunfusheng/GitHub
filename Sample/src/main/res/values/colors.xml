@@ -4,9 +4,8 @@
     <color name="colorPrimary">#C34A42</color>
     <color name="colorPrimaryDark">#C34A42</color>
     <color name="colorAccent">#C34A42</color>
-
-    <color name="colorPrimary_50">#8019C25F</color>
-    <color name="colorPrimary_30">#4d19C25F</color>
+    <color name="colorPrimary_50">#80C34A42</color>
+    <color name="colorPrimary_30">#4dC34A42</color>
 
     <!-- common -->
     <color name="c0">#000000</color>

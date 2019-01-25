@@ -27,4 +27,19 @@ public class HtmlUtil {
         return null;
     }
 
+    public static String getReadMeData(String htmlText) {
+        if (TextUtils.isEmpty(htmlText)) {
+            return null;
+        }
+
+        Document doc = Jsoup.parse(htmlText);
+        Elements elements = doc.getElementsByClass("Box-body p-6");
+        for (Element element : elements) {
+            if (element != null) {
+                return element.toString();
+            }
+        }
+        return null;
+    }
+
 }

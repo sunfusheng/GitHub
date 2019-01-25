@@ -45,11 +45,12 @@ https://api.github.com/repos/sunfusheng/MultiType/contents/README.md
 
 ## 第三方核心库
 
+![jsoup](https://github.com/jhy/jsoup)
 [retrofit2-converter-jaxb](https://github.com/cn-src/retrofit2-converter-jaxb)
 
 ### 个人微信公众号
 
-![jsoup](https://github.com/jhy/jsoup)
+![](http://ourvm0t8d.bkt.clouddn.com/wx_gongzhonghao.png)
 
 ### 打赏才是真爱^_^
 

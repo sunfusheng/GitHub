@@ -35,11 +35,13 @@ public class Api {
         key.append("-").append(isJson);
         key.append("-").append(service.getSimpleName());
         key.append("-").append(fetchMode);
-        Retrofit retrofit = retrofitMap.get(key.toString());
-        if (retrofit == null) {
-            retrofit = RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors), baseUrl, isJson);
-            retrofitMap.put(key.toString(), retrofit);
-        }
+//        Retrofit retrofit = retrofitMap.get(key.toString());
+//        if (retrofit == null) {
+//            retrofit = RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors), baseUrl, isJson);
+//            retrofitMap.put(key.toString(), retrofit);
+//        }
+
+        Retrofit retrofit = RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors), baseUrl, isJson);
         return retrofit.create(service);
     }
 

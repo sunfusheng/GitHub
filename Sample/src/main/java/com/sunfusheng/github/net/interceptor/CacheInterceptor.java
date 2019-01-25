@@ -1,12 +1,12 @@
 package com.sunfusheng.github.net.interceptor;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.util.NetworkUtil;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -19,8 +19,7 @@ import okhttp3.Response;
  * @author by sunfusheng on 2018/4/8.
  */
 public class CacheInterceptor implements Interceptor {
-    private static CacheControl onlyIfCached = new CacheControl.Builder().onlyIfCached().maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS).build();
-    private static CacheControl.Builder cacheControlBuilder = new CacheControl.Builder();
+
     private int fetchMode;
 
     public CacheInterceptor(@FetchMode int fetchMode) {
@@ -30,20 +29,32 @@ public class CacheInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        if (!NetworkUtil.isConnected() || fetchMode == FetchMode.LOCAL) {
+        if (!NetworkUtil.isConnected()) {
             request = request.newBuilder()
-                    .removeHeader("Pragma")
-                    .cacheControl(onlyIfCached)
+                    .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
-        } else {
-            request = request.newBuilder()
-                    .removeHeader("Pragma")
-                    .cacheControl(cacheControlBuilder
-                            .maxAge(0, TimeUnit.SECONDS)
-                            .build()
-                    ).build();
         }
 
-        return chain.proceed(request);
+        Response originalResponse = chain.proceed(request);
+        boolean isSuccessful = originalResponse.isSuccessful() || originalResponse.code() == 304;
+        Log.d("---------->", request.url() + " isSuccessful: " + isSuccessful + " code: " + originalResponse.code() + " fetchMode: " + fetchMode);
+        if (!NetworkUtil.isConnected() || (isSuccessful && fetchMode == FetchMode.LOCAL)) {
+            return originalResponse;
+        }
+
+        if (NetworkUtil.isConnected() && fetchMode != FetchMode.LOCAL) {
+            int maxTime = 30 * 24 * 60 * 60; // 30天
+            return originalResponse.newBuilder()
+                    .header("Cache-Control", "public, max-age=" + maxTime)
+                    .removeHeader("Pragma")
+                    .build();
+        } else {
+            int maxTime = 30 * 24 * 60 * 60; // 30天
+            return originalResponse.newBuilder()
+                    .header("Cache-Control", "public, only-if-cached, max-stale=" + maxTime)
+                    .removeHeader("Pragma")
+                    .build();
+        }
     }
 }
+

@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.net.download.DownloadManager;
 import com.sunfusheng.github.net.download.IDownloadListener;
 import com.sunfusheng.github.net.download.ProgressResult;
@@ -32,12 +33,16 @@ public class ReadmeViewModel extends ViewModel {
     }
 
     public static String getReadmeFilePath(String username) {
-        return SdCardUtil.getDiskCacheDir(README_DIR).getPath() + File.separator + username + "_readme.md";
+        return SdCardUtil.getDiskCacheDir(README_DIR).getPath() + File.separator + username + "_readme.html";
     }
 
     public static String getRemoteReadmePath(String repoFullName) {
-        return "https://raw.githubusercontent.com/" + repoFullName + "/master/README.md";
+        return Constants.BASE_WEB_PAGE_URL + repoFullName;
     }
+
+//    public static String getRemoteReadmePath(String repoFullName) {
+//        return "https://raw.githubusercontent.com/" + repoFullName + "/master/README.md";
+//    }
 
     private LiveData<ProgressResult<String>> downloadReadmeFile(String repoFullName) {
         String username = repoFullName.split("/")[0];
