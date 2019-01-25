@@ -21,7 +21,7 @@ public class OkHttpClientFactory {
     private static final int MAX_CACHE_SIZE = 1024 * 1024 * 20; // 20MB
 
     public static OkHttpClient create(@FetchMode int fetchMode, Interceptor... interceptors) {
-        Cache cache = new Cache(SdCardUtil.getDiskCacheDir("HttpCache"), MAX_CACHE_SIZE);
+        Cache cache = new Cache(SdCardUtil.getDiskCacheDir("http-cache"), MAX_CACHE_SIZE);
         CacheInterceptor cacheInterceptor = new CacheInterceptor(fetchMode);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
