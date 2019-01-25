@@ -16,7 +16,7 @@ import com.sunfusheng.github.widget.bottombar.FragmentPagerItemAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity {
 
     private ViewPager viewPager;
     private AlphaTabLayout tabLayout;
@@ -32,7 +32,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         initData();
         initView();
         initFragment();
-
     }
 
     private void initData() {
@@ -58,7 +57,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(this, getSupportFragmentManager(), items);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(this);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setViewPager(viewPager);
     }
@@ -71,20 +69,5 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             NavigationManager.toLoginActivity(this);
             finish();
         }
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 }

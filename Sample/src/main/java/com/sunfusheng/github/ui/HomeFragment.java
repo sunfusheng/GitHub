@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
@@ -92,9 +91,6 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private void initView() {
         if (getView() == null) return;
         recyclerViewWrapper = getView().findViewById(R.id.recyclerViewWrapper);
-        View loadingView = recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_activity);
-        GlideImageView vGithubLoading = loadingView.findViewById(R.id.github_loading);
-        vGithubLoading.loadDrawable(R.mipmap.github_loading);
 
         recyclerViewWrapper.setOnRefreshListener(this);
         recyclerViewWrapper.setOnLoadMoreListener(this);

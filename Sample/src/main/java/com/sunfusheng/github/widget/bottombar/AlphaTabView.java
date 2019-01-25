@@ -5,7 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -41,8 +44,10 @@ public class AlphaTabView extends View {
 
     private boolean isShowRemove;                 //是否移除当前角标
     private boolean isShowPoint;                  //是否显示圆点
-    private int mBadgeNumber;                       //角标数
+    private int mBadgeNumber;                     //角标数
     private int mBadgeBackgroundColor = 0xFFFF0000;       //默认红颜色
+    private ColorFilter mNormalIconColorFilter;
+    private ColorFilter mSelectedIconColorFilter;
 
     public AlphaTabView(Context context) {
         this(context, null);
@@ -82,7 +87,12 @@ public class AlphaTabView extends View {
         mTextColorSelected = a.getColor(R.styleable.AlphaTabView_textColorSelected, mTextColorSelected);
         mBadgeBackgroundColor = a.getColor(R.styleable.AlphaTabView_badgeBackgroundColor, mBadgeBackgroundColor);
         mDrawablePadding = (int) a.getDimension(R.styleable.AlphaTabView_drawablePadding, mDrawablePadding);
+
         a.recycle();
+
+        mNormalIconColorFilter = new PorterDuffColorFilter(mTextColorNormal, PorterDuff.Mode.SRC_IN);
+        mSelectedIconColorFilter = new PorterDuffColorFilter(mTextColorSelected, PorterDuff.Mode.SRC_IN);
+
         initText();
     }
 
@@ -146,11 +156,13 @@ public class AlphaTabView extends View {
             mSelectedPaint.reset();
             mSelectedPaint.setAntiAlias(true);//设置抗锯齿
             mSelectedPaint.setFilterBitmap(true);//抗锯齿
+            mSelectedPaint.setColorFilter(mNormalIconColorFilter);
             mSelectedPaint.setAlpha(255 - alpha);
             canvas.drawBitmap(mIconNormal, null, drawRect, mSelectedPaint);
             mSelectedPaint.reset();
             mSelectedPaint.setAntiAlias(true);//设置抗锯齿
             mSelectedPaint.setFilterBitmap(true);//抗锯齿
+            mSelectedPaint.setColorFilter(mSelectedIconColorFilter);
             mSelectedPaint.setAlpha(alpha); //setAlpha必须放在paint的属性最后设置，否则不起作用
             canvas.drawBitmap(mIconSelected, null, drawRect, mSelectedPaint);
         }

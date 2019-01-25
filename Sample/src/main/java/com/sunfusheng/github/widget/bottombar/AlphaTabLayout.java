@@ -39,7 +39,7 @@ public class AlphaTabLayout extends LinearLayout {
 
     public AlphaTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        post(() -> isInit());
+        post(this::isInit);
     }
 
     public void setViewPager(ViewPager mViewPager) {
