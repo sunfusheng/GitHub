@@ -11,18 +11,13 @@ import android.widget.TextView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.ProgressState;
+import com.sunfusheng.github.util.FileUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author by sunfusheng on 2018/11/14
@@ -73,7 +68,6 @@ public class RepoDetailFragment extends BaseFragment {
         toolbar.setTitle(repoFullName);
 
         vReadMe = getView().findViewById(R.id.vReadMe);
-//        vMarkdownView.addStyleSheet(new Github());
     }
 
     private void initReadmeView() {
@@ -83,7 +77,7 @@ public class RepoDetailFragment extends BaseFragment {
         vm.liveData.observe(this, it -> {
             switch (it.progressState) {
                 case ProgressState.SUCCESS:
-                    RichText.fromMarkdown(getFileString())
+                    RichText.fromMarkdown(FileUtil.convertFileToString(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0])))
                             .scaleType(ImageHolder.ScaleType.center_crop)
                             .size(300, 200)
                             .into(vReadMe);
@@ -95,20 +89,4 @@ public class RepoDetailFragment extends BaseFragment {
         });
     }
 
-    public String getFileString() {
-        byte[] strBuffer = null;
-        int flen = 0;
-        File file = new File(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0]));
-        try {
-            InputStream in = new FileInputStream(file);
-            flen = (int) file.length();
-            strBuffer = new byte[flen];
-            in.read(strBuffer, 0, flen);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new String(strBuffer);
-    }
 }

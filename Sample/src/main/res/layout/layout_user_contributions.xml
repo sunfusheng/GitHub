@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/background_common"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_margin"
+        android:layout_marginBottom="8dp"
         android:includeFontPadding="false"
         android:paddingLeft="@dimen/item_margin_large"
-        android:paddingTop="@dimen/item_margin"
-        android:paddingBottom="10dp"
         android:text="Contributions"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_normal"
@@ -19,12 +20,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="114dp"
+        android:layout_marginBottom="@dimen/item_margin"
+        android:gravity="center">
 
         <com.sunfusheng.github.widget.app.ContributionsWebView
             android:id="@+id/contributions"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fadingEdge="none"
             android:fadingEdgeLength="0dp"
             android:overScrollMode="never" />

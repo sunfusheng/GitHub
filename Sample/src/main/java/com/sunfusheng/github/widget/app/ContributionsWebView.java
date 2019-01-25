@@ -1,8 +1,10 @@
 package com.sunfusheng.github.widget.app;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.DisplayUtil;
@@ -31,11 +33,30 @@ public class ContributionsWebView extends WebView {
 
         getSettings().setDefaultFontSize(12);
         getSettings().setSupportZoom(false);
+        getSettings().setDefaultTextEncodingName("UTF-8");
+
+        setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
+            }
+        });
     }
 
     @Override
     public void loadUrl(String url) {
         super.loadUrl(url);
+        scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
+    }
+
+    public void loadData(String data) {
+        loadData(data, "text/html; charset=UTF-8", null);
+    }
+
+    @Override
+    public void loadData(String data, @Nullable String mimeType, @Nullable String encoding) {
+        super.loadData(data, mimeType, encoding);
         scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
     }
 

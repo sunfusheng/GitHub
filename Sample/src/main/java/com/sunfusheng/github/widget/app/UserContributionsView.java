@@ -2,6 +2,7 @@ package com.sunfusheng.github.widget.app;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -9,11 +10,11 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.ProgressState;
+import com.sunfusheng.github.util.FileUtil;
+import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.base.VM;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
-
-import java.io.File;
 
 /**
  * @author sunfusheng on 2018/7/28.
@@ -66,7 +67,14 @@ public class UserContributionsView extends LinearLayout {
                     break;
                 case ProgressState.SUCCESS:
                 case ProgressState.ERROR:
-                    if (!loadFile(ContributionsViewModel.getContributionsFilePath(username))) {
+                    String filePath = ContributionsViewModel.getContributionsFilePath(username);
+                    String htmlText = FileUtil.convertFileToString(filePath);
+                    if (!TextUtils.isEmpty(htmlText)) {
+                        vTip.setVisibility(GONE);
+                        webView.setVisibility(VISIBLE);
+                        webView.loadData(HtmlUtil.getContributionsData(htmlText));
+                    } else {
+                        webView.setVisibility(GONE);
                         vTip.setVisibility(VISIBLE);
                         vTip.setText("Load Failed!");
                     }
@@ -75,14 +83,4 @@ public class UserContributionsView extends LinearLayout {
         });
     }
 
-    private boolean loadFile(String localPath) {
-        File file = new File(localPath);
-        if (file.exists()) {
-            vTip.setVisibility(GONE);
-            webView.setVisibility(VISIBLE);
-            webView.loadUrl("file://" + localPath);
-            return true;
-        }
-        return false;
-    }
 }
