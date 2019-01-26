@@ -41,7 +41,7 @@ public class Utils {
     public static int getColorByLanguage(String language) {
         switch (language) {
             case "Java":
-                return Color.parseColor("#af7126");
+                return Color.parseColor("#b07219");
             case "Objective-C":
                 return Color.parseColor("#4791fc");
             case "JavaScript":

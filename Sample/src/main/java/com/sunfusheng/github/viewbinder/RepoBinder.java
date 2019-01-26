@@ -34,6 +34,7 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Repo item) {
         holder.vName.setText(showFullName ? item.full_name : item.name);
+
         if (!TextUtils.isEmpty(item.description)) {
             holder.vDesc.setVisibility(View.VISIBLE);
             holder.vDesc.setText(item.description);

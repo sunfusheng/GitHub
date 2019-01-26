@@ -23,7 +23,8 @@ public class RepoInfoView extends LinearLayout {
     TextView vLanguage;
     ImageView vStarCountImg;
     TextView vStarCount;
-    TextView vTime;
+    TextView vUpdateTime;
+    TextView vTendingDesc;
 
     public RepoInfoView(Context context) {
         this(context, null);
@@ -44,7 +45,8 @@ public class RepoInfoView extends LinearLayout {
         vLanguage = findViewById(R.id.language);
         vStarCountImg = findViewById(R.id.star_count_img);
         vStarCount = findViewById(R.id.star_count);
-        vTime = findViewById(R.id.time);
+        vUpdateTime = findViewById(R.id.update_time);
+        vTendingDesc = findViewById(R.id.tending_desc);
     }
 
     public void setData(Repo repo, boolean showExactNum) {
@@ -68,10 +70,17 @@ public class RepoInfoView extends LinearLayout {
         }
 
         if (!TextUtils.isEmpty(repo.pushed_at)) {
-            vTime.setVisibility(VISIBLE);
-            vTime.setText("Updated " + Utils.getDateAgo(repo.pushed_at));
+            vUpdateTime.setVisibility(VISIBLE);
+            vUpdateTime.setText("Updated " + Utils.getDateAgo(repo.pushed_at));
         } else {
-            vTime.setVisibility(GONE);
+            vUpdateTime.setVisibility(GONE);
+        }
+
+        if (!TextUtils.isEmpty(repo.tendingDesc)) {
+            vTendingDesc.setVisibility(VISIBLE);
+            vTendingDesc.setText(repo.tendingDesc);
+        } else {
+            vTendingDesc.setVisibility(GONE);
         }
     }
 

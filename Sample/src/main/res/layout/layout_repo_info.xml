@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal">
@@ -12,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         app:circleColor="@color/orange"
-        app:circleRadius="5dp" />
+        app:circleRadius="5dp"/>
 
     <TextView
         android:id="@+id/language"
@@ -22,16 +24,16 @@
         android:layout_marginRight="@dimen/item_margin"
         android:gravity="center_vertical"
         android:includeFontPadding="false"
-        android:text="language"
         android:textColor="@color/c2"
-        android:textSize="@dimen/common_desc_size" />
+        android:textSize="@dimen/common_desc_size"
+        tools:text="language"/>
 
     <ImageView
         android:id="@+id/star_count_img"
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:gravity="center_vertical"
-        android:src="@mipmap/ic_action_star" />
+        android:src="@mipmap/ic_action_star"/>
 
     <TextView
         android:id="@+id/star_count"
@@ -41,17 +43,29 @@
         android:layout_marginRight="@dimen/item_margin"
         android:gravity="center_vertical"
         android:includeFontPadding="false"
-        android:text="0"
         android:textColor="@color/c2"
-        android:textSize="@dimen/common_desc_size" />
+        android:textSize="@dimen/common_desc_size"
+        tools:text="0"/>
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/update_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/item_margin"
         android:gravity="center_vertical"
         android:includeFontPadding="false"
-        android:text="0"
         android:textColor="@color/c2"
-        android:textSize="@dimen/common_desc_size" />
+        android:textSize="@dimen/common_desc_size"
+        tools:text="updated 1 hour ago"/>
+
+    <TextView
+        android:id="@+id/tending_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|end"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="@color/c2"
+        android:textSize="@dimen/common_desc_size"
+        tools:text="tending desc"/>
 </LinearLayout>

@@ -99,6 +99,8 @@ public class Repo {
     public Repo source;
     @Ignore
     public boolean isStarred;
+    @Ignore
+    public String tendingDesc;
 
     @Embedded
     public License license;

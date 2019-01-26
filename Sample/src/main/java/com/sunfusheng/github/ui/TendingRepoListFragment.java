@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author sunfusheng on 2018/4/18.
  */
-public class DiscoverFragment extends BaseFragment {
-
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
-    private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
+public class TendingRepoListFragment extends BaseFragment {
 
     private RecyclerViewWrapper recyclerViewWrapper;
 
