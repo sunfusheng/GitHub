@@ -71,6 +71,7 @@ public class TendingRepoListFragment extends BaseFragment {
 
         RepoBinder repoBinder = new RepoBinder();
         repoBinder.showFullName(true);
+        repoBinder.showExactNum(false);
         recyclerViewWrapper.register(Repo.class, repoBinder);
     }
 

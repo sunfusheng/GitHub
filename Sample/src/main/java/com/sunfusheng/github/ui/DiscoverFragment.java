@@ -38,8 +38,6 @@ public class DiscoverFragment extends BaseFragment {
     @Override
     protected void initToolBar() {
         super.initToolBar();
-        if (getView() == null) return;
-        toolbar = getView().findViewById(R.id.toolbar);
         toolbar.setTitle("Tending");
     }
 

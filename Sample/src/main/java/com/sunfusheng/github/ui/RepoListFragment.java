@@ -54,7 +54,10 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
         recyclerViewWrapper.enableRefresh(false);
         recyclerViewWrapper.enableLoadMore(false);
 
-        recyclerViewWrapper.register(Repo.class, new RepoBinder());
+        RepoBinder repoBinder = new RepoBinder();
+        repoBinder.showFullName(false);
+        repoBinder.showExactNum(true);
+        recyclerViewWrapper.register(Repo.class, repoBinder);
 
         observeRepos();
     }

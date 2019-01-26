@@ -20,6 +20,7 @@ import com.sunfusheng.multitype.ItemViewBinder;
 public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
 
     private boolean showFullName;
+    private boolean showExactNum = false;
 
     @NonNull
     @Override
@@ -29,6 +30,10 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
 
     public void showFullName(boolean show) {
         showFullName = show;
+    }
+
+    public void showExactNum(boolean show) {
+        this.showExactNum = show;
     }
 
     @Override
@@ -41,7 +46,7 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
         } else {
             holder.vDesc.setVisibility(View.GONE);
         }
-        holder.vRepoInfo.setData(item, true);
+        holder.vRepoInfo.setData(item, showExactNum);
 
         holder.itemView.setOnClickListener(v -> {
             NavigationManager.toRepoDetailActivity(holder.itemView.getContext(), item.full_name);
