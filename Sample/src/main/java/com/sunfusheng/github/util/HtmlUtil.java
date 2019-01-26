@@ -2,7 +2,6 @@ package com.sunfusheng.github.util;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.model.Repo;
@@ -62,7 +61,6 @@ public class HtmlUtil {
         Observable.defer(() -> Observable.just(htmlText))
                 .subscribeOn(Schedulers.io())
                 .map(it -> {
-                    Log.d("######", "" + Thread.currentThread());
                     List<Repo> tendingRepos = new ArrayList<>();
                     try {
                         Document doc = Jsoup.parse(it, Constants.BASE_WEB_PAGE_URL);

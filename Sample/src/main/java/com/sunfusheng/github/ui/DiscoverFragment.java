@@ -1,6 +1,5 @@
 package com.sunfusheng.github.ui;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,14 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.util.HtmlUtil;
-import com.sunfusheng.github.viewbinder.RepoBinder;
-import com.sunfusheng.wrapper.RecyclerViewWrapper;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import com.sunfusheng.github.widget.bottombar.FragmentPagerItemAdapter;
 
 /**
  * @author sunfusheng on 2018/4/18.
@@ -28,9 +20,7 @@ public class DiscoverFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
-
-    private RecyclerViewWrapper recyclerViewWrapper;
+    private String[] TAB_NAMES = new String[]{"Daily", "Weekly", "Monthly"};
 
     @Nullable
     @Override
@@ -42,7 +32,7 @@ public class DiscoverFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        observeTendingData();
+        initViewPager();
     }
 
     @Override
@@ -56,26 +46,23 @@ public class DiscoverFragment extends BaseFragment {
     private void initView() {
         View view = getView();
         if (view == null) return;
-        recyclerViewWrapper = view.findViewById(R.id.recyclerViewWrapper);
-
-        recyclerViewWrapper.enableRefresh(false);
-        recyclerViewWrapper.enableLoadMore(false);
-
-        RepoBinder repoBinder = new RepoBinder();
-        repoBinder.showFullName(true);
-        recyclerViewWrapper.register(Repo.class, repoBinder);
+        tabLayout = view.findViewById(R.id.tabLayout);
+        viewPager = view.findViewById(R.id.viewPager);
     }
 
-    @SuppressLint("CheckResult")
-    private void observeTendingData() {
-        Api.getWebPageService().fetchTendingRepos("Daily")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(it -> {
-                    HtmlUtil.parseTrendingPageData(it.string(), repos -> {
-                        recyclerViewWrapper.setItems(repos);
-                    }, Throwable::printStackTrace);
-                }, Throwable::printStackTrace);
-    }
+    private void initViewPager() {
+        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[0]), true);
+        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[1]), false);
+        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[2]), false);
 
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter.Builder(getContext(), getChildFragmentManager())
+                .add(TAB_NAMES[0], TendingRepoListFragment.newFragment("daily"))
+                .add(TAB_NAMES[1], TendingRepoListFragment.newFragment("weekly"))
+                .add(TAB_NAMES[2], TendingRepoListFragment.newFragment("monthly"))
+                .build();
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setCurrentItem(0);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 }

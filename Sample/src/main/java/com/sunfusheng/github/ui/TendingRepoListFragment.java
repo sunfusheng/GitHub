@@ -25,10 +25,33 @@ public class TendingRepoListFragment extends BaseFragment {
 
     private RecyclerViewWrapper recyclerViewWrapper;
 
+    private String since = "daily";
+
+    public static TendingRepoListFragment newFragment(String since) {
+        TendingRepoListFragment fragment = new TendingRepoListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("since", since);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initData();
+    }
+
+    private void initData() {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            since = arguments.getString("since");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_discover, container, false);
+        return inflater.inflate(R.layout.layout_recyclerview_wrapper, container, false);
     }
 
     @Override
@@ -36,14 +59,6 @@ public class TendingRepoListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initView();
         observeTendingData();
-    }
-
-    @Override
-    protected void initToolBar() {
-        super.initToolBar();
-        if (getView() == null) return;
-        toolbar = getView().findViewById(R.id.toolbar);
-        toolbar.setTitle("Tending");
     }
 
     private void initView() {
@@ -61,7 +76,7 @@ public class TendingRepoListFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     private void observeTendingData() {
-        Api.getWebPageService().fetchTendingRepos("Daily")
+        Api.getWebPageService().fetchTendingRepos(since)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(it -> {
