@@ -23,6 +23,8 @@ public class RepoInfoView extends LinearLayout {
     TextView vLanguage;
     ImageView vStarCountImg;
     TextView vStarCount;
+    ImageView vForkCountImg;
+    TextView vForkCount;
     TextView vUpdateTime;
     TextView vTendingDesc;
 
@@ -45,6 +47,8 @@ public class RepoInfoView extends LinearLayout {
         vLanguage = findViewById(R.id.language);
         vStarCountImg = findViewById(R.id.star_count_img);
         vStarCount = findViewById(R.id.star_count);
+        vForkCountImg = findViewById(R.id.fork_count_img);
+        vForkCount = findViewById(R.id.fork_count);
         vUpdateTime = findViewById(R.id.update_time);
         vTendingDesc = findViewById(R.id.tending_desc);
     }
@@ -63,10 +67,19 @@ public class RepoInfoView extends LinearLayout {
         if (repo.stargazers_count > 0) {
             vStarCountImg.setVisibility(View.VISIBLE);
             vStarCount.setVisibility(View.VISIBLE);
-            vStarCount.setText(Utils.getStarCount(repo.stargazers_count, showExactNum));
+            vStarCount.setText(Utils.getCountDesc(repo.stargazers_count, showExactNum));
         } else {
             vStarCountImg.setVisibility(View.GONE);
             vStarCount.setVisibility(View.GONE);
+        }
+
+        if (repo.forks_count > 0) {
+            vForkCountImg.setVisibility(VISIBLE);
+            vForkCount.setVisibility(VISIBLE);
+            vForkCount.setText(Utils.getCountDesc(repo.forks_count, showExactNum));
+        } else {
+            vForkCountImg.setVisibility(GONE);
+            vForkCount.setVisibility(GONE);
         }
 
         if (!TextUtils.isEmpty(repo.pushed_at)) {

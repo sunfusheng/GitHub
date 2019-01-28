@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         app:circleColor="@color/orange"
-        app:circleRadius="5dp"/>
+        app:circleRadius="5dp" />
 
     <TextView
         android:id="@+id/language"
@@ -26,14 +25,14 @@
         android:includeFontPadding="false"
         android:textColor="@color/c2"
         android:textSize="@dimen/common_desc_size"
-        tools:text="language"/>
+        tools:text="language" />
 
     <ImageView
         android:id="@+id/star_count_img"
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:gravity="center_vertical"
-        android:src="@mipmap/ic_action_star"/>
+        android:src="@mipmap/ic_action_star" />
 
     <TextView
         android:id="@+id/star_count"
@@ -45,7 +44,26 @@
         android:includeFontPadding="false"
         android:textColor="@color/c2"
         android:textSize="@dimen/common_desc_size"
-        tools:text="0"/>
+        tools:text="0" />
+
+    <ImageView
+        android:id="@+id/fork_count_img"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:gravity="center_vertical"
+        android:src="@mipmap/ic_action_fork" />
+
+    <TextView
+        android:id="@+id/fork_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="@dimen/item_margin"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:textColor="@color/c2"
+        android:textSize="@dimen/common_desc_size"
+        tools:text="0" />
 
     <TextView
         android:id="@+id/update_time"
@@ -56,7 +74,7 @@
         android:includeFontPadding="false"
         android:textColor="@color/c2"
         android:textSize="@dimen/common_desc_size"
-        tools:text="updated 1 hour ago"/>
+        tools:text="updated 1 hour ago" />
 
     <TextView
         android:id="@+id/tending_desc"
@@ -67,5 +85,5 @@
         android:singleLine="true"
         android:textColor="@color/c2"
         android:textSize="@dimen/common_desc_size"
-        tools:text="tending desc"/>
+        tools:text="tending desc" />
 </LinearLayout>

@@ -68,12 +68,12 @@ public class Utils {
         return Color.parseColor("#666666");
     }
 
-    public static String getStarCount(int starCount, boolean showExactNum) {
-        if (!showExactNum && starCount > 1000) {
-            float result = (starCount / 100) * 1f / 10 + (starCount % 100 >= 50 ? 0.1f : 0f);
+    public static String getCountDesc(int count, boolean showExactNum) {
+        if (!showExactNum && count > 1000) {
+            float result = (count * 1f / 100) * 1f / 10 + (count % 100 >= 50 ? 0.1f : 0f);
             return String.format(Locale.getDefault(), "%.1f", result) + "k";
         }
-        return String.valueOf(starCount);
+        return String.valueOf(count);
     }
 
     public static long getMilliSeconds(String dateStr) {
