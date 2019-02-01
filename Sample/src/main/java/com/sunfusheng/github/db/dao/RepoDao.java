@@ -1,4 +1,4 @@
-package com.sunfusheng.github.database;
+package com.sunfusheng.github.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;

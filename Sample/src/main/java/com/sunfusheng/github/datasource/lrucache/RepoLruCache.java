@@ -1,4 +1,4 @@
-package com.sunfusheng.github.lrucache;
+package com.sunfusheng.github.datasource.lrucache;
 
 import android.util.LruCache;
 

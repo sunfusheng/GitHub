@@ -1,9 +1,10 @@
-package com.sunfusheng.github.database;
+package com.sunfusheng.github.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
+import com.sunfusheng.github.db.dao.UserDao;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.AppUtil;
 

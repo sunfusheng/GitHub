@@ -5,7 +5,7 @@ import android.util.Pair;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.base.RemoteDataSource;
-import com.sunfusheng.github.lrucache.RepoLruCache;
+import com.sunfusheng.github.datasource.lrucache.RepoLruCache;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.net.Api;

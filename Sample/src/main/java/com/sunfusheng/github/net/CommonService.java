@@ -5,7 +5,7 @@ import com.sunfusheng.github.model.Auth;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.model.params.AuthParams;
+import com.sunfusheng.github.model.AuthParams;
 
 import java.util.List;
 
