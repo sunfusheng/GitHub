@@ -36,5 +36,5 @@ ext {
     versionName = "1.0.0"
 
     lifecycle = "1.1.1"
-    room = "1.0.0"
+    room = "1.1.1"
 }
