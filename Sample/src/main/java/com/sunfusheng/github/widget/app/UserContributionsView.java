@@ -68,11 +68,11 @@ public class UserContributionsView extends LinearLayout {
                 case ProgressState.SUCCESS:
                 case ProgressState.ERROR:
                     String filePath = ContributionsViewModel.getContributionsFilePath(username);
-                    String htmlText = FileUtil.convertFileToString(filePath);
+                    String htmlText = HtmlUtil.getContributionsData(FileUtil.convertFileToString(filePath));
                     if (!TextUtils.isEmpty(htmlText)) {
                         vTip.setVisibility(GONE);
                         webView.setVisibility(VISIBLE);
-                        webView.loadData(HtmlUtil.getContributionsData(htmlText));
+                        webView.loadData(htmlText);
                     } else {
                         webView.setVisibility(GONE);
                         vTip.setVisibility(VISIBLE);
