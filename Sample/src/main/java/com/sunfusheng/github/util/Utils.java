@@ -117,6 +117,7 @@ public class Utils {
     }
 
     public static void refinedSpannableString(String desc, SpannableString sp, String tag, @ColorRes int textColor, @ColorRes int pressedBackgroundColor, Action action) {
+        if (TextUtils.isEmpty(desc) || TextUtils.isEmpty(sp)) return;
         int index;
         int start = 0;
         int end;

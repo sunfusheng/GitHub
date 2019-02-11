@@ -32,7 +32,8 @@ public class HtmlUtil {
         }
 
         Document doc = Jsoup.parse(htmlText);
-        Elements elements = doc.getElementsByTag("svg");
+        Elements elements = doc.getElementsByClass("js-calendar-graph-svg");
+//        Elements elements = doc.getElementsByTag("svg");
         for (Element element : elements) {
             if (element != null) {
                 return element.toString();
