@@ -1,7 +1,6 @@
 package com.sunfusheng.github.widget.app;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -44,19 +43,8 @@ public class ContributionsWebView extends WebView {
         });
     }
 
-    @Override
-    public void loadUrl(String url) {
-        super.loadUrl(url);
-        scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
-    }
-
     public void loadData(String data) {
-        loadData(data, "text/html; charset=UTF-8", null);
-    }
-
-    @Override
-    public void loadData(String data, @Nullable String mimeType, @Nullable String encoding) {
-        super.loadData(data, mimeType, encoding);
+        loadDataWithBaseURL(null, data, "text/html; charset=UTF-8", null, null);
         scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
     }
 
