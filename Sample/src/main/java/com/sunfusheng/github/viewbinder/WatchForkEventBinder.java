@@ -42,7 +42,7 @@ public class WatchForkEventBinder extends ItemViewBinder<Event, WatchForkEventBi
         } else {
             holder.vRepoDesc.setVisibility(View.GONE);
         }
-        holder.vRepoInfo.setData(item.repo, false);
+        holder.vRepoInfo.setData(item.repo);
 
         holder.vRepoLayout.setBackgroundResource(Utils.isMyRepo(item.repo) ? R.drawable.shape_light_green_selector : R.drawable.shape_grey_selector);
         holder.vRepoLayout.setOnClickListener(v -> {

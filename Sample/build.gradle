@@ -73,9 +73,9 @@ dependencies {
     api 'com.android.support:support-v13:' + rootProject.supportLibraryVersion
     api 'com.android.support:animated-vector-drawable:' + rootProject.supportLibraryVersion
 
-    api 'android.arch.lifecycle:viewmodel:' + rootProject.lifecycle
-    api 'android.arch.lifecycle:livedata:' + rootProject.lifecycle
     api 'android.arch.lifecycle:extensions:' + rootProject.lifecycle
+    api 'android.arch.lifecycle:livedata:' + rootProject.lifecycle
+    api 'android.arch.lifecycle:viewmodel:' + rootProject.lifecycle
     api 'android.arch.lifecycle:reactivestreams:' + rootProject.lifecycle
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.lifecycle
     api 'android.arch.persistence.room:runtime:' + rootProject.room

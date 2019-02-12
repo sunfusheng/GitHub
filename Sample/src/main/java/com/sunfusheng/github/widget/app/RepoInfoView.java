@@ -28,6 +28,9 @@ public class RepoInfoView extends LinearLayout {
     TextView vUpdateTime;
     TextView vTendingDesc;
 
+    private boolean showExactNum = false;
+    private boolean showUpdateTime = false;
+
     public RepoInfoView(Context context) {
         this(context, null);
     }
@@ -53,7 +56,7 @@ public class RepoInfoView extends LinearLayout {
         vTendingDesc = findViewById(R.id.tending_desc);
     }
 
-    public void setData(Repo repo, boolean showExactNum) {
+    public void setData(Repo repo) {
         if (!TextUtils.isEmpty(repo.language)) {
             vLanguageCircle.setVisibility(VISIBLE);
             vLanguage.setVisibility(VISIBLE);
@@ -82,7 +85,7 @@ public class RepoInfoView extends LinearLayout {
             vForkCount.setVisibility(GONE);
         }
 
-        if (!TextUtils.isEmpty(repo.pushed_at)) {
+        if (!TextUtils.isEmpty(repo.pushed_at) && showUpdateTime) {
             vUpdateTime.setVisibility(VISIBLE);
             vUpdateTime.setText("Updated " + Utils.getDateAgo(repo.pushed_at));
         } else {
@@ -97,4 +100,13 @@ public class RepoInfoView extends LinearLayout {
         }
     }
 
+    public RepoInfoView showExactNum(boolean show) {
+        this.showExactNum = show;
+        return this;
+    }
+
+    public RepoInfoView showUpdateTime(boolean show) {
+        this.showUpdateTime = show;
+        return this;
+    }
 }
