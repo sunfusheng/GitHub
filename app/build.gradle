@@ -4,13 +4,13 @@ Properties signingProperties = new Properties()
 signingProperties.load(new FileInputStream(file("../signings/signing.properties")))
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion COMPILE_SDK_VERSION
     defaultConfig {
         applicationId "com.sunfusheng.github"
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion TARGET_SDK_VERSION
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
         multiDexEnabled true
     }
 
@@ -39,8 +39,10 @@ android {
             buildConfigField "boolean", "debugMode", "false"
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all {
-                variant -> generateApk(variant)
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "GitHub.apk"
+                }
             }
         }
 
@@ -48,39 +50,32 @@ android {
             buildConfigField "boolean", "debugMode", "true"
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all {
-                variant -> generateApk(variant)
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "GitHub.apk"
+                }
             }
-        }
-    }
-}
-
-def generateApk(variant) {
-    if (variant.buildType.name == "release") {
-        variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/Sample/outputs")
-        variant.getPackageApplication().outputScope.apkDatas.forEach { apkData ->
-            apkData.outputFileName = "GitHub.apk"
         }
     }
 }
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:design:' + rootProject.supportLibraryVersion
-    api 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
-    api 'com.android.support:recyclerview-v7:' + rootProject.supportLibraryVersion
-    api 'com.android.support:support-v4:' + rootProject.supportLibraryVersion
-    api 'com.android.support:support-v13:' + rootProject.supportLibraryVersion
-    api 'com.android.support:animated-vector-drawable:' + rootProject.supportLibraryVersion
+    api 'com.android.support:design:' + SUPPORT_LIBRARY_VERSION
+    api 'com.android.support:appcompat-v7:' + SUPPORT_LIBRARY_VERSION
+    api 'com.android.support:recyclerview-v7:' + SUPPORT_LIBRARY_VERSION
+    api 'com.android.support:support-v4:' + SUPPORT_LIBRARY_VERSION
+    api 'com.android.support:support-v13:' + SUPPORT_LIBRARY_VERSION
+    api 'com.android.support:animated-vector-drawable:' + SUPPORT_LIBRARY_VERSION
 
-    api 'android.arch.lifecycle:extensions:' + rootProject.lifecycle
-    api 'android.arch.lifecycle:livedata:' + rootProject.lifecycle
-    api 'android.arch.lifecycle:viewmodel:' + rootProject.lifecycle
-    api 'android.arch.lifecycle:reactivestreams:' + rootProject.lifecycle
-    annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.lifecycle
-    api 'android.arch.persistence.room:runtime:' + rootProject.room
-    api 'android.arch.persistence.room:rxjava2:' + rootProject.room
-    annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.room
+    api 'android.arch.lifecycle:extensions:' + LIFECYCLE
+    api 'android.arch.lifecycle:livedata:' + LIFECYCLE
+    api 'android.arch.lifecycle:viewmodel:' + LIFECYCLE
+    api 'android.arch.lifecycle:reactivestreams:' + LIFECYCLE
+    annotationProcessor 'android.arch.lifecycle:compiler:' + LIFECYCLE
+    api 'android.arch.persistence.room:runtime:' + ROOM
+    api 'android.arch.persistence.room:rxjava2:' + ROOM
+    annotationProcessor 'android.arch.persistence.room:compiler:' + ROOM
 
     api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
