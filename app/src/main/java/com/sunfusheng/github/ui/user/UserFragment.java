@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui;
+package com.sunfusheng.github.ui.user;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +16,8 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.ui.base.BaseFragment;
+import com.sunfusheng.github.ui.repo.RepoListFragment;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;

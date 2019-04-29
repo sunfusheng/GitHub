@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui;
+package com.sunfusheng.github.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

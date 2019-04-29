@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui;
+package com.sunfusheng.github.ui.home;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +15,8 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.ui.NavigationManager;
+import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;

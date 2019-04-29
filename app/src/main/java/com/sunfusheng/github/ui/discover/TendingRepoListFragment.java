@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui;
+package com.sunfusheng.github.ui.discover;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;

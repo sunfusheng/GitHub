@@ -30,7 +30,7 @@ public class FragmentPagerItemAdapter extends FragmentPagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
         fragments.put(position, fragment);
         if (listener != null) {
@@ -45,9 +45,7 @@ public class FragmentPagerItemAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-//        super.destroyItem(container, position, object);
-//        fragments.remove(position);
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
     }
 
     @Override

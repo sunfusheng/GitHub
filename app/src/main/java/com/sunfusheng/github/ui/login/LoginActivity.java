@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui;
+package com.sunfusheng.github.ui.login;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.db.UserDatabase;
 import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.ui.NavigationManager;
+import com.sunfusheng.github.ui.base.BaseActivity;
 import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;

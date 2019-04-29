@@ -28,12 +28,12 @@
         </activity>
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.UserActivity"
+            android:name=".ui.user.UserActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -43,7 +43,7 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.RepoDetailActivity"
+            android:name=".ui.repo.RepoDetailActivity"
             android:screenOrientation="portrait" />
     </application>
 

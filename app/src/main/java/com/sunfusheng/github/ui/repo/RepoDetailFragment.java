@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui;
+package com.sunfusheng.github.ui.repo;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.ProgressState;
+import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.FileUtil;
 import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.util.StatusBarUtil;

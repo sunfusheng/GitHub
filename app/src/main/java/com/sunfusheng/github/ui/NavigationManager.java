@@ -6,6 +6,9 @@ import android.text.TextUtils;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.ui.login.LoginActivity;
+import com.sunfusheng.github.ui.repo.RepoDetailActivity;
+import com.sunfusheng.github.ui.user.UserActivity;
 
 /**
  * @author sunfusheng on 2018/4/12.
