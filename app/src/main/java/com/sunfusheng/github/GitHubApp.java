@@ -9,7 +9,7 @@ import com.sunfusheng.multitype.MultiTypeRegistry;
 /**
  * @author sunfusheng on 2018/4/8.
  */
-public class GitHubApplication extends Application {
+public class GitHubApp extends Application {
 
     @Override
     public void onCreate() {
