@@ -55,5 +55,4 @@ public class CollectionUtil {
     public static int getSize(Collection<?> collection) {
         return null == collection ? 0 : collection.size();
     }
-
 }
