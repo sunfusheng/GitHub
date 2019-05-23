@@ -25,15 +25,15 @@ public class BaseViewModel extends ViewModel {
     public static class RequestParams {
         public String username;
         public int page;
-        public int perPage = Constants.PER_PAGE_30;
+        public int perPage;
         public int fetchMode;
 
         public RequestParams(String username, int fetchMode) {
-            this(username, 1, Constants.PER_PAGE_30, fetchMode);
+            this(username, 1, Constants.PER_PAGE_COUNT, fetchMode);
         }
 
         public RequestParams(String username, int page, int fetchMode) {
-            this(username, page, Constants.PER_PAGE_30, fetchMode);
+            this(username, page, Constants.PER_PAGE_COUNT, fetchMode);
         }
 
         public RequestParams(String username, int page, int perPage, int fetchMode) {

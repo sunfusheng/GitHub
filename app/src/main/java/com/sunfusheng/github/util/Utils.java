@@ -88,6 +88,28 @@ public class Utils {
         return DateUtil.formatTimeAgo(new Date().getTime() - getMilliSeconds(dateStr), true);
     }
 
+    public static String getUserName(String repoFullName) {
+        if (!TextUtils.isEmpty(repoFullName)) {
+            String[] split = repoFullName.split("/");
+            if (split.length < 2) {
+                return null;
+            }
+            return split[0];
+        }
+        return null;
+    }
+
+    public static String getRepoName(String repoFullName) {
+        if (!TextUtils.isEmpty(repoFullName)) {
+            String[] split = repoFullName.split("/");
+            if (split.length < 2) {
+                return null;
+            }
+            return split[1];
+        }
+        return null;
+    }
+
     public static String getUsernameDesc(User user) {
         StringBuilder sb = new StringBuilder();
         if (!TextUtils.isEmpty(user.name)) {

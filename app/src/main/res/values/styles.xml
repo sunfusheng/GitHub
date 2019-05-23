@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -11,8 +11,12 @@
     </style>
 
     <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="actionBarItemBackground">@drawable/abc_item_background_holo_light</item>
-        <item name="selectableItemBackground">@drawable/abc_item_background_holo_light</item>
+        <item name="actionBarItemBackground" tools:ignore="PrivateResource">
+            @drawable/abc_item_background_holo_light
+        </item>
+        <item name="selectableItemBackground" tools:ignore="PrivateResource">
+            @drawable/abc_item_background_holo_light
+        </item>
         <item name="titleTextAppearance">@style/ToolBar.Title</item>
         <item name="subtitleTextAppearance">@style/Toolbar.SubTitle</item>
         <item name="android:windowNoTitle">true</item>
@@ -23,6 +27,7 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!--Toolbar 副标题-->

@@ -11,11 +11,11 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
  */
 public class RetrofitFactory {
 
-    public static Retrofit create(OkHttpClient client, String baseUrl, boolean isJson) {
-        Retrofit.Builder builder = new Retrofit.Builder();
-        builder.client(client);
-        builder.baseUrl(baseUrl);
-        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+    public static Retrofit create(OkHttpClient okHttpClient, String baseUrl, boolean isJson) {
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(baseUrl)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
         if (isJson) {
             builder.addConverterFactory(GsonConverterFactory.create());

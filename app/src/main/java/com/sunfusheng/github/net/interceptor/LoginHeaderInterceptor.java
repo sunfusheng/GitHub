@@ -16,12 +16,13 @@ public class LoginHeaderInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request oldRequest = chain.request();
-        Request.Builder builder = oldRequest.newBuilder()
-                .header("Accept", Constants.ACCEPT)
-                .header("Authorization", "Basic " + PreferenceUtil.getInstance().getString(Constants.PreferenceKey.AUTH))
-                .method(oldRequest.method(), oldRequest.body());
+        Request request = chain.request();
 
-        return chain.proceed(builder.build());
+        request = request.newBuilder()
+                .header("Accept", Constants.ACCEPT_JSON)
+                .header("Authorization", "Basic " + PreferenceUtil.getInstance().getString(Constants.PreferenceKey.AUTH))
+                .build();
+
+        return chain.proceed(request);
     }
 }

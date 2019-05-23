@@ -15,19 +15,15 @@ public class Constants {
     public static final String BASE_WEB_PAGE_URL = "https://github.com/";
 
     public static final String USER_AGENT = "sunfusheng";
-    public static final String ACCEPT = "application/vnd.github.v3+json";
+    public static final String ACCEPT_JSON = "application/vnd.github.v3+json";
     public static final String[] SCOPES = {"user", "repo", "notifications", "gist", "admin:org"};
     public static final String NOTE = "DroidGitHub";
     public static final String NOTE_URL = "https://github.com/sunfusheng/GitHub";
     public static final String CLIENT_ID = "0af4dd82697eaea821d5";
     public static final String CLIENT_SECRET = "2d7abc27a2812e3927257a7ae3274475a0505907";
 
-    public static final int PER_PAGE_10 = 10;
-    public static final int PER_PAGE_20 = 20;
-    public static final int PER_PAGE_30 = 30;
-
+    public static final int PER_PAGE_COUNT = 30;
     public static final int _10_MINUTES = 600;
-    public static final String HEADER_CACHE_10_MINUTES = "Cache-Control: public, max-age=" + _10_MINUTES;//缓存10分钟
 
     public static boolean isReceivedEventsRefreshTimeExpired() {
         long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, -1);

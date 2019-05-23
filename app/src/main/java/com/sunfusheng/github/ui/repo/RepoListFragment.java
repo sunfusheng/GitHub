@@ -66,7 +66,7 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
 
     private void observeRepos() {
         RepoViewModel viewModel = VmProvider.of(this, RepoViewModel.class);
-        viewModel.setRequestParams(username, 1, Constants.PER_PAGE_30, FetchMode.DEFAULT);
+        viewModel.setRequestParams(username, 1, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
             recyclerViewWrapper.setItems(it.data);

@@ -2,7 +2,8 @@ package com.sunfusheng.github.net.factory;
 
 import com.sunfusheng.github.BuildConfig;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.net.interceptor.CacheInterceptor;
+import com.sunfusheng.github.net.interceptor.BaseInterceptor;
+import com.sunfusheng.github.net.interceptor.BaseNetworkInterceptor;
 import com.sunfusheng.github.util.CollectionUtil;
 import com.sunfusheng.github.util.SdCardUtil;
 
@@ -22,21 +23,18 @@ public class OkHttpClientFactory {
 
     public static OkHttpClient create(@FetchMode int fetchMode, Interceptor... interceptors) {
         Cache cache = new Cache(SdCardUtil.getDiskCacheDir("http-cache"), MAX_CACHE_SIZE);
-        CacheInterceptor cacheInterceptor = new CacheInterceptor(fetchMode);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(cacheInterceptor)
-                .addNetworkInterceptor(cacheInterceptor)
+                .addInterceptor(new BaseInterceptor(fetchMode))
+                .addNetworkInterceptor(new BaseNetworkInterceptor(fetchMode))
                 .cache(cache);
 
         if (BuildConfig.debugMode) {
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
-            builder.addInterceptor(loggingInterceptor);
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC));
         }
 
         if (!CollectionUtil.isEmpty(interceptors)) {

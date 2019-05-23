@@ -34,7 +34,7 @@
     <color name="font_light_green_normal">#331AAD19</color>
     <color name="font_light_green_pressed">#661AAD19</color>
 
-    <color name="background_common">#ffffffff</color>
+    <color name="background_common">#ffffff</color>
     <color name="background_common_dark">#ebebeb</color>
     <color name="background_common_darker">#cccccc</color>
 

@@ -3,22 +3,21 @@ package com.sunfusheng.github.ui.repo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.annotation.ProgressState;
+import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.ui.base.BaseFragment;
-import com.sunfusheng.github.util.FileUtil;
-import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
-import com.sunfusheng.github.util.ToastUtil;
-import com.sunfusheng.github.viewmodel.ReadmeViewModel;
-import com.sunfusheng.github.viewmodel.base.VmProvider;
+import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.widget.app.ReadMeWebView;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author by sunfusheng on 2018/11/14
@@ -27,6 +26,8 @@ public class RepoDetailFragment extends BaseFragment {
 
     private ReadMeWebView vReadMe;
 
+    private String repoName;
+    private String username;
     private String repoFullName;
 
     public static RepoDetailFragment instance(String repoFullName) {
@@ -63,32 +64,26 @@ public class RepoDetailFragment extends BaseFragment {
         if (arguments != null) {
             repoFullName = arguments.getString(Constants.Bundle.REPO_FULL_NAME);
         }
+        username = Utils.getUserName(repoFullName);
+        repoName = Utils.getRepoName(repoFullName);
     }
 
     private void initView() {
-        toolbar.setTitle(repoFullName);
-
+        toolbar.setTitle(Utils.getRepoName(repoFullName));
         vReadMe = getView().findViewById(R.id.vReadMe);
     }
 
     private void initReadmeView() {
-        ReadmeViewModel vm = VmProvider.of(getContext(), ReadmeViewModel.class);
-        vm.setRequestParams(repoFullName);
+        String url = "https://api.github.com/repos/" + repoFullName + "/readme";
+        String baseUrl = "https://github.com/" + repoFullName + "/blob/master/README.md";
 
-        vm.liveData.observe(this, it -> {
-            switch (it.progressState) {
-                case ProgressState.SUCCESS:
-                    String fileContent = FileUtil.convertFileToString(ReadmeViewModel.getReadmeFilePath(repoFullName.split("/")[0]));
-                    String htmlText = HtmlUtil.getReadMeData(fileContent);
-                    if (!TextUtils.isEmpty(htmlText)) {
-                        vReadMe.loadData(htmlText);
-                    }
-                    break;
-                case ProgressState.ERROR:
-                    ToastUtil.toast(it.errorMsg);
-                    break;
-            }
-        });
+        Disposable disposable = Api.getWebPageService().getFileAsHtmlStream(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(it -> {
+                    vReadMe.setMdSource(it.body().string(), baseUrl, false);
+                }, Throwable::printStackTrace);
     }
+
 
 }

@@ -4,7 +4,6 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.net.factory.OkHttpClientFactory;
 import com.sunfusheng.github.net.factory.RetrofitFactory;
-import com.sunfusheng.github.net.interceptor.CommonHeaderInterceptor;
 import com.sunfusheng.github.net.interceptor.LoginHeaderInterceptor;
 
 import java.util.HashMap;
@@ -19,22 +18,21 @@ import retrofit2.Retrofit;
 public class Api {
 
     private static final Api instance = new Api();
+    private static Map<String, Retrofit> retrofitMap = new HashMap<>();
 
     public static Api getInstance() {
         return instance;
     }
 
-    private static Map<String, Retrofit> retrofitMap = new HashMap<>();
-
     private Api() {
     }
 
     private static <T> T getService(String baseUrl, boolean isJson, Class<T> service, @FetchMode int fetchMode, Interceptor... interceptors) {
-        StringBuilder key = new StringBuilder();
-        key.append(baseUrl);
-        key.append("-").append(isJson);
-        key.append("-").append(service.getSimpleName());
-        key.append("-").append(fetchMode);
+//        StringBuilder key = new StringBuilder();
+//        key.append(baseUrl);
+//        key.append("_").append(isJson);
+//        key.append("_").append(service.getSimpleName());
+//        key.append("_").append(fetchMode);
 //        Retrofit retrofit = retrofitMap.get(key.toString());
 //        if (retrofit == null) {
 //            retrofit = RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors), baseUrl, isJson);
@@ -54,7 +52,7 @@ public class Api {
     }
 
     public static CommonService getCommonService(@FetchMode int fetchMode) {
-        return getCommonService(CommonService.class, fetchMode, new CommonHeaderInterceptor());
+        return getCommonService(CommonService.class, fetchMode, (Interceptor[]) null);
     }
 
     public static CommonService getCommonService() {
@@ -66,6 +64,6 @@ public class Api {
     }
 
     public static WebPageService getWebPageService() {
-        return getWebPageService(WebPageService.class, FetchMode.REMOTE, new CommonHeaderInterceptor());
+        return getWebPageService(WebPageService.class, FetchMode.REMOTE, (Interceptor[]) null);
     }
 }

@@ -43,7 +43,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private List<Object> items = new ArrayList<>();
     private static final int FIRST_PAGE = 1;
-    private static final int PER_PAGE = Constants.PER_PAGE_30;
+    private static final int PER_PAGE = Constants.PER_PAGE_COUNT;
     private int page = FIRST_PAGE;
 
     private String username;

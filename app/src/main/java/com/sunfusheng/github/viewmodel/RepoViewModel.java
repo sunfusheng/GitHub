@@ -21,7 +21,7 @@ public class RepoViewModel extends BaseViewModel {
             Transformations.switchMap(requestParams, input -> getRepos(input.username, input.page, input.perPage, input.fetchMode));
 
     public void setRequestParams(String username, int page, @FetchMode int fetchMode) {
-        setRequestParams(username, page, Constants.PER_PAGE_30, fetchMode);
+        setRequestParams(username, page, Constants.PER_PAGE_COUNT, fetchMode);
     }
 
     public void setRequestParams(String username, int page, int perPage, @FetchMode int fetchMode) {
