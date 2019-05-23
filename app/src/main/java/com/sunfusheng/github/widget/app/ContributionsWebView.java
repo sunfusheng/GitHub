@@ -6,7 +6,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.util.DisplayUtil;
 
 /**
  * @author sunfusheng on 2018/4/20.
@@ -38,24 +37,20 @@ public class ContributionsWebView extends WebView {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
+                postDelayed(() -> scrollTo(Integer.MAX_VALUE, 0), 50);
             }
         });
     }
 
     public void loadData(String data) {
-        loadDataWithBaseURL(null, data, "text/html; charset=UTF-8", null, null);
-        scrollTo(DisplayUtil.getWindowWidth(getContext()), 0);
+        postDelayed(() -> {
+            loadDataWithBaseURL(null, data, "text/html; charset=UTF-8", null, null);
+            scrollTo(Integer.MAX_VALUE, 0);
+        }, 50);
     }
 
     @Override
     protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
         super.onOverScrolled(scrollX, 0, clampedX, clampedY);
     }
-
-    @Override
-    public void scrollTo(int x, int y) {
-        super.scrollTo(x, 0);
-    }
-
 }

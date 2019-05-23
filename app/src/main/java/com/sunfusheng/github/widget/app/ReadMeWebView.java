@@ -1,5 +1,6 @@
 package com.sunfusheng.github.widget.app;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -37,6 +38,7 @@ public class ReadMeWebView extends WebView {
         init();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void init() {
         setBackgroundColor(getResources().getColor(R.color.white));
 
