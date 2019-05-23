@@ -89,5 +89,4 @@ public class RepoDetailFragment extends BaseFragment {
                     vReadMe.setMdSource(it.body().string(), baseUrl, false);
                 }, Throwable::printStackTrace);
     }
-
 }
