@@ -60,8 +60,8 @@
     <color name="white">#FFFFFF</color>  <!-- 白色 -->
     <color name="yellow">#FFFF00</color> <!-- 黄色 -->
     <color name="gold">#FFD700</color>   <!-- 金色 -->
-    <color name="orange">#FFA500</color> <!-- 橙色 -->
-    <color name="red">#FF0000</color>    <!-- 红色 -->
+    <color name="orange">#FF7E33</color> <!-- 橙色 -->
+    <color name="red">#C34A42</color>    <!-- 红色 -->
     <color name="gray">#808080</color>   <!-- 灰色 -->
     <color name="green">#1AAD19</color>  <!-- 绿色 -->
     <color name="blue">#0000FF</color>   <!-- 蓝色 -->
