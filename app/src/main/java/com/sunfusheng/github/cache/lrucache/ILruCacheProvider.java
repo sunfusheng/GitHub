@@ -1,4 +1,4 @@
-package com.sunfusheng.github.datasource.lrucache;
+package com.sunfusheng.github.cache.lrucache;
 
 /**
  * @author sunfusheng on 2018/7/24.

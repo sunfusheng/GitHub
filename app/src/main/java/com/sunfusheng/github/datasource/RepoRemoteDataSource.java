@@ -1,6 +1,6 @@
 package com.sunfusheng.github.datasource;
 
-import com.sunfusheng.github.db.RepoDatabase;
+import com.sunfusheng.github.cache.db.RepoDatabase;
 import com.sunfusheng.github.datasource.base.RemoteDataSource;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.net.Api;

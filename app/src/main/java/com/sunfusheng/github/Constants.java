@@ -3,6 +3,7 @@ package com.sunfusheng.github;
 import android.os.Environment;
 
 import com.sunfusheng.github.util.PreferenceUtil;
+import com.sunfusheng.github.util.SdCardUtil;
 
 import java.io.File;
 
@@ -54,5 +55,11 @@ public class Constants {
         public static final String CACHE = ROOT_DIR + "cache" + File.separator;
         public static final String IMAGE = ROOT_DIR + "image" + File.separator;
         public static final String FILE = ROOT_DIR + "file" + File.separator;
+    }
+
+    public static class CacheDir {
+        public static final File OKHTTP = SdCardUtil.getDiskCacheDir("okhttp");
+        public static final File CONTRIBUTION = SdCardUtil.getDiskCacheDir("contribution");
+        public static final File README = SdCardUtil.getDiskCacheDir("readme");
     }
 }

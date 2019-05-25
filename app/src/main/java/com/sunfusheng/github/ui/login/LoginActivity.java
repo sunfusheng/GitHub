@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.db.UserDatabase;
+import com.sunfusheng.github.cache.db.UserDatabase;
 import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.ui.NavigationManager;

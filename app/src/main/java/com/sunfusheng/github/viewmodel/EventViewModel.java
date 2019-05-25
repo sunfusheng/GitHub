@@ -6,7 +6,7 @@ import android.arch.lifecycle.Transformations;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.EventRemoteDataSource;
-import com.sunfusheng.github.datasource.lrucache.RepoLruCache;
+import com.sunfusheng.github.cache.lrucache.RepoLruCache;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.net.response.ResponseResult;
 

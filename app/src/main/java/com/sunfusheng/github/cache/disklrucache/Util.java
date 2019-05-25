@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sunfusheng.github.datasource.disklrucache;
+package com.sunfusheng.github.cache.disklrucache;
 
 import java.io.Closeable;
 import java.io.File;

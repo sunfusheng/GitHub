@@ -1,6 +1,6 @@
 package com.sunfusheng.github.datasource;
 
-import com.sunfusheng.github.db.UserDatabase;
+import com.sunfusheng.github.cache.db.UserDatabase;
 import com.sunfusheng.github.datasource.base.RemoteDataSource;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.net.Api;

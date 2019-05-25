@@ -1,11 +1,11 @@
 package com.sunfusheng.github.net.factory;
 
 import com.sunfusheng.github.BuildConfig;
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.net.interceptor.BaseInterceptor;
 import com.sunfusheng.github.net.interceptor.BaseNetworkInterceptor;
 import com.sunfusheng.github.util.CollectionUtil;
-import com.sunfusheng.github.util.SdCardUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +22,7 @@ public class OkHttpClientFactory {
     private static final int MAX_CACHE_SIZE = 1024 * 1024 * 20; // 20MB
 
     public static OkHttpClient create(@FetchMode int fetchMode, Interceptor... interceptors) {
-        Cache cache = new Cache(SdCardUtil.getDiskCacheDir("http-cache"), MAX_CACHE_SIZE);
+        Cache cache = new Cache(Constants.CacheDir.OKHTTP, MAX_CACHE_SIZE);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)

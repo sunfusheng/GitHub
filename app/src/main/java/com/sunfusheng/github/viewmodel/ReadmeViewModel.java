@@ -23,7 +23,7 @@ public class ReadmeViewModel extends ViewModel {
 
     public static final String README_DIR = "readme";
 
-    private final MutableLiveData<String> params = new MutableLiveData();
+    private final MutableLiveData<String> params = new MutableLiveData<>();
 
     public final LiveData<ProgressResult<String>> liveData =
             Transformations.switchMap(params, this::downloadReadmeFile);
@@ -39,10 +39,6 @@ public class ReadmeViewModel extends ViewModel {
     public static String getRemoteReadmePath(String repoFullName) {
         return Constants.BASE_WEB_PAGE_URL + repoFullName;
     }
-
-//    public static String getRemoteReadmePath(String repoFullName) {
-//        return "https://raw.githubusercontent.com/" + repoFullName + "/master/README.md";
-//    }
 
     private LiveData<ProgressResult<String>> downloadReadmeFile(String repoFullName) {
         String username = repoFullName.split("/")[0];
