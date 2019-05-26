@@ -1,94 +1,71 @@
 package com.sunfusheng.github.viewmodel;
 
-import android.Manifest;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.text.TextUtils;
 
-import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.net.download.DownloadManager;
-import com.sunfusheng.github.net.download.IDownloadListener;
-import com.sunfusheng.github.net.download.ProgressResult;
-import com.sunfusheng.github.util.AppUtil;
-import com.sunfusheng.github.util.PermissionUtil;
-import com.sunfusheng.github.util.SdCardUtil;
+import com.sunfusheng.github.datasource.ReadmeDataSource;
+import com.sunfusheng.github.datasource.base.RemoteDataSource;
+import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.multistate.LoadingState;
 
-import java.io.File;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author by sunfusheng on 2018/11/19
  */
 public class ReadmeViewModel extends ViewModel {
 
-    public static final String README_DIR = "readme";
-
     private final MutableLiveData<String> params = new MutableLiveData<>();
 
-    public final LiveData<ProgressResult<String>> liveData =
-            Transformations.switchMap(params, this::downloadReadmeFile);
+    public final LiveData<ResponseResult<String>> liveData =
+            Transformations.switchMap(params, this::fetchReadme);
 
     public void setRequestParams(String repoFullName) {
         params.setValue(repoFullName);
     }
 
-    public static String getReadmeFilePath(String username) {
-        return SdCardUtil.getDiskCacheDir(README_DIR).getPath() + File.separator + username + "_readme.html";
-    }
+    private Disposable mDisposable;
 
-    public static String getRemoteReadmePath(String repoFullName) {
-        return Constants.BASE_WEB_PAGE_URL + repoFullName;
-    }
+    private LiveData<ResponseResult<String>> fetchReadme(String repoFullName) {
+        MutableLiveData<ResponseResult<String>> mutableLiveData = new MutableLiveData<>();
 
-    private LiveData<ProgressResult<String>> downloadReadmeFile(String repoFullName) {
-        String username = repoFullName.split("/")[0];
-        MutableLiveData<ProgressResult<String>> mutableLiveData = new MutableLiveData<>();
-
-        String filePath = getReadmeFilePath(username);
-        File file = new File(filePath);
-        if (file.exists()) {
-            mutableLiveData.setValue(ProgressResult.success(username));
+        String readme = ReadmeDataSource.getInstant().getReadme(repoFullName);
+        if (!TextUtils.isEmpty(readme)) {
+            mutableLiveData.setValue(ResponseResult.success(readme));
         }
 
-        PermissionUtil.getInstant().requestPermission(AppUtil.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionUtil.OnPermissionCallback() {
-            @Override
-            public void onGranted() {
-                File dir = SdCardUtil.getDiskCacheDir(README_DIR);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-
-                DownloadManager.instance().download(getRemoteReadmePath(repoFullName), filePath,
-                        new IDownloadListener() {
-                            @Override
-                            public void onStart() {
-                                mutableLiveData.setValue(ProgressResult.start());
-                            }
-
-                            @Override
-                            public void onSuccess(File file) {
-                                mutableLiveData.setValue(ProgressResult.success(username));
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                                mutableLiveData.setValue(ProgressResult.error(e));
-                            }
-
-                            @Override
-                            public void onProgress(long bytesTransferred, long totalBytes, int percentage) {
-                                mutableLiveData.setValue(ProgressResult.progress(percentage));
-                            }
-                        });
-            }
-
-            @Override
-            public void onDenied() {
-                mutableLiveData.setValue(ProgressResult.error("请打开读写权限！"));
-            }
-        });
-
+        mDisposable = Api.getCommonService().fetchReadme(repoFullName)
+                .subscribeOn(Schedulers.io())
+                .compose(RemoteDataSource.applyRemoteTransformer())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(it -> {
+                    if (it.loadingState == LoadingState.LOADING) {
+                        mutableLiveData.setValue(ResponseResult.loading());
+                    } else if (it.loadingState == LoadingState.SUCCESS) {
+                        String response = it.data.string();
+                        ReadmeDataSource.getInstant().cacheReadme(repoFullName, response);
+                        mutableLiveData.setValue(ResponseResult.success(response));
+                    } else if (it.loadingState == LoadingState.ERROR) {
+                        mutableLiveData.setValue(ResponseResult.error(it.code));
+                    } else if (it.loadingState == LoadingState.EMPTY) {
+                        mutableLiveData.setValue(ResponseResult.empty(it.code));
+                    }
+                }, Throwable::printStackTrace);
         return mutableLiveData;
+    }
+
+    @Override
+    protected void onCleared() {
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+            mDisposable = null;
+        }
+        super.onCleared();
     }
 }

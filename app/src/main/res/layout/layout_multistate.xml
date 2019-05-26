@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sunfusheng.github.widget.multistate.MultiStateView
-    android:id="@+id/multiStateView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sunfusheng.multistate.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/multiStateView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:emptyLayout="@layout/layout_empty_default"
-    app:errorLayout="@layout/layout_error_default"
-    app:loadingLayout="@layout/layout_loading_default"
-    app:loadingState="loading"/>
+    app:errorLayout="@layout/layout_error"
+    app:loadingLayout="@layout/layout_loading"
+    app:loadingState="loading" />

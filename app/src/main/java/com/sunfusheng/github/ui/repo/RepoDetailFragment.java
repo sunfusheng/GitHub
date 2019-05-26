@@ -10,21 +10,21 @@ import android.view.ViewGroup;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
+import com.sunfusheng.github.viewmodel.ReadmeViewModel;
+import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.app.ReadMeWebView;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import com.sunfusheng.multistate.LoadingState;
+import com.sunfusheng.multistate.MultiStateView;
 
 /**
  * @author by sunfusheng on 2018/11/14
  */
 public class RepoDetailFragment extends BaseFragment {
 
+    private MultiStateView vMultiStateView;
     private ReadMeWebView vReadMe;
 
     private String repoName;
@@ -51,7 +51,6 @@ public class RepoDetailFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_repo_detail, container, false);
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
@@ -75,18 +74,25 @@ public class RepoDetailFragment extends BaseFragment {
 
     private void initView() {
         toolbar.setTitle(repoName);
+        vMultiStateView = getView().findViewById(R.id.multiStateView);
         vReadMe = getView().findViewById(R.id.vReadMe);
     }
 
     private void initReadmeView() {
-        String url = "https://api.github.com/repos/" + repoFullName + "/readme";
+        vReadMe.setVisibility(View.GONE);
+        vMultiStateView.setVisibility(View.VISIBLE);
+        vMultiStateView.setLoadingState(LoadingState.LOADING);
         String baseUrl = "https://github.com/" + repoFullName + "/blob/master/README.md";
 
-        Disposable disposable = Api.getWebPageService().getFileAsHtmlStream(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(it -> {
-                    vReadMe.setMdSource(it.body().string(), baseUrl, false);
-                }, Throwable::printStackTrace);
+        ReadmeViewModel viewModel = VmProvider.of(this, ReadmeViewModel.class);
+        viewModel.liveData.observe(this, it -> {
+            if (it.loadingState == LoadingState.SUCCESS) {
+                vMultiStateView.setVisibility(View.GONE);
+                vReadMe.setVisibility(View.VISIBLE);
+                vReadMe.setMdSource(it.data, baseUrl, false);
+            }
+        });
+
+        viewModel.setRequestParams(repoFullName);
     }
 }

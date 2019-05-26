@@ -9,10 +9,12 @@ import com.sunfusheng.github.model.User;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -95,6 +97,12 @@ public interface CommonService {
     @DELETE("/user/following/{username}")
     Observable<Response<Boolean>> unfollow(
             @Path("username") String username
+    );
+
+    @GET("repos/{repoFullName}/readme")
+    @Headers("Accept: application/vnd.github.html")
+    Observable<Response<ResponseBody>> fetchReadme(
+            @Path(value = "repoFullName", encoded = true) String repoFullName
     );
 
 }
