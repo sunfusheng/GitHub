@@ -20,13 +20,13 @@ import java.io.File;
  */
 public class ContributionsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> params = new MutableLiveData<>();
+    private final MutableLiveData<String> mParams = new MutableLiveData<>();
 
     public final LiveData<ProgressResult<String>> liveData =
-            Transformations.switchMap(params, this::downloadContributionsFile);
+            Transformations.switchMap(mParams, this::downloadContributionsFile);
 
-    public void setRequestParams(String username) {
-        params.setValue(username);
+    public void request(String username) {
+        mParams.setValue(username);
     }
 
     public static String getContributionsFilePath(String username) {

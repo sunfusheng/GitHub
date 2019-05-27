@@ -16,6 +16,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.orhanobut.logger.Logger;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.ViewUtil;
 import com.sunfusheng.github.util.readme.ReadmeHtmlUtil;
@@ -79,11 +80,15 @@ public class ReadMeWebView extends WebView {
         });
     }
 
-    public void setMdSource(@NonNull String source, @Nullable String baseUrl, boolean wrapCode) {
-        if (TextUtils.isEmpty(source)) return;
-        String page = ReadmeHtmlUtil.generateMdHtml(source, baseUrl, false,
-                getWebBackgroundColor(), getAccentColor(), wrapCode);
+    public void setReadme(@Nullable String repoFullName, @NonNull String readme) {
+        if (TextUtils.isEmpty(repoFullName) || TextUtils.isEmpty(readme)) {
+            Logger.e("ReadMeWebView TextUtils.isEmpty(repoFullName) || TextUtils.isEmpty(readme)");
+            return;
+        }
 
+        String baseUrl = "https://github.com/" + repoFullName + "/blob/master/README.md";
+        String page = ReadmeHtmlUtil.generateMdHtml(readme, baseUrl, false,
+                getWebBackgroundColor(), getAccentColor(), false);
         loadPage(page);
     }
 

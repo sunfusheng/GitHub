@@ -13,7 +13,7 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.viewbinder.RepoBinder;
-import com.sunfusheng.github.viewmodel.RepoViewModel;
+import com.sunfusheng.github.viewmodel.RepoListViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
@@ -65,12 +65,11 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
     }
 
     private void observeRepos() {
-        RepoViewModel viewModel = VmProvider.of(this, RepoViewModel.class);
-        viewModel.setRequestParams(username, 1, FetchMode.DEFAULT);
-
+        RepoListViewModel viewModel = VmProvider.of(this, RepoListViewModel.class);
         viewModel.liveData.observe(this, it -> {
             recyclerViewWrapper.setItems(it.data);
         });
+        viewModel.request(username, 1, FetchMode.DEFAULT);
     }
 
     @Override

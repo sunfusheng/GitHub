@@ -16,21 +16,21 @@ import io.reactivex.disposables.Disposable;
  */
 public class ObservableLiveData<T> extends LiveData<ResponseResult<T>> {
 
-    private final Observable<ResponseResult<T>> observable;
-    private WeakReference<Disposable> disposableWeakReference;
+    private final Observable<ResponseResult<T>> mObservable;
+    private WeakReference<Disposable> mDisposableWeakReference;
 
     public static <T> LiveData<ResponseResult<T>> fromObservable(@NonNull Observable<ResponseResult<T>> observable) {
         return new ObservableLiveData<>(observable);
     }
 
     public ObservableLiveData(@NonNull Observable<ResponseResult<T>> observable) {
-        this.observable = observable;
+        this.mObservable = observable;
     }
 
     @Override
     protected void onActive() {
         super.onActive();
-        observable.subscribe(new ResponseObserver<T>() {
+        mObservable.subscribe(new ResponseObserver<T>() {
             @Override
             public void onNotify(ResponseResult<T> result) {
                 postValue(result);
@@ -45,12 +45,12 @@ public class ObservableLiveData<T> extends LiveData<ResponseResult<T>> {
     }
 
     public void release() {
-        if (disposableWeakReference != null) {
-            Disposable disposable = disposableWeakReference.get();
+        if (mDisposableWeakReference != null) {
+            Disposable disposable = mDisposableWeakReference.get();
             if (disposable != null && !disposable.isDisposed()) {
                 disposable.dispose();
             }
-            disposableWeakReference = null;
+            mDisposableWeakReference = null;
         }
     }
 }

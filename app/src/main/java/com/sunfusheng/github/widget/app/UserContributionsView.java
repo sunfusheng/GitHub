@@ -49,7 +49,7 @@ public class UserContributionsView extends LinearLayout {
 
     public void setUsername(String username) {
         ContributionsViewModel vm = VmProvider.of(getContext(), ContributionsViewModel.class);
-        vm.setRequestParams(username);
+        vm.request(username);
 
         vm.liveData.observe(VM.getActivity(getContext()), it -> {
             if (it == null) return;

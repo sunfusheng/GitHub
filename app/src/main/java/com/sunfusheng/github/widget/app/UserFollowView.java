@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.datasource.base.RemoteDataSource;
+import com.sunfusheng.github.datasource.DataSourceHelper;
 import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.net.response.ResponseObserver;
 import com.sunfusheng.github.net.response.ResponseResult;
@@ -57,7 +57,7 @@ public class UserFollowView extends RelativeLayout {
         vFollow.setOnClickListener(v -> {
             if (hasFollowed) {
                 Api.getCommonService().unfollow(username).subscribeOn(Schedulers.io())
-                        .compose(RemoteDataSource.applyRemoteTransformer())
+                        .compose(DataSourceHelper.applyRemoteTransformer())
                         .observeOn(AndroidSchedulers.mainThread())
                         .compose(RxLifecycleAndroid.bindView(this))
                         .subscribe(new ResponseObserver<Boolean>() {
@@ -68,7 +68,7 @@ public class UserFollowView extends RelativeLayout {
                         });
             } else {
                 Api.getCommonService().follow(username).subscribeOn(Schedulers.io())
-                        .compose(RemoteDataSource.applyRemoteTransformer())
+                        .compose(DataSourceHelper.applyRemoteTransformer())
                         .observeOn(AndroidSchedulers.mainThread())
                         .compose(RxLifecycleAndroid.bindView(this))
                         .subscribe(new ResponseObserver<Boolean>() {
@@ -89,7 +89,7 @@ public class UserFollowView extends RelativeLayout {
 
         Api.getCommonService().fetchFollowed(username)
                 .subscribeOn(Schedulers.io())
-                .compose(RemoteDataSource.applyRemoteTransformer())
+                .compose(DataSourceHelper.applyRemoteTransformer())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleAndroid.bindView(this))
                 .subscribe(new ResponseObserver<Boolean>() {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,8 @@ import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
-import com.sunfusheng.github.viewmodel.EventViewModel;
-import com.sunfusheng.github.viewmodel.UserViewModel;
+import com.sunfusheng.github.viewmodel.ReceivedEventsViewModel;
+import com.sunfusheng.github.viewmodel.UserDetailViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.SvgView;
 import com.sunfusheng.multistate.LoadingState;
@@ -43,12 +42,12 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private List<Object> items = new ArrayList<>();
     private static final int FIRST_PAGE = 1;
-    private static final int PER_PAGE = Constants.PER_PAGE_COUNT;
-    private int page = FIRST_PAGE;
+    private int mPage = FIRST_PAGE;
+    private int mPageCount = Constants.PAGE_COUNT;
 
-    private String username;
-    private UserViewModel userViewModel;
-    private EventViewModel eventViewModel;
+    private String mUsername;
+    private UserDetailViewModel mUserDetailViewModel;
+    private ReceivedEventsViewModel mReceivedEventsViewModel;
 
     @Nullable
     @Override
@@ -83,11 +82,11 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     }
 
     protected void initData() {
-        if (TextUtils.isEmpty(username)) {
-            username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
-            userViewModel = VmProvider.of(this, UserViewModel.class);
-            userViewModel.setRequestParams(username, FetchMode.DEFAULT);
+        if (TextUtils.isEmpty(mUsername)) {
+            mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
         }
+        mUserDetailViewModel = VmProvider.of(this, UserDetailViewModel.class);
+        mUserDetailViewModel.request(mUsername, FetchMode.DEFAULT);
     }
 
     private void initView() {
@@ -104,41 +103,40 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     }
 
     private void observeReceivedEvents() {
-        eventViewModel = VmProvider.of(this, EventViewModel.class);
-        int fetchMode = Constants.isReceivedEventsRefreshTimeExpired() ? FetchMode.DEFAULT : FetchMode.LOCAL;
-        eventViewModel.setRequestParams(username, page, PER_PAGE, fetchMode);
-        isFirstLoading = true;
-
-        eventViewModel.liveData.observe(this, it -> {
-            Log.d("------>", it.toString());
+        mReceivedEventsViewModel = VmProvider.of(this, ReceivedEventsViewModel.class);
+        mReceivedEventsViewModel.liveData.observe(this, it -> {
             dealWithFirstLoading(it);
 
-            if (page == FIRST_PAGE && (it.fetchMode == FetchMode.REMOTE || it.fetchMode == FetchMode.FORCE_REMOTE)) {
+            if (mPage == FIRST_PAGE && (it.fetchMode == FetchMode.REMOTE || it.fetchMode == FetchMode.FORCE_REMOTE)) {
                 PreferenceUtil.getInstance().put(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
                 recyclerViewWrapper.setLoadingState(it.loadingState);
             }
 
             switch (it.loadingState) {
                 case LoadingState.SUCCESS:
-                    if (page == FIRST_PAGE) {
+                    if (mPage == FIRST_PAGE) {
                         items.clear();
                     }
                     items.addAll(it.data);
                     recyclerViewWrapper.setItems(items);
                     break;
                 case LoadingState.ERROR:
-                    if (page > FIRST_PAGE) {
-                        page--;
+                    if (mPage > FIRST_PAGE) {
+                        mPage--;
                     }
                     break;
             }
         });
+
+        int fetchMode = Constants.isReceivedEventsRefreshTimeExpired() ? FetchMode.DEFAULT : FetchMode.LOCAL;
+        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, fetchMode);
+        isFirstLoading = true;
     }
 
     private boolean isFirstLoading;
 
     private void dealWithFirstLoading(ResponseResult response) {
-        if (isFirstLoading && eventViewModel.getRequestFetchMode() != FetchMode.LOCAL) {
+        if (isFirstLoading && mReceivedEventsViewModel.getRequestFetchMode() != FetchMode.LOCAL) {
             switch (response.loadingState) {
                 case LoadingState.LOADING:
                     recyclerViewWrapper.enableRefresh(false);
@@ -166,14 +164,14 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     @Override
     public void onRefresh() {
         isFirstLoading = false;
-        page = FIRST_PAGE;
-        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.FORCE_REMOTE);
+        mPage = FIRST_PAGE;
+        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
     }
 
     @Override
     public void onLoadMore() {
         isFirstLoading = false;
-        page++;
-        eventViewModel.setRequestParams(username, page, PER_PAGE, FetchMode.REMOTE);
+        mPage++;
+        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.REMOTE);
     }
 }

@@ -1,5 +1,6 @@
 package com.sunfusheng.github.datasource;
 
+import com.orhanobut.logger.Logger;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.cache.disklrucache.DiskLruCache;
 import com.sunfusheng.github.util.MD5Util;
@@ -15,7 +16,6 @@ public class ReadmeDataSource {
     private static ReadmeDataSource sInstant = new ReadmeDataSource();
 
     private ReadmeDataSource() {
-
     }
 
     public static ReadmeDataSource getInstant() {
@@ -37,6 +37,7 @@ public class ReadmeDataSource {
     public void cacheReadme(String repoFullName, String data) {
         initDiskLruCache();
         if (mDiskLruCache == null) {
+            Logger.e("mDiskLruCache == null");
             return;
         }
 
@@ -55,6 +56,7 @@ public class ReadmeDataSource {
     public String getReadme(String repoFullName) {
         initDiskLruCache();
         if (mDiskLruCache == null) {
+            Logger.e("mDiskLruCache == null");
             return null;
         }
 
@@ -72,6 +74,7 @@ public class ReadmeDataSource {
     public boolean deleteReadme(String repoFullName) {
         initDiskLruCache();
         if (mDiskLruCache == null) {
+            Logger.e("mDiskLruCache == null");
             return false;
         }
 

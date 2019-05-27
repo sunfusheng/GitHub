@@ -23,7 +23,7 @@ public class Constants {
     public static final String CLIENT_ID = "0af4dd82697eaea821d5";
     public static final String CLIENT_SECRET = "2d7abc27a2812e3927257a7ae3274475a0505907";
 
-    public static final int PER_PAGE_COUNT = 30;
+    public static final int PAGE_COUNT = 30;
     public static final int _10_MINUTES = 600;
 
     public static boolean isReceivedEventsRefreshTimeExpired() {

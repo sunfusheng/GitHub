@@ -12,7 +12,7 @@ import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.viewmodel.UserViewModel;
+import com.sunfusheng.github.viewmodel.UserDetailViewModel;
 import com.sunfusheng.github.viewmodel.base.VM;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.multistate.LoadingState;
@@ -88,15 +88,13 @@ public class UserProfileView extends LinearLayout {
     }
 
     public void setUsername(String username) {
-        UserViewModel viewModel = VmProvider.of(getContext(), UserViewModel.class);
-        viewModel.setRequestParams(username, FetchMode.DEFAULT);
-
+        UserDetailViewModel viewModel = VmProvider.of(getContext(), UserDetailViewModel.class);
         viewModel.liveData.observe(VM.getActivity(getContext()), it -> {
-            if (it == null) return;
             if (it.loadingState == LoadingState.SUCCESS) {
                 setUser(it.data);
             }
         });
+        viewModel.request(username, FetchMode.DEFAULT);
     }
 
     public void setLoadingState(@LoadingState int loadingState) {

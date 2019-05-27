@@ -4,7 +4,6 @@ import android.util.Pair;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.datasource.base.RemoteDataSource;
 import com.sunfusheng.github.cache.lrucache.RepoLruCache;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
@@ -21,29 +20,42 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * @author sunfusheng on 2018/5/7.
+ * @author by sunfusheng on 2019-05-27
  */
-public class EventRemoteDataSource extends RemoteDataSource {
-    private static EventRemoteDataSource instance = new EventRemoteDataSource();
+public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
+    private String mUsername;
+    private int mPage;
+    private int mPageCount;
+    private int mFetchMode;
 
-    private EventRemoteDataSource() {
+    public ReceivedEventsDataSource(String username, int page, int pageCount, @FetchMode int fetchMode) {
+        this.mUsername = username;
+        this.mPage = page;
+        this.mPageCount = pageCount;
+        this.mFetchMode = fetchMode;
     }
 
-    public static EventRemoteDataSource instance() {
-        return instance;
+    @Override
+    public Observable<ResponseResult<List<Event>>> localObservable() {
+        return fetchReceivedEvents(FetchMode.LOCAL);
     }
 
-    public Observable<ResponseResult<List<Event>>> getReceivedEvents(String username, int page, int perPage, @FetchMode int fetchMode) {
-        return Api.getCommonService(fetchMode).fetchReceivedEvents(username, page, perPage)
+    @Override
+    public Observable<ResponseResult<List<Event>>> remoteObservable() {
+        return fetchReceivedEvents(mFetchMode);
+    }
+
+    public Observable<ResponseResult<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
+        return Api.getCommonService(fetchMode).fetchReceivedEvents(mUsername, mPage, mPageCount)
                 .subscribeOn(Schedulers.io())
-                .compose(applyRemoteTransformer())
+                .compose(DataSourceHelper.applyRemoteTransformer())
                 .flatMap(it -> {
-                    if (isLoadingSuccess(it)) {
+                    if (DataSourceHelper.isSuccess(it)) {
                         Set<String> urlSet = new HashSet<>();
                         for (Event event : it.data) {
                             urlSet.add(event.repo.url);
                         }
-                        return fetchData(urlSet, fetchMode)
+                        return fetchRepoDetail(urlSet, fetchMode)
                                 .map(map -> {
                                     for (Event event : it.data) {
                                         event.repo = map.get(event.repo.url);
@@ -55,7 +67,7 @@ public class EventRemoteDataSource extends RemoteDataSource {
                 });
     }
 
-    private Observable<Map<String, Repo>> fetchData(Set<String> urlSet, @FetchMode int fetchMode) {
+    private Observable<Map<String, Repo>> fetchRepoDetail(Set<String> urlSet, @FetchMode int fetchMode) {
         return Observable.defer(() -> {
             return Observable.just(urlSet)
                     .flatMap(Observable::fromIterable)
@@ -63,10 +75,10 @@ public class EventRemoteDataSource extends RemoteDataSource {
                         if (RepoLruCache.getInstance().get(url) != null && !Constants.isReceivedEventsRefreshTimeExpired()) {
                             return Observable.just(new Pair<>(url, RepoLruCache.getInstance().get(url)));
                         }
-                        return Api.getCommonService(fetchMode).fetchRepo(url)
-                                .compose(applyRemoteTransformer())
+                        return Api.getCommonService(fetchMode).fetchRepoDetail(url)
+                                .compose(DataSourceHelper.applyRemoteTransformer())
                                 .map(repoResult -> {
-                                    if (isLoadingSuccess(repoResult)) {
+                                    if (DataSourceHelper.isSuccess(repoResult)) {
                                         RepoLruCache.getInstance().put(url, repoResult.data);
                                         return new Pair<>(url, repoResult.data);
                                     }

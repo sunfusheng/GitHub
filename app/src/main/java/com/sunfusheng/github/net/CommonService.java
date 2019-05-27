@@ -35,12 +35,12 @@ public interface CommonService {
     );
 
     @GET("users/{username}")
-    Observable<Response<User>> fetchUser(
+    Observable<Response<User>> fetchUserDetail(
             @Path("username") String username
     );
 
     @GET("users/{username}/repos")
-    Observable<Response<List<Repo>>> fetchRepos(
+    Observable<Response<List<Repo>>> fetchRepoList(
             @Path("username") String username,
             @Query("page") int page,
             @Query("per_page") int per_page,
@@ -62,7 +62,7 @@ public interface CommonService {
     );
 
     @GET
-    Observable<Response<Repo>> fetchRepo(
+    Observable<Response<Repo>> fetchRepoDetail(
             @Url String url
     );
 

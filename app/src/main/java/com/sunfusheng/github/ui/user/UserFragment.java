@@ -23,7 +23,7 @@ import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
-import com.sunfusheng.github.viewmodel.UserViewModel;
+import com.sunfusheng.github.viewmodel.UserDetailViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout;
@@ -53,7 +53,7 @@ public class UserFragment extends BaseFragment {
     private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
     private int currTabIndex = 0;
     private int lastTabIndex = -1;
-    private String username;
+    private String mUsername;
 
     public static UserFragment instance(String username) {
         UserFragment fragment = new UserFragment();
@@ -89,11 +89,11 @@ public class UserFragment extends BaseFragment {
     private void initData() {
         Bundle arguments = getArguments();
         if (arguments != null) {
-            username = arguments.getString(Constants.Bundle.USERNAME);
+            mUsername = arguments.getString(Constants.Bundle.USERNAME);
         }
 
-        if (TextUtils.isEmpty(username)) {
-            username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
+        if (TextUtils.isEmpty(mUsername)) {
+            mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
         }
     }
 
@@ -139,8 +139,8 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeUser() {
-        UserViewModel viewModel = VmProvider.of(this, UserViewModel.class);
-        viewModel.setRequestParams(username, FetchMode.DEFAULT);
+        UserDetailViewModel viewModel = VmProvider.of(this, UserDetailViewModel.class);
+        viewModel.request(mUsername, FetchMode.DEFAULT);
 
         viewModel.liveData.observe(this, it -> {
             if (it == null) return;
@@ -156,8 +156,8 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeData() {
-        vUserFollow.setUsername(username);
-        vUserContributions.setUsername(username);
+        vUserFollow.setUsername(mUsername);
+        vUserContributions.setUsername(mUsername);
     }
 
     private void initViewPager() {
@@ -168,11 +168,11 @@ public class UserFragment extends BaseFragment {
         tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[4]), false);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter.Builder(getContext(), getChildFragmentManager())
-                .add(TAB_NAMES[0], RepoListFragment.newFragment(username))
-                .add(TAB_NAMES[1], RepoListFragment.newFragment(username))
-                .add(TAB_NAMES[2], RepoListFragment.newFragment(username))
-                .add(TAB_NAMES[3], RepoListFragment.newFragment(username))
-                .add(TAB_NAMES[4], RepoListFragment.newFragment(username))
+                .add(TAB_NAMES[0], RepoListFragment.newFragment(mUsername))
+                .add(TAB_NAMES[1], RepoListFragment.newFragment(mUsername))
+                .add(TAB_NAMES[2], RepoListFragment.newFragment(mUsername))
+                .add(TAB_NAMES[3], RepoListFragment.newFragment(mUsername))
+                .add(TAB_NAMES[4], RepoListFragment.newFragment(mUsername))
                 .build();
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);

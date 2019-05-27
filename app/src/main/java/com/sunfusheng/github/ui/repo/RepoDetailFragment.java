@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class RepoDetailFragment extends BaseFragment {
     private String repoName;
     private String username;
     private String repoFullName;
+    private String mReadme;
 
     public static RepoDetailFragment instance(String repoFullName) {
         RepoDetailFragment fragment = new RepoDetailFragment();
@@ -82,17 +84,21 @@ public class RepoDetailFragment extends BaseFragment {
         vReadMe.setVisibility(View.GONE);
         vMultiStateView.setVisibility(View.VISIBLE);
         vMultiStateView.setLoadingState(LoadingState.LOADING);
-        String baseUrl = "https://github.com/" + repoFullName + "/blob/master/README.md";
 
         ReadmeViewModel viewModel = VmProvider.of(this, ReadmeViewModel.class);
         viewModel.liveData.observe(this, it -> {
+            Log.d("sfs", "initReadmeView() loadingState: " + it.loadingState);
             if (it.loadingState == LoadingState.SUCCESS) {
                 vMultiStateView.setVisibility(View.GONE);
                 vReadMe.setVisibility(View.VISIBLE);
-                vReadMe.setMdSource(it.data, baseUrl, false);
+
+                if (TextUtils.isEmpty(mReadme) || mReadme.hashCode() != it.data.hashCode()) {
+                    mReadme = it.data;
+                    vReadMe.setReadme(repoFullName, mReadme);
+                }
             }
         });
 
-        viewModel.setRequestParams(repoFullName);
+        viewModel.request(repoFullName);
     }
 }

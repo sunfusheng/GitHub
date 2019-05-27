@@ -20,37 +20,32 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class BaseViewModel extends ViewModel {
 
-    protected final MutableLiveData<RequestParams> requestParams = new MutableLiveData<>();
+    protected final MutableLiveData<RequestParams> mParams = new MutableLiveData<>();
 
     public static class RequestParams {
         public String username;
         public int page;
-        public int perPage;
+        public int pageCount;
         public int fetchMode;
 
         public RequestParams(String username, int fetchMode) {
-            this(username, 1, Constants.PER_PAGE_COUNT, fetchMode);
+            this(username, 1, Constants.PAGE_COUNT, fetchMode);
         }
 
         public RequestParams(String username, int page, int fetchMode) {
-            this(username, page, Constants.PER_PAGE_COUNT, fetchMode);
+            this(username, page, Constants.PAGE_COUNT, fetchMode);
         }
 
-        public RequestParams(String username, int page, int perPage, int fetchMode) {
+        public RequestParams(String username, int page, int pageCount, int fetchMode) {
             this.username = username;
             this.page = page;
-            this.perPage = perPage;
+            this.pageCount = pageCount;
             this.fetchMode = NetworkUtil.isConnected() ? fetchMode : FetchMode.LOCAL;
         }
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-    }
-
     public RequestParams getRequestParams() {
-        return requestParams.getValue();
+        return mParams.getValue();
     }
 
     @FetchMode
@@ -61,9 +56,10 @@ public class BaseViewModel extends ViewModel {
         return FetchMode.DEFAULT;
     }
 
-    protected <T> LiveData<ResponseResult<T>> fetchData(@NonNull Observable<ResponseResult<T>> localObservable,
-                                                        @NonNull Observable<ResponseResult<T>> remoteObservable,
-                                                        @FetchMode int fetchMode) {
+    protected <T> LiveData<ResponseResult<T>> fetchData(
+            @NonNull Observable<ResponseResult<T>> localObservable,
+            @NonNull Observable<ResponseResult<T>> remoteObservable,
+            @FetchMode int fetchMode) {
         if (fetchMode == FetchMode.LOCAL) {
             return ObservableLiveData.fromObservable(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL));
         } else if (fetchMode == FetchMode.REMOTE) {
