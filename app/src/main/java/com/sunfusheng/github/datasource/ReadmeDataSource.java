@@ -1,88 +1,57 @@
 package com.sunfusheng.github.datasource;
 
-import com.orhanobut.logger.Logger;
-import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.cache.disklrucache.DiskLruCache;
-import com.sunfusheng.github.util.MD5Util;
+import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.cache.disklrucache.ReadmeDiskLruCache;
+import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.multistate.LoadingState;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author by sunfusheng on 2019-05-26
  */
-public class ReadmeDataSource {
+public class ReadmeDataSource extends BaseDataSource<String> {
+    private String mRepoFullName;
+    private int mFetchMode;
+    private ReadmeDiskLruCache mReadmeDiskLruCache = new ReadmeDiskLruCache();
 
-    private static ReadmeDataSource sInstant = new ReadmeDataSource();
-
-    private ReadmeDataSource() {
+    public ReadmeDataSource(String repoFullName, @FetchMode int fetchMode) {
+        this.mRepoFullName = repoFullName;
+        this.mFetchMode = fetchMode;
     }
 
-    public static ReadmeDataSource getInstant() {
-        return sInstant;
+    @Override
+    public Observable<ResponseResult<String>> localObservable() {
+        return Observable.defer(() -> {
+            return Observable.create((ObservableOnSubscribe<ResponseResult<String>>) emitter -> {
+                DataSourceHelper.emitResult(emitter, mReadmeDiskLruCache.get(mRepoFullName));
+            });
+        }).subscribeOn(Schedulers.io());
     }
 
-    private DiskLruCache mDiskLruCache;
-
-    private void initDiskLruCache() {
-        if (mDiskLruCache == null) {
-            try {
-                mDiskLruCache = DiskLruCache.open(Constants.CacheDir.README, 1, 1, 1024 * 1024 * 20);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void cacheReadme(String repoFullName, String data) {
-        initDiskLruCache();
-        if (mDiskLruCache == null) {
-            Logger.e("mDiskLruCache == null");
-            return;
-        }
-
-        try {
-            DiskLruCache.Editor editor = mDiskLruCache.edit(MD5Util.hashKey(repoFullName));
-            OutputStream outputStream = editor.newOutputStream(0);
-            outputStream.write(data.getBytes());
-            outputStream.close();
-            editor.commit();
-            mDiskLruCache.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getReadme(String repoFullName) {
-        initDiskLruCache();
-        if (mDiskLruCache == null) {
-            Logger.e("mDiskLruCache == null");
-            return null;
-        }
-
-        try {
-            DiskLruCache.Snapshot snapshot = mDiskLruCache.get(MD5Util.hashKey(repoFullName));
-            if (snapshot != null) {
-                return snapshot.getString(0);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public boolean deleteReadme(String repoFullName) {
-        initDiskLruCache();
-        if (mDiskLruCache == null) {
-            Logger.e("mDiskLruCache == null");
-            return false;
-        }
-
-        try {
-            return mDiskLruCache.remove(MD5Util.hashKey(repoFullName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
+    @Override
+    public Observable<ResponseResult<String>> remoteObservable() {
+        return Api.getCommonService(mFetchMode)
+                .fetchReadme(mRepoFullName)
+                .subscribeOn(Schedulers.io())
+                .compose(DataSourceHelper.applyRemoteTransformer())
+                .map(it -> {
+                    ResponseResult<String> result;
+                    if (it.loadingState == LoadingState.LOADING) {
+                        result = ResponseResult.loading();
+                    } else if (it.loadingState == LoadingState.SUCCESS) {
+                        String readme = it.data.string();
+                        mReadmeDiskLruCache.put(mRepoFullName, readme);
+                        result = ResponseResult.success(readme);
+                    } else if (it.loadingState == LoadingState.ERROR) {
+                        result = ResponseResult.error(it.code);
+                    } else {
+                        result = ResponseResult.empty(it.code);
+                    }
+                    return result;
+                });
     }
 }

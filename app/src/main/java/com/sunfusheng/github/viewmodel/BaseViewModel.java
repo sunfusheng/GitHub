@@ -19,7 +19,6 @@ import io.reactivex.schedulers.Schedulers;
  * @author sunfusheng on 2018/4/28.
  */
 public class BaseViewModel extends ViewModel {
-
     protected final MutableLiveData<RequestParams> mParams = new MutableLiveData<>();
 
     public static class RequestParams {

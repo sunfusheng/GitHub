@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
@@ -99,6 +100,6 @@ public class RepoDetailFragment extends BaseFragment {
             }
         });
 
-        viewModel.request(repoFullName);
+        viewModel.request(repoFullName, FetchMode.DEFAULT);
     }
 }
