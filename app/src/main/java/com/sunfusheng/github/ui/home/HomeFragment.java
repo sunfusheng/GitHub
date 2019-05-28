@@ -3,7 +3,6 @@ package com.sunfusheng.github.ui.home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.ReceivedEventsViewModel;
-import com.sunfusheng.github.viewmodel.UserDetailViewModel;
 import com.sunfusheng.github.viewmodel.base.VmProvider;
 import com.sunfusheng.github.widget.SvgView;
 import com.sunfusheng.multistate.LoadingState;
@@ -47,7 +45,6 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private int mPageCount = Constants.PAGE_COUNT;
 
     private String mUsername;
-    private UserDetailViewModel mUserDetailViewModel;
     private ReceivedEventsViewModel mReceivedEventsViewModel;
 
     @Nullable
@@ -83,11 +80,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     }
 
     protected void initData() {
-        if (TextUtils.isEmpty(mUsername)) {
-            mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
-        }
-        mUserDetailViewModel = VmProvider.of(this, UserDetailViewModel.class);
-        mUserDetailViewModel.request(mUsername, FetchMode.DEFAULT);
+        mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
     }
 
     private void initView() {
@@ -106,16 +99,20 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private void observeReceivedEvents() {
         mReceivedEventsViewModel = VmProvider.of(this, ReceivedEventsViewModel.class);
         mReceivedEventsViewModel.liveData.observe(this, it -> {
-            dealWithFirstLoading(it);
+            Log.d("sfs", "loadingState:" + it.loadingState);
+
+            dealWithLoading(it);
 
             if (mPage == FIRST_PAGE && (it.fetchMode == FetchMode.REMOTE || it.fetchMode == FetchMode.FORCE_REMOTE)) {
                 PreferenceUtil.getInstance().put(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
                 recyclerViewWrapper.setLoadingState(it.loadingState);
             }
 
-            Log.d("sfs", "ReceivedEventsViewModel loadingState:"+it.loadingState);
 
             switch (it.loadingState) {
+                case LoadingState.LOADING:
+
+                    break;
                 case LoadingState.SUCCESS:
                     if (mPage == FIRST_PAGE) {
                         items.clear();
@@ -128,18 +125,16 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                         mPage--;
                     }
                     break;
+                case LoadingState.EMPTY:
+                    break;
             }
         });
 
-//        int fetchMode = Constants.isReceivedEventsRefreshTimeExpired() ? FetchMode.DEFAULT : FetchMode.LOCAL;
         mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
-        isFirstLoading = true;
     }
 
-    private boolean isFirstLoading;
-
-    private void dealWithFirstLoading(ResponseResult response) {
-        if (isFirstLoading && mReceivedEventsViewModel.getRequestFetchMode() != FetchMode.LOCAL) {
+    private void dealWithLoading(ResponseResult response) {
+        if (mReceivedEventsViewModel.getRequestFetchMode() != FetchMode.LOCAL) {
             switch (response.loadingState) {
                 case LoadingState.LOADING:
                     recyclerViewWrapper.enableRefresh(false);
@@ -166,14 +161,12 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     @Override
     public void onRefresh() {
-        isFirstLoading = false;
         mPage = FIRST_PAGE;
         mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
     }
 
     @Override
     public void onLoadMore() {
-        isFirstLoading = false;
         mPage++;
         mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.REMOTE);
     }
