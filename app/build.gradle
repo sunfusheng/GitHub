@@ -35,19 +35,14 @@ android {
     }
 
     buildTypes {
-        release {
-            buildConfigField "boolean", "debugMode", "false"
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    outputFileName = "GitHub.apk"
-                }
-            }
-        }
-
         debug {
             buildConfigField "boolean", "debugMode", "true"
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            buildConfigField "boolean", "debugMode", "false"
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->

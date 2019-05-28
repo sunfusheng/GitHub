@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +113,8 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                 recyclerViewWrapper.setLoadingState(it.loadingState);
             }
 
+            Log.d("sfs", "ReceivedEventsViewModel loadingState:"+it.loadingState);
+
             switch (it.loadingState) {
                 case LoadingState.SUCCESS:
                     if (mPage == FIRST_PAGE) {
@@ -128,8 +131,8 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
             }
         });
 
-        int fetchMode = Constants.isReceivedEventsRefreshTimeExpired() ? FetchMode.DEFAULT : FetchMode.LOCAL;
-        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, fetchMode);
+//        int fetchMode = Constants.isReceivedEventsRefreshTimeExpired() ? FetchMode.DEFAULT : FetchMode.LOCAL;
+        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
         isFirstLoading = true;
     }
 

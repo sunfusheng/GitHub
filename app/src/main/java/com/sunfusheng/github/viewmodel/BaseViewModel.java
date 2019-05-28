@@ -2,14 +2,15 @@ package com.sunfusheng.github.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
-import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.datasource.BaseDataSource;
 import com.sunfusheng.github.net.response.ResponseObserver;
 import com.sunfusheng.github.net.response.ResponseResult;
-import com.sunfusheng.github.util.NetworkUtil;
+import com.sunfusheng.github.viewmodel.params.BaseParams;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,39 +19,23 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author sunfusheng on 2018/4/28.
  */
-public class BaseViewModel extends ViewModel {
-    protected final MutableLiveData<RequestParams> mParams = new MutableLiveData<>();
+public abstract class BaseViewModel<P extends BaseParams, T> extends ViewModel {
+    private final MutableLiveData<P> mParams = new MutableLiveData<>();
+    private BaseDataSource mDataSource;
 
-    public static class RequestParams {
-        public String username;
-        public int page;
-        public int pageCount;
-        public int fetchMode;
+    public final LiveData<ResponseResult<T>> liveData = Transformations.switchMap(mParams, params ->
+            fetchData(mDataSource.localObservable(), mDataSource.remoteObservable(), params.fetchMode));
 
-        public RequestParams(String username, int fetchMode) {
-            this(username, 1, Constants.PAGE_COUNT, fetchMode);
-        }
-
-        public RequestParams(String username, int page, int fetchMode) {
-            this(username, page, Constants.PAGE_COUNT, fetchMode);
-        }
-
-        public RequestParams(String username, int page, int pageCount, int fetchMode) {
-            this.username = username;
-            this.page = page;
-            this.pageCount = pageCount;
-            this.fetchMode = NetworkUtil.isConnected() ? fetchMode : FetchMode.LOCAL;
-        }
+    protected void request(@NonNull P params, @NonNull BaseDataSource<T> dataSource) {
+        mDataSource = dataSource;
+        mParams.setValue(params);
     }
 
-    public RequestParams getRequestParams() {
-        return mParams.getValue();
-    }
-
-    @FetchMode
-    public int getRequestFetchMode() {
-        if (getRequestParams() != null) {
-            return getRequestParams().fetchMode;
+    public @FetchMode
+    int getRequestFetchMode() {
+        P params = mParams.getValue();
+        if (params != null) {
+            return params.fetchMode;
         }
         return FetchMode.DEFAULT;
     }
