@@ -13,7 +13,7 @@ import retrofit2.Response;
  */
 public class DataSourceHelper {
 
-    public static <T> void emitResult(ObservableEmitter<ResponseData<T>> emitter, T t) {
+    public static <T> void emitResponseData(ObservableEmitter<ResponseData<T>> emitter, T t) {
         if (t != null) {
             emitter.onNext(ResponseData.success(t));
         }

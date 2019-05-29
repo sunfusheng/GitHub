@@ -42,24 +42,23 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
             @NonNull Observable<ResponseData<R>> localObservable,
             @NonNull Observable<ResponseData<R>> remoteObservable,
             @FetchMode int fetchMode) {
-        Log.d("sfs", "fetchData() fetchMode: " + ResponseData.getFetchModeString(fetchMode));
 
         if (fetchMode == FetchMode.LOCAL) {
-            return ObservableLiveData.fromObservable(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL));
+            return ObservableLiveData.fromObservable(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)));
         } else if (fetchMode == FetchMode.REMOTE) {
-            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.fetchMode = FetchMode.REMOTE)
-                    .switchIfEmpty(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
-                    .onErrorResumeNext(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
+            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.setFetchMode(FetchMode.REMOTE))
+                    .switchIfEmpty(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
+                    .onErrorResumeNext(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
             );
         } else if (fetchMode == FetchMode.FORCE_REMOTE) {
-            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.fetchMode = FetchMode.FORCE_REMOTE)
-                    .switchIfEmpty(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
-                    .onErrorResumeNext(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL))
+            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.setFetchMode(FetchMode.FORCE_REMOTE))
+                    .switchIfEmpty(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
+                    .onErrorResumeNext(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
             );
         } else {
             MutableLiveData<ResponseData<R>> mutableLiveData = new MutableLiveData<>();
-            Observable.concat(localObservable.doOnNext(it -> it.fetchMode = FetchMode.LOCAL),
-                    remoteObservable.doOnNext(it -> it.fetchMode = FetchMode.REMOTE))
+            Observable.concat(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)),
+                    remoteObservable.doOnNext(it -> it.setFetchMode(FetchMode.REMOTE)))
                     .subscribeOn(Schedulers.io())
                     .switchIfEmpty(Observable.just(ResponseData.empty()))
                     .onErrorResumeNext(throwable -> {

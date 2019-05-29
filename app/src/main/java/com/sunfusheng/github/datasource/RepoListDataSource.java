@@ -29,7 +29,7 @@ public class RepoListDataSource extends BaseDataSource<List<Repo>> {
     @Override
     public Observable<ResponseData<List<Repo>>> localObservable() {
         return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseData<List<Repo>>>) emitter -> {
-            DataSourceHelper.emitResult(emitter, RepoDatabase.instance().getRepoDao().query(mUsername, mPageCount));
+            DataSourceHelper.emitResponseData(emitter, RepoDatabase.instance().getRepoDao().query(mUsername, mPageCount));
         })).subscribeOn(Schedulers.io());
     }
 

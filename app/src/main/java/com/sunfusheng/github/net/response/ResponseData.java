@@ -1,5 +1,7 @@
 package com.sunfusheng.github.net.response;
 
+import android.support.annotation.NonNull;
+
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.multistate.LoadingState;
@@ -14,8 +16,9 @@ public class ResponseData<T> {
     public String msg;
     public T data;
     public int loadingState;
-    @FetchMode
+    public String loadingStateString;
     public int fetchMode;
+    public String fetchModeString;
 
     public ResponseData(int code, String msg, T data) {
         this.code = code;
@@ -26,22 +29,34 @@ public class ResponseData<T> {
     public ResponseData(int code, String msg, T data, int loadingState) {
         this(code, msg, data);
         this.loadingState = loadingState;
+        this.loadingStateString = getLoadingStateString(loadingState);
     }
 
     public ResponseData(Response<T> response, int loadingState) {
         this(response.code(), response.message(), response.body(), loadingState);
     }
 
+    public int getFetchMode() {
+        return fetchMode;
+    }
+
+    public void setFetchMode(@FetchMode int fetchMode) {
+        this.fetchMode = fetchMode;
+        this.fetchModeString = getFetchModeString(fetchMode);
+    }
+
     public String errorString() {
         return "错误码：" + code + "\n" + msg;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ResponseData{" +
                 "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", loadingState=" + getLoadingStateString(loadingState) +
+                ", msg='" + msg +
+                ", loadingState=" + loadingState +
+                ", loadingStateString=" + loadingStateString +
                 ", fetchMode=" + getFetchModeString(fetchMode) +
                 '}';
     }

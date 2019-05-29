@@ -13,11 +13,9 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
-import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.AppUtil;
-import com.sunfusheng.github.util.CollectionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
@@ -60,7 +58,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         initTitleBar();
         initData();
         initView();
-        observeReceivedEvents();
+        fetchReceivedEvents();
     }
 
     private void initTitleBar() {
@@ -98,14 +96,12 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     }
 
     private void startSvgAnim() {
-        if (vSvgLoading.getState() <= SvgView.STATE_NOT_STARTED || vSvgLoading.getState() >= SvgView.STATE_FINISHED) {
-            vSvgLoading.setOnStateChangeListener(state -> {
-                if (state == SvgView.STATE_FINISHED) {
-                    vSvgLoading.start();
-                }
-            });
-            vSvgLoading.start();
-        }
+        vSvgLoading.setOnStateChangeListener(state -> {
+            if (state == SvgView.STATE_FINISHED) {
+                vSvgLoading.start();
+            }
+        });
+        vSvgLoading.start();
     }
 
     private void stopSvgAnim() {
@@ -115,24 +111,24 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                     vSvgLoading.setToFinishedFrame();
                 }
             });
-        } else {
-            vSvgLoading.setToFinishedFrame();
         }
     }
 
-    private void observeReceivedEvents() {
+    private void fetchReceivedEvents() {
         mReceivedEventsViewModel = VMProviders.of(this, ReceivedEventsViewModel.class);
         mReceivedEventsViewModel.liveData.observe(this, it -> {
-            Log.d("sfs", "observeReceivedEvents() loadingState: " + ResponseData.getLoadingStateString(it.loadingState));
+            Log.d("sfs", "fetchReceivedEvents() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchModeString);
 
             switch (it.loadingState) {
                 case LoadingState.LOADING:
-                    if (!isRefresh && !CollectionUtil.isEmpty(recyclerViewWrapper.getItems())) {
+                    if (!isPullToRefresh) {
                         startSvgAnim();
                     }
                     break;
                 case LoadingState.SUCCESS:
-                    stopSvgAnim();
+                    if (it.fetchMode != FetchMode.LOCAL) {
+                        stopSvgAnim();
+                    }
                     recyclerViewWrapper.setLoadingState(it.loadingState);
                     if (mPage == FIRST_PAGE) {
                         items.clear();
@@ -142,7 +138,9 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                     break;
                 case LoadingState.ERROR:
                 case LoadingState.EMPTY:
-                    stopSvgAnim();
+                    if (it.fetchMode != FetchMode.LOCAL) {
+                        stopSvgAnim();
+                    }
                     recyclerViewWrapper.setLoadingState(it.loadingState);
                     if (mPage > FIRST_PAGE) {
                         mPage--;
@@ -151,16 +149,16 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
             }
         });
 
-        isRefresh = false;
+        isPullToRefresh = false;
         recyclerViewWrapper.setLoadingState(LoadingState.LOADING);
         mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.DEFAULT);
     }
 
-    private boolean isRefresh;
+    private boolean isPullToRefresh;
 
     @Override
     public void onRefresh() {
-        isRefresh = true;
+        isPullToRefresh = true;
         mPage = FIRST_PAGE;
         mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
     }

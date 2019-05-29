@@ -27,15 +27,14 @@ public class ReadmeDataSource extends BaseDataSource<String> {
     public Observable<ResponseData<String>> localObservable() {
         return Observable.defer(() -> {
             return Observable.create((ObservableOnSubscribe<ResponseData<String>>) emitter -> {
-                DataSourceHelper.emitResult(emitter, mReadmeDiskLruCache.get(mRepoFullName));
+                DataSourceHelper.emitResponseData(emitter, mReadmeDiskLruCache.get(mRepoFullName));
             });
         }).subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<ResponseData<String>> remoteObservable() {
-        return Api.getCommonService(mFetchMode)
-                .fetchReadme(mRepoFullName)
+        return Api.getCommonService(mFetchMode).fetchReadme(mRepoFullName)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .map(it -> {
