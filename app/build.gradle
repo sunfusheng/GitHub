@@ -89,11 +89,10 @@ dependencies {
 
     api 'com.zzhoujay.richtext:richtext:3.0.7'
     api 'org.jsoup:jsoup:1.11.3'
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
     api 'com.orhanobut:logger:2.2.0'
 
-    api 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.8'
     api 'com.sunfusheng:FirUpdater:1.1.1'
     api 'com.sunfusheng:GlideImageView:2.1.0'
     api 'com.sunfusheng:RecyclerViewWrapper:1.0.4'
+    api 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.8'
 }
