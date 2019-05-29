@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentActivity;
 /**
  * @author sunfusheng on 2018/7/6.
  */
-public class VmProvider {
+public class VMProviders {
 
     @NonNull
     @MainThread

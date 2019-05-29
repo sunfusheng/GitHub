@@ -12,7 +12,7 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.datasource.DataSourceHelper;
 import com.sunfusheng.github.net.Api;
 import com.sunfusheng.github.net.response.ResponseObserver;
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.github.util.ExceptionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.multistate.LoadingState;
@@ -62,7 +62,7 @@ public class UserFollowView extends RelativeLayout {
                         .compose(RxLifecycleAndroid.bindView(this))
                         .subscribe(new ResponseObserver<Boolean>() {
                             @Override
-                            public void onNotify(ResponseResult<Boolean> result) {
+                            public void onNotify(ResponseData<Boolean> result) {
                                 handleView(result, true);
                             }
                         });
@@ -73,7 +73,7 @@ public class UserFollowView extends RelativeLayout {
                         .compose(RxLifecycleAndroid.bindView(this))
                         .subscribe(new ResponseObserver<Boolean>() {
                             @Override
-                            public void onNotify(ResponseResult<Boolean> result) {
+                            public void onNotify(ResponseData<Boolean> result) {
                                 handleView(result, false);
                             }
                         });
@@ -94,13 +94,13 @@ public class UserFollowView extends RelativeLayout {
                 .compose(RxLifecycleAndroid.bindView(this))
                 .subscribe(new ResponseObserver<Boolean>() {
                     @Override
-                    public void onNotify(ResponseResult<Boolean> result) {
+                    public void onNotify(ResponseData<Boolean> result) {
                         handleView(result, false);
                     }
                 });
     }
 
-    private void handleView(ResponseResult<Boolean> result, boolean isReverse) {
+    private void handleView(ResponseData<Boolean> result, boolean isReverse) {
         if (result.loadingState == LoadingState.LOADING) {
             vFollow.setEnabled(false);
             vFollow.setVisibility(INVISIBLE);

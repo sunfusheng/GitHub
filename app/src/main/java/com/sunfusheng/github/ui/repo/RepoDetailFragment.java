@@ -16,7 +16,7 @@ import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
-import com.sunfusheng.github.viewmodel.base.VmProvider;
+import com.sunfusheng.github.viewmodel.base.VMProviders;
 import com.sunfusheng.github.widget.app.ReadMeWebView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.multistate.MultiStateView;
@@ -86,7 +86,7 @@ public class RepoDetailFragment extends BaseFragment {
         vMultiStateView.setVisibility(View.VISIBLE);
         vMultiStateView.setLoadingState(LoadingState.LOADING);
 
-        ReadmeViewModel viewModel = VmProvider.of(this, ReadmeViewModel.class);
+        ReadmeViewModel viewModel = VMProviders.of(this, ReadmeViewModel.class);
         viewModel.liveData.observe(this, it -> {
             Log.d("sfs", "initReadmeView() loadingState: " + it.loadingState);
             if (it.loadingState == LoadingState.SUCCESS) {

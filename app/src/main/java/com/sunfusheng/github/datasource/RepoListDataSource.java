@@ -3,7 +3,7 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.cache.db.RepoDatabase;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.github.util.CollectionUtil;
 
 import java.util.List;
@@ -27,14 +27,14 @@ public class RepoListDataSource extends BaseDataSource<List<Repo>> {
     }
 
     @Override
-    public Observable<ResponseResult<List<Repo>>> localObservable() {
-        return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseResult<List<Repo>>>) emitter -> {
+    public Observable<ResponseData<List<Repo>>> localObservable() {
+        return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseData<List<Repo>>>) emitter -> {
             DataSourceHelper.emitResult(emitter, RepoDatabase.instance().getRepoDao().query(mUsername, mPageCount));
         })).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<ResponseResult<List<Repo>>> remoteObservable() {
+    public Observable<ResponseData<List<Repo>>> remoteObservable() {
         return Api.getCommonService().fetchRepoList(mUsername, mPage, mPageCount, "pushed")
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())

@@ -1,15 +1,21 @@
 package com.sunfusheng.github.datasource;
 
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 
 import io.reactivex.Observable;
 
 /**
+ * R for responses
+ *
  * @author by sunfusheng on 2019-05-27
  */
-abstract public class BaseDataSource<T> {
+abstract public class BaseDataSource<R> {
 
-    abstract public Observable<ResponseResult<T>> localObservable();
+    public int localValidateTime() {
+        return 0;
+    }
 
-    abstract public Observable<ResponseResult<T>> remoteObservable();
+    abstract public Observable<ResponseData<R>> localObservable();
+
+    abstract public Observable<ResponseData<R>> remoteObservable();
 }

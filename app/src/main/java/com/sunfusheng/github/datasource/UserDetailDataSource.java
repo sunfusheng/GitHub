@@ -3,7 +3,7 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.cache.db.UserDatabase;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -20,14 +20,14 @@ public class UserDetailDataSource extends BaseDataSource<User> {
     }
 
     @Override
-    public Observable<ResponseResult<User>> localObservable() {
-        return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseResult<User>>) emitter -> {
+    public Observable<ResponseData<User>> localObservable() {
+        return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseData<User>>) emitter -> {
             DataSourceHelper.emitResult(emitter, UserDatabase.instance().getUserDao().query(mUserName));
         })).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<ResponseResult<User>> remoteObservable() {
+    public Observable<ResponseData<User>> remoteObservable() {
         return Api.getCommonService().fetchUserDetail(mUserName)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())

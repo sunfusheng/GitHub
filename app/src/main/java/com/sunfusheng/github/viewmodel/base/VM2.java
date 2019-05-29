@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
  * @author sunfusheng on 2018/7/6.
  */
 public class VM2<T1, T2> extends VM<T1> {
-    final MutableLiveData<T2> liveData2 = new MutableLiveData();
+    private final MutableLiveData<T2> liveData2 = new MutableLiveData<>();
 
     public void onNotify(@NonNull Activity activity, Observer<T1> observer1, Observer<T2> observer2) {
         super.onNotify(activity, observer1);

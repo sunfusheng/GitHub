@@ -1,5 +1,6 @@
 package com.sunfusheng.github.datasource;
 
+import android.util.Log;
 import android.util.Pair;
 
 import com.sunfusheng.github.Constants;
@@ -8,7 +9,7 @@ import com.sunfusheng.github.cache.lrucache.RepoLruCache;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import io.reactivex.Emitter;
 import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -36,17 +39,24 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
     }
 
     @Override
-    public Observable<ResponseResult<List<Event>>> localObservable() {
-        return fetchReceivedEvents(FetchMode.LOCAL);
+    public Observable<ResponseData<List<Event>>> localObservable() {
+        return Observable.defer(() -> {
+            return Observable.create((ObservableOnSubscribe<ResponseData<List<Event>>>) Emitter::onComplete);
+        }).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<ResponseResult<List<Event>>> remoteObservable() {
+    public Observable<ResponseData<List<Event>>> remoteObservable() {
         return fetchReceivedEvents(mFetchMode);
     }
 
-    public Observable<ResponseResult<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
-        return Api.getCommonService(fetchMode).fetchReceivedEvents(mUsername, mPage, mPageCount)
+    public Observable<ResponseData<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
+        if (fetchMode == FetchMode.DEFAULT) {
+            fetchMode = FetchMode.REMOTE;
+        }
+        int finalFetchMode = fetchMode;
+        Log.d("sfs", "fetchReceivedEvents() fetchMode: " + ResponseData.getFetchModeString(finalFetchMode));
+        return Api.getCommonService(finalFetchMode).fetchReceivedEvents(mUsername, mPage, mPageCount)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .flatMap(it -> {
@@ -55,7 +65,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
                         for (Event event : it.data) {
                             urlSet.add(event.repo.url);
                         }
-                        return fetchRepoDetail(urlSet, fetchMode)
+                        return fetchRepoDetail(urlSet, finalFetchMode)
                                 .map(map -> {
                                     for (Event event : it.data) {
                                         event.repo = map.get(event.repo.url);

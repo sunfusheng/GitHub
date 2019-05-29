@@ -13,17 +13,18 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.AppUtil;
+import com.sunfusheng.github.util.CollectionUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.ReceivedEventsViewModel;
-import com.sunfusheng.github.viewmodel.base.VmProvider;
+import com.sunfusheng.github.viewmodel.base.VMProviders;
 import com.sunfusheng.github.widget.SvgView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
@@ -35,12 +36,12 @@ import java.util.List;
  * @author sunfusheng on 2018/4/18.
  */
 public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.OnRefreshListener, RecyclerViewWrapper.OnLoadMoreListener {
+    private static final int FIRST_PAGE = 1;
 
     private SvgView vSvgLoading;
     private RecyclerViewWrapper recyclerViewWrapper;
 
     private List<Object> items = new ArrayList<>();
-    private static final int FIRST_PAGE = 1;
     private int mPage = FIRST_PAGE;
     private int mPageCount = Constants.PAGE_COUNT;
 
@@ -75,7 +76,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         vSvgLoading.setOnStateChangeListener(null);
         vSvgLoading.setToFinishedFrame();
         vSvgLoading.setOnClickListener(v -> {
-            NavigationManager.toUserActivity(getActivity(), "sunfusheng");
+            NavigationManager.toUserActivity(getActivity(), getString(R.string.app_author_name));
         });
     }
 
@@ -96,24 +97,43 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         recyclerViewWrapper.register(Event.class, Event::getType, Event.IssueCommentEvent, new IssueCommentEventBinder());
     }
 
+    private void startSvgAnim() {
+        if (vSvgLoading.getState() <= SvgView.STATE_NOT_STARTED || vSvgLoading.getState() >= SvgView.STATE_FINISHED) {
+            vSvgLoading.setOnStateChangeListener(state -> {
+                if (state == SvgView.STATE_FINISHED) {
+                    vSvgLoading.start();
+                }
+            });
+            vSvgLoading.start();
+        }
+    }
+
+    private void stopSvgAnim() {
+        if (vSvgLoading.getState() > SvgView.STATE_NOT_STARTED && vSvgLoading.getState() < SvgView.STATE_FINISHED) {
+            vSvgLoading.setOnStateChangeListener(state -> {
+                if (state == SvgView.STATE_FINISHED) {
+                    vSvgLoading.setToFinishedFrame();
+                }
+            });
+        } else {
+            vSvgLoading.setToFinishedFrame();
+        }
+    }
+
     private void observeReceivedEvents() {
-        mReceivedEventsViewModel = VmProvider.of(this, ReceivedEventsViewModel.class);
+        mReceivedEventsViewModel = VMProviders.of(this, ReceivedEventsViewModel.class);
         mReceivedEventsViewModel.liveData.observe(this, it -> {
-            Log.d("sfs", "loadingState:" + it.loadingState);
-
-            dealWithLoading(it);
-
-            if (mPage == FIRST_PAGE && (it.fetchMode == FetchMode.REMOTE || it.fetchMode == FetchMode.FORCE_REMOTE)) {
-                PreferenceUtil.getInstance().put(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, System.currentTimeMillis());
-                recyclerViewWrapper.setLoadingState(it.loadingState);
-            }
-
+            Log.d("sfs", "observeReceivedEvents() loadingState: " + ResponseData.getLoadingStateString(it.loadingState));
 
             switch (it.loadingState) {
                 case LoadingState.LOADING:
-
+                    if (!isRefresh && !CollectionUtil.isEmpty(recyclerViewWrapper.getItems())) {
+                        startSvgAnim();
+                    }
                     break;
                 case LoadingState.SUCCESS:
+                    stopSvgAnim();
+                    recyclerViewWrapper.setLoadingState(it.loadingState);
                     if (mPage == FIRST_PAGE) {
                         items.clear();
                     }
@@ -121,53 +141,32 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                     recyclerViewWrapper.setItems(items);
                     break;
                 case LoadingState.ERROR:
+                case LoadingState.EMPTY:
+                    stopSvgAnim();
+                    recyclerViewWrapper.setLoadingState(it.loadingState);
                     if (mPage > FIRST_PAGE) {
                         mPage--;
                     }
                     break;
-                case LoadingState.EMPTY:
-                    break;
             }
         });
 
-        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
+        isRefresh = false;
+        recyclerViewWrapper.setLoadingState(LoadingState.LOADING);
+        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.DEFAULT);
     }
 
-    private void dealWithLoading(ResponseResult response) {
-        if (mReceivedEventsViewModel.getRequestFetchMode() != FetchMode.LOCAL) {
-            switch (response.loadingState) {
-                case LoadingState.LOADING:
-                    recyclerViewWrapper.enableRefresh(false);
-                    recyclerViewWrapper.enableLoadMore(false);
-                    vSvgLoading.start();
-                    vSvgLoading.setOnStateChangeListener(state -> {
-                        if (state == SvgView.STATE_FINISHED) {
-                            vSvgLoading.start();
-                        }
-                    });
-                    break;
-                case LoadingState.SUCCESS:
-                case LoadingState.ERROR:
-                case LoadingState.EMPTY:
-                    if (response.fetchMode == FetchMode.REMOTE) {
-                        recyclerViewWrapper.enableRefresh(true);
-                        recyclerViewWrapper.enableLoadMore(true);
-                        vSvgLoading.setOnStateChangeListener(null);
-                    }
-                    break;
-            }
-        }
-    }
+    private boolean isRefresh;
 
     @Override
     public void onRefresh() {
+        isRefresh = true;
         mPage = FIRST_PAGE;
         mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
     }
 
     @Override
     public void onLoadMore() {
-        mPage++;
-        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.REMOTE);
+        mReceivedEventsViewModel.request(mUsername, mPage++, mPageCount, FetchMode.REMOTE);
     }
 }

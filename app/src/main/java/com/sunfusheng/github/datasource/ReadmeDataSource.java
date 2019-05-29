@@ -3,7 +3,7 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.cache.disklrucache.ReadmeDiskLruCache;
 import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.multistate.LoadingState;
 
 import io.reactivex.Observable;
@@ -24,32 +24,32 @@ public class ReadmeDataSource extends BaseDataSource<String> {
     }
 
     @Override
-    public Observable<ResponseResult<String>> localObservable() {
+    public Observable<ResponseData<String>> localObservable() {
         return Observable.defer(() -> {
-            return Observable.create((ObservableOnSubscribe<ResponseResult<String>>) emitter -> {
+            return Observable.create((ObservableOnSubscribe<ResponseData<String>>) emitter -> {
                 DataSourceHelper.emitResult(emitter, mReadmeDiskLruCache.get(mRepoFullName));
             });
         }).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<ResponseResult<String>> remoteObservable() {
+    public Observable<ResponseData<String>> remoteObservable() {
         return Api.getCommonService(mFetchMode)
                 .fetchReadme(mRepoFullName)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .map(it -> {
-                    ResponseResult<String> result;
+                    ResponseData<String> result;
                     if (it.loadingState == LoadingState.LOADING) {
-                        result = ResponseResult.loading();
+                        result = ResponseData.loading();
                     } else if (it.loadingState == LoadingState.SUCCESS) {
                         String readme = it.data.string();
                         mReadmeDiskLruCache.put(mRepoFullName, readme);
-                        result = ResponseResult.success(readme);
+                        result = ResponseData.success(readme);
                     } else if (it.loadingState == LoadingState.ERROR) {
-                        result = ResponseResult.error(it.code);
+                        result = ResponseData.error(it.code);
                     } else {
-                        result = ResponseResult.empty(it.code);
+                        result = ResponseData.empty(it.code);
                     }
                     return result;
                 });

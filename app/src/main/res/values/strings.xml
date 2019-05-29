@@ -3,6 +3,7 @@
     <string name="app_name">GitHub</string>
     <string name="app_name_with_version">GitHub V%s</string>
     <string name="app_author">作者：孙福生</string>
+    <string name="app_author_name">sunfusheng</string>
     <string name="github_url">https://github.com</string>
 
     <string name="tab_home">主页</string>

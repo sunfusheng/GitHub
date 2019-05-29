@@ -3,7 +3,7 @@ package com.sunfusheng.github.viewmodel;
 import android.arch.lifecycle.LiveData;
 
 import com.sunfusheng.github.net.response.ResponseObserver;
-import com.sunfusheng.github.net.response.ResponseResult;
+import com.sunfusheng.github.net.response.ResponseData;
 
 import java.lang.ref.WeakReference;
 
@@ -14,16 +14,16 @@ import io.reactivex.disposables.Disposable;
 /**
  * @author sunfusheng on 2018/4/17.
  */
-public class ObservableLiveData<T> extends LiveData<ResponseResult<T>> {
+public class ObservableLiveData<T> extends LiveData<ResponseData<T>> {
 
-    private final Observable<ResponseResult<T>> mObservable;
+    private final Observable<ResponseData<T>> mObservable;
     private WeakReference<Disposable> mDisposableWeakReference;
 
-    public static <T> LiveData<ResponseResult<T>> fromObservable(@NonNull Observable<ResponseResult<T>> observable) {
+    public static <T> LiveData<ResponseData<T>> fromObservable(@NonNull Observable<ResponseData<T>> observable) {
         return new ObservableLiveData<>(observable);
     }
 
-    public ObservableLiveData(@NonNull Observable<ResponseResult<T>> observable) {
+    public ObservableLiveData(@NonNull Observable<ResponseData<T>> observable) {
         this.mObservable = observable;
     }
 
@@ -32,7 +32,7 @@ public class ObservableLiveData<T> extends LiveData<ResponseResult<T>> {
         super.onActive();
         mObservable.subscribe(new ResponseObserver<T>() {
             @Override
-            public void onNotify(ResponseResult<T> result) {
+            public void onNotify(ResponseData<T> result) {
                 postValue(result);
             }
         });

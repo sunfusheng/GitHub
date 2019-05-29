@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * @author sunfusheng on 2018/4/17.
  */
-public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>> {
+public abstract class ResponseObserver<T> implements Observer<ResponseData<T>> {
 
     private WeakReference<Disposable> disposableWeakReference;
     private boolean isOnNext;
@@ -20,15 +20,15 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
         isOnNext = false;
         disposableWeakReference = new WeakReference<>(disposable);
         Log.d("--->", "onSubscribe()【loading】 hashCode:" + getDisposableHashCode());
-        onNotify(ResponseResult.loading());
+        onNotify(ResponseData.loading());
     }
 
     @Override
-    public void onNext(ResponseResult<T> t) {
+    public void onNext(ResponseData<T> t) {
         isOnNext = true;
         if (t == null) {
             Log.d("--->", "onNext()【empty】 hashCode:" + getDisposableHashCode());
-            onNotify(ResponseResult.empty());
+            onNotify(ResponseData.empty());
         } else {
             Log.d("--->", "onNext()【success】 fetchMode:" + t.fetchMode + " hashCode:" + getDisposableHashCode());
             onNotify(t);
@@ -38,8 +38,8 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
     @Override
     public void onError(Throwable throwable) {
         release();
-        Log.d("--->", "onError()【error】 hashCode:" + getDisposableHashCode() + " error info:" + ResponseResult.error(throwable).errorString());
-        onNotify(ResponseResult.error(throwable));
+        Log.d("--->", "onError()【error】 hashCode:" + getDisposableHashCode() + " error info:" + ResponseData.error(throwable).errorString());
+        onNotify(ResponseData.error(throwable));
     }
 
     @Override
@@ -47,7 +47,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
         release();
         if (!isOnNext) {
             Log.d("--->", "onComplete()【empty】 hashCode:" + getDisposableHashCode());
-            onNotify(ResponseResult.empty());
+            onNotify(ResponseData.empty());
         }
     }
 
@@ -71,5 +71,5 @@ public abstract class ResponseObserver<T> implements Observer<ResponseResult<T>>
         return 0;
     }
 
-    public abstract void onNotify(ResponseResult<T> result);
+    public abstract void onNotify(ResponseData<T> result);
 }

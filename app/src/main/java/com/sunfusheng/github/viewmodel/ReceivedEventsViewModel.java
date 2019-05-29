@@ -1,8 +1,6 @@
 package com.sunfusheng.github.viewmodel;
 
-import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.cache.lrucache.RepoLruCache;
 import com.sunfusheng.github.datasource.ReceivedEventsDataSource;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.viewmodel.params.UsernamePageParams;
@@ -17,13 +15,5 @@ public class ReceivedEventsViewModel extends BaseViewModel<UsernamePageParams, L
     public void request(String username, int page, int pageCount, @FetchMode int fetchMode) {
         request(new UsernamePageParams(username, page, pageCount, fetchMode),
                 new ReceivedEventsDataSource(username, page, pageCount, fetchMode));
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        if (Constants.isReceivedEventsRefreshTimeExpired()) {
-            RepoLruCache.getInstance().clear();
-        }
     }
 }

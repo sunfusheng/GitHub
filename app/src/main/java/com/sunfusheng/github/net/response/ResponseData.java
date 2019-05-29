@@ -9,7 +9,7 @@ import retrofit2.Response;
 /**
  * @author sunfusheng on 2018/4/13.
  */
-public class ResponseResult<T> {
+public class ResponseData<T> {
     public int code;
     public String msg;
     public T data;
@@ -17,18 +17,18 @@ public class ResponseResult<T> {
     @FetchMode
     public int fetchMode;
 
-    public ResponseResult(int code, String msg, T data) {
+    public ResponseData(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
-    public ResponseResult(int code, String msg, T data, int loadingState) {
+    public ResponseData(int code, String msg, T data, int loadingState) {
         this(code, msg, data);
         this.loadingState = loadingState;
     }
 
-    public ResponseResult(Response<T> response, int loadingState) {
+    public ResponseData(Response<T> response, int loadingState) {
         this(response.code(), response.message(), response.body(), loadingState);
     }
 
@@ -38,7 +38,7 @@ public class ResponseResult<T> {
 
     @Override
     public String toString() {
-        return "ResponseResult{" +
+        return "ResponseData{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
                 ", loadingState=" + getLoadingStateString(loadingState) +
@@ -48,6 +48,8 @@ public class ResponseResult<T> {
 
     public static String getLoadingStateString(@LoadingState int loadingState) {
         switch (loadingState) {
+            case LoadingState.LOADING:
+                return "LOADING";
             case LoadingState.SUCCESS:
                 return "SUCCESS";
             case LoadingState.ERROR:
@@ -55,13 +57,14 @@ public class ResponseResult<T> {
             case LoadingState.EMPTY:
                 return "EMPTY";
             default:
-            case LoadingState.LOADING:
-                return "LOADING";
+                return "UNKNOWN";
         }
     }
 
     public static String getFetchModeString(@FetchMode int fetchMode) {
         switch (fetchMode) {
+            case FetchMode.DEFAULT:
+                return "DEFAULT";
             case FetchMode.LOCAL:
                 return "LOCAL";
             case FetchMode.REMOTE:
@@ -69,40 +72,39 @@ public class ResponseResult<T> {
             case FetchMode.FORCE_REMOTE:
                 return "FORCE_REMOTE";
             default:
-            case FetchMode.DEFAULT:
-                return "DEFAULT";
+                return "UNKNOWN";
         }
     }
 
-    public static <T> ResponseResult<T> loading() {
-        return new ResponseResult<>(LoadingState.LOADING, "正在加载", null, LoadingState.LOADING);
+    public static <T> ResponseData<T> loading() {
+        return new ResponseData<>(LoadingState.LOADING, "正在加载", null, LoadingState.LOADING);
     }
 
-    public static <T> ResponseResult<T> success(Response<T> response) {
-        return new ResponseResult<>(response, LoadingState.SUCCESS);
+    public static <T> ResponseData<T> success(Response<T> response) {
+        return new ResponseData<>(response, LoadingState.SUCCESS);
     }
 
-    public static <T> ResponseResult<T> success(T t) {
-        return new ResponseResult<>(LoadingState.SUCCESS, "OK", t, LoadingState.SUCCESS);
+    public static <T> ResponseData<T> success(T t) {
+        return new ResponseData<>(LoadingState.SUCCESS, "OK", t, LoadingState.SUCCESS);
     }
 
-    public static <T> ResponseResult<T> error(ExceptionUtil.ResponseException e) {
-        return new ResponseResult<>(e.code, e.msg, null, LoadingState.ERROR);
+    public static <T> ResponseData<T> error(ExceptionUtil.ResponseException e) {
+        return new ResponseData<>(e.code, e.msg, null, LoadingState.ERROR);
     }
 
-    public static <T> ResponseResult<T> error(Throwable e) {
+    public static <T> ResponseData<T> error(Throwable e) {
         return error(ExceptionUtil.handleException(e));
     }
 
-    public static <T> ResponseResult<T> error(int errorCode) {
+    public static <T> ResponseData<T> error(int errorCode) {
         return error(ExceptionUtil.getResponseExceptionByErrorCode(errorCode));
     }
 
-    public static <T> ResponseResult<T> empty(int code) {
-        return new ResponseResult<>(code, "暂无数据", null, LoadingState.EMPTY);
+    public static <T> ResponseData<T> empty(int code) {
+        return new ResponseData<>(code, "暂无数据", null, LoadingState.EMPTY);
     }
 
-    public static <T> ResponseResult<T> empty() {
+    public static <T> ResponseData<T> empty() {
         return empty(LoadingState.EMPTY);
     }
 

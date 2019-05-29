@@ -15,8 +15,8 @@ import android.support.v4.app.FragmentActivity;
  * @author sunfusheng on 2018/7/6.
  */
 public class VM<T> extends ViewModel {
-    static final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-    final MutableLiveData<T> liveData = new MutableLiveData();
+    private static final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+    private final MutableLiveData<T> liveData = new MutableLiveData<>();
 
     public void onNotify(@NonNull Activity activity, Observer<T> observer) {
         liveData.observe(getActivity(activity), observer);

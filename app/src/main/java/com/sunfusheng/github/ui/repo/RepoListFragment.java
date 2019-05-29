@@ -14,7 +14,7 @@ import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.github.viewmodel.RepoListViewModel;
-import com.sunfusheng.github.viewmodel.base.VmProvider;
+import com.sunfusheng.github.viewmodel.base.VMProviders;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
 
@@ -65,7 +65,7 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
     }
 
     private void observeRepos() {
-        RepoListViewModel viewModel = VmProvider.of(this, RepoListViewModel.class);
+        RepoListViewModel viewModel = VMProviders.of(this, RepoListViewModel.class);
         viewModel.liveData.observe(this, it -> {
             recyclerViewWrapper.setItems(it.data);
         });
