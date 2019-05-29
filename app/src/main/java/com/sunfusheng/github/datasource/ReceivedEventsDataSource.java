@@ -17,9 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.reactivex.Emitter;
 import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -39,10 +37,13 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
     }
 
     @Override
+    public int localCacheValidateTime() {
+        return 600;
+    }
+
+    @Override
     public Observable<ResponseData<List<Event>>> localObservable() {
-        return Observable.defer(() -> {
-            return Observable.create((ObservableOnSubscribe<ResponseData<List<Event>>>) Emitter::onComplete);
-        }).subscribeOn(Schedulers.io());
+        return fetchReceivedEvents(FetchMode.LOCAL);
     }
 
     @Override
@@ -50,12 +51,13 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
         return fetchReceivedEvents(mFetchMode);
     }
 
-    public Observable<ResponseData<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
+    private Observable<ResponseData<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
         if (fetchMode == FetchMode.DEFAULT) {
             fetchMode = FetchMode.REMOTE;
         }
         int finalFetchMode = fetchMode;
         Log.d("sfs", "fetchReceivedEvents() fetchMode: " + ResponseData.getFetchModeString(finalFetchMode));
+
         return Api.getCommonService(finalFetchMode).fetchReceivedEvents(mUsername, mPage, mPageCount)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())

@@ -5,13 +5,16 @@ import com.sunfusheng.github.net.response.ResponseData;
 import io.reactivex.Observable;
 
 /**
- * R for responses
+ * R: for responses
  *
  * @author by sunfusheng on 2019-05-27
  */
 abstract public class BaseDataSource<R> {
 
-    public int localValidateTime() {
+    /**
+     * @return 本地缓存的有效时间，单位：秒
+     */
+    public int localCacheValidateTime() {
         return 0;
     }
 

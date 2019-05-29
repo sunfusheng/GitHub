@@ -18,8 +18,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * P for parameters
- * R for responses
+ * P: for parameters
+ * R: for responses
  *
  * @author sunfusheng on 2018/4/28.
  */
@@ -36,15 +36,6 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
         Log.d("sfs", "request(): " + params.toString());
         mDataSource = dataSource;
         mParams.setValue(params);
-    }
-
-    @FetchMode
-    public int getRequestFetchMode() {
-        P params = mParams.getValue();
-        if (params != null) {
-            return params.fetchMode;
-        }
-        return FetchMode.DEFAULT;
     }
 
     private LiveData<ResponseData<R>> fetchData(

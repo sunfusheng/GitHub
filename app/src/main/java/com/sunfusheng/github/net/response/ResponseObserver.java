@@ -12,14 +12,13 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class ResponseObserver<T> implements Observer<ResponseData<T>> {
 
-    private WeakReference<Disposable> disposableWeakReference;
+    private WeakReference<Disposable> mDisposableWeakRef;
     private boolean isOnNext;
 
     @Override
     public void onSubscribe(Disposable disposable) {
         isOnNext = false;
-        disposableWeakReference = new WeakReference<>(disposable);
-        Log.d("--->", "onSubscribe()【loading】 hashCode:" + getDisposableHashCode());
+        mDisposableWeakRef = new WeakReference<>(disposable);
         onNotify(ResponseData.loading());
     }
 
@@ -27,10 +26,9 @@ public abstract class ResponseObserver<T> implements Observer<ResponseData<T>> {
     public void onNext(ResponseData<T> t) {
         isOnNext = true;
         if (t == null) {
-            Log.d("--->", "onNext()【empty】 hashCode:" + getDisposableHashCode());
+            Log.w("sfs", "ResponseObserver onNext(): EMPTY");
             onNotify(ResponseData.empty());
         } else {
-            Log.d("--->", "onNext()【success】 fetchMode:" + t.fetchMode + " hashCode:" + getDisposableHashCode());
             onNotify(t);
         }
     }
@@ -38,7 +36,7 @@ public abstract class ResponseObserver<T> implements Observer<ResponseData<T>> {
     @Override
     public void onError(Throwable throwable) {
         release();
-        Log.d("--->", "onError()【error】 hashCode:" + getDisposableHashCode() + " error info:" + ResponseData.error(throwable).errorString());
+        Log.e("sfs", "ResponseObserver onError(): " + ResponseData.error(throwable).errorString());
         onNotify(ResponseData.error(throwable));
     }
 
@@ -46,29 +44,19 @@ public abstract class ResponseObserver<T> implements Observer<ResponseData<T>> {
     public void onComplete() {
         release();
         if (!isOnNext) {
-            Log.d("--->", "onComplete()【empty】 hashCode:" + getDisposableHashCode());
+            Log.w("sfs", "ResponseObserver onComplete(): EMPTY");
             onNotify(ResponseData.empty());
         }
     }
 
-    public void release() {
-        if (disposableWeakReference != null) {
-            Disposable disposable = disposableWeakReference.get();
+    private void release() {
+        if (mDisposableWeakRef != null) {
+            Disposable disposable = mDisposableWeakRef.get();
             if (disposable != null && !disposable.isDisposed()) {
                 disposable.dispose();
             }
-            disposableWeakReference = null;
+            mDisposableWeakRef = null;
         }
-    }
-
-    public int getDisposableHashCode() {
-        if (disposableWeakReference != null) {
-            Disposable disposable = disposableWeakReference.get();
-            if (disposable != null) {
-                return disposable.hashCode();
-            }
-        }
-        return 0;
     }
 
     public abstract void onNotify(ResponseData<T> result);
