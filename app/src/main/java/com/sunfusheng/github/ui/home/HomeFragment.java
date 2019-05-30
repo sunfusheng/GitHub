@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -37,6 +36,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private static final int FIRST_PAGE = 1;
 
     private SvgView vSvgLoading;
+    private View vStatusBar;
     private RecyclerViewWrapper recyclerViewWrapper;
 
     private List<Object> items = new ArrayList<>();
@@ -46,31 +46,35 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private String mUsername;
     private ReceivedEventsViewModel mReceivedEventsViewModel;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    public void initData(@Nullable Bundle arguments) {
+        mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public int inflateLayout() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    public void initView(@NonNull View rootView) {
+        vStatusBar = rootView.findViewById(R.id.statusBar);
+        recyclerViewWrapper = rootView.findViewById(R.id.recyclerViewWrapper);
+
         initTitleBar();
-        initData();
-        initView();
+        initRecyclerViewWrapper();
         fetchReceivedEvents();
     }
 
     private void initTitleBar() {
-        View vStatusBar = getView().findViewById(R.id.statusBar);
         ViewGroup.LayoutParams layoutParams = vStatusBar.getLayoutParams();
         layoutParams.height = StatusBarUtil.getStatusBarHeight(AppUtil.getContext());
         vStatusBar.setLayoutParams(layoutParams);
 
-        TextView vTitle = getView().findViewById(R.id.title);
+        TextView vTitle = vRootView.findViewById(R.id.title);
         vTitle.setText(R.string.app_name);
 
-        vSvgLoading = getView().findViewById(R.id.svg_loading);
+        vSvgLoading = vRootView.findViewById(R.id.svg_loading);
         vSvgLoading.setOnStateChangeListener(null);
         vSvgLoading.setToFinishedFrame();
         vSvgLoading.setOnClickListener(v -> {
@@ -78,14 +82,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
         });
     }
 
-    protected void initData() {
-        mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
-    }
-
-    private void initView() {
-        if (getView() == null) return;
-        recyclerViewWrapper = getView().findViewById(R.id.recyclerViewWrapper);
-
+    private void initRecyclerViewWrapper() {
         recyclerViewWrapper.setOnRefreshListener(this);
         recyclerViewWrapper.setOnLoadMoreListener(this);
 

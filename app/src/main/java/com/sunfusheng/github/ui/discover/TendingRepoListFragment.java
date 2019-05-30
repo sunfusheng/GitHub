@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
@@ -37,36 +35,26 @@ public class TendingRepoListFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initData();
-    }
-
-    private void initData() {
-        Bundle arguments = getArguments();
+    public void initData(@Nullable Bundle arguments) {
         if (arguments != null) {
             since = arguments.getString("since");
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_recyclerview_wrapper, container, false);
+    public int inflateLayout() {
+        return R.layout.layout_recyclerview_wrapper;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initView();
+    public void initView(@NonNull View rootView) {
+        recyclerViewWrapper = rootView.findViewById(R.id.recyclerViewWrapper);
+
+        initRecyclerViewWrapper();
         observeTendingData();
     }
 
-    private void initView() {
-        View view = getView();
-        if (view == null) return;
-        recyclerViewWrapper = view.findViewById(R.id.recyclerViewWrapper);
-
+    private void initRecyclerViewWrapper() {
         recyclerViewWrapper.enableRefresh(false);
         recyclerViewWrapper.enableLoadMore(false);
 

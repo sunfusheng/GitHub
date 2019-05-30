@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 
 import com.sunfusheng.github.R;
@@ -38,7 +39,7 @@ public class ProgressDialogHelper {
         return this;
     }
 
-    public ProgressDialogHelper setMessage(int messageResId) {
+    public ProgressDialogHelper setMessage(@StringRes int messageResId) {
         this.messageResId = messageResId;
         return this;
     }

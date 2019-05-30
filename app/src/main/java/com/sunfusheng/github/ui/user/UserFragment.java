@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -64,30 +63,7 @@ public class UserFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initData();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_user, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
-        super.onViewCreated(view, savedInstanceState);
-        initView();
-        initHeader();
-        observeUser();
-        observeData();
-        initViewPager();
-    }
-
-    private void initData() {
-        Bundle arguments = getArguments();
+    public void initData(@Nullable Bundle arguments) {
         if (arguments != null) {
             mUsername = arguments.getString(Constants.Bundle.USERNAME);
         }
@@ -95,33 +71,43 @@ public class UserFragment extends BaseFragment {
         if (TextUtils.isEmpty(mUsername)) {
             mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
         }
+
+        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
     }
 
-    private void initView() {
-        View view = getView();
-        if (view == null) return;
-        vUserFollow = view.findViewById(R.id.user_follow);
-        vUserProfile = view.findViewById(R.id.user_profile);
-        vUserContributions = view.findViewById(R.id.user_contributions);
+    @Override
+    public int inflateLayout() {
+        return R.layout.fragment_user;
+    }
 
-        scrollableLayout = view.findViewById(R.id.scrollableLayout);
-        tabLayout = view.findViewById(R.id.tabLayout);
-        viewPager = view.findViewById(R.id.viewPager);
-        vSort = view.findViewById(R.id.vSort);
+    @Override
+    public void initView(@NonNull View rootView) {
+        vUserFollow = rootView.findViewById(R.id.user_follow);
+        vUserProfile = rootView.findViewById(R.id.user_profile);
+        vUserContributions = rootView.findViewById(R.id.user_contributions);
+
+        scrollableLayout = rootView.findViewById(R.id.scrollableLayout);
+        tabLayout = rootView.findViewById(R.id.tabLayout);
+        viewPager = rootView.findViewById(R.id.viewPager);
+        vSort = rootView.findViewById(R.id.vSort);
 
         vUserProfile.setRepoClickListener(v -> tabLayout.getTabAt(0).select());
         vUserProfile.setFollowersClickListener(v -> tabLayout.getTabAt(1).select());
         vUserProfile.setFollowingClickListener(v -> tabLayout.getTabAt(2).select());
         vSort.setOnClickListener(v -> {
         });
+
+        initHeader();
+        observeFetchUser();
+        observeData();
+        initViewPager();
     }
 
     private void initHeader() {
-        if (getView() == null) return;
         statusBar.setBackgroundResource(R.color.transparent);
         toolbar.setBackgroundResource(R.color.transparent);
 
-        vToolbarBg = getView().findViewById(R.id.toolbar_bg);
+        vToolbarBg = vRootView.findViewById(R.id.toolbar_bg);
         vToolbarBg.setAlpha(0);
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) vToolbarBg.getLayoutParams();
         int toolbarAndStatusBarHeight = toolbar.getLayoutParams().height + StatusBarUtil.getStatusBarHeight(AppUtil.getContext());
@@ -138,10 +124,8 @@ public class UserFragment extends BaseFragment {
         });
     }
 
-    private void observeUser() {
+    private void observeFetchUser() {
         UserDetailViewModel viewModel = VMProviders.of(this, UserDetailViewModel.class);
-        viewModel.request(mUsername, FetchMode.DEFAULT);
-
         viewModel.liveData.observe(this, it -> {
             if (it == null) return;
             vUserProfile.setLoadingState(it.loadingState);
@@ -153,6 +137,8 @@ public class UserFragment extends BaseFragment {
                 vToolbarBg.load(user.avatar_url, R.mipmap.ic_blur_default, new BlurTransformation(getContext(), 25, 20));
             }
         });
+
+        viewModel.request(mUsername, FetchMode.DEFAULT);
     }
 
     private void observeData() {

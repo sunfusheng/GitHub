@@ -5,15 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.ui.base.BaseFragment;
-import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
 import com.sunfusheng.github.viewmodel.base.VMProviders;
@@ -43,27 +40,7 @@ public class RepoDetailFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initData();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_repo_detail, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
-        super.onViewCreated(view, savedInstanceState);
-        initView();
-        initReadmeView();
-    }
-
-    private void initData() {
-        Bundle arguments = getArguments();
+    public void initData(@Nullable Bundle arguments) {
         if (arguments != null) {
             repoFullName = arguments.getString(Constants.Bundle.REPO_FULL_NAME);
         }
@@ -75,10 +52,23 @@ public class RepoDetailFragment extends BaseFragment {
         }
     }
 
-    private void initView() {
+    @Override
+    public int inflateLayout() {
+        return R.layout.fragment_repo_detail;
+    }
+
+    @Override
+    public void initView(@NonNull View rootView) {
+        vMultiStateView = rootView.findViewById(R.id.multiStateView);
+        vReadMe = rootView.findViewById(R.id.vReadMe);
+
+        initReadmeView();
+    }
+
+    @Override
+    protected void initToolBar() {
+        super.initToolBar();
         toolbar.setTitle(repoName);
-        vMultiStateView = getView().findViewById(R.id.multiStateView);
-        vReadMe = getView().findViewById(R.id.vReadMe);
     }
 
     private void initReadmeView() {

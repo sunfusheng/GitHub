@@ -5,9 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.ui.base.BaseFragment;
@@ -23,16 +21,21 @@ public class DiscoverFragment extends BaseFragment {
 
     private String[] TAB_NAMES = new String[]{"Daily", "Weekly", "Monthly"};
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_discover, container, false);
+    public void initData(@Nullable Bundle arguments) {
+
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initView();
+    public int inflateLayout() {
+        return R.layout.fragment_discover;
+    }
+
+    @Override
+    public void initView(@NonNull View rootView) {
+        tabLayout = rootView.findViewById(R.id.tabLayout);
+        viewPager = rootView.findViewById(R.id.viewPager);
+
         initViewPager();
     }
 
@@ -40,13 +43,6 @@ public class DiscoverFragment extends BaseFragment {
     protected void initToolBar() {
         super.initToolBar();
         toolbar.setTitle("Tending");
-    }
-
-    private void initView() {
-        View view = getView();
-        if (view == null) return;
-        tabLayout = view.findViewById(R.id.tabLayout);
-        viewPager = view.findViewById(R.id.viewPager);
     }
 
     private void initViewPager() {
