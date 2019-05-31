@@ -34,7 +34,7 @@ public class ReadmeDataSource extends BaseDataSource<String> {
 
     @Override
     public Observable<ResponseData<String>> remoteObservable() {
-        return Api.getCommonService(mFetchMode).fetchReadme(mRepoFullName)
+        return Api.getCommonService().fetchReadme(mRepoFullName)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .map(it -> {

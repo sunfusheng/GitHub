@@ -16,19 +16,16 @@ import okhttp3.Response;
 public class BaseNetworkInterceptor implements Interceptor {
 
     @FetchMode
-    private int fetchMode;
-
-    public BaseNetworkInterceptor(@FetchMode int fetchMode) {
-        this.fetchMode = fetchMode;
-    }
+    private int mFetchMode = FetchMode.DEFAULT;
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
+        mFetchMode = BaseInterceptor.getFetchMode(request, mFetchMode);
         Response response = chain.proceed(request);
 
         return response.newBuilder()
-                .header("Cache-Control", BaseInterceptor.getCacheControl(fetchMode))
+                .header("Cache-Control", BaseInterceptor.getCacheControl(mFetchMode))
                 .removeHeader("Pragma")
                 .build();
     }

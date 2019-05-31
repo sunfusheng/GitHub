@@ -2,6 +2,8 @@ package com.sunfusheng.github.net.download;
 
 import android.support.annotation.NonNull;
 
+import com.sunfusheng.github.net.Api;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -25,7 +27,7 @@ public class DownloadManager {
     }
 
     public void download(@NonNull String url, String filePath, IDownloadListener downloadListener) {
-        Download.getService(downloadListener).download(url)
+        Api.getDownloadService(downloadListener).download(url)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .doOnError(throwable -> {

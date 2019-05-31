@@ -2,7 +2,6 @@ package com.sunfusheng.github.net.factory;
 
 import com.sunfusheng.github.BuildConfig;
 import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.net.interceptor.BaseInterceptor;
 import com.sunfusheng.github.net.interceptor.BaseNetworkInterceptor;
 import com.sunfusheng.github.util.CollectionUtil;
@@ -21,14 +20,14 @@ public class OkHttpClientFactory {
     private static final int TIMEOUT = 60; // 60s
     private static final int MAX_CACHE_SIZE = 1024 * 1024 * 20; // 20MB
 
-    public static OkHttpClient create(@FetchMode int fetchMode, Interceptor... interceptors) {
+    public static OkHttpClient create(Interceptor... interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(new BaseInterceptor(fetchMode))
-                .addNetworkInterceptor(new BaseNetworkInterceptor(fetchMode))
+                .addInterceptor(new BaseInterceptor())
+                .addNetworkInterceptor(new BaseNetworkInterceptor())
                 .cache(new Cache(Constants.CacheDir.OKHTTP, MAX_CACHE_SIZE));
 
         if (BuildConfig.debugMode) {

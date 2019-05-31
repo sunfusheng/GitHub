@@ -1,7 +1,5 @@
 package com.sunfusheng.github.net;
 
-import com.sunfusheng.github.model.Auth;
-import com.sunfusheng.github.model.AuthParams;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.model.User;
@@ -11,11 +9,10 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -25,14 +22,6 @@ import retrofit2.http.Url;
  * @author by sunfusheng on 2018/4/8.
  */
 public interface CommonService {
-
-    @GET("user")
-    Observable<User> login();
-
-    @POST("authorizations")
-    Observable<Auth> createAuth(
-            @Body AuthParams authParams
-    );
 
     @GET("users/{username}")
     Observable<Response<User>> fetchUserDetail(
@@ -58,7 +47,8 @@ public interface CommonService {
     Observable<Response<List<Event>>> fetchReceivedEvents(
             @Path("username") String username,
             @Query("page") int page,
-            @Query("per_page") int per_page
+            @Query("per_page") int per_page,
+            @Header("fetch_mode") int fetchMode
     );
 
     @GET
