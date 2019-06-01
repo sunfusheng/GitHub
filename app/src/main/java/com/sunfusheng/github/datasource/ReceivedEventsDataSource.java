@@ -52,12 +52,6 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
     }
 
     private Observable<ResponseData<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
-        if (fetchMode == FetchMode.DEFAULT) {
-            fetchMode = FetchMode.REMOTE;
-        }
-        int finalFetchMode = fetchMode;
-        Log.d("sfs", "fetchReceivedEvents() fetchMode: " + ResponseData.getFetchModeString(finalFetchMode));
-
         return Api.getCommonService().fetchReceivedEvents(mUsername, mPage, mPageCount, fetchMode)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
@@ -67,7 +61,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
                         for (Event event : it.data) {
                             urlSet.add(event.repo.url);
                         }
-                        return fetchRepoDetail(urlSet, finalFetchMode)
+                        return fetchRepoDetail(urlSet, fetchMode)
                                 .map(map -> {
                                     for (Event event : it.data) {
                                         event.repo = map.get(event.repo.url);
@@ -87,7 +81,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
                         if (RepoLruCache.getInstance().get(url) != null && !Constants.isReceivedEventsRefreshTimeExpired()) {
                             return Observable.just(new Pair<>(url, RepoLruCache.getInstance().get(url)));
                         }
-                        return Api.getCommonService().fetchRepoDetail(url)
+                        return Api.getCommonService().fetchRepoDetail(url, fetchMode)
                                 .compose(DataSourceHelper.applyRemoteTransformer())
                                 .map(repoResult -> {
                                     if (DataSourceHelper.isSuccess(repoResult)) {

@@ -17,30 +17,26 @@ import retrofit2.Retrofit;
  * @author by sunfusheng on 2018/4/8.
  */
 public class Api {
-
-    private static final Api instance = new Api();
-    private static Map<String, Retrofit> retrofitMap = new HashMap<>();
+    private static final Api sInstance = new Api();
+    private static Map<String, Retrofit> mRetrofitMap = new HashMap<>();
 
     public static Api getInstance() {
-        return instance;
+        return sInstance;
     }
 
     private Api() {
     }
 
     private static <T> T getService(String baseUrl, boolean isJson, Class<T> service, Interceptor... interceptors) {
-//        StringBuilder key = new StringBuilder();
-//        key.append(baseUrl);
-//        key.append("_").append(isJson);
-//        key.append("_").append(service.getSimpleName());
-//        key.append("_").append(fetchMode);
-//        Retrofit retrofit = retrofitMap.get(key.toString());
-//        if (retrofit == null) {
-//            retrofit = RetrofitFactory.create(OkHttpClientFactory.create(fetchMode, interceptors), baseUrl, isJson);
-//            retrofitMap.put(key.toString(), retrofit);
-//        }
-
-        Retrofit retrofit = RetrofitFactory.create(OkHttpClientFactory.create(interceptors), baseUrl, isJson);
+        StringBuilder key = new StringBuilder();
+        key.append(baseUrl);
+        key.append("_").append(isJson);
+        key.append("_").append(service.getSimpleName());
+        Retrofit retrofit = null;//mRetrofitMap.get(key.toString());
+        if (retrofit == null) {
+            retrofit = RetrofitFactory.create(OkHttpClientFactory.create(interceptors), baseUrl, isJson);
+            mRetrofitMap.put(key.toString(), retrofit);
+        }
         return retrofit.create(service);
     }
 

@@ -32,7 +32,7 @@ public interface CommonService {
     Observable<Response<List<Repo>>> fetchRepoList(
             @Path("username") String username,
             @Query("page") int page,
-            @Query("per_page") int per_page,
+            @Query("per_page") int pageCount,
             @Query("sort") String sort
     );
 
@@ -40,20 +40,21 @@ public interface CommonService {
     Observable<Response<List<Event>>> fetchEvents(
             @Path("username") String username,
             @Query("page") int page,
-            @Query("per_page") int per_page
+            @Query("per_page") int pageCount
     );
 
     @GET("users/{username}/received_events")
     Observable<Response<List<Event>>> fetchReceivedEvents(
             @Path("username") String username,
             @Query("page") int page,
-            @Query("per_page") int per_page,
+            @Query("per_page") int pageCount,
             @Header("fetch_mode") int fetchMode
     );
 
     @GET
     Observable<Response<Repo>> fetchRepoDetail(
-            @Url String url
+            @Url String url,
+            @Header("fetch_mode") int fetchMode
     );
 
     @GET("user/starred/{username}/{repo_name}")

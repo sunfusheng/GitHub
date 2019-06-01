@@ -1,8 +1,10 @@
 package com.sunfusheng.github.net.interceptor;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.net.response.ResponseData;
 
 import java.io.IOException;
 
@@ -15,19 +17,16 @@ import okhttp3.Response;
  */
 public class BaseNetworkInterceptor implements Interceptor {
 
-    @FetchMode
-    private int mFetchMode = FetchMode.DEFAULT;
-
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        mFetchMode = BaseInterceptor.getFetchMode(request, mFetchMode);
+        @FetchMode int fetchMode = BaseInterceptor.getFetchMode(request);
         Response response = chain.proceed(request);
+        Log.w("sfs", "BaseNetworkInterceptor url: " + request.url().toString() + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
 
         return response.newBuilder()
-                .header("Cache-Control", BaseInterceptor.getCacheControl(mFetchMode))
+                .header("Cache-Control", BaseInterceptor.getCacheControl(fetchMode))
                 .removeHeader("Pragma")
                 .build();
     }
 }
-

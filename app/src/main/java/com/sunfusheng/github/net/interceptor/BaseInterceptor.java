@@ -1,6 +1,7 @@
 package com.sunfusheng.github.net.interceptor;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.sunfusheng.github.Constants;
@@ -21,42 +22,49 @@ import okhttp3.Response;
  */
 public class BaseInterceptor implements Interceptor {
 
-    @FetchMode
-    private int mFetchMode = FetchMode.DEFAULT;
-
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        mFetchMode = getFetchMode(request, mFetchMode);
-        Log.d("sfs", "fetchMode: " + ResponseData.getFetchModeString(mFetchMode));
+        @FetchMode int fetchMode = getFetchMode(request);
+        Log.d("sfs", "BaseInterceptor url: " + request.url().toString() + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
 
-        Request.Builder requestBuilder = request.newBuilder().addHeader("Authorization", "token " + PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN));
-        if (!NetworkUtil.isConnected() || mFetchMode == FetchMode.LOCAL) {
-            request = requestBuilder
+        Request.Builder builder = request.newBuilder();
+        String token = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN);
+        if (!TextUtils.isEmpty(token)) {
+            builder.addHeader("Authorization", "token " + token);
+        }
+        if (!NetworkUtil.isConnected() || fetchMode == FetchMode.LOCAL) {
+            request = builder
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
         } else {
-            request = requestBuilder.build();
+            request = builder.build();
         }
 
         Response response = chain.proceed(request);
         return response.newBuilder()
-                .header("Cache-Control", getCacheControl(mFetchMode))
+                .header("Cache-Control", getCacheControl(fetchMode))
                 .removeHeader("Pragma")
                 .build();
     }
 
-    public static int getFetchMode(Request request, @FetchMode int lastFetchMode) {
+    public static int getFetchMode(Request request) {
         String fetchModeString = request.header("fetch_mode");
-        Log.d("sfs", "getFetchMode(): " + fetchModeString);
-        if (fetchModeString != null) {
-            return Integer.valueOf(fetchModeString);
+        if (fetchModeString == null) {
+            return FetchMode.REMOTE;
         }
 
-        if (lastFetchMode != FetchMode.DEFAULT) {
-            return lastFetchMode;
+        @FetchMode int fetchMode;
+        try {
+            fetchMode = Integer.valueOf(fetchModeString);
+        } catch (NumberFormatException e) {
+            fetchMode = FetchMode.REMOTE;
         }
-        return FetchMode.REMOTE;
+
+        if (fetchMode == FetchMode.DEFAULT) {
+            fetchMode = FetchMode.REMOTE;
+        }
+        return fetchMode;
     }
 
     public static String getCacheControl(@FetchMode int fetchMode) {
