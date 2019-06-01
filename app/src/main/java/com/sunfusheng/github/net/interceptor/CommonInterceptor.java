@@ -20,7 +20,7 @@ import okhttp3.Response;
 /**
  * @author by sunfusheng on 2018/4/8.
  */
-public class BaseInterceptor implements Interceptor {
+public class CommonInterceptor implements Interceptor {
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {

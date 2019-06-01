@@ -2,8 +2,8 @@ package com.sunfusheng.github.net.factory;
 
 import com.sunfusheng.github.BuildConfig;
 import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.net.interceptor.BaseInterceptor;
-import com.sunfusheng.github.net.interceptor.BaseNetworkInterceptor;
+import com.sunfusheng.github.net.interceptor.CommonInterceptor;
+import com.sunfusheng.github.net.interceptor.CommonNetworkInterceptor;
 import com.sunfusheng.github.util.CollectionUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -26,8 +26,8 @@ public class OkHttpClientFactory {
                 .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(new BaseInterceptor())
-                .addNetworkInterceptor(new BaseNetworkInterceptor())
+                .addInterceptor(new CommonInterceptor())
+                .addNetworkInterceptor(new CommonNetworkInterceptor())
                 .cache(new Cache(Constants.CacheDir.OKHTTP, MAX_CACHE_SIZE));
 
         if (BuildConfig.debugMode) {

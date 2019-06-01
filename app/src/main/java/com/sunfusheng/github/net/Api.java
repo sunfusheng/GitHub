@@ -32,7 +32,7 @@ public class Api {
         key.append(baseUrl);
         key.append("_").append(isJson);
         key.append("_").append(service.getSimpleName());
-        Retrofit retrofit = null;//mRetrofitMap.get(key.toString());
+        Retrofit retrofit = mRetrofitMap.get(key.toString());
         if (retrofit == null) {
             retrofit = RetrofitFactory.create(OkHttpClientFactory.create(interceptors), baseUrl, isJson);
             mRetrofitMap.put(key.toString(), retrofit);
@@ -41,7 +41,7 @@ public class Api {
     }
 
     public static <T> T getCommonService(Class<T> service, Interceptor... interceptors) {
-        return getService(Constants.BASE_URL, true, service, interceptors);
+        return getService(Constants.BASE_URL_API_GITHUB, true, service, interceptors);
     }
 
     public static LoginService getLoginService() {
@@ -57,6 +57,6 @@ public class Api {
     }
 
     public static WebPageService getWebPageService() {
-        return getService(Constants.BASE_WEB_PAGE_URL, false, WebPageService.class, (Interceptor[]) null);
+        return getService(Constants.BASE_URL_GITHUB, false, WebPageService.class, (Interceptor[]) null);
     }
 }

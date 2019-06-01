@@ -63,7 +63,7 @@ public class HtmlUtil {
                 .map(it -> {
                     List<Repo> tendingRepos = new ArrayList<>();
                     try {
-                        Document doc = Jsoup.parse(it, Constants.BASE_WEB_PAGE_URL);
+                        Document doc = Jsoup.parse(it, Constants.BASE_URL_GITHUB);
                         Elements elements = doc.getElementsByClass("col-12 d-block width-full py-4 border-bottom");
                         if (elements.size() != 0) {
                             for (Element element : elements) {

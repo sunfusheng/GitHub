@@ -12,8 +12,8 @@ import java.io.File;
  */
 public class Constants {
 
-    public static final String BASE_URL = "https://api.github.com/";
-    public static final String BASE_WEB_PAGE_URL = "https://github.com/";
+    public static final String BASE_URL_API_GITHUB = "https://api.github.com/";
+    public static final String BASE_URL_GITHUB = "https://github.com/";
 
     public static final String USER_AGENT = "sunfusheng";
     public static final String ACCEPT_JSON = "application/vnd.github.v3+json";
