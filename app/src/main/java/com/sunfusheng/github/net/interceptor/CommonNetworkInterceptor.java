@@ -24,6 +24,7 @@ public class CommonNetworkInterceptor implements Interceptor {
         Response response = chain.proceed(request);
         Log.w("sfs", "BaseNetworkInterceptor url: " + request.url().toString() + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
 
+        Log.d("sfs", "CommonInterceptor.getCacheControl(fetchMode): " + CommonInterceptor.getCacheControl(fetchMode));
         return response.newBuilder()
                 .header("Cache-Control", CommonInterceptor.getCacheControl(fetchMode))
                 .removeHeader("Pragma")

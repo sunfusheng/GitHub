@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 /**
@@ -34,7 +35,8 @@ public class Api {
         key.append("_").append(service.getSimpleName());
         Retrofit retrofit = mRetrofitMap.get(key.toString());
         if (retrofit == null) {
-            retrofit = RetrofitFactory.create(OkHttpClientFactory.create(interceptors), baseUrl, isJson);
+            OkHttpClient okHttpClient = OkHttpClientFactory.create(interceptors);
+            retrofit = RetrofitFactory.create(okHttpClient, baseUrl, isJson);
             mRetrofitMap.put(key.toString(), retrofit);
         }
         return retrofit.create(service);

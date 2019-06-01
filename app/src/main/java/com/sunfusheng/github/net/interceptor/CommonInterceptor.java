@@ -33,19 +33,18 @@ public class CommonInterceptor implements Interceptor {
         if (!TextUtils.isEmpty(token)) {
             builder.addHeader("Authorization", "token " + token);
         }
+
         if (!NetworkUtil.isConnected() || fetchMode == FetchMode.LOCAL) {
             request = builder
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
         } else {
-            request = builder.build();
+            request = builder
+                    .header("Cache-Control", getCacheControl(fetchMode))
+                    .removeHeader("Pragma")
+                    .build();
         }
-
-        Response response = chain.proceed(request);
-        return response.newBuilder()
-                .header("Cache-Control", getCacheControl(fetchMode))
-                .removeHeader("Pragma")
-                .build();
+        return chain.proceed(request);
     }
 
     public static int getFetchMode(Request request) {
