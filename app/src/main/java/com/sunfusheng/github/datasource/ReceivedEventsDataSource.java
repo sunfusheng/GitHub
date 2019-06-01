@@ -1,6 +1,5 @@
 package com.sunfusheng.github.datasource;
 
-import android.util.Log;
 import android.util.Pair;
 
 import com.sunfusheng.github.Constants;
@@ -52,7 +51,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
     }
 
     private Observable<ResponseData<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
-        return Api.getCommonService().fetchReceivedEvents(mUsername, mPage, mPageCount, fetchMode)
+        return Api.getCommonService().fetchReceivedEvents(mUsername, mPage, mPageCount, fetchMode, localCacheValidateTime())
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .flatMap(it -> {
@@ -81,7 +80,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
                         if (RepoLruCache.getInstance().get(url) != null && !Constants.isReceivedEventsRefreshTimeExpired()) {
                             return Observable.just(new Pair<>(url, RepoLruCache.getInstance().get(url)));
                         }
-                        return Api.getCommonService().fetchRepoDetail(url, fetchMode)
+                        return Api.getCommonService().fetchRepoDetail(url, fetchMode, localCacheValidateTime())
                                 .compose(DataSourceHelper.applyRemoteTransformer())
                                 .map(repoResult -> {
                                     if (DataSourceHelper.isSuccess(repoResult)) {

@@ -74,4 +74,8 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
             return mutableLiveData;
         }
     }
+
+    private int redefineFetchMode() {
+        return 0;
+    }
 }

@@ -4,7 +4,6 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.sunfusheng.github.cache.db.dao.UserDao;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.util.AppUtil;
 
@@ -14,8 +13,7 @@ import com.sunfusheng.github.util.AppUtil;
 @Database(entities = {User.class}, version = 1, exportSchema = false)
 public abstract class UserDatabase extends RoomDatabase {
 
-    public static final String DB_NAME = "users.db";
-
+    private static final String DB_NAME = "users.db";
     private static volatile UserDatabase instance;
 
     public static UserDatabase instance() {
@@ -30,5 +28,4 @@ public abstract class UserDatabase extends RoomDatabase {
     }
 
     public abstract UserDao getUserDao();
-
 }

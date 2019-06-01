@@ -48,13 +48,15 @@ public interface CommonService {
             @Path("username") String username,
             @Query("page") int page,
             @Query("per_page") int pageCount,
-            @Header("fetch_mode") int fetchMode
+            @Header("fetch_mode") int fetchMode,
+            @Header("local_cache_validate_time") int localCacheValidateTime
     );
 
     @GET
     Observable<Response<Repo>> fetchRepoDetail(
             @Url String url,
-            @Header("fetch_mode") int fetchMode
+            @Header("fetch_mode") int fetchMode,
+            @Header("local_cache_validate_time") int localCacheValidateTime
     );
 
     @GET("user/starred/{username}/{repo_name}")

@@ -15,6 +15,7 @@ public class ResponseData<T> {
     public int code;
     public String msg;
     public T data;
+
     public int loadingState;
     public String loadingStateString;
     public int fetchMode;

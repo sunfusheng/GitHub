@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.cache.db.AccessTimeDatabase;
+import com.sunfusheng.github.model.AccessTime;
 import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.github.util.NetworkUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
@@ -26,7 +28,6 @@ public class CommonInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         @FetchMode int fetchMode = getFetchMode(request);
-        Log.d("sfs", "BaseInterceptor url: " + request.url().toString() + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
 
         Request.Builder builder = request.newBuilder();
         String token = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN);
@@ -44,29 +45,58 @@ public class CommonInterceptor implements Interceptor {
                     .removeHeader("Pragma")
                     .build();
         }
-        return chain.proceed(request);
+
+        Response response = chain.proceed(request);
+        saveAccessTime(request, response, fetchMode);
+        return response;
     }
 
-    public static int getFetchMode(Request request) {
+    private void saveAccessTime(Request request, Response response, @FetchMode int fetchMode) {
+        if (response.isSuccessful() && fetchMode != FetchMode.LOCAL) {
+            AccessTimeDatabase.instance().getAccessTimeDao().insert(
+                    new AccessTime(request.url().toString(), System.currentTimeMillis())
+            );
+        }
+    }
+
+    static int getFetchMode(Request request) {
+        @FetchMode int fetchMode = FetchMode.REMOTE;
         String fetchModeString = request.header("fetch_mode");
-        if (fetchModeString == null) {
-            return FetchMode.REMOTE;
+        if (fetchModeString != null) {
+            try {
+                fetchMode = Integer.valueOf(fetchModeString);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
 
-        @FetchMode int fetchMode;
-        try {
-            fetchMode = Integer.valueOf(fetchModeString);
-        } catch (NumberFormatException e) {
-            fetchMode = FetchMode.REMOTE;
+        long localCacheValidateTime = 0;
+        String localCacheValidateTimeString = request.header("local_cache_validate_time");
+        if (localCacheValidateTimeString != null) {
+            try {
+                localCacheValidateTime = Long.valueOf(localCacheValidateTimeString);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
 
         if (fetchMode == FetchMode.DEFAULT) {
             fetchMode = FetchMode.REMOTE;
         }
+
+        AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());
+        if (accessTime != null) {
+            long betweenTime = (System.currentTimeMillis() - accessTime.accessTime) / 1000;
+            if (betweenTime < localCacheValidateTime) {
+                fetchMode = FetchMode.LOCAL;
+            }
+            // todo delete
+            Log.d("sfs", accessTime.url + " betweenTime: " + betweenTime + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
+        }
         return fetchMode;
     }
 
-    public static String getCacheControl(@FetchMode int fetchMode) {
+    static String getCacheControl(@FetchMode int fetchMode) {
         String cacheControl;
         if (NetworkUtil.isConnected()) {
             int maxAge = Integer.MAX_VALUE;
