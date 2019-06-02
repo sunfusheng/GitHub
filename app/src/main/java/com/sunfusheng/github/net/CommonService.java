@@ -48,15 +48,15 @@ public interface CommonService {
             @Path("username") String username,
             @Query("page") int page,
             @Query("per_page") int pageCount,
-            @Header("fetch_mode") int fetchMode,
-            @Header("local_cache_validate_time") int localCacheValidateTime
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
     );
 
     @GET
     Observable<Response<Repo>> fetchRepoDetail(
             @Url String url,
-            @Header("fetch_mode") int fetchMode,
-            @Header("local_cache_validate_time") int localCacheValidateTime
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
     );
 
     @GET("user/starred/{username}/{repo_name}")
@@ -95,7 +95,9 @@ public interface CommonService {
     @GET("repos/{repoFullName}/readme")
     @Headers("Accept: application/vnd.github.html")
     Observable<Response<ResponseBody>> fetchReadme(
-            @Path(value = "repoFullName", encoded = true) String repoFullName
+            @Path(value = "repoFullName", encoded = true) String repoFullName,
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
     );
 
 }

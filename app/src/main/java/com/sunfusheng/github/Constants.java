@@ -2,7 +2,6 @@ package com.sunfusheng.github;
 
 import android.os.Environment;
 
-import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.SdCardUtil;
 
 import java.io.File;
@@ -24,12 +23,9 @@ public class Constants {
     public static final String CLIENT_SECRET = "2d7abc27a2812e3927257a7ae3274475a0505907";
 
     public static final int PAGE_COUNT = 30;
-    public static final int _10_MINUTES = 600;
-
-    public static boolean isReceivedEventsRefreshTimeExpired() {
-        long lastRefreshTime = PreferenceUtil.getInstance().getLong(Constants.PreferenceKey.RECEIVED_EVENTS_REFRESH_TIME, -1);
-        return lastRefreshTime == -1 || ((System.currentTimeMillis() - lastRefreshTime) / 1000) > Constants._10_MINUTES;
-    }
+    public static final int _10_MINUTES = 60 * 10;
+    public static final int _30_MINUTES = 60 * 30;
+    public static final int _60_MINUTES = 60 * 60;
 
     public static class PreferenceName {
         public static final String SETTINGS = "preference_name_settings";

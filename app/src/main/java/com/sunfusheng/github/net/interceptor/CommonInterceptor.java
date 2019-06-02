@@ -27,27 +27,28 @@ public class CommonInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        @FetchMode int fetchMode = getFetchMode(request);
+        @FetchMode int realFetchMode = getFetchMode(request);
 
         Request.Builder builder = request.newBuilder();
+        builder.addHeader("real-fetch-mode", ResponseData.getFetchModeString(realFetchMode));
         String token = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN);
         if (!TextUtils.isEmpty(token)) {
             builder.addHeader("Authorization", "token " + token);
         }
 
-        if (!NetworkUtil.isConnected() || fetchMode == FetchMode.LOCAL) {
+        if (!NetworkUtil.isConnected() || realFetchMode == FetchMode.LOCAL) {
             request = builder
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
         } else {
             request = builder
-                    .header("Cache-Control", getCacheControl(fetchMode))
+                    .header("Cache-Control", getCacheControl(realFetchMode))
                     .removeHeader("Pragma")
                     .build();
         }
 
         Response response = chain.proceed(request);
-        saveAccessTime(request, response, fetchMode);
+        saveAccessTime(request, response, realFetchMode);
         return response;
     }
 
@@ -61,7 +62,7 @@ public class CommonInterceptor implements Interceptor {
 
     static int getFetchMode(Request request) {
         @FetchMode int fetchMode = FetchMode.REMOTE;
-        String fetchModeString = request.header("fetch_mode");
+        String fetchModeString = request.header("fetch-mode");
         if (fetchModeString != null) {
             try {
                 fetchMode = Integer.valueOf(fetchModeString);
@@ -71,7 +72,7 @@ public class CommonInterceptor implements Interceptor {
         }
 
         long localCacheValidateTime = 0;
-        String localCacheValidateTimeString = request.header("local_cache_validate_time");
+        String localCacheValidateTimeString = request.header("local-cache-validate-time");
         if (localCacheValidateTimeString != null) {
             try {
                 localCacheValidateTime = Long.valueOf(localCacheValidateTimeString);
@@ -87,7 +88,7 @@ public class CommonInterceptor implements Interceptor {
         AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());
         if (accessTime != null) {
             long betweenTime = (System.currentTimeMillis() - accessTime.accessTime) / 1000;
-            if (betweenTime < localCacheValidateTime) {
+            if (betweenTime < localCacheValidateTime && fetchMode != FetchMode.FORCE_REMOTE) {
                 fetchMode = FetchMode.LOCAL;
             }
             // todo delete

@@ -1,5 +1,6 @@
 package com.sunfusheng.github.datasource;
 
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.multistate.LoadingState;
 
@@ -53,14 +54,25 @@ public class DataSourceHelper {
                         return ResponseData.empty();
                     }
 
+                    @FetchMode int realFetchMode = FetchMode.REMOTE;
+                    String realFetchModeString = it.raw().request().header("real-fetch-mode");
+                    if (realFetchModeString != null) {
+                            realFetchMode = ResponseData.getFetchMode(realFetchModeString);
+                    }
+
+                    ResponseData<T> responseData;
                     if (it.isSuccessful()) {
                         if (it.body() == null) {
-                            return ResponseData.empty(it.code());
+                            responseData = ResponseData.empty(it.code());
+                        } else {
+                            responseData = ResponseData.success(it);
                         }
-                        return ResponseData.success(it);
                     } else {
-                        return ResponseData.error(it.code());
+                        responseData = ResponseData.error(it.code());
                     }
+                    responseData.fetchMode = realFetchMode;
+                    responseData.fetchModeString = realFetchModeString;
+                    return responseData;
                 });
     }
 }

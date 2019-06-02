@@ -44,26 +44,19 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
             @FetchMode int fetchMode) {
 
         if (fetchMode == FetchMode.LOCAL) {
-            return ObservableLiveData.fromObservable(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)));
+            return ObservableLiveData.fromObservable(localObservable);
         } else if (fetchMode == FetchMode.REMOTE) {
-            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.setFetchMode(FetchMode.REMOTE))
-                    .switchIfEmpty(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
-                    .onErrorResumeNext(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
+            return ObservableLiveData.fromObservable(
+                    remoteObservable.switchIfEmpty(localObservable).onErrorResumeNext(localObservable)
             );
         } else if (fetchMode == FetchMode.FORCE_REMOTE) {
-            return ObservableLiveData.fromObservable(remoteObservable.doOnNext(it -> it.setFetchMode(FetchMode.FORCE_REMOTE))
-                    .switchIfEmpty(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
-                    .onErrorResumeNext(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)))
+            return ObservableLiveData.fromObservable(
+                    remoteObservable.switchIfEmpty(localObservable).onErrorResumeNext(localObservable)
             );
         } else {
             MutableLiveData<ResponseData<R>> mutableLiveData = new MutableLiveData<>();
-            Observable.concat(localObservable.doOnNext(it -> it.setFetchMode(FetchMode.LOCAL)),
-                    remoteObservable.doOnNext(it -> it.setFetchMode(FetchMode.REMOTE)))
+            Observable.concat(localObservable, remoteObservable.switchIfEmpty(localObservable).onErrorResumeNext(localObservable))
                     .subscribeOn(Schedulers.io())
-                    .switchIfEmpty(Observable.just(ResponseData.empty()))
-                    .onErrorResumeNext(throwable -> {
-                        return Observable.just(ResponseData.error(throwable));
-                    })
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new ResponseObserver<R>() {
                         @Override

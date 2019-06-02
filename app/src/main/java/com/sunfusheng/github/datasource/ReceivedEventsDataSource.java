@@ -4,7 +4,6 @@ import android.util.Pair;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.cache.lrucache.RepoLruCache;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.net.Api;
@@ -37,7 +36,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
 
     @Override
     public int localCacheValidateTime() {
-        return 600;
+        return Constants._10_MINUTES;
     }
 
     @Override
@@ -77,14 +76,10 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
             return Observable.just(urlSet)
                     .flatMap(Observable::fromIterable)
                     .flatMap(url -> {
-                        if (RepoLruCache.getInstance().get(url) != null && !Constants.isReceivedEventsRefreshTimeExpired()) {
-                            return Observable.just(new Pair<>(url, RepoLruCache.getInstance().get(url)));
-                        }
                         return Api.getCommonService().fetchRepoDetail(url, fetchMode, localCacheValidateTime())
                                 .compose(DataSourceHelper.applyRemoteTransformer())
                                 .map(repoResult -> {
                                     if (DataSourceHelper.isSuccess(repoResult)) {
-                                        RepoLruCache.getInstance().put(url, repoResult.data);
                                         return new Pair<>(url, repoResult.data);
                                     }
                                     return new Pair<>(url, new Repo());

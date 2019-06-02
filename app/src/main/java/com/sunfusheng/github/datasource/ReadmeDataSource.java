@@ -1,5 +1,6 @@
 package com.sunfusheng.github.datasource;
 
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.cache.disklrucache.ReadmeDiskLruCache;
 import com.sunfusheng.github.net.Api;
@@ -24,6 +25,11 @@ public class ReadmeDataSource extends BaseDataSource<String> {
     }
 
     @Override
+    public int localCacheValidateTime() {
+        return Constants._10_MINUTES;
+    }
+
+    @Override
     public Observable<ResponseData<String>> localObservable() {
         return Observable.defer(() -> {
             return Observable.create((ObservableOnSubscribe<ResponseData<String>>) emitter -> {
@@ -34,7 +40,7 @@ public class ReadmeDataSource extends BaseDataSource<String> {
 
     @Override
     public Observable<ResponseData<String>> remoteObservable() {
-        return Api.getCommonService().fetchReadme(mRepoFullName)
+        return Api.getCommonService().fetchReadme(mRepoFullName, mFetchMode, localCacheValidateTime())
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .map(it -> {

@@ -118,9 +118,9 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
             switch (it.loadingState) {
                 case LoadingState.LOADING:
-                    if (!isPullToRefresh) {
-                        startSvgAnim();
-                    }
+//                    if (!isPullToRefresh) {
+//                        startSvgAnim();
+//                    }
                     break;
                 case LoadingState.SUCCESS:
                     if (it.fetchMode != FetchMode.LOCAL) {

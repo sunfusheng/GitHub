@@ -88,7 +88,22 @@ public class ResponseData<T> {
             case FetchMode.FORCE_REMOTE:
                 return "FORCE_REMOTE";
             default:
-                return "UNKNOWN";
+                return "REMOTE";
+        }
+    }
+
+    public static int getFetchMode(String fetchModeString) {
+        switch (fetchModeString) {
+            case "DEFAULT":
+                return FetchMode.DEFAULT;
+            case "LOCAL":
+                return FetchMode.LOCAL;
+            case "REMOTE":
+                return FetchMode.REMOTE;
+            case "FORCE_REMOTE":
+                return FetchMode.FORCE_REMOTE;
+            default:
+                return FetchMode.REMOTE;
         }
     }
 
