@@ -19,7 +19,6 @@ public abstract class ResponseObserver<T> implements Observer<ResponseData<T>> {
     public void onSubscribe(Disposable disposable) {
         isOnNext = false;
         mDisposableWeakRef = new WeakReference<>(disposable);
-        onNotify(ResponseData.loading());
     }
 
     @Override

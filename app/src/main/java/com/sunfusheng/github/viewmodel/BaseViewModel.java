@@ -9,12 +9,13 @@ import android.util.Log;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.BaseDataSource;
-import com.sunfusheng.github.net.response.ResponseObserver;
 import com.sunfusheng.github.net.response.ResponseData;
+import com.sunfusheng.github.net.response.ResponseObserver;
 import com.sunfusheng.github.viewmodel.params.BaseParams;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -43,32 +44,41 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
             @NonNull Observable<ResponseData<R>> remoteObservable,
             @FetchMode int fetchMode) {
 
+        MutableLiveData<ResponseData<R>> mutableLiveData = new MutableLiveData<>();
+        Observable<ResponseData<R>> observable;
         if (fetchMode == FetchMode.LOCAL) {
-            return ObservableLiveData.fromObservable(localObservable);
-        } else if (fetchMode == FetchMode.REMOTE) {
-            return ObservableLiveData.fromObservable(
-                    remoteObservable.switchIfEmpty(localObservable).onErrorResumeNext(localObservable)
-            );
-        } else if (fetchMode == FetchMode.FORCE_REMOTE) {
-            return ObservableLiveData.fromObservable(
-                    remoteObservable.switchIfEmpty(localObservable).onErrorResumeNext(localObservable)
-            );
+            observable = localObservable;
+        } else if (fetchMode == FetchMode.REMOTE || fetchMode == FetchMode.FORCE_REMOTE) {
+            observable = remoteObservable.switchIfEmpty(localObservable)
+                    .onErrorResumeNext(localObservable);
         } else {
-            MutableLiveData<ResponseData<R>> mutableLiveData = new MutableLiveData<>();
-            Observable.concat(localObservable, remoteObservable.switchIfEmpty(localObservable).onErrorResumeNext(localObservable))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new ResponseObserver<R>() {
-                        @Override
-                        public void onNotify(ResponseData<R> result) {
-                            mutableLiveData.setValue(result);
-                        }
-                    });
-            return mutableLiveData;
+            observable = Observable.concat(
+                    localObservable,
+                    remoteObservable.switchIfEmpty(localObservable)
+                            .onErrorResumeNext(localObservable)
+            );
         }
-    }
 
-    private int redefineFetchMode() {
-        return 0;
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ResponseObserver<R>() {
+                    @Override
+                    public void onSubscribe(Disposable disposable) {
+                        super.onSubscribe(disposable);
+                        @FetchMode int realFetchMode = fetchMode;
+                        if (fetchMode == FetchMode.DEFAULT) {
+
+                        }
+                        ResponseData<R> loadingResponseData = ResponseData.loading();
+                        loadingResponseData.setFetchMode(realFetchMode);
+                        mutableLiveData.setValue(loadingResponseData);
+                    }
+
+                    @Override
+                    public void onNotify(ResponseData<R> result) {
+                        mutableLiveData.setValue(result);
+                    }
+                });
+        return mutableLiveData;
     }
 }
