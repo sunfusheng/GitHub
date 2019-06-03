@@ -148,7 +148,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
         isPullToRefresh = false;
         recyclerViewWrapper.setLoadingState(LoadingState.LOADING);
-        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.DEFAULT);
+        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.REMOTE);
     }
 
     private boolean isPullToRefresh;

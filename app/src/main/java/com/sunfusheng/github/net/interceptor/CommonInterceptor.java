@@ -2,7 +2,6 @@ package com.sunfusheng.github.net.interceptor;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
@@ -81,10 +80,6 @@ public class CommonInterceptor implements Interceptor {
             }
         }
 
-        if (fetchMode == FetchMode.DEFAULT) {
-            fetchMode = FetchMode.REMOTE;
-        }
-
         AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());
         if (accessTime != null) {
             long betweenTime = (System.currentTimeMillis() - accessTime.accessTime) / 1000;
@@ -92,7 +87,7 @@ public class CommonInterceptor implements Interceptor {
                 fetchMode = FetchMode.LOCAL;
             }
             // todo delete
-            Log.d("sfs", accessTime.url + " betweenTime: " + betweenTime + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
+//            Log.d("sfs", accessTime.url + " betweenTime: " + betweenTime + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
         }
         return fetchMode;
     }

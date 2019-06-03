@@ -33,7 +33,7 @@ public class ReadmeDataSource extends BaseDataSource<String> {
     public Observable<ResponseData<String>> localObservable() {
         return Observable.defer(() -> {
             return Observable.create((ObservableOnSubscribe<ResponseData<String>>) emitter -> {
-                DataSourceHelper.emitResponseData(emitter, mReadmeDiskLruCache.get(mRepoFullName));
+                DataSourceHelper.emitLocalResponseData(emitter, mReadmeDiskLruCache.get(mRepoFullName));
             });
         }).subscribeOn(Schedulers.io());
     }
@@ -44,19 +44,13 @@ public class ReadmeDataSource extends BaseDataSource<String> {
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .map(it -> {
-                    ResponseData<String> result;
-                    if (it.loadingState == LoadingState.LOADING) {
-                        result = ResponseData.loading();
-                    } else if (it.loadingState == LoadingState.SUCCESS) {
-                        String readme = it.data.string();
-                        mReadmeDiskLruCache.put(mRepoFullName, readme);
-                        result = ResponseData.success(readme);
-                    } else if (it.loadingState == LoadingState.ERROR) {
-                        result = ResponseData.error(it.code);
-                    } else {
-                        result = ResponseData.empty(it.code);
+                    String readme = null;
+                    if (it.loadingState == LoadingState.SUCCESS) {
+                        readme = it.data.string();
                     }
-                    return result;
+                    ResponseData<String> response = new ResponseData<String>(it.code, it.msg, readme, it.loadingState);
+                    response.setFetchMode(it.fetchMode);
+                    return response;
                 });
     }
 }

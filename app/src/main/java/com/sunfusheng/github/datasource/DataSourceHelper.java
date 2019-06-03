@@ -14,9 +14,11 @@ import retrofit2.Response;
  */
 public class DataSourceHelper {
 
-    public static <T> void emitResponseData(ObservableEmitter<ResponseData<T>> emitter, T t) {
+    public static <T> void emitLocalResponseData(ObservableEmitter<ResponseData<T>> emitter, T t) {
         if (t != null) {
-            emitter.onNext(ResponseData.success(t));
+            ResponseData<T> localResponseData = ResponseData.success(t);
+            localResponseData.setFetchMode(FetchMode.LOCAL);
+            emitter.onNext(localResponseData);
         }
         emitter.onComplete();
     }
@@ -57,7 +59,7 @@ public class DataSourceHelper {
                     @FetchMode int realFetchMode = FetchMode.REMOTE;
                     String realFetchModeString = it.raw().request().header("real-fetch-mode");
                     if (realFetchModeString != null) {
-                            realFetchMode = ResponseData.getFetchMode(realFetchModeString);
+                        realFetchMode = ResponseData.getFetchMode(realFetchModeString);
                     }
 
                     ResponseData<T> responseData;
@@ -70,8 +72,7 @@ public class DataSourceHelper {
                     } else {
                         responseData = ResponseData.error(it.code());
                     }
-                    responseData.fetchMode = realFetchMode;
-                    responseData.fetchModeString = realFetchModeString;
+                    responseData.setFetchMode(realFetchMode);
                     return responseData;
                 });
     }

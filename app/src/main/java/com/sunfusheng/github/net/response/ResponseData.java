@@ -37,8 +37,9 @@ public class ResponseData<T> {
         this(response.code(), response.message(), response.body(), loadingState);
     }
 
-    public int getFetchMode() {
-        return fetchMode;
+    public void setLoadingState(int loadingState) {
+        this.loadingState = loadingState;
+        this.loadingStateString = getLoadingStateString(loadingState);
     }
 
     public void setFetchMode(@FetchMode int fetchMode) {
@@ -79,8 +80,6 @@ public class ResponseData<T> {
 
     public static String getFetchModeString(@FetchMode int fetchMode) {
         switch (fetchMode) {
-            case FetchMode.DEFAULT:
-                return "DEFAULT";
             case FetchMode.LOCAL:
                 return "LOCAL";
             case FetchMode.REMOTE:
@@ -94,8 +93,6 @@ public class ResponseData<T> {
 
     public static int getFetchMode(String fetchModeString) {
         switch (fetchModeString) {
-            case "DEFAULT":
-                return FetchMode.DEFAULT;
             case "LOCAL":
                 return FetchMode.LOCAL;
             case "REMOTE":

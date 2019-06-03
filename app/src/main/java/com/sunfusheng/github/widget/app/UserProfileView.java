@@ -94,7 +94,7 @@ public class UserProfileView extends LinearLayout {
                 setUser(it.data);
             }
         });
-        viewModel.request(username, FetchMode.DEFAULT);
+        viewModel.request(username, FetchMode.REMOTE);
     }
 
     public void setLoadingState(@LoadingState int loadingState) {

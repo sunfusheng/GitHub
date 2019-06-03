@@ -34,7 +34,7 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
     ));
 
     protected void request(@NonNull P params, @NonNull BaseDataSource<R> dataSource) {
-        Log.d("sfs", "request(): " + params.toString());
+        Log.d("sfs", this + " request(): " + params.toString());
         mDataSource = dataSource;
         mParams.setValue(params);
     }
@@ -48,7 +48,7 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
         Observable<ResponseData<R>> observable;
         if (fetchMode == FetchMode.LOCAL) {
             observable = localObservable;
-        } else if (fetchMode == FetchMode.REMOTE || fetchMode == FetchMode.FORCE_REMOTE) {
+        } else if (fetchMode == FetchMode.FORCE_REMOTE) {
             observable = remoteObservable.switchIfEmpty(localObservable)
                     .onErrorResumeNext(localObservable);
         } else {
@@ -66,7 +66,7 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                     public void onSubscribe(Disposable disposable) {
                         super.onSubscribe(disposable);
                         @FetchMode int realFetchMode = fetchMode;
-                        if (fetchMode == FetchMode.DEFAULT) {
+                        if (fetchMode == FetchMode.REMOTE) {
 
                         }
                         ResponseData<R> loadingResponseData = ResponseData.loading();

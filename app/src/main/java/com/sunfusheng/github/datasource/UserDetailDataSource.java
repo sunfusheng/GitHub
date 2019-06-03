@@ -22,7 +22,7 @@ public class UserDetailDataSource extends BaseDataSource<User> {
     @Override
     public Observable<ResponseData<User>> localObservable() {
         return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseData<User>>) emitter -> {
-            DataSourceHelper.emitResponseData(emitter, UserDatabase.instance().getUserDao().query(mUserName));
+            DataSourceHelper.emitLocalResponseData(emitter, UserDatabase.instance().getUserDao().query(mUserName));
         })).subscribeOn(Schedulers.io());
     }
 

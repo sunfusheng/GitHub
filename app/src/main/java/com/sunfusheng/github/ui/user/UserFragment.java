@@ -138,7 +138,7 @@ public class UserFragment extends BaseFragment {
             }
         });
 
-        viewModel.request(mUsername, FetchMode.DEFAULT);
+        viewModel.request(mUsername, FetchMode.REMOTE);
     }
 
     private void observeData() {

@@ -78,7 +78,7 @@ public class RepoDetailFragment extends BaseFragment {
 
         ReadmeViewModel viewModel = VMProviders.of(this, ReadmeViewModel.class);
         viewModel.liveData.observe(this, it -> {
-            Log.d("sfs", "fetchReadme() loadingState: " + it.loadingStateString);
+            Log.d("sfs", "fetchReadme() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchMode + " " + it.fetchModeString);
 
             if (it.loadingState == LoadingState.SUCCESS) {
                 vMultiStateView.setVisibility(View.GONE);
@@ -91,6 +91,6 @@ public class RepoDetailFragment extends BaseFragment {
             }
         });
 
-        viewModel.request(repoFullName, FetchMode.DEFAULT);
+        viewModel.request(repoFullName, FetchMode.REMOTE);
     }
 }

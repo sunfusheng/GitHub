@@ -69,7 +69,7 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
         viewModel.liveData.observe(this, it -> {
             recyclerViewWrapper.setItems(it.data);
         });
-        viewModel.request(username, 1, FetchMode.DEFAULT);
+        viewModel.request(username, 1, FetchMode.REMOTE);
     }
 
     @Override
