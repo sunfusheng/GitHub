@@ -21,6 +21,9 @@ public class ResponseData<T> {
     public int fetchMode;
     public String fetchModeString;
 
+    public String url;
+    public long localCacheValidateTime;
+
     public ResponseData(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;

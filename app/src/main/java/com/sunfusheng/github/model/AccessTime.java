@@ -13,11 +13,11 @@ public class AccessTime {
     @PrimaryKey
     @NonNull
     public String url = "";
-    public long accessTime;
+    public long lastAccessTime;
 
-    public AccessTime(@NonNull String url, long accessTime) {
+    public AccessTime(@NonNull String url, long lastAccessTime) {
         this.url = url;
-        this.accessTime = accessTime;
+        this.lastAccessTime = lastAccessTime;
     }
 
     @NonNull
@@ -25,7 +25,7 @@ public class AccessTime {
     public String toString() {
         return "AccessTime{" +
                 "url='" + url + '\'' +
-                ", accessTime=" + accessTime +
+                ", lastAccessTime=" + lastAccessTime +
                 '}';
     }
 }

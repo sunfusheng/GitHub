@@ -1,12 +1,14 @@
 package com.sunfusheng.github.datasource;
 
 import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.net.interceptor.CommonInterceptor;
 import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.multistate.LoadingState;
 
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Request;
 import retrofit2.Response;
 
 /**
@@ -56,8 +58,9 @@ public class DataSourceHelper {
                         return ResponseData.empty();
                     }
 
+                    Request request = it.raw().request();
                     @FetchMode int realFetchMode = FetchMode.REMOTE;
-                    String realFetchModeString = it.raw().request().header("real-fetch-mode");
+                    String realFetchModeString = request.header("real-fetch-mode");
                     if (realFetchModeString != null) {
                         realFetchMode = ResponseData.getFetchMode(realFetchModeString);
                     }
@@ -73,6 +76,8 @@ public class DataSourceHelper {
                         responseData = ResponseData.error(it.code());
                     }
                     responseData.setFetchMode(realFetchMode);
+                    responseData.url = request.url().toString();
+                    responseData.localCacheValidateTime = CommonInterceptor.getLocalCacheValidateTimeByRequestHeader(request);
                     return responseData;
                 });
     }

@@ -70,6 +70,21 @@ public class CommonInterceptor implements Interceptor {
             }
         }
 
+        long localCacheValidateTime = getLocalCacheValidateTimeByRequestHeader(request);
+
+        AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());
+        if (accessTime != null) {
+            long betweenTime = (System.currentTimeMillis() - accessTime.lastAccessTime) / 1000;
+            if (betweenTime < localCacheValidateTime && fetchMode != FetchMode.FORCE_REMOTE) {
+                fetchMode = FetchMode.LOCAL;
+            }
+            // todo delete
+//            Log.d("sfs", accessTime.url + " betweenTime: " + betweenTime + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
+        }
+        return fetchMode;
+    }
+
+    public static long getLocalCacheValidateTimeByRequestHeader(Request request) {
         long localCacheValidateTime = 0;
         String localCacheValidateTimeString = request.header("local-cache-validate-time");
         if (localCacheValidateTimeString != null) {
@@ -79,17 +94,7 @@ public class CommonInterceptor implements Interceptor {
                 e.printStackTrace();
             }
         }
-
-        AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());
-        if (accessTime != null) {
-            long betweenTime = (System.currentTimeMillis() - accessTime.accessTime) / 1000;
-            if (betweenTime < localCacheValidateTime && fetchMode != FetchMode.FORCE_REMOTE) {
-                fetchMode = FetchMode.LOCAL;
-            }
-            // todo delete
-//            Log.d("sfs", accessTime.url + " betweenTime: " + betweenTime + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
-        }
-        return fetchMode;
+        return localCacheValidateTime;
     }
 
     static String getCacheControl(@FetchMode int fetchMode) {

@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.sunfusheng.github.annotation.FetchMode;
@@ -81,6 +82,22 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                                 mFirstNotify = notify;
                                 if (DataSourceHelper.isSuccess(notify)) {
                                     mutableLiveData.setValue(notify);
+                                }
+
+                                if (!TextUtils.isEmpty(notify.url)) {
+//                                    AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(notify.url);
+//                                    if (accessTime != null) {
+//                                        long betweenTime = (System.currentTimeMillis() - accessTime.lastAccessTime) / 1000;
+//                                        if (betweenTime > notify.localCacheValidateTime) {
+//                                            ResponseData<R> loadingNotify = ResponseData.loading();
+//                                            loadingNotify.setFetchMode(FetchMode.REMOTE);
+//                                            mutableLiveData.setValue(notify);
+//                                        }
+//                                    }
+
+                                    if (notify.localCacheValidateTime > 0) {
+                                        Log.d("sfs", "notify.url: " + notify.url + " notify.localCacheValidateTime: " + notify.localCacheValidateTime);
+                                    }
                                 }
                             } else {
                                 if (!DataSourceHelper.isSuccess(mFirstNotify) || (DataSourceHelper.isSuccess(notify) && notify.fetchMode != FetchMode.LOCAL)) {
