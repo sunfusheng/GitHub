@@ -3,11 +3,7 @@
 一款精美的GitHub Android客户端
 
 
-## API接口说明
-
-GitHub开发者文档
-https://developer.github.com/v3/
-
+## [开发者API接口文档](https://developer.github.com/v3/)
 
 用户信息
 https://api.github.com/users/sunfusheng
