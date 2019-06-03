@@ -3,7 +3,7 @@
 一款精美的GitHub Android客户端
 
 
-## api地址
+## API接口说明
 
 GitHub开发者文档
 https://developer.github.com/v3/
@@ -43,20 +43,15 @@ readme
 https://api.github.com/repos/sunfusheng/MultiType/readme
 https://api.github.com/repos/sunfusheng/MultiType/contents/README.md
 
-## 第三方核心库
-
-![jsoup](https://github.com/jhy/jsoup)
-[retrofit2-converter-jaxb](https://github.com/cn-src/retrofit2-converter-jaxb)
-
-### 个人微信公众号
+## 个人微信公众号
 
 ![](http://ourvm0t8d.bkt.clouddn.com/wx_gongzhonghao.png)
 
-### 打赏才是真爱^_^
+## 打赏才是真爱^_^
 
 ![](http://ourvm0t8d.bkt.clouddn.com/wx_shoukuanma.png)
 
-### 关于我
+## 关于我
 
 [GitHub: sunfusheng](https://github.com/sunfusheng)  
 
