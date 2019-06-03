@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.BaseDataSource;
+import com.sunfusheng.github.datasource.DataSourceHelper;
 import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.github.net.response.ResponseObserver;
 import com.sunfusheng.github.viewmodel.params.BaseParams;
@@ -34,10 +35,12 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
     ));
 
     protected void request(@NonNull P params, @NonNull BaseDataSource<R> dataSource) {
-        Log.d("sfs", this + " request(): " + params.toString());
+        Log.d("sfs", "request(): " + params.toString());
         mDataSource = dataSource;
         mParams.setValue(params);
     }
+
+    private ResponseData<R> mFirstNotify = null;
 
     private LiveData<ResponseData<R>> fetchData(
             @NonNull Observable<ResponseData<R>> localObservable,
@@ -65,18 +68,28 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                     @Override
                     public void onSubscribe(Disposable disposable) {
                         super.onSubscribe(disposable);
-                        @FetchMode int realFetchMode = fetchMode;
-                        if (fetchMode == FetchMode.REMOTE) {
-
-                        }
-                        ResponseData<R> loadingResponseData = ResponseData.loading();
-                        loadingResponseData.setFetchMode(realFetchMode);
-                        mutableLiveData.setValue(loadingResponseData);
+                        mFirstNotify = null;
+                        ResponseData<R> loadingNotify = ResponseData.loading();
+                        loadingNotify.setFetchMode(fetchMode);
+                        mutableLiveData.setValue(loadingNotify);
                     }
 
                     @Override
-                    public void onNotify(ResponseData<R> result) {
-                        mutableLiveData.setValue(result);
+                    public void onNotify(ResponseData<R> notify) {
+                        if (fetchMode == FetchMode.REMOTE) {
+                            if (mFirstNotify == null) {
+                                mFirstNotify = notify;
+                                if (DataSourceHelper.isSuccess(notify)) {
+                                    mutableLiveData.setValue(notify);
+                                }
+                            } else {
+                                if (!DataSourceHelper.isSuccess(mFirstNotify) || (DataSourceHelper.isSuccess(notify) && notify.fetchMode != FetchMode.LOCAL)) {
+                                    mutableLiveData.setValue(notify);
+                                }
+                            }
+                        } else {
+                            mutableLiveData.setValue(notify);
+                        }
                     }
                 });
         return mutableLiveData;

@@ -58,5 +58,5 @@ public abstract class ResponseObserver<T> implements Observer<ResponseData<T>> {
         }
     }
 
-    public abstract void onNotify(ResponseData<T> result);
+    public abstract void onNotify(ResponseData<T> notify);
 }
