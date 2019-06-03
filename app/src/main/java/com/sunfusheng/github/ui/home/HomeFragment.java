@@ -118,9 +118,9 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
             switch (it.loadingState) {
                 case LoadingState.LOADING:
-//                    if (!isPullToRefresh) {
-//                        startSvgAnim();
-//                    }
+                    if (!isPullToRefresh && it.fetchMode == FetchMode.REMOTE) {
+                        startSvgAnim();
+                    }
                     break;
                 case LoadingState.SUCCESS:
                     if (it.fetchMode != FetchMode.LOCAL) {
@@ -162,6 +162,6 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     @Override
     public void onLoadMore() {
-        mReceivedEventsViewModel.request(mUsername, mPage++, mPageCount, FetchMode.REMOTE);
+        mReceivedEventsViewModel.request(mUsername, ++mPage, mPageCount, FetchMode.REMOTE);
     }
 }

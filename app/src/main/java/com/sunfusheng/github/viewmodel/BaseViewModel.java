@@ -71,7 +71,7 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                         super.onSubscribe(disposable);
                         mFirstNotify = null;
                         ResponseData<R> loadingNotify = ResponseData.loading();
-                        loadingNotify.setFetchMode(fetchMode);
+                        loadingNotify.setFetchMode(fetchMode == FetchMode.REMOTE ? FetchMode.LOCAL : fetchMode);
                         mutableLiveData.setValue(loadingNotify);
                     }
 
@@ -85,18 +85,14 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                                 }
 
                                 if (!TextUtils.isEmpty(notify.url)) {
-//                                    AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(notify.url);
-//                                    if (accessTime != null) {
-//                                        long betweenTime = (System.currentTimeMillis() - accessTime.lastAccessTime) / 1000;
-//                                        if (betweenTime > notify.localCacheValidateTime) {
-//                                            ResponseData<R> loadingNotify = ResponseData.loading();
-//                                            loadingNotify.setFetchMode(FetchMode.REMOTE);
-//                                            mutableLiveData.setValue(notify);
-//                                        }
-//                                    }
-
-                                    if (notify.localCacheValidateTime > 0) {
-                                        Log.d("sfs", "notify.url: " + notify.url + " notify.localCacheValidateTime: " + notify.localCacheValidateTime);
+                                    if (notify.lastAccessTime > 0) {
+                                        long betweenTime = (System.currentTimeMillis() - notify.lastAccessTime) / 1000;
+                                        if (betweenTime > notify.localCacheValidateTime) {
+                                            ResponseData<R> loadingNotify = ResponseData.loading();
+                                            loadingNotify.setFetchMode(FetchMode.REMOTE);
+                                            mutableLiveData.setValue(loadingNotify);
+                                        }
+                                        Log.d("sfs", "notify.url: " + notify.url + " betweenTime: " + betweenTime + " localCacheValidateTime: " + notify.localCacheValidateTime);
                                     }
                                 }
                             } else {

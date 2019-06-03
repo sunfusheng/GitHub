@@ -50,6 +50,9 @@ public class ReadmeDataSource extends BaseDataSource<String> {
                     }
                     ResponseData<String> response = new ResponseData<String>(it.code, it.msg, readme, it.loadingState);
                     response.setFetchMode(it.fetchMode);
+                    response.url = it.url;
+                    response.localCacheValidateTime = it.localCacheValidateTime;
+                    response.lastAccessTime = it.lastAccessTime;
                     return response;
                 });
     }

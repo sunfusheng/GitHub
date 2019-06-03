@@ -23,6 +23,7 @@ public class ResponseData<T> {
 
     public String url;
     public long localCacheValidateTime;
+    public long lastAccessTime;
 
     public ResponseData(int code, String msg, T data) {
         this.code = code;

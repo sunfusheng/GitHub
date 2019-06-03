@@ -2,7 +2,6 @@ package com.sunfusheng.github.datasource;
 
 import android.util.Pair;
 
-import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
@@ -36,7 +35,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
 
     @Override
     public int localCacheValidateTime() {
-        return Constants._10_MINUTES;
+        return 30;
     }
 
     @Override

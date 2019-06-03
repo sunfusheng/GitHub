@@ -1,6 +1,8 @@
 package com.sunfusheng.github.datasource;
 
 import com.sunfusheng.github.annotation.FetchMode;
+import com.sunfusheng.github.cache.db.AccessTimeDatabase;
+import com.sunfusheng.github.model.AccessTime;
 import com.sunfusheng.github.net.interceptor.CommonInterceptor;
 import com.sunfusheng.github.net.response.ResponseData;
 import com.sunfusheng.multistate.LoadingState;
@@ -78,6 +80,8 @@ public class DataSourceHelper {
                     responseData.setFetchMode(realFetchMode);
                     responseData.url = request.url().toString();
                     responseData.localCacheValidateTime = CommonInterceptor.getLocalCacheValidateTimeByRequestHeader(request);
+                    AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());
+                    responseData.lastAccessTime = accessTime != null ? accessTime.lastAccessTime : 0;
                     return responseData;
                 });
     }
