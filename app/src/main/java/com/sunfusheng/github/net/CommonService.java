@@ -33,7 +33,9 @@ public interface CommonService {
             @Path("username") String username,
             @Query("page") int page,
             @Query("per_page") int pageCount,
-            @Query("sort") String sort
+            @Query("sort") String sort,
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
     );
 
     @GET("users/{username}/events")

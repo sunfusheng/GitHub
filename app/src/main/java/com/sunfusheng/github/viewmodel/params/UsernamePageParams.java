@@ -11,6 +11,11 @@ import com.sunfusheng.github.net.response.ResponseData;
 public class UsernamePageParams extends PageParams {
     public String username;
 
+    public UsernamePageParams(String username, int page, @FetchMode int fetchMode) {
+        super(page, fetchMode);
+        this.username = username;
+    }
+
     public UsernamePageParams(String username, int page, int pageCount, @FetchMode int fetchMode) {
         super(page, pageCount, fetchMode);
         this.username = username;

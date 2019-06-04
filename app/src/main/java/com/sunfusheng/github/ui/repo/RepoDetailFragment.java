@@ -78,7 +78,7 @@ public class RepoDetailFragment extends BaseFragment {
 
         ReadmeViewModel viewModel = VMProviders.of(this, ReadmeViewModel.class);
         viewModel.liveData.observe(this, it -> {
-            Log.d("sfs", "fetchReadme() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchMode + " " + it.fetchModeString);
+            Log.d("sfs", "fetchReadme() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchModeString);
 
             if (it.loadingState == LoadingState.SUCCESS) {
                 vMultiStateView.setVisibility(View.GONE);

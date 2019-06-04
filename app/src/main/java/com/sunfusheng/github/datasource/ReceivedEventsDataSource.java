@@ -2,6 +2,7 @@ package com.sunfusheng.github.datasource;
 
 import android.util.Pair;
 
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
@@ -34,11 +35,6 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
     }
 
     @Override
-    public int localCacheValidateTime() {
-        return 30;
-    }
-
-    @Override
     public Observable<ResponseData<List<Event>>> localObservable() {
         return fetchReceivedEvents(FetchMode.LOCAL);
     }
@@ -49,7 +45,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
     }
 
     private Observable<ResponseData<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
-        return Api.getCommonService().fetchReceivedEvents(mUsername, mPage, mPageCount, fetchMode, localCacheValidateTime())
+        return Api.getCommonService().fetchReceivedEvents(mUsername, mPage, mPageCount, fetchMode, Constants.Time.MINUTES_10)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .flatMap(it -> {
@@ -75,7 +71,7 @@ public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
             return Observable.just(urlSet)
                     .flatMap(Observable::fromIterable)
                     .flatMap(url -> {
-                        return Api.getCommonService().fetchRepoDetail(url, fetchMode, localCacheValidateTime())
+                        return Api.getCommonService().fetchRepoDetail(url, fetchMode, Constants.Time.MINUTES_10)
                                 .compose(DataSourceHelper.applyRemoteTransformer())
                                 .map(repoResult -> {
                                     if (DataSourceHelper.isSuccess(repoResult)) {

@@ -11,13 +11,6 @@ import io.reactivex.Observable;
  */
 abstract public class BaseDataSource<R> {
 
-    /**
-     * @return 本地缓存的有效时间，单位：秒
-     */
-    public int localCacheValidateTime() {
-        return 0;
-    }
-
     abstract public Observable<ResponseData<R>> localObservable();
 
     abstract public Observable<ResponseData<R>> remoteObservable();

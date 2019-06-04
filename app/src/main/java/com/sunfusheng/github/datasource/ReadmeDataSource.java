@@ -25,11 +25,6 @@ public class ReadmeDataSource extends BaseDataSource<String> {
     }
 
     @Override
-    public int localCacheValidateTime() {
-        return Constants._10_MINUTES;
-    }
-
-    @Override
     public Observable<ResponseData<String>> localObservable() {
         return Observable.defer(() -> {
             return Observable.create((ObservableOnSubscribe<ResponseData<String>>) emitter -> {
@@ -40,14 +35,16 @@ public class ReadmeDataSource extends BaseDataSource<String> {
 
     @Override
     public Observable<ResponseData<String>> remoteObservable() {
-        return Api.getCommonService().fetchReadme(mRepoFullName, mFetchMode, localCacheValidateTime())
+        return Api.getCommonService().fetchReadme(mRepoFullName, mFetchMode, Constants.Time.MINUTES_10)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .map(it -> {
                     String readme = null;
                     if (it.loadingState == LoadingState.SUCCESS) {
                         readme = it.data.string();
+                        mReadmeDiskLruCache.put(mRepoFullName, readme);
                     }
+
                     ResponseData<String> response = new ResponseData<String>(it.code, it.msg, readme, it.loadingState);
                     response.setFetchMode(it.fetchMode);
                     response.url = it.url;

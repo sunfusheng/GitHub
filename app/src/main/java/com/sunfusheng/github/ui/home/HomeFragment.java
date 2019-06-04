@@ -33,18 +33,14 @@ import java.util.List;
  * @author sunfusheng on 2018/4/18.
  */
 public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.OnRefreshListener, RecyclerViewWrapper.OnLoadMoreListener {
-    private static final int FIRST_PAGE = 1;
 
     private SvgView vSvgLoading;
     private View vStatusBar;
     private RecyclerViewWrapper recyclerViewWrapper;
 
     private List<Object> items = new ArrayList<>();
-    private int mPage = FIRST_PAGE;
-    private int mPageCount = Constants.PAGE_COUNT;
-
     private String mUsername;
-    private ReceivedEventsViewModel mReceivedEventsViewModel;
+    private ReceivedEventsViewModel mReceivedEventsVM;
 
     @Override
     public void initData(@Nullable Bundle arguments) {
@@ -112,13 +108,13 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     }
 
     private void fetchReceivedEvents() {
-        mReceivedEventsViewModel = VMProviders.of(this, ReceivedEventsViewModel.class);
-        mReceivedEventsViewModel.liveData.observe(this, it -> {
+        mReceivedEventsVM = VMProviders.of(this, ReceivedEventsViewModel.class);
+        mReceivedEventsVM.liveData.observe(this, it -> {
             Log.d("sfs", "fetchReceivedEvents() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchModeString);
 
             switch (it.loadingState) {
                 case LoadingState.LOADING:
-                    if (!isPullToRefresh && it.fetchMode == FetchMode.REMOTE) {
+                    if (!mReceivedEventsVM.isRefreshRequest() && it.fetchMode == FetchMode.REMOTE) {
                         startSvgAnim();
                     }
                     break;
@@ -126,8 +122,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                     if (it.fetchMode != FetchMode.LOCAL) {
                         stopSvgAnim();
                     }
-                    recyclerViewWrapper.setLoadingState(it.loadingState);
-                    if (mPage == FIRST_PAGE) {
+                    if (mReceivedEventsVM.isFirstPage()) {
                         items.clear();
                     }
                     items.addAll(it.data);
@@ -139,29 +134,22 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
                         stopSvgAnim();
                     }
                     recyclerViewWrapper.setLoadingState(it.loadingState);
-                    if (mPage > FIRST_PAGE) {
-                        mPage--;
-                    }
+                    mReceivedEventsVM.onErrorOrEmpty();
                     break;
             }
         });
 
-        isPullToRefresh = false;
-        recyclerViewWrapper.setLoadingState(LoadingState.LOADING);
-        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.REMOTE);
+        mReceivedEventsVM.setUsername(mUsername);
+        mReceivedEventsVM.load();
     }
-
-    private boolean isPullToRefresh;
 
     @Override
     public void onRefresh() {
-        isPullToRefresh = true;
-        mPage = FIRST_PAGE;
-        mReceivedEventsViewModel.request(mUsername, mPage, mPageCount, FetchMode.FORCE_REMOTE);
+        mReceivedEventsVM.refresh();
     }
 
     @Override
     public void onLoadMore() {
-        mReceivedEventsViewModel.request(mUsername, ++mPage, mPageCount, FetchMode.REMOTE);
+        mReceivedEventsVM.loadMore();
     }
 }

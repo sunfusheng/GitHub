@@ -3,6 +3,7 @@ package com.sunfusheng.github.ui.repo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.sunfusheng.github.Constants;
@@ -14,6 +15,7 @@ import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.github.viewmodel.RepoListViewModel;
 import com.sunfusheng.github.viewmodel.base.VMProviders;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
+import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
 
 /**
@@ -46,12 +48,15 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
 
     @Override
     public void initView(@NonNull View rootView) {
-        recyclerViewWrapper = rootView.findViewById(R.id.recyclerViewWrapper);
-
         initRecyclerViewWrapper();
+        fetchRepoList();
     }
 
     private void initRecyclerViewWrapper() {
+        recyclerViewWrapper = vRootView.findViewById(R.id.recyclerViewWrapper);
+        recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_for_scrollable);
+        recyclerViewWrapper.setEmptyLayout(R.layout.layout_empty_for_scrollable);
+
         recyclerViewWrapper.enableRefresh(false);
         recyclerViewWrapper.enableLoadMore(false);
 
@@ -60,16 +65,25 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
         repoBinder.showExactNum(true);
         repoBinder.showUpdateTime(true);
         recyclerViewWrapper.register(Repo.class, repoBinder);
-
-        observeRepoList();
     }
 
-    private void observeRepoList() {
+    private void fetchRepoList() {
         RepoListViewModel viewModel = VMProviders.of(this, RepoListViewModel.class);
         viewModel.liveData.observe(this, it -> {
-            recyclerViewWrapper.setItems(it.data);
+            Log.d("sfs", "fetchRepoList() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchModeString);
+
+            switch (it.loadingState) {
+                case LoadingState.SUCCESS:
+                    recyclerViewWrapper.setLoadingState(it.loadingState);
+                    recyclerViewWrapper.setItems(it.data);
+                    break;
+                case LoadingState.ERROR:
+                case LoadingState.EMPTY:
+                    recyclerViewWrapper.setLoadingState(it.loadingState);
+                    break;
+            }
         });
-        viewModel.request(username, 1, FetchMode.REMOTE);
+        viewModel.doRequest(username, 1, FetchMode.REMOTE);
     }
 
     @Override

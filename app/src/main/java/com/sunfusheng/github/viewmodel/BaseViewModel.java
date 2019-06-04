@@ -6,7 +6,6 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.BaseDataSource;
@@ -36,7 +35,6 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
     ));
 
     protected void request(@NonNull P params, @NonNull BaseDataSource<R> dataSource) {
-        Log.d("sfs", "request(): " + params.toString());
         mDataSource = dataSource;
         mParams.setValue(params);
     }
@@ -68,8 +66,8 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                 .subscribe(new ResponseObserver<R>() {
                     @Override
                     public void onSubscribe(Disposable disposable) {
-                        super.onSubscribe(disposable);
                         mFirstNotify = null;
+                        super.onSubscribe(disposable);
                         ResponseData<R> loadingNotify = ResponseData.loading();
                         loadingNotify.setFetchMode(fetchMode == FetchMode.REMOTE ? FetchMode.LOCAL : fetchMode);
                         mutableLiveData.setValue(loadingNotify);
@@ -92,7 +90,6 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                                             loadingNotify.setFetchMode(FetchMode.REMOTE);
                                             mutableLiveData.setValue(loadingNotify);
                                         }
-                                        Log.d("sfs", "notify.url: " + notify.url + " betweenTime: " + betweenTime + " localCacheValidateTime: " + notify.localCacheValidateTime);
                                     }
                                 }
                             } else {

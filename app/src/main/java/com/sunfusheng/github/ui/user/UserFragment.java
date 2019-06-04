@@ -15,6 +15,7 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
+import com.sunfusheng.github.ui.TodoFragment;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.ui.repo.RepoListFragment;
 import com.sunfusheng.github.util.AppUtil;
@@ -155,10 +156,10 @@ public class UserFragment extends BaseFragment {
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter.Builder(getContext(), getChildFragmentManager())
                 .add(TAB_NAMES[0], RepoListFragment.newFragment(mUsername))
-                .add(TAB_NAMES[1], RepoListFragment.newFragment(mUsername))
-                .add(TAB_NAMES[2], RepoListFragment.newFragment(mUsername))
-                .add(TAB_NAMES[3], RepoListFragment.newFragment(mUsername))
-                .add(TAB_NAMES[4], RepoListFragment.newFragment(mUsername))
+                .add(TAB_NAMES[1], TodoFragment.newFragment())
+                .add(TAB_NAMES[2], TodoFragment.newFragment())
+                .add(TAB_NAMES[3], TodoFragment.newFragment())
+                .add(TAB_NAMES[4], TodoFragment.newFragment())
                 .build();
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);

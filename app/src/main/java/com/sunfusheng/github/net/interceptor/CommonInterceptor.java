@@ -70,16 +70,13 @@ public class CommonInterceptor implements Interceptor {
             }
         }
 
-        long localCacheValidateTime = getLocalCacheValidateTimeByRequestHeader(request);
-
         AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());
         if (accessTime != null) {
+            long localCacheValidateTime = getLocalCacheValidateTimeByRequestHeader(request);
             long betweenTime = (System.currentTimeMillis() - accessTime.lastAccessTime) / 1000;
             if (betweenTime < localCacheValidateTime && fetchMode != FetchMode.FORCE_REMOTE) {
                 fetchMode = FetchMode.LOCAL;
             }
-            // todo delete
-//            Log.d("sfs", accessTime.url + " betweenTime: " + betweenTime + " fetchMode: " + ResponseData.getFetchModeString(fetchMode));
         }
         return fetchMode;
     }
