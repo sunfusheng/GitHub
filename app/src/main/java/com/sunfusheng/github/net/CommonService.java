@@ -101,5 +101,4 @@ public interface CommonService {
             @Header("fetch-mode") int fetchMode,
             @Header("local-cache-validate-time") int localCacheValidateTime
     );
-
 }
