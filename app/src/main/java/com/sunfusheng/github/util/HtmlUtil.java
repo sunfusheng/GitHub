@@ -41,23 +41,8 @@ public class HtmlUtil {
         return null;
     }
 
-    public static String getReadMeData(String htmlText) {
-        if (TextUtils.isEmpty(htmlText)) {
-            return null;
-        }
-
-        Document doc = Jsoup.parse(htmlText);
-        Elements elements = doc.getElementsByClass("Box-body p-6");
-        for (Element element : elements) {
-            if (element != null) {
-                return element.toString();
-            }
-        }
-        return null;
-    }
-
     @SuppressLint("CheckResult")
-    public static void parseTrendingPageData(String htmlText, Consumer<List<Repo>> onSuccess, Consumer<Throwable> onError) {
+    public static void parseTrendingPageByHtmlText(String htmlText, Consumer<List<Repo>> onSuccess, Consumer<Throwable> onError) {
         Observable.defer(() -> Observable.just(htmlText))
                 .subscribeOn(Schedulers.io())
                 .map(it -> {
@@ -70,7 +55,7 @@ public class HtmlUtil {
                             if (items != null && !items.isEmpty()) {
                                 for (Element element : items) {
                                     try {
-                                        tendingRepos.add(parseTrendingRepoData(element));
+                                        tendingRepos.add(parseTrendingReposByElement(element));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -86,7 +71,7 @@ public class HtmlUtil {
                 .subscribe(onSuccess::accept, onError::accept);
     }
 
-    private static Repo parseTrendingRepoData(Element element) throws Exception {
+    private static Repo parseTrendingReposByElement(Element element) throws Exception {
         String fullName = element.select("article > h1 > a").attr("href");
         if (fullName.length() > 1) {
             fullName = fullName.substring(1);

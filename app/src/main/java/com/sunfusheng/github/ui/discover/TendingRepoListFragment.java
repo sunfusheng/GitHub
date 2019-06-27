@@ -70,7 +70,7 @@ public class TendingRepoListFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(it -> {
-                    HtmlUtil.parseTrendingPageData(it.string(), repos -> {
+                    HtmlUtil.parseTrendingPageByHtmlText(it.string(), repos -> {
                         recyclerViewWrapper.setItems(repos);
                     }, Throwable::printStackTrace);
                 }, Throwable::printStackTrace);
