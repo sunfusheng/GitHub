@@ -64,13 +64,16 @@ public class HtmlUtil {
                     List<Repo> tendingRepos = new ArrayList<>();
                     try {
                         Document doc = Jsoup.parse(it, Constants.BASE_URL_GITHUB);
-                        Elements elements = doc.getElementsByClass("col-12 d-block width-full py-4 border-bottom");
-                        if (elements.size() != 0) {
-                            for (Element element : elements) {
-                                try {
-                                    tendingRepos.add(parseTrendingRepoData(element));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                        Elements elements = doc.getElementsByClass("explore-pjax-container container-lg p-responsive pt-6");
+                        if (elements != null && !elements.isEmpty() && elements.get(0) != null) {
+                            Elements items = elements.get(0).getElementsByClass("Box-row");
+                            if (items != null && !items.isEmpty()) {
+                                for (Element element : items) {
+                                    try {
+                                        tendingRepos.add(parseTrendingRepoData(element));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }
@@ -84,12 +87,14 @@ public class HtmlUtil {
     }
 
     private static Repo parseTrendingRepoData(Element element) throws Exception {
-        String fullName = element.select("div > h3 > a").attr("href");
-        fullName = fullName.substring(1);
+        String fullName = element.select("article > h1 > a").attr("href");
+        if (fullName.length() > 1) {
+            fullName = fullName.substring(1);
+        }
         String owner = fullName.substring(0, fullName.lastIndexOf("/"));
         String repoName = fullName.substring(fullName.lastIndexOf("/") + 1);
 
-        Element descElement = element.select("div > p").first();
+        Element descElement = element.getElementsByClass("col-9 text-gray my-1 pr-4").first();
         StringBuilder desc = new StringBuilder("");
         for (TextNode textNode : descElement.textNodes()) {
             desc.append(textNode.getWholeText());
@@ -97,7 +102,7 @@ public class HtmlUtil {
 
         Element repoInfoElement = element.getElementsByClass("f6 text-gray mt-2").first();
         String language = "";
-        Elements languageElements = repoInfoElement.select("span > span");
+        Elements languageElements = repoInfoElement.select("d-inline-block ml-0 mr-3");
         if (languageElements != null && languageElements.size() > 1 && languageElements.get(1) != null) {
             language = languageElements.get(1).textNodes().get(0).toString().trim();
         }
