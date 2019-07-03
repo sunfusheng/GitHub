@@ -70,17 +70,17 @@ dependencies {
     api 'android.arch.persistence.room:rxjava2:' + room_version
     annotationProcessor 'android.arch.persistence.room:compiler:' + room_version
 
-    api 'com.google.dagger:dagger-android:2.22.1'
-    api 'com.google.dagger:dagger-android-support:2.22.1'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.22.1'
+    api 'com.google.dagger:dagger:' + dagger_version
+    api 'com.google.dagger:dagger-android-support:' + dagger_version
+    annotationProcessor 'com.google.dagger:dagger-compiler:' + dagger_version
 
-    api 'com.squareup.okhttp3:okhttp:4.0.0'
-    api 'com.squareup.okhttp3:logging-interceptor:4.0.0'
-    api 'com.squareup.retrofit2:retrofit:2.6.0'
-    api 'com.squareup.retrofit2:converter-gson:2.6.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
-    api 'com.squareup.retrofit2:converter-simplexml:2.6.0'
-    api 'com.squareup.retrofit2:converter-simplexml:2.6.0'
+    api 'com.squareup.okhttp3:okhttp:' + okhttp3_version
+    api 'com.squareup.okhttp3:logging-interceptor:' + okhttp3_version
+    api 'com.squareup.retrofit2:retrofit:' + retrofit_version
+    api 'com.squareup.retrofit2:converter-gson:' + retrofit_version
+    api 'com.squareup.retrofit2:adapter-rxjava2:' + retrofit_version
+    api 'com.squareup.retrofit2:converter-simplexml:' + retrofit_version
+    api 'com.squareup.retrofit2:converter-simplexml:' + retrofit_version
     api 'io.reactivex.rxjava2:rxjava:2.2.10'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
     api 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
