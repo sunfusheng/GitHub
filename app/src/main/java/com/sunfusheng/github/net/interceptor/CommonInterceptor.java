@@ -23,6 +23,7 @@ import okhttp3.Response;
  */
 public class CommonInterceptor implements Interceptor {
 
+    @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
