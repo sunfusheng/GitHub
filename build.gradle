@@ -12,8 +12,8 @@ buildscript {
         lifecycle_version = '1.1.1'
         room_version = '1.1.1'
         dagger_version = '2.22.1'
-        okhttp3_version = '4.0.0'
-        retrofit_version = '2.6.0'
+        okhttp3_version = '4.0.1'
+        retrofit_version = '2.6.1'
     }
 
     repositories {
