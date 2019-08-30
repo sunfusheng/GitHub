@@ -13,8 +13,8 @@ import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.viewmodel.UserDetailViewModel;
-import com.sunfusheng.github.viewmodel.base.VM;
-import com.sunfusheng.github.viewmodel.base.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VM;
+import com.sunfusheng.github.viewmodel.vm.VMProviders;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.transformation.BlurTransformation;
 

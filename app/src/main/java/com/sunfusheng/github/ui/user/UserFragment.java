@@ -24,7 +24,7 @@ import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.UserDetailViewModel;
-import com.sunfusheng.github.viewmodel.base.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProviders;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout;
 import com.sunfusheng.github.widget.app.UserContributionsView;

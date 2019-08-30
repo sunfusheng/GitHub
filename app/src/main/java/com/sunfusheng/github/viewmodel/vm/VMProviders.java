@@ -1,4 +1,4 @@
-package com.sunfusheng.github.viewmodel.base;
+package com.sunfusheng.github.viewmodel.vm;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;

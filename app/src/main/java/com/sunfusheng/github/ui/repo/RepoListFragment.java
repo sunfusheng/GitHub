@@ -13,7 +13,7 @@ import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.github.viewmodel.RepoListViewModel;
-import com.sunfusheng.github.viewmodel.base.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProviders;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;

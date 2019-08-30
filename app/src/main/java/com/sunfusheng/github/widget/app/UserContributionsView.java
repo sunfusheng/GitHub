@@ -13,8 +13,8 @@ import com.sunfusheng.github.annotation.ProgressState;
 import com.sunfusheng.github.util.FileUtil;
 import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.viewmodel.ContributionsViewModel;
-import com.sunfusheng.github.viewmodel.base.VM;
-import com.sunfusheng.github.viewmodel.base.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VM;
+import com.sunfusheng.github.viewmodel.vm.VMProviders;
 
 /**
  * @author sunfusheng on 2018/7/28.

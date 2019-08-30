@@ -21,7 +21,7 @@ import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.ReceivedEventsViewModel;
-import com.sunfusheng.github.viewmodel.base.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProviders;
 import com.sunfusheng.github.widget.SvgView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;

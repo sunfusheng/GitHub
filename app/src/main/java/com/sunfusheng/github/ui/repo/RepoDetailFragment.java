@@ -13,7 +13,7 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
-import com.sunfusheng.github.viewmodel.base.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProviders;
 import com.sunfusheng.github.widget.app.ReadMeWebView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.multistate.MultiStateView;
