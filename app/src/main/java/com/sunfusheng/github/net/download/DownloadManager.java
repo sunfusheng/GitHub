@@ -1,7 +1,5 @@
 package com.sunfusheng.github.net.download;
 
-import android.support.annotation.NonNull;
-
 import com.sunfusheng.github.net.Api;
 
 import java.io.File;
@@ -26,7 +24,7 @@ public class DownloadManager {
         return instance;
     }
 
-    public void download(@NonNull String url, String filePath, IDownloadListener downloadListener) {
+    public void download(String url, String filePath, IDownloadListener downloadListener) {
         Api.getDownloadService(downloadListener).download(url)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -38,13 +36,12 @@ public class DownloadManager {
                     }
                 })
                 .map(ResponseBody::byteStream)
-                .observeOn(Schedulers.computation())
+                .observeOn(Schedulers.io())
                 .doOnNext(inputStream -> writeFile(inputStream, filePath))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressObserver(filePath, downloadListener));
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void writeFile(InputStream inputStream, String filePath) throws Exception {
         File file = new File(filePath);
         if (file.exists()) {
