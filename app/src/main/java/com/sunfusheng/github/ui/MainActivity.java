@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initData() {
-        new FirUpdater(AppUtil.getContext())
+        FirUpdater.getInstance(AppUtil.getContext())
                 .apiToken("3c57fb226edf7facf821501e4eba08d2")
                 .appId("5b977079959d695362ada470")
                 .checkVersion();

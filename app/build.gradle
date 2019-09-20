@@ -87,8 +87,9 @@ dependencies {
 
     api 'org.jsoup:jsoup:1.11.3'
     api 'com.orhanobut:logger:2.2.0'
+    api 'com.qw:soulpermission:1.2.1'
 
-    api 'com.sunfusheng:FirUpdater:1.1.1'
+    api 'com.sunfusheng:FirUpdater:1.3.0'
     api 'com.sunfusheng:GlideImageView:2.1.0'
     api 'com.sunfusheng:RecyclerViewWrapper:1.0.4'
     api 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.8'

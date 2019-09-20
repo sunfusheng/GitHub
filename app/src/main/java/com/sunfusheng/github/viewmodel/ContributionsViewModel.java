@@ -1,16 +1,16 @@
 package com.sunfusheng.github.viewmodel;
 
-import android.Manifest;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
+import com.qw.soul.permission.bean.Permission;
+import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.net.download.DownloadManager;
 import com.sunfusheng.github.net.download.IDownloadListener;
 import com.sunfusheng.github.net.download.ProgressResult;
-import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.PermissionUtil;
 
 import java.io.File;
@@ -42,9 +42,9 @@ public class ContributionsViewModel extends ViewModel {
             mutableLiveData.setValue(ProgressResult.success(username));
         }
 
-        PermissionUtil.getInstant().requestPermission(AppUtil.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionUtil.OnPermissionCallback() {
+        PermissionUtil.checkAndRequestExternalStoragePermissions(new CheckRequestPermissionsListener() {
             @Override
-            public void onGranted() {
+            public void onAllPermissionOk(Permission[] allPermissions) {
                 File dir = Constants.CacheDir.CONTRIBUTION;
                 if (!dir.exists()) {
                     dir.mkdirs();
@@ -76,11 +76,10 @@ public class ContributionsViewModel extends ViewModel {
             }
 
             @Override
-            public void onDenied() {
+            public void onPermissionDenied(Permission[] refusedPermissions) {
                 mutableLiveData.setValue(ProgressResult.error("请打开读写权限！"));
             }
         });
-
         return mutableLiveData;
     }
 }

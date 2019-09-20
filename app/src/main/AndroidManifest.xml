@@ -38,12 +38,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".util.PermissionUtil$PermissionActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/ActivityTranslucent"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-
-        <activity
             android:name=".ui.repo.RepoDetailActivity"
             android:screenOrientation="portrait" />
     </application>
