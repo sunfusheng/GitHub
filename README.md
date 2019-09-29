@@ -41,11 +41,11 @@ https://api.github.com/repos/sunfusheng/MultiType/contents/README.md
 
 ## 个人微信公众号
 
-![](http://sunfusheng.com/assets/wx_gongzhonghao.png)
+<img src="http://sunfusheng.com/assets/wx_gongzhonghao.png">
 
 ## 打赏才是真爱^_^
 
-![](http://sunfusheng.com/assets/wx_shoukuanma.png)
+<img src="http://sunfusheng.com/assets/wx_shoukuanma.png" >
 
 ## 关于我
 
