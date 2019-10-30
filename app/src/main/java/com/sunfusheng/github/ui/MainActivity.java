@@ -67,7 +67,6 @@ public class MainActivity extends BaseActivity {
 
     private void toLoginActivity() {
         if (!PreferenceUtil.getInstance().contains(Constants.PreferenceKey.USERNAME) ||
-                !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.PASSWORD) ||
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.AUTH) ||
                 !PreferenceUtil.getInstance().contains(Constants.PreferenceKey.TOKEN)) {
             NavigationManager.toLoginActivity(this);

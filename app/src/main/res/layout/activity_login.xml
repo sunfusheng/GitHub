@@ -57,7 +57,7 @@
                 android:inputType="textCapCharacters"
                 android:maxLines="1"
                 android:paddingLeft="80dp"
-                android:text="sunfusheng"
+                android:text=""
                 android:textColor="@color/c1"
                 android:textColorHint="@color/c3"
                 android:textSize="17sp"/>

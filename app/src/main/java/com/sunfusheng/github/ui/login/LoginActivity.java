@@ -48,13 +48,9 @@ public class LoginActivity extends BaseActivity {
         svgView = findViewById(R.id.svg_view);
 
         String username = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME, "");
-        String password = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.PASSWORD, "");
         if (!TextUtils.isEmpty(username)) {
             vUsername.setText(username);
             vUsername.setSelection(username.length());
-        }
-        if (!TextUtils.isEmpty(password)) {
-            vPassword.setText(password);
         }
 
         vLogin.setOnClickListener(v -> login());
@@ -87,10 +83,7 @@ public class LoginActivity extends BaseActivity {
 
         showProgressDialog(R.string.com_waiting_login);
 
-        String credentials = username + ":" + password;
-        String basicAuth = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-        PreferenceUtil.getInstance().put(Constants.PreferenceKey.USERNAME, username);
-        PreferenceUtil.getInstance().put(Constants.PreferenceKey.PASSWORD, password);
+        String basicAuth = Base64.encodeToString((username + ":" + password).getBytes(), Base64.NO_WRAP);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.AUTH, basicAuth);
 
         Observable.zip(Api.getLoginService().login(), Api.getLoginService().createAuth(AuthParams.getParams()),
@@ -98,7 +91,9 @@ public class LoginActivity extends BaseActivity {
                     if (user == null || TextUtils.isEmpty(user.login) || auth == null || TextUtils.isEmpty(auth.getToken())) {
                         return false;
                     }
+
                     UserDatabase.instance().getUserDao().insert(user);
+                    PreferenceUtil.getInstance().put(Constants.PreferenceKey.USERNAME, user.login);
                     PreferenceUtil.getInstance().put(Constants.PreferenceKey.TOKEN, auth.getToken());
                     return true;
                 })
