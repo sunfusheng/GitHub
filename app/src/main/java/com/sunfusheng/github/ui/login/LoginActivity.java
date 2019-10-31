@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -53,6 +54,24 @@ public class LoginActivity extends BaseActivity {
             vUsername.setSelection(username.length());
         }
 
+        vUsername.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        vUsername.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                vPassword.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        vPassword.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        vPassword.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                login();
+                return true;
+            }
+            return false;
+        });
+
         vLogin.setOnClickListener(v -> login());
     }
 
@@ -64,7 +83,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initStatusBar() {
-        StatusBarUtil.fullScreen(getWindow());
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.white), 0);
     }
 
     @SuppressLint("CheckResult")

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +21,7 @@
         app:svgTraceColors="@array/colors_github_primary"
         app:svgTraceResidueColors="@array/colors_github_primary"
         app:svgTraceTime="3000"
-        app:svgTraceTimePerGlyph="1500"/>
+        app:svgTraceTimePerGlyph="1500" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,17 +31,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/item_margin_large">
 
             <TextView
                 android:id="@+id/username_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-24dp"
                 android:layout_marginLeft="@dimen/item_margin_smaller"
+                android:layout_marginBottom="-24dp"
                 android:text="@string/username"
                 android:textColor="@color/c1"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
 
             <EditText
                 android:id="@+id/username"
@@ -59,24 +59,24 @@
                 android:paddingLeft="80dp"
                 android:text=""
                 android:textColor="@color/c1"
-                android:textColorHint="@color/c3"
-                android:textSize="17sp"/>
+                android:textColorHint="@color/c4"
+                android:textSize="17sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_large">
+            android:paddingTop="@dimen/item_margin_large">
 
             <TextView
                 android:id="@+id/password_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-24dp"
                 android:layout_marginLeft="@dimen/item_margin_smaller"
+                android:layout_marginBottom="-24dp"
                 android:text="@string/password"
                 android:textColor="@color/c1"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
 
             <EditText
                 android:id="@+id/password"
@@ -93,8 +93,8 @@
                 android:paddingLeft="80dp"
                 android:text=""
                 android:textColor="@color/c1"
-                android:textColorHint="@color/c3"
-                android:textSize="17sp"/>
+                android:textColorHint="@color/c4"
+                android:textSize="17sp" />
         </RelativeLayout>
 
         <com.sunfusheng.github.widget.radiuswidget.RadiusTextView
@@ -104,7 +104,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="60dp"
             android:text="@string/login"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <TextView
@@ -115,5 +115,5 @@
         android:layout_marginLeft="@dimen/item_margin_smaller"
         android:text="@string/app_author"
         android:textColor="@color/font3"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 </RelativeLayout>
