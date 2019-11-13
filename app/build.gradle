@@ -60,6 +60,7 @@ dependencies {
     api 'com.android.support:recyclerview-v7:' + support_library_version
     api 'com.android.support:support-v4:' + support_library_version
     api 'com.android.support:support-v13:' + support_library_version
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
 
     api 'android.arch.lifecycle:extensions:' + lifecycle_version
     api 'android.arch.lifecycle:livedata:' + lifecycle_version

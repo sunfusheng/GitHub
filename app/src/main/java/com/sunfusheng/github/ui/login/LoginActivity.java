@@ -73,6 +73,8 @@ public class LoginActivity extends BaseActivity {
         });
 
         vLogin.setOnClickListener(v -> login());
+
+
     }
 
     private void initSvgView() {
