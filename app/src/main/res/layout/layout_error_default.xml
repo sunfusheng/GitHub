@@ -17,7 +17,7 @@
         android:textColor="@color/c3"
         android:textSize="@dimen/text_size_normal" />
 
-    <com.sunfusheng.github.widget.radiuswidget.RadiusTextView
+    <com.sunfusheng.github.widget.radiusview.RadiusTextView
         android:id="@+id/retry"
         style="@style/RadiusButton"
         android:layout_width="match_parent"
