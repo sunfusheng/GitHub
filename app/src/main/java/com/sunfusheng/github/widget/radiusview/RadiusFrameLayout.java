@@ -26,5 +26,4 @@ public class RadiusFrameLayout extends FrameLayout {
         RadiusGradientDrawable drawable = RadiusGradientDrawable.fromAttributeSet(context, attrs, defStyleAttr);
         ViewUtil.setBackgroundKeepingPadding(this, drawable);
     }
-
 }

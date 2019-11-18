@@ -24,5 +24,4 @@ public class RadiusTextView extends android.support.v7.widget.AppCompatTextView 
         RadiusGradientDrawable drawable = RadiusGradientDrawable.fromAttributeSet(context, attrs, defStyleAttr);
         ViewUtil.setBackgroundKeepingPadding(this, drawable);
     }
-
 }

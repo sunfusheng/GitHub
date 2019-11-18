@@ -109,13 +109,14 @@ public class ViewUtil {
         return colorStr.length() == 1 ? "0" + colorStr : colorStr;
     }
 
+    /**
+     * darkness < 0.5 is a light color, else is a dark color
+     *
+     * @param color
+     * @return
+     */
     public static boolean isLightColor(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
-        if (darkness < 0.5) {
-            return true; // It's a light color
-        } else {
-            return false; // It's a dark color
-        }
+        return darkness < 0.5;
     }
-
 }

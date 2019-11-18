@@ -18,7 +18,7 @@ import com.sunfusheng.github.R;
 public class RadiusGradientDrawable extends GradientDrawable {
 
     /**
-     * 圆角大小是否自适应为 View 的高度的一般
+     * 圆角大小是否自适应为 View 高度的一半
      */
     private boolean mRadiusAdjustBounds = true;
     private ColorStateList mFillColors;
@@ -67,7 +67,7 @@ public class RadiusGradientDrawable extends GradientDrawable {
     }
 
     /**
-     * 设置圆角大小是否自动适应为 View 的高度的一半
+     * 设置圆角大小是否自动适应为 View 高度的一半
      */
     public void setIsRadiusAdjustBounds(boolean isRadiusAdjustBounds) {
         mRadiusAdjustBounds = isRadiusAdjustBounds;

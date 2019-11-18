@@ -24,5 +24,4 @@ public class RadiusButton extends android.support.v7.widget.AppCompatButton {
         RadiusGradientDrawable drawable = RadiusGradientDrawable.fromAttributeSet(context, attrs, defStyleAttr);
         ViewUtil.setBackgroundKeepingPadding(this, drawable);
     }
-
 }

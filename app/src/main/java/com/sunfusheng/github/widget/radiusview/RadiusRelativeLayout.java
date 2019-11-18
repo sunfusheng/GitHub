@@ -26,5 +26,4 @@ public class RadiusRelativeLayout extends RelativeLayout {
         RadiusGradientDrawable drawable = RadiusGradientDrawable.fromAttributeSet(context, attrs, defStyleAttr);
         ViewUtil.setBackgroundKeepingPadding(this, drawable);
     }
-
 }
