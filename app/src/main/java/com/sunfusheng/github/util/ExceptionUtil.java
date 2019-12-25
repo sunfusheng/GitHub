@@ -18,7 +18,7 @@ import retrofit2.Response;
  */
 public class ExceptionUtil {
 
-    // HTTP异常
+    // HTTP错误码
     public static final int NO_CONTENT = 204;
     public static final int UNAUTHORIZED = 401;
     public static final int FORBIDDEN = 403;
@@ -30,7 +30,7 @@ public class ExceptionUtil {
     public static final int SERVICE_UNAVAILABLE = 503;
     public static final int GATEWAY_TIMEOUT = 504;
 
-    // 约定错误
+    // 约定错误码
     public static final int UNKNOWN = 1000; // 未知错误
     public static final int PARSE_ERROR = 1001; // 数据解析异常
     public static final int CONNECT_ERROR = 1002; // 连接失败
@@ -86,7 +86,7 @@ public class ExceptionUtil {
             case REQUEST_TIMEOUT:
                 return new ResponseException(REQUEST_TIMEOUT, "请求超时");
             case UNPROCESSABLE_ENTITY:
-                return new ResponseException(REQUEST_TIMEOUT, "请求参数错误，无法响应");
+                return new ResponseException(UNPROCESSABLE_ENTITY, "请求参数错误，无法响应");
             case INTERNAL_SERVER_ERROR:
                 return new ResponseException(INTERNAL_SERVER_ERROR, "服务器异常");
             case BAD_GATEWAY:
