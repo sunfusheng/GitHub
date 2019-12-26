@@ -15,10 +15,8 @@ import retrofit2.http.POST;
 public interface LoginService {
 
     @GET("user")
-    Observable<User> login();
+    Observable<User> fetchUser();
 
     @POST("authorizations")
-    Observable<Auth> createAuth(
-            @Body AuthParams authParams
-    );
+    Observable<Auth> fetchToken(@Body AuthParams authParams);
 }

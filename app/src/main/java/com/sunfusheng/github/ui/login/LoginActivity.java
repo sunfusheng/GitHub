@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity {
         String basicAuth = Base64.encodeToString((username + ":" + password).getBytes(), Base64.NO_WRAP);
         PreferenceUtil.getInstance().put(Constants.PreferenceKey.AUTH, basicAuth);
 
-        Observable.zip(Api.getLoginService().login(), Api.getLoginService().createAuth(AuthParams.getParams()),
+        Observable.zip(Api.getLoginService().fetchUser(), Api.getLoginService().fetchToken(AuthParams.getParams()),
                 (user, auth) -> {
                     if (user == null || TextUtils.isEmpty(user.login) || auth == null || TextUtils.isEmpty(auth.getToken())) {
                         return false;
