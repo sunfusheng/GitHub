@@ -29,6 +29,8 @@ public class AppUtil {
 
     private static Application application;
     private static Context context;
+
+    public static ActivityManager sActivityManager;
     private static Stack<Activity> activityStack = new Stack<>();
 
     private static ActivityLifecycleCallbacks activityLifecycleCallbacks = new ActivityLifecycleCallbacks() {
@@ -174,12 +176,14 @@ public class AppUtil {
     }
 
     public static boolean isAppForeground() {
-        ActivityManager manager = (ActivityManager) getApp().getSystemService(Context.ACTIVITY_SERVICE);
-        if (manager == null) {
+        if (sActivityManager == null) {
+            sActivityManager = (ActivityManager) getApp().getSystemService(Context.ACTIVITY_SERVICE);
+        }
+        if (sActivityManager == null) {
             return false;
         }
 
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = manager.getRunningAppProcesses();
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = sActivityManager.getRunningAppProcesses();
         if (CollectionUtil.isEmpty(appProcesses)) {
             return false;
         }
