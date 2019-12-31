@@ -12,10 +12,10 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.cache.db.UserDatabase;
 import com.sunfusheng.github.model.AuthParams;
-import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.http.Api;
 import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.ui.base.BaseActivity;
-import com.sunfusheng.github.util.ExceptionUtil;
+import com.sunfusheng.github.http.exception.HttpExceptionHandler;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.ToastUtil;
@@ -130,7 +130,7 @@ public class LoginActivity extends BaseActivity {
                     }
                 }, throwable -> {
                     dismissProgressDialog();
-                    ToastUtil.toast(ExceptionUtil.handleException(throwable).toString());
+                    ToastUtil.toast(HttpExceptionHandler.handleException(throwable).toString());
                 });
     }
 }

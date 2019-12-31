@@ -6,8 +6,8 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseData;
+import com.sunfusheng.github.http.Api;
+import com.sunfusheng.github.http.response.ResponseData;
 
 import java.util.HashMap;
 import java.util.HashSet;

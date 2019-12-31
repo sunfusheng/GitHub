@@ -8,9 +8,9 @@ import android.arch.lifecycle.ViewModel;
 import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
 import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.net.download.DownloadManager;
-import com.sunfusheng.github.net.download.IDownloadListener;
-import com.sunfusheng.github.net.download.ProgressResult;
+import com.sunfusheng.github.http.download.DownloadManager;
+import com.sunfusheng.github.http.download.IDownloadListener;
+import com.sunfusheng.github.http.download.ProgressResult;
 import com.sunfusheng.github.util.PermissionUtil;
 
 import java.io.File;

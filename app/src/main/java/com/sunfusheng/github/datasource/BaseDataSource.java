@@ -1,6 +1,6 @@
 package com.sunfusheng.github.datasource;
 
-import com.sunfusheng.github.net.response.ResponseData;
+import com.sunfusheng.github.http.response.ResponseData;
 
 import io.reactivex.Observable;
 

@@ -10,8 +10,8 @@ import android.text.TextUtils;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.BaseDataSource;
 import com.sunfusheng.github.datasource.DataSourceHelper;
-import com.sunfusheng.github.net.response.ResponseData;
-import com.sunfusheng.github.net.response.ResponseObserver;
+import com.sunfusheng.github.http.response.ResponseData;
+import com.sunfusheng.github.http.response.ResponseObserver;
 import com.sunfusheng.github.viewmodel.params.BaseParams;
 
 import io.reactivex.Observable;

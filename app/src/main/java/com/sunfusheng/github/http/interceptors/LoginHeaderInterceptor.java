@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.interceptor;
+package com.sunfusheng.github.http.interceptors;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.util.PreferenceUtil;

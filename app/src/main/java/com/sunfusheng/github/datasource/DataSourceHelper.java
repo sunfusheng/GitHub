@@ -3,8 +3,8 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.cache.db.AccessTimeDatabase;
 import com.sunfusheng.github.model.AccessTime;
-import com.sunfusheng.github.net.interceptor.CommonInterceptor;
-import com.sunfusheng.github.net.response.ResponseData;
+import com.sunfusheng.github.http.interceptors.CommonInterceptor;
+import com.sunfusheng.github.http.response.ResponseData;
 import com.sunfusheng.multistate.LoadingState;
 
 import io.reactivex.ObservableEmitter;

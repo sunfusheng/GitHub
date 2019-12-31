@@ -1,6 +1,6 @@
-package com.sunfusheng.github.net.download;
+package com.sunfusheng.github.http.download;
 
-import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.http.Api;
 
 import java.io.File;
 import java.io.FileOutputStream;

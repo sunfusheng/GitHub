@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net;
+package com.sunfusheng.github.http;
 
 import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;

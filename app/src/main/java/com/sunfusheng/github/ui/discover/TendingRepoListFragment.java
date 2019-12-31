@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.net.Api;
+import com.sunfusheng.github.http.Api;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.viewbinder.RepoBinder;

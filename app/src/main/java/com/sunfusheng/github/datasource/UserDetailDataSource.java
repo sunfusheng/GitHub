@@ -2,8 +2,8 @@ package com.sunfusheng.github.datasource;
 
 import com.sunfusheng.github.cache.db.UserDatabase;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseData;
+import com.sunfusheng.github.http.Api;
+import com.sunfusheng.github.http.response.ResponseData;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;

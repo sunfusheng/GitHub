@@ -1,6 +1,7 @@
-package com.sunfusheng.github.util;
+package com.sunfusheng.github.http.exception;
 
 import android.net.ParseException;
+import android.support.annotation.NonNull;
 
 import com.google.gson.JsonParseException;
 
@@ -16,7 +17,7 @@ import retrofit2.Response;
 /**
  * @author sunfusheng on 2018/4/12.
  */
-public class ExceptionUtil {
+public class HttpExceptionHandler {
 
     // HTTP错误码
     public static final int NO_CONTENT = 204;
@@ -109,18 +110,19 @@ public class ExceptionUtil {
         public int code;
         public String msg;
 
-        public ResponseException(int code, String msg) {
+        ResponseException(int code, String msg) {
             super(msg);
             this.code = code;
             this.msg = msg;
         }
 
-        public ResponseException(int code, String msg, Throwable throwable) {
+        ResponseException(int code, String msg, Throwable throwable) {
             super(msg, throwable);
             this.code = code;
             this.msg = msg;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "【code=" + code + "】" + msg;

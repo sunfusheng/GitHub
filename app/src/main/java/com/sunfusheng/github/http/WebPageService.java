@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net;
+package com.sunfusheng.github.http;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;

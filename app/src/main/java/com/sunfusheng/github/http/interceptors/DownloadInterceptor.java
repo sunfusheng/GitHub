@@ -1,7 +1,7 @@
-package com.sunfusheng.github.net.interceptor;
+package com.sunfusheng.github.http.interceptors;
 
-import com.sunfusheng.github.net.download.IDownloadListener;
-import com.sunfusheng.github.net.download.ProgressResponseBody;
+import com.sunfusheng.github.http.download.IDownloadListener;
+import com.sunfusheng.github.http.download.ProgressResponseBody;
 
 import java.io.IOException;
 

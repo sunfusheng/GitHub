@@ -10,10 +10,10 @@ import android.widget.TextView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.datasource.DataSourceHelper;
-import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseObserver;
-import com.sunfusheng.github.net.response.ResponseData;
-import com.sunfusheng.github.util.ExceptionUtil;
+import com.sunfusheng.github.http.Api;
+import com.sunfusheng.github.http.response.ResponseObserver;
+import com.sunfusheng.github.http.response.ResponseData;
+import com.sunfusheng.github.http.exception.HttpExceptionHandler;
 import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.LoadingView;
@@ -107,11 +107,11 @@ public class UserFollowView extends RelativeLayout {
             vLoading.setVisibility(VISIBLE);
         } else {
             vLoading.setVisibility(GONE);
-            if (result.code == ExceptionUtil.NO_CONTENT) {
+            if (result.code == HttpExceptionHandler.NO_CONTENT) {
                 hasFollowed = !isReverse;
                 vFollow.setEnabled(true);
                 vFollow.setVisibility(VISIBLE);
-            } else if (result.code == ExceptionUtil.NOT_FOUND) {
+            } else if (result.code == HttpExceptionHandler.NOT_FOUND) {
                 hasFollowed = isReverse;
                 vFollow.setEnabled(true);
                 vFollow.setVisibility(VISIBLE);

@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.download;
+package com.sunfusheng.github.http.download;
 
 import com.sunfusheng.github.annotation.ProgressState;
 

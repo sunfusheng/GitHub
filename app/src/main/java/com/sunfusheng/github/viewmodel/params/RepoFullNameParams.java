@@ -3,7 +3,7 @@ package com.sunfusheng.github.viewmodel.params;
 import android.support.annotation.NonNull;
 
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.net.response.ResponseData;
+import com.sunfusheng.github.http.response.ResponseData;
 
 /**
  * @author by sunfusheng on 2019-05-28

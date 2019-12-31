@@ -3,8 +3,8 @@ package com.sunfusheng.github.datasource;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.cache.disklrucache.ReadmeDiskLruCache;
-import com.sunfusheng.github.net.Api;
-import com.sunfusheng.github.net.response.ResponseData;
+import com.sunfusheng.github.http.Api;
+import com.sunfusheng.github.http.response.ResponseData;
 import com.sunfusheng.multistate.LoadingState;
 
 import io.reactivex.Observable;

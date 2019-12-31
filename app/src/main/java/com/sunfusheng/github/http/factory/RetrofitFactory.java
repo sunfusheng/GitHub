@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.factory;
+package com.sunfusheng.github.http.factory;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

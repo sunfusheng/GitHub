@@ -1,11 +1,11 @@
-package com.sunfusheng.github.net;
+package com.sunfusheng.github.http;
 
 import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.net.download.IDownloadListener;
-import com.sunfusheng.github.net.factory.OkHttpClientFactory;
-import com.sunfusheng.github.net.factory.RetrofitFactory;
-import com.sunfusheng.github.net.interceptor.DownloadInterceptor;
-import com.sunfusheng.github.net.interceptor.LoginHeaderInterceptor;
+import com.sunfusheng.github.http.download.IDownloadListener;
+import com.sunfusheng.github.http.factory.OkHttpClientFactory;
+import com.sunfusheng.github.http.factory.RetrofitFactory;
+import com.sunfusheng.github.http.interceptors.DownloadInterceptor;
+import com.sunfusheng.github.http.interceptors.LoginHeaderInterceptor;
 
 import java.util.HashMap;
 import java.util.Map;

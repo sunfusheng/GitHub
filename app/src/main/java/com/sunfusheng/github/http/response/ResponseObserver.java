@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.response;
+package com.sunfusheng.github.http.response;
 
 import android.util.Log;
 

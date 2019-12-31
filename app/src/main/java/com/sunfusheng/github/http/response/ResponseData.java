@@ -1,9 +1,9 @@
-package com.sunfusheng.github.net.response;
+package com.sunfusheng.github.http.response;
 
 import android.support.annotation.NonNull;
 
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.util.ExceptionUtil;
+import com.sunfusheng.github.http.exception.HttpExceptionHandler;
 import com.sunfusheng.multistate.LoadingState;
 
 import retrofit2.Response;
@@ -120,16 +120,16 @@ public class ResponseData<T> {
         return new ResponseData<>(LoadingState.SUCCESS, "OK", t, LoadingState.SUCCESS);
     }
 
-    public static <T> ResponseData<T> error(ExceptionUtil.ResponseException e) {
+    public static <T> ResponseData<T> error(HttpExceptionHandler.ResponseException e) {
         return new ResponseData<>(e.code, e.msg, null, LoadingState.ERROR);
     }
 
     public static <T> ResponseData<T> error(Throwable e) {
-        return error(ExceptionUtil.handleException(e));
+        return error(HttpExceptionHandler.handleException(e));
     }
 
     public static <T> ResponseData<T> error(int errorCode) {
-        return error(ExceptionUtil.getResponseExceptionByErrorCode(errorCode));
+        return error(HttpExceptionHandler.getResponseExceptionByErrorCode(errorCode));
     }
 
     public static <T> ResponseData<T> empty(int code) {

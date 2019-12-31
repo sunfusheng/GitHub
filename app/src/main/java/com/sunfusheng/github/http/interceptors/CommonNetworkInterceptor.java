@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.interceptor;
+package com.sunfusheng.github.http.interceptors;
 
 import android.support.annotation.NonNull;
 

@@ -1,4 +1,4 @@
-package com.sunfusheng.github.net.download;
+package com.sunfusheng.github.http.download;
 
 import java.io.File;
 import java.io.InputStream;
