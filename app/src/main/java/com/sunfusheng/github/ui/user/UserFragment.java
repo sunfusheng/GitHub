@@ -47,10 +47,9 @@ public class UserFragment extends BaseFragment {
     private UserFollowView vUserFollow;
     private UserProfileView vUserProfile;
     private UserContributionsView vUserContributions;
-    private ImageView vSort;
 
     private boolean hasInstantiate = false;
-    private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Followers, R.string.Following, R.string.Stars, R.string.Activities};
+    private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Events, R.string.Stars, R.string.Followers, R.string.Following};
     private int currTabIndex = 0;
     private int lastTabIndex = -1;
     private String mUsername;
@@ -90,13 +89,6 @@ public class UserFragment extends BaseFragment {
         scrollableLayout = rootView.findViewById(R.id.scrollableLayout);
         tabLayout = rootView.findViewById(R.id.tabLayout);
         viewPager = rootView.findViewById(R.id.viewPager);
-        vSort = rootView.findViewById(R.id.vSort);
-
-        vUserProfile.setRepoClickListener(v -> tabLayout.getTabAt(0).select());
-        vUserProfile.setFollowersClickListener(v -> tabLayout.getTabAt(1).select());
-        vUserProfile.setFollowingClickListener(v -> tabLayout.getTabAt(2).select());
-        vSort.setOnClickListener(v -> {
-        });
 
         initHeader();
         observeFetchUser();

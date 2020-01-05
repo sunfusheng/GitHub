@@ -13,16 +13,12 @@ https://api.github.com/users/sunfusheng
 https://github.com/users/sunfusheng/contributions
 
 
-仓库
+个人仓库列表
 https://api.github.com/users/sunfusheng/repos?page=1&per_page=30&sort=pushed
 
 
 仓库详情
 https://api.github.com/repos/sunfusheng/MarqueeView
-
-
-个人事件
-https://api.github.com/users/sunfusheng/events?page=1&per_page=10
 
 
 收到的事件，类似朋友圈
@@ -38,6 +34,24 @@ https://api.github.com/user/starred/sfsheng0322/MultiType
 readme 
 https://api.github.com/repos/sunfusheng/MultiType/readme
 https://api.github.com/repos/sunfusheng/MultiType/contents/README.md
+
+
+following用户列表
+https://api.github.com/users/sunfusheng/following?page=1&per_page=30
+
+
+followers用户列表
+https://api.github.com/users/sunfusheng/followers?page=1&per_page=30
+
+
+个人事件
+https://api.github.com/users/sunfusheng/events/public?page=1&per_page=30
+
+
+starred仓库列表
+https://api.github.com/users/sunfusheng/starred?page=1&per_page=30
+
+
 
 ## 个人微信公众号
 

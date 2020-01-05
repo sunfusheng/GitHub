@@ -37,11 +37,8 @@ public class UserProfileView extends LinearLayout {
     private TextView vBio;
     private TextView vTip;
 
-    private LinearLayout vRepoLayout;
     private TextView vRepoCount;
-    private LinearLayout vFollowersLayout;
     private TextView vFollowersCount;
-    private LinearLayout vFollowingLayout;
     private TextView vFollowingCount;
 
     public UserProfileView(Context context) {
@@ -74,11 +71,8 @@ public class UserProfileView extends LinearLayout {
         vBio = findViewById(R.id.bio);
         vTip = findViewById(R.id.tip);
 
-        vRepoLayout = findViewById(R.id.repo_layout);
         vRepoCount = findViewById(R.id.repo_count);
-        vFollowersLayout = findViewById(R.id.followers_layout);
         vFollowersCount = findViewById(R.id.followers_count);
-        vFollowingLayout = findViewById(R.id.following_layout);
         vFollowingCount = findViewById(R.id.following_count);
 
         vTip.setVisibility(VISIBLE);
@@ -167,17 +161,5 @@ public class UserProfileView extends LinearLayout {
         vRepoCount.setText(String.valueOf(user.public_repos + user.owned_private_repos));
         vFollowingCount.setText(String.valueOf(user.following));
         vFollowersCount.setText(String.valueOf(user.followers));
-    }
-
-    public void setRepoClickListener(OnClickListener listener) {
-        vRepoLayout.setOnClickListener(listener);
-    }
-
-    public void setFollowersClickListener(OnClickListener listener) {
-        vFollowersLayout.setOnClickListener(listener);
-    }
-
-    public void setFollowingClickListener(OnClickListener listener) {
-        vFollowingLayout.setOnClickListener(listener);
     }
 }

@@ -38,7 +38,7 @@ public interface CommonService {
             @Header("local-cache-validate-time") int localCacheValidateTime
     );
 
-    @GET("users/{username}/events")
+    @GET("users/{username}/events/public")
     Observable<Response<List<Event>>> fetchEvents(
             @Path("username") String username,
             @Query("page") int page,
