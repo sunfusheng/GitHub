@@ -2,12 +2,13 @@ package com.sunfusheng.github.util;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorRes;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.ColorRes;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;

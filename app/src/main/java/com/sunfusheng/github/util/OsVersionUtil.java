@@ -8,14 +8,6 @@ import android.os.Build;
  */
 public class OsVersionUtil {
 
-    public static boolean hasIceCreamSandwich() {
-        return Build.VERSION.SDK_INT >= 14;
-    }
-
-    public static boolean hasIceCreamSandwichMR1() {
-        return Build.VERSION.SDK_INT >= 15;
-    }
-
     public static boolean hasJellyBean() {
         return Build.VERSION.SDK_INT >= 16;
     }

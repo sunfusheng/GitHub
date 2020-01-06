@@ -2,8 +2,9 @@ package com.sunfusheng.github.widget.bottombar;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 /**
  * @author sunfusheng on 2018/4/18.

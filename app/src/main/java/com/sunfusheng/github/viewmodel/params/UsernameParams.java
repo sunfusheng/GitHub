@@ -1,6 +1,6 @@
 package com.sunfusheng.github.viewmodel.params;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.http.response.ResponseData;

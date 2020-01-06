@@ -1,7 +1,8 @@
 package com.sunfusheng.github.http.exception;
 
 import android.net.ParseException;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.JsonParseException;
 

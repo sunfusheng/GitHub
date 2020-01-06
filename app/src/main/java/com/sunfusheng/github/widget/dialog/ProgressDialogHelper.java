@@ -5,8 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
+
+import androidx.annotation.StringRes;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.function.Consumer;

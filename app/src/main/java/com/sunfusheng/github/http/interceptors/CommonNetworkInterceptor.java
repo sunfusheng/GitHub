@@ -1,6 +1,6 @@
 package com.sunfusheng.github.http.interceptors;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.sunfusheng.github.annotation.FetchMode;
 

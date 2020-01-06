@@ -1,8 +1,8 @@
 package com.sunfusheng.github.cache.db;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import com.sunfusheng.github.model.AccessTime;
 import com.sunfusheng.github.util.AppUtil;

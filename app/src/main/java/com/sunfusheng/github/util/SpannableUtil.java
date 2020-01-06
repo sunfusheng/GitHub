@@ -1,10 +1,11 @@
 package com.sunfusheng.github.util;
 
-import android.support.annotation.ColorRes;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+
+import androidx.annotation.ColorRes;
 
 import java.util.List;
 

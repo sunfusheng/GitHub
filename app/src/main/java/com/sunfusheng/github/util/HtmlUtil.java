@@ -81,8 +81,10 @@ public class HtmlUtil {
 
         Element descElement = element.getElementsByClass("col-9 text-gray my-1 pr-4").first();
         StringBuilder desc = new StringBuilder("");
-        for (TextNode textNode : descElement.textNodes()) {
-            desc.append(textNode.getWholeText());
+        if (descElement != null) {
+            for (TextNode textNode : descElement.textNodes()) {
+                desc.append(textNode.getWholeText());
+            }
         }
 
         Element repoInfoElement = element.getElementsByClass("f6 text-gray mt-2").first();

@@ -1,9 +1,10 @@
 package com.sunfusheng.github.util;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.Toast;
+
+import androidx.annotation.StringRes;
 
 /**
  * Created by sunfusheng on 17/2/22.

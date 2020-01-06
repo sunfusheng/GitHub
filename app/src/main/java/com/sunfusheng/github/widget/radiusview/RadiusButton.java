@@ -3,13 +3,15 @@ package com.sunfusheng.github.widget.radiusview;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatButton;
+
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.ViewUtil;
 
 /**
  * @author sunfusheng on 2018/1/20.
  */
-public class RadiusButton extends android.support.v7.widget.AppCompatButton {
+public class RadiusButton extends AppCompatButton {
 
     public RadiusButton(Context context) {
         this(context, null);

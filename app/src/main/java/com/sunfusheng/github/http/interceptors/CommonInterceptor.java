@@ -1,13 +1,14 @@
 package com.sunfusheng.github.http.interceptors;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.cache.db.AccessTimeDatabase;
-import com.sunfusheng.github.model.AccessTime;
 import com.sunfusheng.github.http.response.ResponseData;
+import com.sunfusheng.github.model.AccessTime;
 import com.sunfusheng.github.util.NetworkUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
 

@@ -1,11 +1,12 @@
 package com.sunfusheng.github.ui.repo;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;

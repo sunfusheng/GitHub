@@ -1,8 +1,9 @@
 package com.sunfusheng.github.widget;
 
 import android.content.Context;
-import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
+
+import androidx.core.widget.NestedScrollView;
 
 /**
  * @author sunfusheng on 2018/4/21.

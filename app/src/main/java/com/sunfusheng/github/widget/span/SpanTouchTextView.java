@@ -7,10 +7,12 @@ import android.text.method.MovementMethod;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 /**
  * @author sunfusheng on 2018/7/22.
  */
-public class SpanTouchTextView extends android.support.v7.widget.AppCompatTextView implements ISpanTouch {
+public class SpanTouchTextView extends AppCompatTextView implements ISpanTouch {
     /**
      * 记录当前 Touch 事件对应的点是不是点在了 span 上面
      */

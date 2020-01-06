@@ -12,7 +12,7 @@
         android:layout_height="@dimen/statusbar_view_height"
         android:isScrollContainer="true" />
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_view_height"

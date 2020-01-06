@@ -3,13 +3,15 @@ package com.sunfusheng.github.widget.radiusview;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.ViewUtil;
 
 /**
  * @author sunfusheng on 2018/1/20.
  */
-public class RadiusTextView extends android.support.v7.widget.AppCompatTextView {
+public class RadiusTextView extends AppCompatTextView {
 
     public RadiusTextView(Context context) {
         this(context, null);

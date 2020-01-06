@@ -1,8 +1,9 @@
 package com.sunfusheng.github.ui.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MenuItem;
+
+import androidx.annotation.Nullable;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.StatusBarUtil;

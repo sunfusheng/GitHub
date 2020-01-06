@@ -13,14 +13,15 @@ import android.graphics.PathMeasure;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.v4.graphics.PathParser;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+
+import androidx.core.graphics.PathParser;
+import androidx.core.view.ViewCompat;
 
 import com.sunfusheng.github.R;
 
