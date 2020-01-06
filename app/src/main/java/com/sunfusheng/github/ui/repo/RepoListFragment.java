@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
-import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.viewbinder.RepoBinder;
@@ -22,10 +21,14 @@ import com.sunfusheng.wrapper.RecyclerViewWrapper;
 /**
  * @author sunfusheng on 2018/7/25.
  */
-public class RepoListFragment extends BaseFragment implements ScrollableHelper.ScrollableViewContainer {
+public class RepoListFragment extends BaseFragment implements ScrollableHelper.ScrollableViewContainer,
+        RecyclerViewWrapper.OnRefreshListener,
+        RecyclerViewWrapper.OnLoadMoreListener {
 
-    private RecyclerViewWrapper recyclerViewWrapper;
-    private String username;
+    private RecyclerViewWrapper vRecyclerViewWrapper;
+
+    private String mUsername;
+    private RepoListViewModel mViewModel;
 
     public static RepoListFragment newFragment(String username) {
         RepoListFragment fragment = new RepoListFragment();
@@ -38,7 +41,7 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
     @Override
     public void initData(@Nullable Bundle arguments) {
         if (arguments != null) {
-            username = arguments.getString(Constants.Bundle.USERNAME);
+            mUsername = arguments.getString(Constants.Bundle.USERNAME);
         }
     }
 
@@ -54,41 +57,55 @@ public class RepoListFragment extends BaseFragment implements ScrollableHelper.S
     }
 
     private void initRecyclerViewWrapper() {
-        recyclerViewWrapper = vRootView.findViewById(R.id.recyclerViewWrapper);
-        recyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_for_scrollable);
-        recyclerViewWrapper.setEmptyLayout(R.layout.layout_empty_for_scrollable);
+        vRecyclerViewWrapper = vRootView.findViewById(R.id.recyclerViewWrapper);
+        vRecyclerViewWrapper.setLoadingLayout(R.layout.layout_loading_for_scrollable);
+        vRecyclerViewWrapper.setEmptyLayout(R.layout.layout_empty_for_scrollable);
 
-        recyclerViewWrapper.enableRefresh(false);
-        recyclerViewWrapper.enableLoadMore(false);
+        vRecyclerViewWrapper.enableRefresh(true);
+        vRecyclerViewWrapper.enableLoadMore(true);
+
+        vRecyclerViewWrapper.setOnRefreshListener(this);
+        vRecyclerViewWrapper.setOnLoadMoreListener(this);
 
         RepoBinder repoBinder = new RepoBinder();
         repoBinder.showFullName(false);
         repoBinder.showExactNum(true);
         repoBinder.showUpdateTime(true);
-        recyclerViewWrapper.register(Repo.class, repoBinder);
+        vRecyclerViewWrapper.register(Repo.class, repoBinder);
     }
 
     private void fetchRepoList() {
-        RepoListViewModel viewModel = VMProviders.of(this, RepoListViewModel.class);
-        viewModel.liveData.observe(this, it -> {
+        mViewModel = VMProviders.of(this, RepoListViewModel.class);
+        mViewModel.liveData.observe(this, it -> {
             Log.d("sfs", "fetchRepoList() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchModeString);
 
             switch (it.loadingState) {
                 case LoadingState.SUCCESS:
-                    recyclerViewWrapper.setLoadingState(it.loadingState);
-                    recyclerViewWrapper.setItems(it.data);
+                    vRecyclerViewWrapper.setLoadingState(it.loadingState);
+                    vRecyclerViewWrapper.setItems(it.data);
                     break;
                 case LoadingState.ERROR:
                 case LoadingState.EMPTY:
-                    recyclerViewWrapper.setLoadingState(it.loadingState);
+                    vRecyclerViewWrapper.setLoadingState(it.loadingState);
                     break;
             }
         });
-        viewModel.doRequest(username, 1, FetchMode.REMOTE);
+        mViewModel.username = mUsername;
+        mViewModel.load();
+    }
+
+    @Override
+    public void onRefresh() {
+        mViewModel.refresh();
+    }
+
+    @Override
+    public void onLoadMore() {
+        mViewModel.loadMore();
     }
 
     @Override
     public View getScrollableView() {
-        return recyclerViewWrapper.getRecyclerView();
+        return vRecyclerViewWrapper.getRecyclerView();
     }
 }

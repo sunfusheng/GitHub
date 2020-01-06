@@ -28,14 +28,14 @@ import io.reactivex.schedulers.Schedulers;
  */
 abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
     private MutableLiveData<P> mParams = new MutableLiveData<>();
-    private BaseDataSource<R> mDataSource;
+    private BaseDataSource<P, R> mDataSource;
     public LiveData<ResponseData<R>> liveData = Transformations.switchMap(mParams, params -> fetchData(
             mDataSource.localObservable(),
             mDataSource.remoteObservable(),
             params.fetchMode
     ));
 
-    protected void request(@NonNull P params, @NonNull BaseDataSource<R> dataSource) {
+    protected void request(@NonNull P params, @NonNull BaseDataSource<P, R> dataSource) {
         mDataSource = dataSource;
         mParams.setValue(params);
     }
@@ -52,13 +52,13 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
         if (fetchMode == FetchMode.LOCAL) {
             observable = localObservable;
         } else if (fetchMode == FetchMode.FORCE_REMOTE) {
-            observable = remoteObservable.switchIfEmpty(localObservable)
+            observable = remoteObservable
+                    .switchIfEmpty(localObservable)
                     .onErrorResumeNext(localObservable);
         } else {
-            observable = Observable.concat(
-                    localObservable,
-                    remoteObservable.switchIfEmpty(localObservable)
-                            .onErrorResumeNext(localObservable)
+            observable = Observable.concat(localObservable, remoteObservable
+                    .switchIfEmpty(localObservable)
+                    .onErrorResumeNext(localObservable)
             );
         }
 
@@ -75,18 +75,26 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                     }
 
                     @Override
-                    public void onNotify(ResponseData<R> notify) {
+                    public void onNotify(ResponseData<R> responseData) {
+                        if (DataSourceHelper.isSuccess(responseData)) {
+                            loadSuccess(fetchMode);
+                        } else if (DataSourceHelper.isError(responseData)) {
+                            loadError(fetchMode, responseData.code, responseData.msg);
+                        } else if (DataSourceHelper.isEmpty(responseData)) {
+                            loadEmpty(fetchMode);
+                        }
+
                         if (fetchMode == FetchMode.REMOTE) {
                             if (mFirstNotify == null) {
-                                mFirstNotify = notify;
-                                if (DataSourceHelper.isSuccess(notify)) {
-                                    mutableLiveData.setValue(notify);
+                                mFirstNotify = responseData;
+                                if (DataSourceHelper.isSuccess(responseData)) {
+                                    mutableLiveData.setValue(responseData);
                                 }
 
-                                if (!TextUtils.isEmpty(notify.url)) {
-                                    if (notify.lastAccessTime > 0) {
-                                        long betweenTime = (System.currentTimeMillis() - notify.lastAccessTime) / 1000;
-                                        if (betweenTime > notify.localCacheValidateTime) {
+                                if (!TextUtils.isEmpty(responseData.url)) {
+                                    if (responseData.lastAccessTime > 0) {
+                                        long betweenTime = (System.currentTimeMillis() - responseData.lastAccessTime) / 1000;
+                                        if (betweenTime > responseData.localCacheValidateTime) {
                                             ResponseData<R> loadingNotify = ResponseData.loading();
                                             loadingNotify.setFetchMode(FetchMode.REMOTE);
                                             mutableLiveData.setValue(loadingNotify);
@@ -94,15 +102,27 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                                     }
                                 }
                             } else {
-                                if (!DataSourceHelper.isSuccess(mFirstNotify) || (DataSourceHelper.isSuccess(notify) && notify.fetchMode != FetchMode.LOCAL)) {
-                                    mutableLiveData.setValue(notify);
+                                if (!DataSourceHelper.isSuccess(mFirstNotify) || (DataSourceHelper.isSuccess(responseData) && responseData.fetchMode != FetchMode.LOCAL)) {
+                                    mutableLiveData.setValue(responseData);
                                 }
                             }
                         } else {
-                            mutableLiveData.setValue(notify);
+                            mutableLiveData.setValue(responseData);
                         }
                     }
                 });
         return mutableLiveData;
+    }
+
+    protected void loadSuccess(@FetchMode int fetchMode) {
+
+    }
+
+    protected void loadError(@FetchMode int fetchMode, int code, String msg) {
+
+    }
+
+    protected void loadEmpty(@FetchMode int fetchMode) {
+
     }
 }

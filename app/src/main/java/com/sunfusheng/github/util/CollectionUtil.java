@@ -1,5 +1,7 @@
 package com.sunfusheng.github.util;
 
+import android.util.SparseArray;
+
 import java.util.Collection;
 import java.util.Map;
 
@@ -14,6 +16,10 @@ public class CollectionUtil {
 
     public static boolean isEmpty(Map<?, ?> map) {
         return null == map || map.isEmpty();
+    }
+
+    public static boolean isEmpty(SparseArray<?> sparseArray) {
+        return null == sparseArray || sparseArray.size() == 0;
     }
 
     public static boolean isEmpty(Object[] array) {
@@ -54,5 +60,9 @@ public class CollectionUtil {
 
     public static int getSize(Collection<?> collection) {
         return null == collection ? 0 : collection.size();
+    }
+
+    public static int getSize(SparseArray<?> sparseArray) {
+        return null == sparseArray ? 0 : sparseArray.size();
     }
 }

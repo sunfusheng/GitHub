@@ -16,14 +16,14 @@
             android:orientation="vertical">
 
             <com.sunfusheng.github.widget.app.UserProfileView
-                android:id="@+id/user_profile"
+                android:id="@+id/userProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include layout="@layout/divider_16dp" />
 
             <com.sunfusheng.github.widget.app.UserContributionsView
-                android:id="@+id/user_contributions"
+                android:id="@+id/userContributions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -42,8 +42,8 @@
             app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:tabTextColor="@color/c3" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager2"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

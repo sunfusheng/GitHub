@@ -8,6 +8,7 @@ import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.http.Api;
 import com.sunfusheng.github.http.response.ResponseData;
+import com.sunfusheng.github.viewmodel.params.UsernamePageParams;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,17 +22,18 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author by sunfusheng on 2019-05-27
  */
-public class ReceivedEventsDataSource extends BaseDataSource<List<Event>> {
+public class ReceivedEventsDataSource extends BaseDataSource<UsernamePageParams, List<Event>> {
     private String mUsername;
     private int mPage;
     private int mPageCount;
     private int mFetchMode;
 
-    public ReceivedEventsDataSource(String username, int page, int pageCount, @FetchMode int fetchMode) {
-        this.mUsername = username;
-        this.mPage = page;
-        this.mPageCount = pageCount;
-        this.mFetchMode = fetchMode;
+    @Override
+    public void setParams(UsernamePageParams params) {
+        this.mUsername = params.username;
+        this.mPage = params.page;
+        this.mPageCount = params.pageCount;
+        this.mFetchMode = params.fetchMode;
     }
 
     @Override

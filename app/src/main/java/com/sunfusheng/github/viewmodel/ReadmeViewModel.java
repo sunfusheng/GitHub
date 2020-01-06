@@ -10,7 +10,9 @@ import com.sunfusheng.github.viewmodel.params.RepoFullNameParams;
 public class ReadmeViewModel extends BaseViewModel<RepoFullNameParams, String> {
 
     public void request(String repoFullName, @FetchMode int fetchMode) {
-        request(new RepoFullNameParams(repoFullName, fetchMode),
-                new ReadmeDataSource(repoFullName, fetchMode));
+        RepoFullNameParams params = new RepoFullNameParams(repoFullName, fetchMode);
+        ReadmeDataSource dataSource = new ReadmeDataSource();
+        dataSource.setParams(params);
+        request(params, dataSource);
     }
 }

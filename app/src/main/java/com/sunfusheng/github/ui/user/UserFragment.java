@@ -2,14 +2,20 @@ package com.sunfusheng.github.ui.user;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
@@ -30,7 +36,6 @@ import com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout;
 import com.sunfusheng.github.widget.app.UserContributionsView;
 import com.sunfusheng.github.widget.app.UserFollowView;
 import com.sunfusheng.github.widget.app.UserProfileView;
-import com.sunfusheng.github.widget.bottombar.FragmentPagerItemAdapter;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.transformation.BlurTransformation;
 
@@ -39,19 +44,17 @@ import com.sunfusheng.transformation.BlurTransformation;
  */
 public class UserFragment extends BaseFragment {
 
-    private ScrollableLayout scrollableLayout;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ScrollableLayout vScrollableLayout;
+    private TabLayout vTabLayout;
+    private ViewPager2 vViewPager2;
 
     private GlideImageView vToolbarBg;
     private UserFollowView vUserFollow;
     private UserProfileView vUserProfile;
     private UserContributionsView vUserContributions;
 
-    private boolean hasInstantiate = false;
     private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Events, R.string.Stars, R.string.Followers, R.string.Following};
-    private int currTabIndex = 0;
-    private int lastTabIndex = -1;
+    private int mCurrTabIndex = 0;
     private String mUsername;
 
     public static UserFragment instance(String username) {
@@ -83,12 +86,12 @@ public class UserFragment extends BaseFragment {
     @Override
     public void initView(@NonNull View rootView) {
         vUserFollow = rootView.findViewById(R.id.user_follow);
-        vUserProfile = rootView.findViewById(R.id.user_profile);
-        vUserContributions = rootView.findViewById(R.id.user_contributions);
+        vUserProfile = rootView.findViewById(R.id.userProfile);
+        vUserContributions = rootView.findViewById(R.id.userContributions);
 
-        scrollableLayout = rootView.findViewById(R.id.scrollableLayout);
-        tabLayout = rootView.findViewById(R.id.tabLayout);
-        viewPager = rootView.findViewById(R.id.viewPager);
+        vScrollableLayout = rootView.findViewById(R.id.scrollableLayout);
+        vTabLayout = rootView.findViewById(R.id.tabLayout);
+        vViewPager2 = rootView.findViewById(R.id.viewPager2);
 
         initHeader();
         observeFetchUser();
@@ -107,10 +110,10 @@ public class UserFragment extends BaseFragment {
         int height = layoutParams.height - toolbarAndStatusBarHeight;
         layoutParams.setMargins(0, -height, 0, 0);
         vToolbarBg.setLayoutParams(layoutParams);
-        scrollableLayout.setMarginTop(toolbarAndStatusBarHeight);
+        vScrollableLayout.setMarginTop(toolbarAndStatusBarHeight);
 
         int distance = DisplayUtil.dp2px(getContext(), 220) - toolbarAndStatusBarHeight;
-        scrollableLayout.setOnScrollListener((scrollY, offsetY, maxY) -> {
+        vScrollableLayout.setOnScrollListener((scrollY, offsetY, maxY) -> {
             float alpha = offsetY * 1f / (distance);
             if (alpha > 1f) alpha = 1f;
             vToolbarBg.setAlpha((int) (alpha * 255));
@@ -140,46 +143,67 @@ public class UserFragment extends BaseFragment {
     }
 
     private void initViewPager() {
-        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[0]), true);
-        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[1]), false);
-        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[2]), false);
-        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[3]), false);
-        tabLayout.addTab(tabLayout.newTab().setText(TAB_NAMES[4]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[0]), true);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[1]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[2]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[3]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[4]), false);
 
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter.Builder(getContext(), getChildFragmentManager())
-                .add(TAB_NAMES[0], RepoListFragment.newFragment(mUsername))
-                .add(TAB_NAMES[1], TodoFragment.newFragment())
-                .add(TAB_NAMES[2], TodoFragment.newFragment())
-                .add(TAB_NAMES[3], TodoFragment.newFragment())
-                .add(TAB_NAMES[4], TodoFragment.newFragment())
-                .build();
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(1);
-        viewPager.setCurrentItem(currTabIndex);
-        tabLayout.setupWithViewPager(viewPager);
+        SparseArray<Fragment> fragments = new SparseArray<>();
+        fragments.put(0, RepoListFragment.newFragment(mUsername));
+        fragments.put(1, TodoFragment.newFragment());
+        fragments.put(2, TodoFragment.newFragment());
+        fragments.put(3, TodoFragment.newFragment());
+        fragments.put(4, TodoFragment.newFragment());
 
-        adapter.setOnInstantiateFragmentListener((position, fragment, args) -> {
-            if (!hasInstantiate) {
-                hasInstantiate = true;
-                scrollableLayout.getHelper().setScrollableViewContainer((ScrollableHelper.ScrollableViewContainer) adapter.getFragment(0));
-            }
-        });
+        FragmentViewPager2Adapter viewPager2Adapter = new FragmentViewPager2Adapter(getChildFragmentManager(), getLifecycle());
+        viewPager2Adapter.setFragments(fragments);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        vViewPager2.setAdapter(viewPager2Adapter);
+        vViewPager2.setOffscreenPageLimit(1);
+        vViewPager2.setCurrentItem(mCurrTabIndex);
+        new TabLayoutMediator(vTabLayout, vViewPager2, (tab, position) -> {
+            tab.setText(TAB_NAMES[position]);
+        }).attach();
 
-            }
-
+        vViewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                scrollableLayout.getHelper().setScrollableViewContainer((ScrollableHelper.ScrollableViewContainer) adapter.getFragment(position));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+                super.onPageSelected(position);
+                mCurrTabIndex = position;
+                vScrollableLayout.getHelper().setScrollableViewContainer((ScrollableHelper.ScrollableViewContainer) viewPager2Adapter.getFragment(position));
             }
         });
+    }
+
+    public static class FragmentViewPager2Adapter extends FragmentStateAdapter {
+        private SparseArray<Fragment> fragments;
+
+        public FragmentViewPager2Adapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+            super(fragmentManager, lifecycle);
+        }
+
+        public void setFragments(SparseArray<Fragment> fragments) {
+            this.fragments = fragments;
+        }
+
+        public SparseArray<Fragment> getFragments() {
+            return fragments;
+        }
+
+        public Fragment getFragment(int position) {
+            return fragments.get(position);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return fragments.size();
+        }
     }
 }

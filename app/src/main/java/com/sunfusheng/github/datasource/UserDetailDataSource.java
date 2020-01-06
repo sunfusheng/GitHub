@@ -4,6 +4,7 @@ import com.sunfusheng.github.cache.db.UserDatabase;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.http.Api;
 import com.sunfusheng.github.http.response.ResponseData;
+import com.sunfusheng.github.viewmodel.params.UsernameParams;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -12,11 +13,12 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author by sunfusheng on 2019-05-27
  */
-public class UserDetailDataSource extends BaseDataSource<User> {
+public class UserDetailDataSource extends BaseDataSource<UsernameParams, User> {
     private String mUserName;
 
-    public UserDetailDataSource(String userName) {
-        this.mUserName = userName;
+    @Override
+    public void setParams(UsernameParams params) {
+        this.mUserName = params.username;
     }
 
     @Override

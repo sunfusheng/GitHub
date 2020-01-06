@@ -11,6 +11,10 @@ import com.sunfusheng.github.http.response.ResponseData;
 public class BaseParams {
     public int fetchMode;
 
+    public BaseParams() {
+        this.fetchMode = FetchMode.REMOTE;
+    }
+
     public BaseParams(@FetchMode int fetchMode) {
         this.fetchMode = fetchMode;
     }

@@ -1,10 +1,10 @@
 package com.sunfusheng.github.datasource;
 
 import com.sunfusheng.github.Constants;
-import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.cache.disklrucache.ReadmeDiskLruCache;
 import com.sunfusheng.github.http.Api;
 import com.sunfusheng.github.http.response.ResponseData;
+import com.sunfusheng.github.viewmodel.params.RepoFullNameParams;
 import com.sunfusheng.multistate.LoadingState;
 
 import io.reactivex.Observable;
@@ -14,14 +14,15 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author by sunfusheng on 2019-05-26
  */
-public class ReadmeDataSource extends BaseDataSource<String> {
+public class ReadmeDataSource extends BaseDataSource<RepoFullNameParams, String> {
     private String mRepoFullName;
     private int mFetchMode;
     private ReadmeDiskLruCache mReadmeDiskLruCache = new ReadmeDiskLruCache();
 
-    public ReadmeDataSource(String repoFullName, @FetchMode int fetchMode) {
-        this.mRepoFullName = repoFullName;
-        this.mFetchMode = fetchMode;
+    @Override
+    public void setParams(RepoFullNameParams params) {
+        this.mRepoFullName = params.repoFullName;
+        this.mFetchMode = params.fetchMode;
     }
 
     @Override

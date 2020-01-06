@@ -15,6 +15,11 @@ public class PageParams extends BaseParams {
     public int page;
     public int pageCount;
 
+    public PageParams() {
+        this.page = FIRST_PAGE;
+        this.pageCount = PAGE_COUNT;
+    }
+
     public PageParams(int page, @FetchMode int fetchMode) {
         this(page, PAGE_COUNT, fetchMode);
     }

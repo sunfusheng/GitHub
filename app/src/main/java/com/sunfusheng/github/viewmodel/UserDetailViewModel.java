@@ -11,7 +11,9 @@ import com.sunfusheng.github.viewmodel.params.UsernameParams;
 public class UserDetailViewModel extends BaseViewModel<UsernameParams, User> {
 
     public void request(String username, @FetchMode int fetchMode) {
-        request(new UsernameParams(username, fetchMode),
-                new UserDetailDataSource(username));
+        UsernameParams params = new UsernameParams(username, fetchMode);
+        UserDetailDataSource dataSource = new UserDetailDataSource();
+        dataSource.setParams(params);
+        request(params, dataSource);
     }
 }
