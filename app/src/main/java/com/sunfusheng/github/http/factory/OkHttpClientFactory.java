@@ -31,7 +31,7 @@ public class OkHttpClientFactory {
                 .cache(new Cache(Constants.CacheDir.OKHTTP, MAX_CACHE_SIZE));
 
         if (BuildConfig.debugMode) {
-            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC));
         }
 
         if (!CollectionUtil.isEmpty(interceptors)) {

@@ -52,7 +52,6 @@ abstract public class BaseFragment extends RxFragment {
 
     abstract public void initView(@NonNull View rootView);
 
-
     protected void initToolBar() {
         if (vRootView != null) {
             statusBar = vRootView.findViewById(R.id.statusBar);

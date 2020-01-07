@@ -21,14 +21,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="114dp"
+        android:layout_height="134dp"
         android:layout_marginBottom="@dimen/item_margin"
         android:gravity="center">
 
         <com.sunfusheng.github.widget.app.ContributionsWebView
             android:id="@+id/contributions"
             android:layout_width="match_parent"
-            android:layout_height="114dp"
+            android:layout_height="match_parent"
             android:fadingEdge="none"
             android:fadingEdgeLength="0dp"
             android:overScrollMode="never" />

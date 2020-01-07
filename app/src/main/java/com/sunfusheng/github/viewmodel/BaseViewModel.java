@@ -29,18 +29,20 @@ import io.reactivex.schedulers.Schedulers;
 abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
     private MutableLiveData<P> mParams = new MutableLiveData<>();
     private BaseDataSource<P, R> mDataSource;
-    public LiveData<ResponseData<R>> liveData = Transformations.switchMap(mParams, params -> fetchData(
-            mDataSource.localObservable(),
-            mDataSource.remoteObservable(),
-            params.fetchMode
-    ));
+    public LiveData<ResponseData<R>> liveData = Transformations.switchMap(mParams, params -> {
+        return fetchData(
+                mDataSource.localObservable(),
+                mDataSource.remoteObservable(),
+                params.fetchMode
+        );
+    });
 
     protected void request(@NonNull P params, @NonNull BaseDataSource<P, R> dataSource) {
         mDataSource = dataSource;
         mParams.setValue(params);
     }
 
-    private ResponseData<R> mFirstNotify = null;
+    private ResponseData<R> mFirstTimeResponseData = null;
 
     private LiveData<ResponseData<R>> fetchData(
             @NonNull Observable<ResponseData<R>> localObservable,
@@ -52,12 +54,10 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
         if (fetchMode == FetchMode.LOCAL) {
             observable = localObservable;
         } else if (fetchMode == FetchMode.FORCE_REMOTE) {
-            observable = remoteObservable
-                    .switchIfEmpty(localObservable)
+            observable = remoteObservable.switchIfEmpty(localObservable)
                     .onErrorResumeNext(localObservable);
         } else {
-            observable = Observable.concat(localObservable, remoteObservable
-                    .switchIfEmpty(localObservable)
+            observable = Observable.concat(localObservable, remoteObservable.switchIfEmpty(localObservable)
                     .onErrorResumeNext(localObservable)
             );
         }
@@ -67,7 +67,7 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                 .subscribe(new ResponseObserver<R>() {
                     @Override
                     public void onSubscribe(Disposable disposable) {
-                        mFirstNotify = null;
+                        mFirstTimeResponseData = null;
                         super.onSubscribe(disposable);
                         ResponseData<R> loadingNotify = ResponseData.loading();
                         loadingNotify.setFetchMode(fetchMode == FetchMode.REMOTE ? FetchMode.LOCAL : fetchMode);
@@ -85,8 +85,8 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                         }
 
                         if (fetchMode == FetchMode.REMOTE) {
-                            if (mFirstNotify == null) {
-                                mFirstNotify = responseData;
+                            if (mFirstTimeResponseData == null) {
+                                mFirstTimeResponseData = responseData;
                                 if (DataSourceHelper.isSuccess(responseData)) {
                                     mutableLiveData.setValue(responseData);
                                 }
@@ -102,7 +102,7 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                                     }
                                 }
                             } else {
-                                if (!DataSourceHelper.isSuccess(mFirstNotify) || (DataSourceHelper.isSuccess(responseData) && responseData.fetchMode != FetchMode.LOCAL)) {
+                                if (!DataSourceHelper.isSuccess(mFirstTimeResponseData) || (DataSourceHelper.isSuccess(responseData) && responseData.fetchMode != FetchMode.LOCAL)) {
                                     mutableLiveData.setValue(responseData);
                                 }
                             }
@@ -115,14 +115,11 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
     }
 
     protected void loadSuccess(@FetchMode int fetchMode) {
-
     }
 
     protected void loadError(@FetchMode int fetchMode, int code, String msg) {
-
     }
 
     protected void loadEmpty(@FetchMode int fetchMode) {
-
     }
 }

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.model.Repo;
-import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.widget.app.RepoInfoView;
 import com.sunfusheng.multitype.ItemViewBinder;
 
@@ -55,10 +54,6 @@ public class RepoBinder extends ItemViewBinder<Repo, RepoBinder.ViewHolder> {
         holder.vRepoInfo.showExactNum(showExactNum);
         holder.vRepoInfo.showUpdateTime(showUpdateTime);
         holder.vRepoInfo.setData(item);
-
-        holder.itemView.setOnClickListener(v -> {
-            NavigationManager.toRepoDetailActivity(holder.itemView.getContext(), item.full_name);
-        });
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
