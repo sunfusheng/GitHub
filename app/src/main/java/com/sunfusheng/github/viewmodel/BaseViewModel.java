@@ -1,6 +1,6 @@
 package com.sunfusheng.github.viewmodel;
 
-import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -28,6 +28,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
     private MutableLiveData<P> mParams = new MutableLiveData<>();
+    private int mFetchMode;
     private BaseDataSource<P, R> mDataSource;
     public LiveData<ResponseData<R>> liveData = Transformations.switchMap(mParams, params -> {
         return fetchData(
@@ -39,7 +40,13 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
 
     protected void request(@NonNull P params, @NonNull BaseDataSource<P, R> dataSource) {
         mDataSource = dataSource;
+        mFetchMode = params.fetchMode;
         mParams.setValue(params);
+    }
+
+    @FetchMode
+    public final int getFetchMode() {
+        return mFetchMode;
     }
 
     private ResponseData<R> mFirstTimeResponseData = null;
@@ -54,11 +61,13 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
         if (fetchMode == FetchMode.LOCAL) {
             observable = localObservable;
         } else if (fetchMode == FetchMode.FORCE_REMOTE) {
-            observable = remoteObservable.switchIfEmpty(localObservable)
-                    .onErrorResumeNext(localObservable);
+            observable = remoteObservable.switchIfEmpty(localObservable).onErrorResumeNext(localObservable);
         } else {
-            observable = Observable.concat(localObservable, remoteObservable.switchIfEmpty(localObservable)
-                    .onErrorResumeNext(localObservable)
+            observable = Observable.concat(
+                    localObservable,
+                    remoteObservable
+                            .switchIfEmpty(localObservable)
+                            .onErrorResumeNext(localObservable)
             );
         }
 
@@ -84,31 +93,35 @@ abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
                             loadEmpty(fetchMode);
                         }
 
-                        if (fetchMode == FetchMode.REMOTE) {
-                            if (mFirstTimeResponseData == null) {
-                                mFirstTimeResponseData = responseData;
-                                if (DataSourceHelper.isSuccess(responseData)) {
-                                    mutableLiveData.setValue(responseData);
-                                }
+                        mutableLiveData.setValue(responseData);
 
-                                if (!TextUtils.isEmpty(responseData.url)) {
-                                    if (responseData.lastAccessTime > 0) {
-                                        long betweenTime = (System.currentTimeMillis() - responseData.lastAccessTime) / 1000;
-                                        if (betweenTime > responseData.localCacheValidateTime) {
-                                            ResponseData<R> loadingNotify = ResponseData.loading();
-                                            loadingNotify.setFetchMode(FetchMode.REMOTE);
-                                            mutableLiveData.setValue(loadingNotify);
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (!DataSourceHelper.isSuccess(mFirstTimeResponseData) || (DataSourceHelper.isSuccess(responseData) && responseData.fetchMode != FetchMode.LOCAL)) {
-                                    mutableLiveData.setValue(responseData);
-                                }
-                            }
-                        } else {
-                            mutableLiveData.setValue(responseData);
-                        }
+                        Log.d("sfs", "onNotify() responseData: "+responseData.toString());
+
+//                        if (fetchMode == FetchMode.REMOTE) {
+//                            if (mFirstTimeResponseData == null) {
+//                                mFirstTimeResponseData = responseData;
+//                                if (DataSourceHelper.isSuccess(responseData)) {
+//                                    mutableLiveData.setValue(responseData);
+//                                }
+//
+//                                if (!TextUtils.isEmpty(responseData.url)) {
+//                                    if (responseData.lastAccessTime > 0) {
+//                                        long betweenTime = (System.currentTimeMillis() - responseData.lastAccessTime) / 1000;
+//                                        if (betweenTime > responseData.localCacheValidateTime) {
+//                                            ResponseData<R> loadingNotify = ResponseData.loading();
+//                                            loadingNotify.setFetchMode(FetchMode.REMOTE);
+//                                            mutableLiveData.setValue(loadingNotify);
+//                                        }
+//                                    }
+//                                }
+//                            } else {
+//                                if (!DataSourceHelper.isSuccess(mFirstTimeResponseData) || (DataSourceHelper.isSuccess(responseData) && responseData.fetchMode != FetchMode.LOCAL)) {
+//                                    mutableLiveData.setValue(responseData);
+//                                }
+//                            }
+//                        } else {
+//                            mutableLiveData.setValue(responseData);
+//                        }
                     }
                 });
         return mutableLiveData;

@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.cache.db.AccessTimeDatabase;
-import com.sunfusheng.github.http.response.ResponseData;
 import com.sunfusheng.github.model.AccessTime;
 import com.sunfusheng.github.util.NetworkUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
@@ -31,7 +30,6 @@ public class CommonInterceptor implements Interceptor {
         @FetchMode int realFetchMode = getFetchMode(request);
 
         Request.Builder builder = request.newBuilder();
-        builder.addHeader("real-fetch-mode", ResponseData.getFetchModeString(realFetchMode));
         String token = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.TOKEN);
         if (!TextUtils.isEmpty(token)) {
             builder.addHeader("Authorization", "token " + token);

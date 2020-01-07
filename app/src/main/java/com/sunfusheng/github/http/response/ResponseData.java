@@ -59,7 +59,8 @@ public class ResponseData<T> {
     @Override
     public String toString() {
         return "ResponseData{" +
-                "code=" + code +
+                "url=" + url +
+                ", code=" + code +
                 ", msg='" + msg +
                 ", loadingState=" + loadingState +
                 ", loadingStateString=" + loadingStateString +

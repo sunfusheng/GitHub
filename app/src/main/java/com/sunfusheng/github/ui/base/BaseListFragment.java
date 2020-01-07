@@ -1,12 +1,14 @@
 package com.sunfusheng.github.ui.base;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sunfusheng.github.R;
+import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.DataSourceHelper;
 import com.sunfusheng.github.http.response.ResponseData;
 import com.sunfusheng.github.util.CollectionUtil;
@@ -74,6 +76,7 @@ abstract public class BaseListFragment<VM extends BaseListViewModel, E> extends 
     private void fetchList() {
         mVM.liveData.observe(this, it -> {
             ResponseData<List<E>> result = (ResponseData<List<E>>) it;
+            Log.d("sfs", "mVM.getFetchMode(): " + mVM.getFetchMode() + " result.fetchMode: " + result.fetchMode + " loadingStateString: " + result.loadingStateString);
 
             if (DataSourceHelper.isLoading(result)) {
                 if (mVM.isRefreshMode() || mVM.isLoadMode()) {
@@ -94,6 +97,9 @@ abstract public class BaseListFragment<VM extends BaseListViewModel, E> extends 
                     vRecyclerViewWrapper.setLoadMoreError();
                 }
             } else if (DataSourceHelper.isEmpty(result)) {
+                if (mVM.getFetchMode() == FetchMode.REMOTE && result.fetchMode == FetchMode.LOCAL) {
+                    return;
+                }
                 if (CollectionUtil.isEmpty(items)) {
                     vRecyclerViewWrapper.setLoadingState(LoadingState.EMPTY);
                     vRecyclerViewWrapper.enableRefresh(false);
@@ -104,6 +110,8 @@ abstract public class BaseListFragment<VM extends BaseListViewModel, E> extends 
                 }
             }
         });
+
+        vRecyclerViewWrapper.setLoadingState(LoadingState.LOADING);
         mVM.load();
     }
 

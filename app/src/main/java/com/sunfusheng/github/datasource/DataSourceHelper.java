@@ -19,11 +19,9 @@ import retrofit2.Response;
 public class DataSourceHelper {
 
     public static <T> void emitLocalResponseData(ObservableEmitter<ResponseData<T>> emitter, T t) {
-        if (t != null) {
-            ResponseData<T> localResponseData = ResponseData.success(t);
-            localResponseData.setFetchMode(FetchMode.LOCAL);
-            emitter.onNext(localResponseData);
-        }
+        ResponseData<T> localResponseData = t != null ? ResponseData.success(t) : ResponseData.empty();
+        localResponseData.setFetchMode(FetchMode.LOCAL);
+        emitter.onNext(localResponseData);
         emitter.onComplete();
     }
 
@@ -61,10 +59,10 @@ public class DataSourceHelper {
                     }
 
                     Request request = it.raw().request();
-                    @FetchMode int realFetchMode = FetchMode.REMOTE;
-                    String realFetchModeString = request.header("real-fetch-mode");
-                    if (realFetchModeString != null) {
-                        realFetchMode = ResponseData.getFetchMode(realFetchModeString);
+                    @FetchMode int fetchMode = FetchMode.REMOTE;
+                    String fetchModeString = request.header("fetch-mode");
+                    if (fetchModeString != null) {
+                        fetchMode = ResponseData.getFetchMode(fetchModeString);
                     }
 
                     ResponseData<T> responseData;
@@ -77,7 +75,7 @@ public class DataSourceHelper {
                     } else {
                         responseData = ResponseData.error(it.code());
                     }
-                    responseData.setFetchMode(realFetchMode);
+                    responseData.setFetchMode(fetchMode);
                     responseData.url = request.url().toString();
                     responseData.localCacheValidateTime = CommonInterceptor.getLocalCacheValidateTimeByRequestHeader(request);
                     AccessTime accessTime = AccessTimeDatabase.instance().getAccessTimeDao().query(request.url().toString());

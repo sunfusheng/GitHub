@@ -9,7 +9,6 @@ import com.sunfusheng.github.util.CollectionUtil;
 import com.sunfusheng.github.viewmodel.params.UsernamePageParams;
 import com.sunfusheng.multistate.LoadingState;
 
-import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -37,7 +36,7 @@ public class RepoListDataSource extends BaseDataSource<UsernamePageParams, List<
     public Observable<ResponseData<List<Repo>>> localObservable() {
         return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseData<List<Repo>>>) emitter -> {
             List<Repo> repoList = RepoDatabase.instance().getRepoDao().query(mUsername, mPageCount);
-            DataSourceHelper.emitLocalResponseData(emitter, CollectionUtil.isEmpty(repoList) ? Collections.emptyList() : repoList);
+            DataSourceHelper.emitLocalResponseData(emitter, CollectionUtil.isEmpty(repoList) ? null : repoList);
         })).subscribeOn(Schedulers.io());
     }
 
@@ -55,7 +54,7 @@ public class RepoListDataSource extends BaseDataSource<UsernamePageParams, List<
                             }
                             RepoDatabase.instance().getRepoDao().insert(data);
                         } else {
-                            it.loadingState = LoadingState.EMPTY;
+                            it.setLoadingState(LoadingState.EMPTY);
                         }
                     }
                 });

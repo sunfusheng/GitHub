@@ -81,21 +81,19 @@ abstract public class BaseListViewModel<P extends PageParams, R> extends BaseVie
 
     @Override
     protected void loadError(int fetchMode, int code, String msg) {
-        if (fetchMode == FetchMode.REMOTE || fetchMode == FetchMode.FORCE_REMOTE) {
-            onErrorOrEmpty();
-        }
+        onErrorOrEmpty(fetchMode);
     }
 
     @Override
     protected void loadEmpty(int fetchMode) {
-        if (fetchMode == FetchMode.REMOTE || fetchMode == FetchMode.FORCE_REMOTE) {
-            onErrorOrEmpty();
-        }
+        onErrorOrEmpty(fetchMode);
     }
 
-    private void onErrorOrEmpty() {
-        if (mPage > PageParams.FIRST_PAGE) {
-            mPage--;
+    private void onErrorOrEmpty(@FetchMode int fetchMode) {
+        if (fetchMode == FetchMode.REMOTE || fetchMode == FetchMode.FORCE_REMOTE) {
+            if (mPage > PageParams.FIRST_PAGE) {
+                mPage--;
+            }
         }
     }
 }
