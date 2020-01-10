@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="@dimen/item_margin_large">
 
-    <com.sunfusheng.github.widget.SvgView
-        android:id="@+id/svg_view"
+    <com.sunfusheng.github.widget.SVGView
+        android:id="@+id/vLogo"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/vUsername"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:svgFillColors="@array/colors_github_grey"
         app:svgFillStart="1500"
         app:svgFillTime="1500"
@@ -25,91 +26,23 @@
         app:svgTraceTime="3000"
         app:svgTraceTimePerGlyph="1500" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_username"
+    <com.sunfusheng.github.widget.app.LoginUsernameView
+        android:id="@+id/vUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/cl_password"
+        app:layout_constraintBottom_toTopOf="@id/vPassword"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed">
+        app:layout_constraintVertical_chainStyle="packed" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/item_margin_smaller"
-            android:text="@string/username"
-            android:textColor="@color/c1"
-            android:textSize="17sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/username"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/username" />
-
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
-            android:drawablePadding="@dimen/item_margin_large"
-            android:hint="@string/username_input"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="textCapCharacters"
-            android:maxLines="1"
-            android:paddingStart="80dp"
-            android:paddingTop="@dimen/item_margin_large"
-            android:paddingEnd="0dp"
-            android:text=""
-            android:textColor="@color/c1"
-            android:textColorHint="@color/c4"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_password"
+    <com.sunfusheng.github.widget.app.LoginPasswordView
+        android:id="@+id/vPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/login"
-        app:layout_constraintTop_toBottomOf="@id/cl_username">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/item_margin_smaller"
-            android:text="@string/password"
-            android:textColor="@color/c1"
-            android:textSize="17sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/password"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/password" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
-            android:drawablePadding="@dimen/item_margin_large"
-            android:hint="@string/password_input"
-            android:imeOptions="actionGo"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:paddingStart="80dp"
-            android:paddingTop="@dimen/item_margin_large"
-            android:paddingEnd="0dp"
-            android:text=""
-            android:textColor="@color/c1"
-            android:textColorHint="@color/c4"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintBottom_toTopOf="@id/vLogin"
+        app:layout_constraintTop_toBottomOf="@id/vUsername" />
 
     <com.sunfusheng.github.widget.radiusview.RadiusTextView
-        android:id="@+id/login"
+        android:id="@+id/vLogin"
         style="@style/RadiusButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -117,7 +50,7 @@
         android:text="@string/login"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_password" />
+        app:layout_constraintTop_toBottomOf="@+id/vPassword" />
 
     <TextView
         android:layout_width="wrap_content"

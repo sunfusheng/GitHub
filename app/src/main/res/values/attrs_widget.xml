@@ -28,7 +28,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="SvgView">
+    <declare-styleable name="SVGView">
         <attr name="svgImageSizeX" format="integer"/>
         <attr name="svgImageSizeY" format="integer"/>
         <attr name="svgTraceTime" format="string"/>

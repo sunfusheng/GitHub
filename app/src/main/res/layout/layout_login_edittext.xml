@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/vPrefixIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="0dp"
+        android:background="@drawable/ic_person_black"
+        app:layout_constraintBottom_toBottomOf="@+id/vContent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/vContent" />
+
+    <EditText
+        android:id="@+id/vContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:drawableBottom="@drawable/drawable_edittext_bottom_line_selector"
+        android:drawablePadding="@dimen/item_margin_large"
+        android:hint="@string/username_input"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
+        android:inputType="textCapCharacters"
+        android:maxLines="1"
+        android:paddingStart="50dp"
+        android:paddingTop="@dimen/item_margin_large"
+        android:paddingEnd="0dp"
+        android:text=""
+        android:textColor="@color/c1"
+        android:textColorHint="@color/c4"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/vSuffixIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/ic_clear_black"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vContent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/vContent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

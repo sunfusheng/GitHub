@@ -25,7 +25,7 @@ import androidx.core.view.ViewCompat;
 
 import com.sunfusheng.github.R;
 
-public class SvgView extends View {
+public class SVGView extends View {
 
     public static final int STATE_NOT_STARTED = 0;
     public static final int STATE_TRACE_STARTED = 1;
@@ -65,17 +65,17 @@ public class SvgView extends View {
     private int mState = STATE_NOT_STARTED;
     private OnStateChangeListener mOnStateChangeListener;
 
-    public SvgView(Context context) {
+    public SVGView(Context context) {
         super(context);
         init(context, null);
     }
 
-    public SvgView(Context context, AttributeSet attrs) {
+    public SVGView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public SvgView(Context context, AttributeSet attrs, int defStyle) {
+    public SVGView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
     }
@@ -93,19 +93,19 @@ public class SvgView extends View {
         mTraceResidueColors[0] = 0x32000000;
 
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SvgView);
-            mViewportWidth = a.getInt(R.styleable.SvgView_svgImageSizeX, 512);
-            aspectRatioWidth = a.getInt(R.styleable.SvgView_svgImageSizeX, 512);
-            mViewportHeight = a.getInt(R.styleable.SvgView_svgImageSizeY, 512);
-            aspectRatioHeight = a.getInt(R.styleable.SvgView_svgImageSizeY, 512);
-            mTraceTime = a.getInt(R.styleable.SvgView_svgTraceTime, 2000);
-            mTraceTimePerGlyph = a.getInt(R.styleable.SvgView_svgTraceTimePerGlyph, 1000);
-            mFillStart = a.getInt(R.styleable.SvgView_svgFillStart, 1200);
-            mFillTime = a.getInt(R.styleable.SvgView_svgFillTime, 1000);
-            int glyphStringsId = a.getResourceId(R.styleable.SvgView_svgGlyphStrings, 0);
-            int traceResidueColorsId = a.getResourceId(R.styleable.SvgView_svgTraceResidueColors, 0);
-            int traceColorsId = a.getResourceId(R.styleable.SvgView_svgTraceColors, 0);
-            int fillColorsId = a.getResourceId(R.styleable.SvgView_svgFillColors, 0);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SVGView);
+            mViewportWidth = a.getInt(R.styleable.SVGView_svgImageSizeX, 512);
+            aspectRatioWidth = a.getInt(R.styleable.SVGView_svgImageSizeX, 512);
+            mViewportHeight = a.getInt(R.styleable.SVGView_svgImageSizeY, 512);
+            aspectRatioHeight = a.getInt(R.styleable.SVGView_svgImageSizeY, 512);
+            mTraceTime = a.getInt(R.styleable.SVGView_svgTraceTime, 2000);
+            mTraceTimePerGlyph = a.getInt(R.styleable.SVGView_svgTraceTimePerGlyph, 1000);
+            mFillStart = a.getInt(R.styleable.SVGView_svgFillStart, 1200);
+            mFillTime = a.getInt(R.styleable.SVGView_svgFillTime, 1000);
+            int glyphStringsId = a.getResourceId(R.styleable.SVGView_svgGlyphStrings, 0);
+            int traceResidueColorsId = a.getResourceId(R.styleable.SVGView_svgTraceResidueColors, 0);
+            int traceColorsId = a.getResourceId(R.styleable.SVGView_svgTraceColors, 0);
+            int fillColorsId = a.getResourceId(R.styleable.SVGView_svgFillColors, 0);
 
             a.recycle();
 

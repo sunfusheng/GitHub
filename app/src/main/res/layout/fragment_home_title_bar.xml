@@ -17,7 +17,7 @@
         android:layout_height="@dimen/toolbar_view_height"
         android:minHeight="@dimen/toolbar_view_height">
 
-        <com.sunfusheng.github.widget.SvgView
+        <com.sunfusheng.github.widget.SVGView
             android:id="@+id/svg_loading"
             android:layout_width="35dp"
             android:layout_height="35dp"

@@ -23,7 +23,7 @@ import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.ReceivedEventsViewModel;
 import com.sunfusheng.github.viewmodel.vm.VMProviders;
-import com.sunfusheng.github.widget.SvgView;
+import com.sunfusheng.github.widget.SVGView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
 
@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.OnRefreshListener, RecyclerViewWrapper.OnLoadMoreListener {
 
-    private SvgView vSvgLoading;
+    private SVGView vSvgLoading;
     private View vStatusBar;
     private RecyclerViewWrapper recyclerViewWrapper;
 
@@ -91,7 +91,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
 
     private void startSvgAnim() {
         vSvgLoading.setOnStateChangeListener(state -> {
-            if (state == SvgView.STATE_FINISHED) {
+            if (state == SVGView.STATE_FINISHED) {
                 vSvgLoading.start();
             }
         });
@@ -99,9 +99,9 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     }
 
     private void stopSvgAnim() {
-        if (vSvgLoading.getState() > SvgView.STATE_NOT_STARTED && vSvgLoading.getState() < SvgView.STATE_FINISHED) {
+        if (vSvgLoading.getState() > SVGView.STATE_NOT_STARTED && vSvgLoading.getState() < SVGView.STATE_FINISHED) {
             vSvgLoading.setOnStateChangeListener(state -> {
-                if (state == SvgView.STATE_FINISHED) {
+                if (state == SVGView.STATE_FINISHED) {
                     vSvgLoading.setToFinishedFrame();
                 }
             });
