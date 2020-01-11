@@ -1,7 +1,5 @@
 package com.sunfusheng.github.datasource;
 
-import android.util.Log;
-
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.http.Api;
 import com.sunfusheng.github.http.response.ResponseData;
@@ -50,9 +48,6 @@ public class UserListDataSource extends BaseDataSource<UsernamePageParams, List<
 
     @Override
     public Observable<ResponseData<List<User>>> remoteObservable() {
-
-        Log.d("sfs", "UserListDataSource: " + from);
-
         Observable<Response<List<User>>> observable;
         if (FROM_FOLLOWER.equals(from)) {
             observable = Api.getCommonService().fetchFollowerList(mUsername, mPage, mPageCount, mFetchMode, Constants.Time.MINUTES_60);

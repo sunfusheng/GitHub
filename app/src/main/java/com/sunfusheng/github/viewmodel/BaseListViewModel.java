@@ -11,9 +11,9 @@ import java.util.List;
  * @since 2020-01-06
  */
 abstract public class BaseListViewModel<P extends PageParams, R> extends BaseViewModel<P, List<R>> {
-    public static final int MODE_LOAD = 0;
-    public static final int MODE_REFRESH = 1;
-    public static final int MODE_LOAD_MORE = 2;
+    private static final int MODE_LOAD = 0;
+    private static final int MODE_REFRESH = 1;
+    private static final int MODE_LOAD_MORE = 2;
 
     private int mLoadMode = MODE_LOAD;
     private int mPage = PageParams.FIRST_PAGE;
@@ -50,14 +50,22 @@ abstract public class BaseListViewModel<P extends PageParams, R> extends BaseVie
 
     abstract BaseDataSource<P, List<R>> getDataSource();
 
-    protected void doRequest(@FetchMode int fetchMode) {
-        P params = getPageParams();
-        params.page = getPage();
-        params.pageCount = getPageCount();
-        params.fetchMode = fetchMode;
-        BaseDataSource<P, List<R>> dataSource = getDataSource();
-        dataSource.setParams(params);
-        request(params, dataSource);
+    private P mParams;
+    private BaseDataSource<P, List<R>> mDataSource;
+
+    private void doRequest(@FetchMode int fetchMode) {
+        if (mParams == null) {
+            mParams = getPageParams();
+        }
+        mParams.page = getPage();
+        mParams.pageCount = getPageCount();
+        mParams.fetchMode = fetchMode;
+
+        if (mDataSource == null) {
+            mDataSource = getDataSource();
+        }
+        mDataSource.setParams(mParams);
+        request(mParams, mDataSource);
     }
 
     // 加载

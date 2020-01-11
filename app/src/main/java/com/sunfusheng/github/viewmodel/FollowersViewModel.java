@@ -11,9 +11,7 @@ import java.util.List;
  * @author sunfusheng
  * @since 2020-01-11
  */
-public class UserListViewModel extends BaseListViewModel<UsernamePageParams, User> {
-    public String userListFrom;
-
+public class FollowersViewModel extends BaseListViewModel<UsernamePageParams, User> {
     @Override
     UsernamePageParams getPageParams() {
         return new UsernamePageParams(username);
@@ -21,6 +19,6 @@ public class UserListViewModel extends BaseListViewModel<UsernamePageParams, Use
 
     @Override
     BaseDataSource<UsernamePageParams, List<User>> getDataSource() {
-        return new UserListDataSource(userListFrom);
+        return new UserListDataSource(UserListDataSource.FROM_FOLLOWER);
     }
 }

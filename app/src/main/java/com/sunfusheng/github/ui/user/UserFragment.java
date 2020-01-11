@@ -20,7 +20,6 @@ import com.sunfusheng.GlideImageView;
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
-import com.sunfusheng.github.datasource.UserListDataSource;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.ui.TodoFragment;
 import com.sunfusheng.github.ui.base.BaseFragment;
@@ -154,8 +153,8 @@ public class UserFragment extends BaseFragment {
         fragments.put(0, RepoListFragment.newFragment(mUsername));
         fragments.put(1, TodoFragment.newFragment());
         fragments.put(2, TodoFragment.newFragment());
-        fragments.put(3, UserListFragment.newFragment(mUsername, UserListDataSource.FROM_FOLLOWER));
-        fragments.put(4, UserListFragment.newFragment(mUsername, UserListDataSource.FROM_FOLLOWING));
+        fragments.put(3, FollowersFragment.newFragment(mUsername));
+        fragments.put(4, FollowingFragment.newFragment(mUsername));
 
         FragmentViewPager2Adapter viewPager2Adapter = new FragmentViewPager2Adapter(getChildFragmentManager(), getLifecycle());
         viewPager2Adapter.setFragments(fragments);
