@@ -16,7 +16,6 @@ import com.sunfusheng.github.viewmodel.RepoListViewModel;
  * @since 2020-01-07
  */
 public class RepoListFragment extends BaseListFragment<RepoListViewModel, Repo> {
-    private String mUsername;
 
     public static RepoListFragment newFragment(String username) {
         RepoListFragment fragment = new RepoListFragment();
@@ -27,16 +26,12 @@ public class RepoListFragment extends BaseListFragment<RepoListViewModel, Repo> 
     }
 
     @Override
-    public void initData(@Nullable Bundle arguments) {
-        super.initData(arguments);
-        if (getArguments() != null) {
-            mUsername = getArguments().getString(Constants.Bundle.USERNAME);
-        }
-        mVM.username = mUsername;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
-    protected Class<RepoListViewModel> getViewModel() {
+    protected Class<RepoListViewModel> getViewModelClass() {
         return RepoListViewModel.class;
     }
 

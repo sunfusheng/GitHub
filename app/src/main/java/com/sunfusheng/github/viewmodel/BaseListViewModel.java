@@ -4,11 +4,13 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.datasource.BaseDataSource;
 import com.sunfusheng.github.viewmodel.params.PageParams;
 
+import java.util.List;
+
 /**
  * @author sunfusheng
  * @since 2020-01-06
  */
-abstract public class BaseListViewModel<P extends PageParams, R> extends BaseViewModel<P, R> {
+abstract public class BaseListViewModel<P extends PageParams, R> extends BaseViewModel<P, List<R>> {
     public static final int MODE_LOAD = 0;
     public static final int MODE_REFRESH = 1;
     public static final int MODE_LOAD_MORE = 2;
@@ -46,14 +48,14 @@ abstract public class BaseListViewModel<P extends PageParams, R> extends BaseVie
 
     abstract P getPageParams();
 
-    abstract BaseDataSource<P, R> getDataSource();
+    abstract BaseDataSource<P, List<R>> getDataSource();
 
     protected void doRequest(@FetchMode int fetchMode) {
         P params = getPageParams();
         params.page = getPage();
         params.pageCount = getPageCount();
         params.fetchMode = fetchMode;
-        BaseDataSource<P, R> dataSource = getDataSource();
+        BaseDataSource<P, List<R>> dataSource = getDataSource();
         dataSource.setParams(params);
         request(params, dataSource);
     }

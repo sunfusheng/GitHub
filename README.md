@@ -3,52 +3,66 @@
 一款精美的GitHub Android客户端
 
 
-## [开发者API接口文档](https://developer.github.com/v3/)
+### [开发者API接口文档](https://developer.github.com/v3/)
 
-用户信息
+
+### 用户信息
+
 https://api.github.com/users/sunfusheng
 
 
-贡献
+### 贡献
+
 https://github.com/users/sunfusheng/contributions
 
 
-个人仓库列表
+### 个人仓库列表
+
 https://api.github.com/users/sunfusheng/repos?page=1&per_page=30&sort=pushed
 
 
-仓库详情
+### 仓库详情
+
 https://api.github.com/repos/sunfusheng/MarqueeView
 
 
-收到的事件，类似朋友圈
+### 收到的事件，类似朋友圈
+
 https://api.github.com/users/sunfusheng/received_events
 
 
-Star
+### Star
+
 1、Check if you are starring a repository
+
 https://api.github.com/user/starred/sfsheng0322/MultiType
+
 204:starred, 404:unstarred 
 
 
-readme 
+### readme
+
 https://api.github.com/repos/sunfusheng/MultiType/readme
 https://api.github.com/repos/sunfusheng/MultiType/contents/README.md
 
 
-following用户列表
-https://api.github.com/users/sunfusheng/following?page=1&per_page=30
+### followers用户列表
 
-
-followers用户列表
 https://api.github.com/users/sunfusheng/followers?page=1&per_page=30
 
 
-个人事件
+### following用户列表
+
+https://api.github.com/users/sunfusheng/following?page=1&per_page=30
+
+
+### 个人事件
+
 https://api.github.com/users/sunfusheng/events/public?page=1&per_page=30
 
 
-starred仓库列表
+### starred仓库列表
+
 https://api.github.com/users/sunfusheng/starred?page=1&per_page=30
 
 

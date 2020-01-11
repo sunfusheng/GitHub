@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
+import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
@@ -25,9 +26,14 @@ abstract public class BaseFragment extends RxFragment {
     protected Toolbar toolbar;
     protected ProgressDialogHelper progressDialogHelper;
 
+    protected String mUsername;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mUsername = getArguments().getString(Constants.Bundle.USERNAME);
+        }
         initData(getArguments());
     }
 

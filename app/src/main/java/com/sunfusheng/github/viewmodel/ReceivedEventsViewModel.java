@@ -10,12 +10,10 @@ import java.util.List;
 /**
  * @author sunfusheng on 2018/5/7.
  */
-public class ReceivedEventsViewModel extends BaseListViewModel<UsernamePageParams, List<Event>> {
-    public String mUsername;
-
+public class ReceivedEventsViewModel extends BaseListViewModel<UsernamePageParams, Event> {
     @Override
     UsernamePageParams getPageParams() {
-        return new UsernamePageParams(mUsername);
+        return new UsernamePageParams(username);
     }
 
     @Override

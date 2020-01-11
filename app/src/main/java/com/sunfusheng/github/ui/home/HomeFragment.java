@@ -139,7 +139,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
             }
         });
 
-        mReceivedEventsVM.mUsername = mUsername;
+        mReceivedEventsVM.username = mUsername;
         mReceivedEventsVM.load();
     }
 

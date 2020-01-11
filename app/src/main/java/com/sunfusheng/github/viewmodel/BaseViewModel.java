@@ -27,9 +27,12 @@ import io.reactivex.schedulers.Schedulers;
  * @author sunfusheng on 2018/4/28.
  */
 abstract public class BaseViewModel<P extends BaseParams, R> extends ViewModel {
-    private MutableLiveData<P> mParams = new MutableLiveData<>();
+    public String username;
+
     private int mFetchMode;
+    private MutableLiveData<P> mParams = new MutableLiveData<>();
     private BaseDataSource<P, R> mDataSource;
+
     public LiveData<ResponseData<R>> liveData = Transformations.switchMap(mParams, params -> {
         return fetchData(
                 mDataSource.localObservable(),

@@ -28,6 +28,24 @@ public interface CommonService {
             @Path("username") String username
     );
 
+    @GET("users/{username}/followers")
+    Observable<Response<List<User>>> fetchFollowerList(
+            @Path("username") String username,
+            @Query("page") int page,
+            @Query("per_page") int pageCount,
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
+    );
+
+    @GET("users/{username}/following")
+    Observable<Response<List<User>>> fetchFollowingList(
+            @Path("username") String username,
+            @Query("page") int page,
+            @Query("per_page") int pageCount,
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
+    );
+
     @GET("users/{username}/repos")
     Observable<Response<List<Repo>>> fetchRepoList(
             @Path("username") String username,

@@ -10,9 +10,7 @@ import java.util.List;
 /**
  * @author sunfusheng on 2018/4/27.
  */
-public class RepoListViewModel extends BaseListViewModel<UsernamePageParams, List<Repo>> {
-    public String username;
-
+public class RepoListViewModel extends BaseListViewModel<UsernamePageParams, Repo> {
     @Override
     UsernamePageParams getPageParams() {
         return new UsernamePageParams(username);

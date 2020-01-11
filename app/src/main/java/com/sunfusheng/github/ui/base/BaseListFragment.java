@@ -35,11 +35,17 @@ abstract public class BaseListFragment<VM extends BaseListViewModel, E> extends 
     private List<E> items = new ArrayList<>();
 
     @Override
-    public void initData(@Nullable Bundle arguments) {
-        mVM = VMProviders.of(this, getViewModel());
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
-    abstract protected Class<VM> getViewModel();
+    @Override
+    public void initData(@Nullable Bundle arguments) {
+        mVM = VMProviders.of(this, getViewModelClass());
+        mVM.username = mUsername;
+    }
+
+    abstract protected Class<VM> getViewModelClass();
 
     abstract protected void registerViewBinders();
 
