@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,6 +45,7 @@ public class LoginActivity extends BaseActivity {
         initSvgView();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initView() {
         vRootView = findViewById(R.id.vRootView);
         vUsername = findViewById(R.id.vUsername);
@@ -53,13 +53,10 @@ public class LoginActivity extends BaseActivity {
         vLogin = findViewById(R.id.vLogin);
         vLogo = findViewById(R.id.vLogo);
 
-        vRootView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.clearFocus();
-                KeyboardUtil.hideKeyboard(v);
-                return true;
-            }
+        vRootView.setOnTouchListener((v, event) -> {
+            v.clearFocus();
+            KeyboardUtil.hideKeyboard(v);
+            return true;
         });
 
         vLogo.setOnClickListener(v -> vLogo.start());

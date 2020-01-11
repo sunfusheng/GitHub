@@ -10,7 +10,6 @@ import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.ui.base.BaseListFragment;
 import com.sunfusheng.github.viewbinder.RepoBinder;
 import com.sunfusheng.github.viewmodel.RepoListViewModel;
-import com.sunfusheng.github.viewmodel.vm.VMProviders;
 
 /**
  * @author sunfusheng
@@ -37,8 +36,8 @@ public class RepoListFragment extends BaseListFragment<RepoListViewModel, Repo> 
     }
 
     @Override
-    protected RepoListViewModel createViewModel() {
-        return VMProviders.of(this, RepoListViewModel.class);
+    protected Class<RepoListViewModel> getViewModel() {
+        return RepoListViewModel.class;
     }
 
     @Override
