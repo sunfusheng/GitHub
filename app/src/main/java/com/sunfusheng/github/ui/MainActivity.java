@@ -22,12 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
-
     private ViewPager viewPager;
     private AlphaTabLayout tabLayout;
     private AlphaTabView homeTab;
     private AlphaTabView discoverTab;
     private AlphaTabView mineTab;
+
+    private String mMyName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class MainActivity extends BaseActivity {
                 .apiToken("3c57fb226edf7facf821501e4eba08d2")
                 .appId("5b977079959d695362ada470")
                 .checkVersion();
+
+        mMyName = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
     }
 
     private void initView() {
@@ -56,9 +59,9 @@ public class MainActivity extends BaseActivity {
 
     private void initFragment() {
         List<FragmentPagerItem> items = new ArrayList<>();
-        items.add(FragmentPagerItem.create(homeTab.getText(), new HomeFragment()));
+        items.add(FragmentPagerItem.create(homeTab.getText(), HomeFragment.instance(mMyName)));
         items.add(FragmentPagerItem.create(discoverTab.getText(), new DiscoverFragment()));
-        items.add(FragmentPagerItem.create(mineTab.getText(), new UserFragment()));
+        items.add(FragmentPagerItem.create(mineTab.getText(), UserFragment.instance(mMyName)));
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(this, getSupportFragmentManager(), items);
         viewPager.setAdapter(adapter);

@@ -8,11 +8,11 @@
 
     <string name="tab_home">主页</string>
     <string name="tab_discover">发现</string>
-    <string name="tab_mine">我</string>
+    <string name="tab_mine">我的</string>
 
     <string name="Repositories">Repositories</string>
     <string name="Events">Events</string>
-    <string name="Stars">Stars</string>
+    <string name="Starred">Starred</string>
     <string name="Followers">Followers</string>
     <string name="Following">Following</string>
 

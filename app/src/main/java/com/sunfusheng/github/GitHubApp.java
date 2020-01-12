@@ -21,6 +21,8 @@ public class GitHubApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+        AppUtil.init(this);
+
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .tag("GitHub")
                 .build();
@@ -30,8 +32,6 @@ public class GitHubApp extends Application {
                 return BuildConfig.debugMode;
             }
         });
-
-        AppUtil.init(this);
 
         MultiTypeRegistry.getInstance().registerDefaultBinder(new NonsupportBinder());
     }

@@ -16,7 +16,6 @@ import com.sunfusheng.github.model.Event;
 import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.AppUtil;
-import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
@@ -40,12 +39,18 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     private RecyclerViewWrapper recyclerViewWrapper;
 
     private List<Object> items = new ArrayList<>();
-    private String mUsername;
     private ReceivedEventsViewModel mReceivedEventsVM;
+
+    public static HomeFragment instance(String username) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.Bundle.USERNAME, username);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void initData(@Nullable Bundle arguments) {
-        mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
     }
 
     @Override

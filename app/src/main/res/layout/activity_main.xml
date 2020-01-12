@@ -31,7 +31,7 @@
             android:padding="5dp"
             app:tabIconNormal="@mipmap/ic_home_normal"
             app:tabIconSelected="@mipmap/ic_home_selected"
-            app:tabText="主页"
+            app:tabText="@string/tab_home"
             app:tabTextSize="@dimen/tab_text_size"
             app:textColorNormal="@color/tab_normal"
             app:textColorSelected="@color/tab_selected" />
@@ -44,7 +44,7 @@
             android:padding="5dp"
             app:tabIconNormal="@mipmap/ic_discover_normal"
             app:tabIconSelected="@mipmap/ic_discover_selected"
-            app:tabText="发现"
+            app:tabText="@string/tab_discover"
             app:tabTextSize="@dimen/tab_text_size"
             app:textColorNormal="@color/tab_normal"
             app:textColorSelected="@color/tab_selected" />
@@ -57,7 +57,7 @@
             android:padding="5dp"
             app:tabIconNormal="@mipmap/ic_mine_normal"
             app:tabIconSelected="@mipmap/ic_mine_selected"
-            app:tabText="我"
+            app:tabText="@string/tab_mine"
             app:tabTextSize="@dimen/tab_text_size"
             app:textColorNormal="@color/tab_normal"
             app:textColorSelected="@color/tab_selected" />

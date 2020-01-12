@@ -2,8 +2,6 @@ package com.sunfusheng.github.ui.repo;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-
 import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.ui.NavigationManager;
@@ -23,11 +21,6 @@ public class UserOwnedRepoListFragment extends BaseListFragment<UserOwnedRepoLis
         bundle.putString(Constants.Bundle.USERNAME, username);
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

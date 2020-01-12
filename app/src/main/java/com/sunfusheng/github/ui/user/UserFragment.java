@@ -1,7 +1,6 @@
 package com.sunfusheng.github.ui.user;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -23,11 +19,11 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.ui.TodoFragment;
 import com.sunfusheng.github.ui.base.BaseFragment;
+import com.sunfusheng.github.ui.base.FragmentViewPager2Adapter;
 import com.sunfusheng.github.ui.repo.UserOwnedRepoListFragment;
 import com.sunfusheng.github.ui.repo.UserStarredRepoListFragment;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.DisplayUtil;
-import com.sunfusheng.github.util.PreferenceUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.UserDetailViewModel;
@@ -54,9 +50,12 @@ public class UserFragment extends BaseFragment {
     private UserProfileView vUserProfile;
     private UserContributionsView vUserContributions;
 
-    private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Events, R.string.Stars, R.string.Followers, R.string.Following};
-    private int mCurrTabIndex = 0;
-    private String mUsername;
+    private static final int REPOSITORIES = 0;
+    private static final int EVENTS = 1;
+    private static final int STARRED = 2;
+    private static final int FOLLOWERS = 3;
+    private static final int FOLLOWING = 4;
+    private int[] TAB_NAMES = new int[]{R.string.Repositories, R.string.Events, R.string.Starred, R.string.Followers, R.string.Following};
 
     public static UserFragment instance(String username) {
         UserFragment fragment = new UserFragment();
@@ -67,16 +66,14 @@ public class UserFragment extends BaseFragment {
     }
 
     @Override
-    public void initData(@Nullable Bundle arguments) {
-        if (arguments != null) {
-            mUsername = arguments.getString(Constants.Bundle.USERNAME);
-        }
-
-        if (TextUtils.isEmpty(mUsername)) {
-            mUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
-        }
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void initData(@Nullable Bundle arguments) {
+
     }
 
     @Override
@@ -144,25 +141,22 @@ public class UserFragment extends BaseFragment {
     }
 
     private void initViewPager() {
-        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[0]), true);
-        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[1]), false);
-        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[2]), false);
-        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[3]), false);
-        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[4]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[REPOSITORIES]), true);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[EVENTS]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[STARRED]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[FOLLOWERS]), false);
+        vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[FOLLOWING]), false);
 
         SparseArray<Fragment> fragments = new SparseArray<>();
-        fragments.put(0, UserOwnedRepoListFragment.newFragment(mUsername));
-        fragments.put(1, TodoFragment.newFragment());
-        fragments.put(2, UserStarredRepoListFragment.newFragment(mUsername));
-        fragments.put(3, FollowersFragment.newFragment(mUsername));
-        fragments.put(4, FollowingFragment.newFragment(mUsername));
+        fragments.put(REPOSITORIES, UserOwnedRepoListFragment.newFragment(mUsername));
+        fragments.put(EVENTS, TodoFragment.newFragment());
+        fragments.put(STARRED, UserStarredRepoListFragment.newFragment(mUsername));
+        fragments.put(FOLLOWERS, FollowersFragment.newFragment(mUsername));
+        fragments.put(FOLLOWING, FollowingFragment.newFragment(mUsername));
 
-        FragmentViewPager2Adapter viewPager2Adapter = new FragmentViewPager2Adapter(getChildFragmentManager(), getLifecycle());
+        FragmentViewPager2Adapter viewPager2Adapter = new FragmentViewPager2Adapter(this);
         viewPager2Adapter.setFragments(fragments);
-
         vViewPager2.setAdapter(viewPager2Adapter);
-        vViewPager2.setOffscreenPageLimit(1);
-        vViewPager2.setCurrentItem(mCurrTabIndex);
         new TabLayoutMediator(vTabLayout, vViewPager2, (tab, position) -> {
             tab.setText(TAB_NAMES[position]);
         }).attach();
@@ -171,40 +165,8 @@ public class UserFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                mCurrTabIndex = position;
                 vScrollableLayout.getHelper().setScrollableViewContainer((ScrollableHelper.ScrollableViewContainer) viewPager2Adapter.getFragment(position));
             }
         });
-    }
-
-    public static class FragmentViewPager2Adapter extends FragmentStateAdapter {
-        private SparseArray<Fragment> fragments;
-
-        public FragmentViewPager2Adapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-            super(fragmentManager, lifecycle);
-        }
-
-        public void setFragments(SparseArray<Fragment> fragments) {
-            this.fragments = fragments;
-        }
-
-        public SparseArray<Fragment> getFragments() {
-            return fragments;
-        }
-
-        public Fragment getFragment(int position) {
-            return fragments.get(position);
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return fragments.size();
-        }
     }
 }
