@@ -47,11 +47,20 @@ public interface CommonService {
     );
 
     @GET("users/{username}/repos")
-    Observable<Response<List<Repo>>> fetchRepoList(
+    Observable<Response<List<Repo>>> fetchUserOwnedRepoList(
             @Path("username") String username,
             @Query("page") int page,
             @Query("per_page") int pageCount,
             @Query("sort") String sort,
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
+    );
+
+    @GET("users/{username}/starred")
+    Observable<Response<List<Repo>>> fetchUserStarredRepoList(
+            @Path("username") String username,
+            @Query("page") int page,
+            @Query("per_page") int pageCount,
             @Header("fetch-mode") int fetchMode,
             @Header("local-cache-validate-time") int localCacheValidateTime
     );

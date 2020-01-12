@@ -23,7 +23,8 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.ui.TodoFragment;
 import com.sunfusheng.github.ui.base.BaseFragment;
-import com.sunfusheng.github.ui.repo.RepoListFragment;
+import com.sunfusheng.github.ui.repo.UserOwnedRepoListFragment;
+import com.sunfusheng.github.ui.repo.UserStarredRepoListFragment;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.PreferenceUtil;
@@ -150,9 +151,9 @@ public class UserFragment extends BaseFragment {
         vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[4]), false);
 
         SparseArray<Fragment> fragments = new SparseArray<>();
-        fragments.put(0, RepoListFragment.newFragment(mUsername));
+        fragments.put(0, UserOwnedRepoListFragment.newFragment(mUsername));
         fragments.put(1, TodoFragment.newFragment());
-        fragments.put(2, TodoFragment.newFragment());
+        fragments.put(2, UserStarredRepoListFragment.newFragment(mUsername));
         fragments.put(3, FollowersFragment.newFragment(mUsername));
         fragments.put(4, FollowingFragment.newFragment(mUsername));
 

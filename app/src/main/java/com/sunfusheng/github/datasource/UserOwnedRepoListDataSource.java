@@ -16,9 +16,10 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * @author by sunfusheng on 2019-05-27
+ * @author sunfusheng
+ * @since 2020-01-12
  */
-public class RepoListDataSource extends BaseDataSource<UsernamePageParams, List<Repo>> {
+public class UserOwnedRepoListDataSource extends BaseDataSource<UsernamePageParams, List<Repo>> {
     private String mUsername;
     private int mPage;
     private int mPageCount;
@@ -42,7 +43,7 @@ public class RepoListDataSource extends BaseDataSource<UsernamePageParams, List<
 
     @Override
     public Observable<ResponseData<List<Repo>>> remoteObservable() {
-        return Api.getCommonService().fetchRepoList(mUsername, mPage, mPageCount, "pushed", mFetchMode, Constants.Time.MINUTES_10)
+        return Api.getCommonService().fetchUserOwnedRepoList(mUsername, mPage, mPageCount, "pushed", mFetchMode, Constants.Time.MINUTES_10)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .doOnNext(it -> {
