@@ -31,7 +31,7 @@ abstract public class BaseListFragment<VM extends BaseListViewModel, E> extends 
         RecyclerViewWrapper.OnLoadMoreListener {
 
     protected RecyclerViewWrapper vRecyclerViewWrapper;
-    protected VM mVM;
+    protected BaseListViewModel mVM;
     private List<E> items = new ArrayList<>();
 
     @Override

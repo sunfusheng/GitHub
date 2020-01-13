@@ -23,9 +23,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TendingRepoListFragment extends BaseFragment {
 
-    private RecyclerViewWrapper recyclerViewWrapper;
+    private RecyclerViewWrapper vRecyclerViewWrapper;
 
-    private String since = "daily";
+    private String mSince = "daily";
 
     public static TendingRepoListFragment newFragment(String since) {
         TendingRepoListFragment fragment = new TendingRepoListFragment();
@@ -38,7 +38,7 @@ public class TendingRepoListFragment extends BaseFragment {
     @Override
     public void initData(@Nullable Bundle arguments) {
         if (arguments != null) {
-            since = arguments.getString("since");
+            mSince = arguments.getString("since");
         }
     }
 
@@ -49,30 +49,30 @@ public class TendingRepoListFragment extends BaseFragment {
 
     @Override
     public void initView(@NonNull View rootView) {
-        recyclerViewWrapper = rootView.findViewById(R.id.recyclerViewWrapper);
+        vRecyclerViewWrapper = rootView.findViewById(R.id.recyclerViewWrapper);
 
         initRecyclerViewWrapper();
         observeTendingData();
     }
 
     private void initRecyclerViewWrapper() {
-        recyclerViewWrapper.enableRefresh(false);
-        recyclerViewWrapper.enableLoadMore(false);
+        vRecyclerViewWrapper.enableRefresh(false);
+        vRecyclerViewWrapper.enableLoadMore(false);
 
         RepoBinder repoBinder = new RepoBinder();
         repoBinder.showFullName(true);
         repoBinder.showExactNum(false);
-        recyclerViewWrapper.register(Repo.class, repoBinder);
+        vRecyclerViewWrapper.register(Repo.class, repoBinder);
     }
 
     @SuppressLint("CheckResult")
     private void observeTendingData() {
-        Api.getWebPageService().fetchTendingRepos(since)
+        Api.getWebPageService().fetchTendingRepos(mSince)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(it -> {
                     HtmlUtil.parseTrendingPageByHtmlText(it.string(), repos -> {
-                        recyclerViewWrapper.setItems(repos);
+                        vRecyclerViewWrapper.setItems(repos);
                     }, Throwable::printStackTrace);
                 }, Throwable::printStackTrace);
     }
