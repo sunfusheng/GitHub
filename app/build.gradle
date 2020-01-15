@@ -86,5 +86,5 @@ dependencies {
     api 'com.sunfusheng:FirUpdater:1.3.0'
     api 'com.sunfusheng:GlideImageView:2.1.0'
     api 'com.sunfusheng:RecyclerViewWrapper:1.0.4'
-    api 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.8'
+    api 'com.sunfusheng:GroupRecyclerViewAdapter:1.1.0'
 }

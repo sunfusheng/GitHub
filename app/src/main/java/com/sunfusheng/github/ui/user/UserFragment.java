@@ -20,8 +20,6 @@ import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.ui.TodoFragment;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.ui.base.FragmentViewPager2Adapter;
-import com.sunfusheng.github.ui.repo.UserOwnedRepoListFragment;
-import com.sunfusheng.github.ui.repo.UserStarredRepoListFragment;
 import com.sunfusheng.github.util.AppUtil;
 import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
@@ -148,9 +146,9 @@ public class UserFragment extends BaseFragment {
         vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[FOLLOWING]), false);
 
         SparseArray<Fragment> fragments = new SparseArray<>();
-        fragments.put(REPOSITORIES, UserOwnedRepoListFragment.newFragment(mUsername));
+        fragments.put(REPOSITORIES, OwnedRepoListFragment.newFragment(mUsername));
         fragments.put(EVENTS, TodoFragment.newFragment());
-        fragments.put(STARRED, UserStarredRepoListFragment.newFragment(mUsername));
+        fragments.put(STARRED, StarredRepoListFragment.newFragment(mUsername));
         fragments.put(FOLLOWERS, FollowersFragment.newFragment(mUsername));
         fragments.put(FOLLOWING, FollowingFragment.newFragment(mUsername));
 

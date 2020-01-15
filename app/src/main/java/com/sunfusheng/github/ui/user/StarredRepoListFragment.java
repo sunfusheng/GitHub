@@ -1,4 +1,4 @@
-package com.sunfusheng.github.ui.repo;
+package com.sunfusheng.github.ui.user;
 
 import android.os.Bundle;
 
@@ -7,16 +7,16 @@ import com.sunfusheng.github.model.Repo;
 import com.sunfusheng.github.ui.NavigationManager;
 import com.sunfusheng.github.ui.base.BaseListFragment;
 import com.sunfusheng.github.viewbinder.RepoBinder;
-import com.sunfusheng.github.viewmodel.UserOwnedRepoListViewModel;
+import com.sunfusheng.github.viewmodel.UserStarredRepoListViewModel;
 
 /**
  * @author sunfusheng
- * @since 2020-01-07
+ * @since 2020-01-12
  */
-public class UserOwnedRepoListFragment extends BaseListFragment<UserOwnedRepoListViewModel, Repo> {
+public class StarredRepoListFragment extends BaseListFragment<UserStarredRepoListViewModel, Repo> {
 
-    public static UserOwnedRepoListFragment newFragment(String username) {
-        UserOwnedRepoListFragment fragment = new UserOwnedRepoListFragment();
+    public static StarredRepoListFragment newFragment(String username) {
+        StarredRepoListFragment fragment = new StarredRepoListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.Bundle.USERNAME, username);
         fragment.setArguments(bundle);
@@ -24,15 +24,15 @@ public class UserOwnedRepoListFragment extends BaseListFragment<UserOwnedRepoLis
     }
 
     @Override
-    protected Class<UserOwnedRepoListViewModel> getViewModelClass() {
-        return UserOwnedRepoListViewModel.class;
+    protected Class<UserStarredRepoListViewModel> getViewModelClass() {
+        return UserStarredRepoListViewModel.class;
     }
 
     @Override
     protected void registerViewBinders() {
         RepoBinder repoBinder = new RepoBinder();
-        repoBinder.showFullName(false);
-        repoBinder.showExactNum(true);
+        repoBinder.showFullName(true);
+        repoBinder.showExactNum(false);
         repoBinder.showUpdateTime(true);
         vRecyclerViewWrapper.register(Repo.class, repoBinder);
     }
