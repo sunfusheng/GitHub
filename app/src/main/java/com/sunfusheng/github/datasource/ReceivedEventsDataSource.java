@@ -23,17 +23,11 @@ import io.reactivex.schedulers.Schedulers;
  * @author by sunfusheng on 2019-05-27
  */
 public class ReceivedEventsDataSource extends BaseDataSource<UsernamePageParams, List<Event>> {
-    private String mUsername;
-    private int mPage;
-    private int mPageCount;
-    private int mFetchMode;
+    private UsernamePageParams mParams;
 
     @Override
     public void setParams(UsernamePageParams params) {
-        this.mUsername = params.username;
-        this.mPage = params.page;
-        this.mPageCount = params.pageCount;
-        this.mFetchMode = params.fetchMode;
+        this.mParams = params;
     }
 
     @Override
@@ -43,11 +37,11 @@ public class ReceivedEventsDataSource extends BaseDataSource<UsernamePageParams,
 
     @Override
     public Observable<ResponseData<List<Event>>> remoteObservable() {
-        return fetchReceivedEvents(mFetchMode);
+        return fetchReceivedEvents(mParams.fetchMode);
     }
 
     private Observable<ResponseData<List<Event>>> fetchReceivedEvents(@FetchMode int fetchMode) {
-        return Api.getCommonService().fetchReceivedEvents(mUsername, mPage, mPageCount, fetchMode, Constants.Time.MINUTES_10)
+        return Api.getCommonService().fetchReceivedEvents(mParams.username, mParams.page, mParams.pageCount, fetchMode, Constants.Time.MINUTES_10)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .flatMap(it -> {

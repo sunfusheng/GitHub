@@ -66,10 +66,12 @@ public interface CommonService {
     );
 
     @GET("users/{username}/events/public")
-    Observable<Response<List<Event>>> fetchEvents(
+    Observable<Response<List<Event>>> fetchUserEvents(
             @Path("username") String username,
             @Query("page") int page,
-            @Query("per_page") int pageCount
+            @Query("per_page") int pageCount,
+            @Header("fetch-mode") int fetchMode,
+            @Header("local-cache-validate-time") int localCacheValidateTime
     );
 
     @GET("users/{username}/received_events")

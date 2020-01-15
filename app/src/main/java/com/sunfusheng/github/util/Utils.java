@@ -30,6 +30,7 @@ import io.reactivex.functions.Action;
  * @author sunfusheng on 2018/4/23.
  */
 public class Utils {
+    private static String mMyUsername;
     public static final String GITHUB_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     // Keywords
@@ -38,6 +39,14 @@ public class Utils {
     public static final String FROM = "from";
     public static final String COMMENT_ISSUE = "commented on issue";
     public static final String ISSUE = "issue";
+
+    // 获得我的用户名
+    public static String getMyUsername() {
+        if (TextUtils.isEmpty(mMyUsername)) {
+            mMyUsername = PreferenceUtil.getInstance().getString(Constants.PreferenceKey.USERNAME);
+        }
+        return mMyUsername;
+    }
 
     public static int getColorByLanguage(String language) {
         switch (language) {
@@ -174,8 +183,9 @@ public class Utils {
     }
 
     public static void refinedRepoSpannableString(Context context, String desc, SpannableString sp, Repo repo) {
-        refinedSpannableString(desc, sp, repo.full_name, R.color.font_highlight, () -> {
-            NavigationManager.toRepoDetailActivity(context, repo.full_name);
+        String repoName = TextUtils.isEmpty(repo.full_name) ? repo.name : repo.full_name;
+        refinedSpannableString(desc, sp, repoName, R.color.font_highlight, () -> {
+            NavigationManager.toRepoDetailActivity(context, repoName);
         });
     }
 
@@ -216,6 +226,94 @@ public class Utils {
             }
         }
         return spannableString;
+    }
+
+    public static SpannableString getEventDesc(Context context, Event event) {
+        StringBuilder desc = new StringBuilder();
+        List<User> users = new ArrayList<>();
+        List<Repo> repos = new ArrayList<>();
+        List<Issue> issues = new ArrayList<>();
+        List<String> keywords = new ArrayList<>();
+
+
+        if (event.actor != null) {
+            if (!event.actor.login.equals(getMyUsername())) {
+                desc.append(event.actor.login).append(' ');
+                users.add(event.actor);
+            }
+        }
+
+        switch (event.type) {
+            case Event.WatchEvent:
+                String starred = TextUtils.isEmpty(desc) ? "Starred" : "starred";
+                desc.append(starred).append(' ').append(event.repo.name);
+                desc.append(' ').append(Utils.getDateAgo(event.created_at));
+
+                repos.add(event.repo);
+                keywords.add(starred);
+                break;
+            case Event.ForkEvent:
+                String forked = TextUtils.isEmpty(desc) ? "Forked" : "forked";
+                desc.append(forked).append(' ').append(event.payload.forkee.full_name).append(' ');
+                desc.append("from").append(' ').append(event.repo.full_name);
+                desc.append(' ').append(Utils.getDateAgo(event.created_at));
+
+                repos.add(event.payload.forkee);
+                repos.add(event.repo);
+                keywords.add(forked);
+                keywords.add("from");
+                break;
+            case Event.PushEvent:
+                String pushed = TextUtils.isEmpty(desc) ? "Pushed" : "pushed";
+                desc.append(pushed).append(' ').append("to").append(' ').append(event.repo.name);
+                desc.append(' ').append(Utils.getDateAgo(event.created_at));
+
+                repos.add(event.repo);
+                keywords.add(pushed);
+                break;
+            case Event.CreateEvent:
+                String created = TextUtils.isEmpty(desc) ? "Created" : "created";
+                desc.append(created).append(' ').append(event.payload.ref_type).append(' ');
+                if (!TextUtils.isEmpty(event.payload.ref)) {
+                    desc.append(event.payload.ref).append(' ').append("for").append(' ');
+                    keywords.add(event.payload.ref);
+                }
+                desc.append(event.repo.name);
+                desc.append(' ').append(Utils.getDateAgo(event.created_at));
+
+                repos.add(event.repo);
+                keywords.add(created);
+                keywords.add(event.payload.ref_type);
+                break;
+            case Event.DeleteEvent:
+                String deleted = TextUtils.isEmpty(desc) ? "Deleted" : "deleted";
+                desc.append(deleted).append(' ').append(event.payload.ref_type).append(' ');
+                if (!TextUtils.isEmpty(event.payload.ref)) {
+                    desc.append(event.payload.ref).append(' ').append("for").append(' ');
+                    keywords.add(event.payload.ref);
+                }
+                desc.append(event.repo.name);
+                desc.append(' ').append(Utils.getDateAgo(event.created_at));
+
+                repos.add(event.repo);
+                keywords.add(deleted);
+                keywords.add(event.payload.ref_type);
+                break;
+            default:
+                if (TextUtils.isEmpty(desc)) {
+                    desc.append("暂不支持【").append(event.type).append("】");
+                }
+                break;
+        }
+
+        return getDescSpannableString(context, desc.toString(), users, repos, issues, keywords);
+    }
+
+    public static String getEventMessage(Event event) {
+        if (event != null && event.payload != null && !CollectionUtil.isEmpty(event.payload.commits)) {
+            return event.payload.commits.get(0).message;
+        }
+        return null;
     }
 
     public static SpannableString getWatchForkDesc(Context context, Event item) {

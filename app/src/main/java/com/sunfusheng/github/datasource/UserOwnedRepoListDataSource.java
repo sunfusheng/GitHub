@@ -20,30 +20,24 @@ import io.reactivex.schedulers.Schedulers;
  * @since 2020-01-12
  */
 public class UserOwnedRepoListDataSource extends BaseDataSource<UsernamePageParams, List<Repo>> {
-    private String mUsername;
-    private int mPage;
-    private int mPageCount;
-    private int mFetchMode;
+    private UsernamePageParams mParams;
 
     @Override
     public void setParams(UsernamePageParams params) {
-        this.mUsername = params.username;
-        this.mPage = params.page;
-        this.mPageCount = params.pageCount;
-        this.mFetchMode = params.fetchMode;
+        this.mParams = params;
     }
 
     @Override
     public Observable<ResponseData<List<Repo>>> localObservable() {
         return Observable.defer(() -> Observable.create((ObservableOnSubscribe<ResponseData<List<Repo>>>) emitter -> {
-            List<Repo> repoList = RepoDatabase.instance().getRepoDao().query(mUsername, mPageCount);
+            List<Repo> repoList = RepoDatabase.instance().getRepoDao().query(mParams.username, mParams.pageCount);
             DataSourceHelper.emitLocalResponseData(emitter, CollectionUtil.isEmpty(repoList) ? null : repoList);
         })).subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<ResponseData<List<Repo>>> remoteObservable() {
-        return Api.getCommonService().fetchUserOwnedRepoList(mUsername, mPage, mPageCount, "pushed", mFetchMode, Constants.Time.MINUTES_10)
+        return Api.getCommonService().fetchUserOwnedRepoList(mParams.username, mParams.page, mParams.pageCount, "pushed", mParams.fetchMode, Constants.Time.MINUTES_10)
                 .subscribeOn(Schedulers.io())
                 .compose(DataSourceHelper.applyRemoteTransformer())
                 .doOnNext(it -> {

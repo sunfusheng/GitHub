@@ -22,23 +22,16 @@ public class UserListDataSource extends BaseDataSource<UsernamePageParams, List<
     public static final String FROM_FOLLOWER = "follower_list";
     public static final String FROM_FOLLOWING = "following_list";
 
-    private String from;
-
-    private String mUsername;
-    private int mPage;
-    private int mPageCount;
-    private int mFetchMode;
+    private String mFrom;
+    private UsernamePageParams mParams;
 
     public UserListDataSource(String from) {
-        this.from = from;
+        this.mFrom = from;
     }
 
     @Override
     public void setParams(UsernamePageParams params) {
-        this.mUsername = params.username;
-        this.mPage = params.page;
-        this.mPageCount = params.pageCount;
-        this.mFetchMode = params.fetchMode;
+        this.mParams = params;
     }
 
     @Override
@@ -49,10 +42,10 @@ public class UserListDataSource extends BaseDataSource<UsernamePageParams, List<
     @Override
     public Observable<ResponseData<List<User>>> remoteObservable() {
         Observable<Response<List<User>>> observable;
-        if (FROM_FOLLOWER.equals(from)) {
-            observable = Api.getCommonService().fetchFollowerList(mUsername, mPage, mPageCount, mFetchMode, Constants.Time.MINUTES_60);
-        } else if (FROM_FOLLOWING.equals(from)) {
-            observable = Api.getCommonService().fetchFollowingList(mUsername, mPage, mPageCount, mFetchMode, Constants.Time.MINUTES_60);
+        if (FROM_FOLLOWER.equals(mFrom)) {
+            observable = Api.getCommonService().fetchFollowerList(mParams.username, mParams.page, mParams.pageCount, mParams.fetchMode, Constants.Time.MINUTES_60);
+        } else if (FROM_FOLLOWING.equals(mFrom)) {
+            observable = Api.getCommonService().fetchFollowingList(mParams.username, mParams.page, mParams.pageCount, mParams.fetchMode, Constants.Time.MINUTES_60);
         } else {
             throw new IllegalArgumentException("The parameter of \"from\" is not set!");
         }

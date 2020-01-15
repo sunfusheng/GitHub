@@ -17,7 +17,6 @@ import com.sunfusheng.github.Constants;
 import com.sunfusheng.github.R;
 import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
-import com.sunfusheng.github.ui.TodoFragment;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.ui.base.FragmentViewPager2Adapter;
 import com.sunfusheng.github.util.AppUtil;
@@ -147,7 +146,7 @@ public class UserFragment extends BaseFragment {
 
         SparseArray<Fragment> fragments = new SparseArray<>();
         fragments.put(REPOSITORIES, OwnedRepoListFragment.newFragment(mUsername));
-        fragments.put(EVENTS, TodoFragment.newFragment());
+        fragments.put(EVENTS, EventsFragment.newFragment(mUsername));
         fragments.put(STARRED, StarredRepoListFragment.newFragment(mUsername));
         fragments.put(FOLLOWERS, FollowersFragment.newFragment(mUsername));
         fragments.put(FOLLOWING, FollowingFragment.newFragment(mUsername));

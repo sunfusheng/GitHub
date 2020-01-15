@@ -9,15 +9,14 @@ import com.sunfusheng.github.util.Utils;
  * @author sunfusheng on 2018/5/7.
  */
 public class Event implements Comparable<Event> {
-    public static final String IssueCommentEvent = "IssueCommentEvent";
-    public static final String IssuesEvent = "IssuesEvent";
     public static final String WatchEvent = "WatchEvent";
     public static final String ForkEvent = "ForkEvent";
+    public static final String PushEvent = "PushEvent";
+    public static final String CreateEvent = "CreateEvent";
+    public static final String DeleteEvent = "DeleteEvent";
+    public static final String IssueCommentEvent = "IssueCommentEvent";
+    public static final String IssuesEvent = "IssuesEvent";
     public static final String PullRequestEvent = "PullRequestEvent";
-//    public static final String IssueCommentEvent = "IssueCommentEvent";
-//    public static final String IssueCommentEvent = "IssueCommentEvent";
-//    public static final String IssueCommentEvent = "IssueCommentEvent";
-//    public static final String IssueCommentEvent = "IssueCommentEvent";
 
     public String id;
     public String type;
