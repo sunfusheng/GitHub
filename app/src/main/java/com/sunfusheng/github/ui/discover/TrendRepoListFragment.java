@@ -21,14 +21,14 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author sunfusheng on 2018/4/18.
  */
-public class TendingRepoListFragment extends BaseFragment {
+public class TrendRepoListFragment extends BaseFragment {
 
     private RecyclerViewWrapper vRecyclerViewWrapper;
 
     private String mSince = "daily";
 
-    public static TendingRepoListFragment newFragment(String since) {
-        TendingRepoListFragment fragment = new TendingRepoListFragment();
+    public static TrendRepoListFragment newFragment(String since) {
+        TrendRepoListFragment fragment = new TrendRepoListFragment();
         Bundle bundle = new Bundle();
         bundle.putString("since", since);
         fragment.setArguments(bundle);

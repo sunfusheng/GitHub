@@ -57,9 +57,9 @@ public class DiscoverFragment extends BaseFragment {
         vTabLayout.addTab(vTabLayout.newTab().setText(TAB_NAMES[MONTHLY]), false);
 
         SparseArray<Fragment> fragments = new SparseArray<>();
-        fragments.put(DAILY, TendingRepoListFragment.newFragment("daily"));
-        fragments.put(WEEKLY, TendingRepoListFragment.newFragment("weekly"));
-        fragments.put(MONTHLY, TendingRepoListFragment.newFragment("monthly"));
+        fragments.put(DAILY, TrendRepoListFragment.newFragment("daily"));
+        fragments.put(WEEKLY, TrendRepoListFragment.newFragment("weekly"));
+        fragments.put(MONTHLY, TrendRepoListFragment.newFragment("monthly"));
 
         FragmentViewPager2Adapter viewPager2Adapter = new FragmentViewPager2Adapter(this);
         viewPager2Adapter.setFragments(fragments);
