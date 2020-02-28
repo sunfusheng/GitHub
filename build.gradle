@@ -6,7 +6,7 @@ buildscript {
         version_code = 1
         version_name = '1.0.0'
 
-        lifecycle_version = '2.1.0'
+        lifecycle_version = '2.2.0'
         room_version = '2.2.3'
         okhttp3_version = '4.3.0'
         retrofit_version = '2.7.1'
@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.0'
     }
 }
 
