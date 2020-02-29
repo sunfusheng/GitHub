@@ -24,7 +24,7 @@ import com.sunfusheng.github.util.DisplayUtil;
 import com.sunfusheng.github.util.StatusBarUtil;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.UserDetailViewModel;
-import com.sunfusheng.github.viewmodel.vm.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProvider;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableLayout;
 import com.sunfusheng.github.widget.app.UserContributionsView;
@@ -116,7 +116,7 @@ public class UserFragment extends BaseFragment {
     }
 
     private void observeFetchUser() {
-        UserDetailViewModel viewModel = VMProviders.of(this, UserDetailViewModel.class);
+        UserDetailViewModel viewModel = VMProvider.of(this, UserDetailViewModel.class);
         viewModel.liveData.observe(this, it -> {
             if (it == null) return;
             vUserProfile.setLoadingState(it.loadingState);

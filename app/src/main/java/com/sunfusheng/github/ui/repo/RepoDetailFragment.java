@@ -14,7 +14,7 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.ui.base.BaseFragment;
 import com.sunfusheng.github.util.Utils;
 import com.sunfusheng.github.viewmodel.ReadmeViewModel;
-import com.sunfusheng.github.viewmodel.vm.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProvider;
 import com.sunfusheng.github.widget.app.ReadMeWebView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.multistate.MultiStateView;
@@ -77,7 +77,7 @@ public class RepoDetailFragment extends BaseFragment {
         vMultiStateView.setVisibility(View.VISIBLE);
         vMultiStateView.setLoadingState(LoadingState.LOADING);
 
-        ReadmeViewModel viewModel = VMProviders.of(this, ReadmeViewModel.class);
+        ReadmeViewModel viewModel = VMProvider.of(this, ReadmeViewModel.class);
         viewModel.liveData.observe(this, it -> {
             Log.d("sfs", "fetchReadme() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchModeString);
 

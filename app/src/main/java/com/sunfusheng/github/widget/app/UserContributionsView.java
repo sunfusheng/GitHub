@@ -15,7 +15,7 @@ import com.sunfusheng.github.util.FileUtil;
 import com.sunfusheng.github.util.HtmlUtil;
 import com.sunfusheng.github.viewmodel.ContributionsViewModel;
 import com.sunfusheng.github.viewmodel.vm.VM;
-import com.sunfusheng.github.viewmodel.vm.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProvider;
 
 /**
  * @author sunfusheng on 2018/7/28.
@@ -49,7 +49,7 @@ public class UserContributionsView extends LinearLayout {
     }
 
     public void setUsername(String username) {
-        ContributionsViewModel vm = VMProviders.of(getContext(), ContributionsViewModel.class);
+        ContributionsViewModel vm = VMProvider.of(getContext(), ContributionsViewModel.class);
         vm.request(username);
 
         vm.liveData.observe(VM.getActivity(getContext()), it -> {

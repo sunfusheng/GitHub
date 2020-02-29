@@ -21,7 +21,7 @@ import com.sunfusheng.github.viewbinder.IssueCommentEventBinder;
 import com.sunfusheng.github.viewbinder.IssueEventBinder;
 import com.sunfusheng.github.viewbinder.WatchForkEventBinder;
 import com.sunfusheng.github.viewmodel.ReceivedEventsViewModel;
-import com.sunfusheng.github.viewmodel.vm.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProvider;
 import com.sunfusheng.github.widget.SVGView;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
@@ -114,7 +114,7 @@ public class HomeFragment extends BaseFragment implements RecyclerViewWrapper.On
     }
 
     private void fetchReceivedEvents() {
-        mReceivedEventsVM = VMProviders.of(this, ReceivedEventsViewModel.class);
+        mReceivedEventsVM = VMProvider.of(this, ReceivedEventsViewModel.class);
         mReceivedEventsVM.liveData.observe(this, it -> {
             Log.d("sfs", "fetchReceivedEvents() loadingState: " + it.loadingStateString + " fetchMode: " + it.fetchModeString);
 

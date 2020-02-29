@@ -8,23 +8,23 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 /**
  * @author sunfusheng on 2018/7/6.
  */
-public class VMProviders {
+public class VMProvider {
 
     @NonNull
     @MainThread
     public static <T extends ViewModel> T of(@NonNull Context context, @NonNull Class<T> vmClass) {
-        return ViewModelProviders.of(VM.getActivity(context)).get(vmClass);
+        return new ViewModelProvider(VM.getActivity(context)).get(vmClass);
     }
 
     @NonNull
     @MainThread
     public static <T extends ViewModel> T of(@NonNull FragmentActivity activity, @NonNull Class<T> vmClass) {
-        return ViewModelProviders.of(activity).get(vmClass);
+        return new ViewModelProvider(activity).get(vmClass);
     }
 
     @NonNull
@@ -36,6 +36,6 @@ public class VMProviders {
     @NonNull
     @MainThread
     public static <T extends ViewModel> T ofFragment(@NonNull Fragment fragment, @NonNull Class<T> vmClass) {
-        return ViewModelProviders.of(fragment).get(vmClass);
+        return new ViewModelProvider(fragment).get(vmClass);
     }
 }

@@ -15,7 +15,7 @@ import com.sunfusheng.github.annotation.FetchMode;
 import com.sunfusheng.github.model.User;
 import com.sunfusheng.github.viewmodel.UserDetailViewModel;
 import com.sunfusheng.github.viewmodel.vm.VM;
-import com.sunfusheng.github.viewmodel.vm.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProvider;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.transformation.BlurTransformation;
 
@@ -83,7 +83,7 @@ public class UserProfileView extends LinearLayout {
     }
 
     public void setUsername(String username) {
-        UserDetailViewModel viewModel = VMProviders.of(getContext(), UserDetailViewModel.class);
+        UserDetailViewModel viewModel = VMProvider.of(getContext(), UserDetailViewModel.class);
         viewModel.liveData.observe(VM.getActivity(getContext()), it -> {
             if (it.loadingState == LoadingState.SUCCESS) {
                 setUser(it.data);

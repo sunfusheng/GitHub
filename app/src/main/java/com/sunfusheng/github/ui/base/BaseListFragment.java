@@ -13,7 +13,7 @@ import com.sunfusheng.github.datasource.DataSourceHelper;
 import com.sunfusheng.github.http.response.ResponseData;
 import com.sunfusheng.github.util.CollectionUtil;
 import com.sunfusheng.github.viewmodel.BaseListViewModel;
-import com.sunfusheng.github.viewmodel.vm.VMProviders;
+import com.sunfusheng.github.viewmodel.vm.VMProvider;
 import com.sunfusheng.github.widget.ScrollableLayout.ScrollableHelper;
 import com.sunfusheng.multistate.LoadingState;
 import com.sunfusheng.wrapper.RecyclerViewWrapper;
@@ -41,7 +41,7 @@ abstract public class BaseListFragment<VM extends BaseListViewModel, E> extends 
 
     @Override
     public void initData(@Nullable Bundle arguments) {
-        mVM = VMProviders.of(this, getViewModelClass());
+        mVM = VMProvider.of(this, getViewModelClass());
         mVM.username = mUsername;
     }
 
