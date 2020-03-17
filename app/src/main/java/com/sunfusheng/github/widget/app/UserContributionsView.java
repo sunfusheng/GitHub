@@ -21,7 +21,6 @@ import com.sunfusheng.github.viewmodel.vm.VMProvider;
  * @author sunfusheng on 2018/7/28.
  */
 public class UserContributionsView extends LinearLayout {
-
     private ContributionsWebView webView;
     private TextView vTip;
 
@@ -48,13 +47,18 @@ public class UserContributionsView extends LinearLayout {
         vTip.setText("Loading...");
     }
 
+    private ContributionsViewModel vm;
+
+    private ContributionsViewModel getViewModel() {
+        if (vm == null) {
+            vm = VMProvider.of(getContext(), ContributionsViewModel.class);
+        }
+        return vm;
+    }
+
     public void setUsername(String username) {
-        ContributionsViewModel vm = VMProvider.of(getContext(), ContributionsViewModel.class);
-        vm.request(username);
-
-        vm.liveData.observe(VM.getActivity(getContext()), it -> {
-            if (it == null) return;
-
+        getViewModel().request(username);
+        getViewModel().liveData.observe(VM.getActivity(getContext()), it -> {
             switch (it.progressState) {
                 case ProgressState.START:
                     break;
@@ -83,5 +87,4 @@ public class UserContributionsView extends LinearLayout {
             }
         });
     }
-
 }
